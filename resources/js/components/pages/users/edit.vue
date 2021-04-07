@@ -75,6 +75,7 @@
                                 v-model="userData.roles"
                                 :items="roles"
                                 label="Roles"
+                                @change="getPermissionsData"
                                 item-text="name"
                                 placeholder="Please assign roles"
                                 hint="E.g.: Administrator"
@@ -89,13 +90,22 @@
                     </v-row>
                 </v-container>
             </v-card-text>
-
+            <v-divider></v-divider>
+            <v-layout mx-4 row wrap>
+                <v-checkbox
+                v-for="(item,index) in permissions"
+                :key="index"
+                :label="item.name"
+                :value="item"
+                multiple
+                ></v-checkbox>
+          </v-layout>
         </v-card>
     </v-form>
 </template>
 
 <script>
-    import { mapState } from "vuex";
+    import { mapGetters, mapState } from "vuex";
 
     export default {
             data(){
@@ -108,13 +118,19 @@
                     ],
                 };
             },
+            mounted(){
+                console.log(this.selectedPermissions);
+            },
             computed:{
                 ...mapState({
+                    permissions: (state) => state.webservice.resources.permissions,
                     userData: (state) => state.webservice.editUserData,
                     isUserEdit: (state) => state.webservice.isUserEdit,
                     roles: (state) => state.webservice.resources.roles,
                 }),
-
+                ...mapGetters(
+                    ['selectedPermissions']
+                )
             },
             methods:{
                  remove (item) {
@@ -130,6 +146,9 @@
                 },
                 saveUserData(){
                     this.$store.dispatch("saveUserData",this.userData);
+                },
+                getPermissionsDataForUser(){
+                    this.$store.dispatch("getPermissionsDataForUser",this.userData.roles);
                 }
             }
     }

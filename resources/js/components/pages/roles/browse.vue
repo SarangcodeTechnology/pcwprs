@@ -76,7 +76,7 @@ export default {
       headers: [
         { text: "Actions", value: "actions" },
         { text: "Name", value: "name" },
-        { text: "Created At", value: "created_at" },
+        { text: "Created At", value: "date" },
       ],
       loading: true,
     };

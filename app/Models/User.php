@@ -42,6 +42,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     public function roles(){
+        return $this->belongsToMany(Role::class)->with('permissions');
+    }
+    public function rolesWithOutPermissions(){
         return $this->belongsToMany(Role::class);
     }
     public function permissions(){

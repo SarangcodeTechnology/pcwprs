@@ -30,7 +30,8 @@ export default {
                 {title: 'Dashboard', icon: 'mdi-view-dashboard', route: '/dashboard'},
                 {title: 'Home', icon: 'mdi-home', route: '/home'},
                 {title: 'Users', icon: 'mdi-account-circle', route: '/users'},
-                {title: 'Roles', icon: 'mdi-key', route: '/roles'},
+                {title: 'Roles', icon: 'mdi-account-settings-outline', route: '/roles'},
+                {title: 'Permissions', icon: 'mdi-key', route: '/permissions'},
             ],
         }
     },

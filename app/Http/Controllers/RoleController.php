@@ -53,7 +53,7 @@ class RoleController extends Controller
                 [
                     'status'=>200,
                     'type'=>'success',
-                    'message' => 'Users '.($saved ? 'created' : 'updated').' successfully',
+                    'message' => 'Roles '.($saved ? 'created' : 'updated').' successfully',
                 ]
                 );
         }

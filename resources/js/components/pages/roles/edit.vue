@@ -39,7 +39,7 @@
             </v-col>
           </v-row>
           <v-divider></v-divider>
-          <v-layout mx-1 row wrap justify-space-between>
+          <v-layout mx-1 row wrap>
                 <v-checkbox
                 v-for="(item,index) in permissions"
                 :key="index"

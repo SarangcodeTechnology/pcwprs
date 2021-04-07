@@ -16,9 +16,13 @@ use Illuminate\Http\Request;
 class TestController extends Controller
 {
     public function index(){
-        return $user = Role::with('permissions')->get();
-        return $roles = User::find(8)->roles;
-        $permissions = ModulePermission::get(9);
-        return $permissions;
+        $roles = Role::with('permissions')->get()->take(3);
+        $selectedRolePermissions = [];
+        foreach($roles as $role){
+            foreach($role->permissions as $item){
+                array_push($selectedRolePermissions,$item);
+            }
+        }
+        return $selectedRolePermissions;
     }
 }
