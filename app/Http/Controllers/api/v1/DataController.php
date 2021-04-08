@@ -109,7 +109,7 @@ class DataController extends Controller
     public function loadResources(Request $request)
     {
         try {
-            $roles = Role::all();
+            $roles = Role::with('permissions')->get();
             $permissions = Permission::all();
             return response([
                 'status' => 200,

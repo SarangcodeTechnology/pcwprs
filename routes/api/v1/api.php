@@ -22,9 +22,12 @@ Route::post('login', [AuthController::class,'login']);
 Route::post('register', [AuthController::class,'register']);
 Route::middleware('auth:api')->post('logout', [AuthController::class,'logout']);
 Route::middleware('auth:api')->get('load-resources',[DataController::class,'loadResources']);
+// users
 Route::middleware('auth:api')->get('users', [UserController::class,'index']);
-Route::middleware('auth:api')->get('roles', [RoleController::class,'index']);
 Route::middleware('auth:api')->post('save-user-data',[UserController::class,'saveUserData']);
+Route::middleware('auth:api')->post('permissions-data-for-user', [UserController::class,'permissionsDataForUser']);
+
+Route::middleware('auth:api')->get('roles', [RoleController::class,'index']);
 Route::middleware('auth:api')->post('save-role-data',[RoleController::class,'saveRoleData']);
 
 // permissions

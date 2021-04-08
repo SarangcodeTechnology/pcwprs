@@ -16,13 +16,17 @@ use Illuminate\Http\Request;
 class TestController extends Controller
 {
     public function index(){
+
         $roles = Role::with('permissions')->get()->take(3);
         $selectedRolePermissions = [];
         foreach($roles as $role){
-            foreach($role->permissions as $item){
+            foreach($role['permissions'] as $item){
                 array_push($selectedRolePermissions,$item);
             }
         }
+        $selectedRolePermissions = array_unique($selectedRolePermissions,SORT_REGULAR);
+        $selectedRolePermissionIDs = array_column($selectedRolePermissions, 'id');
+        $additionalPermissions = Permission::whereNotIn('id',$selectedRolePermissionIDs)->get();
         return $selectedRolePermissions;
     }
 }

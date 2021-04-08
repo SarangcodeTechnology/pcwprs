@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Permission;
+use App\Models\Role;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -11,7 +13,7 @@ class UserController extends Controller
 {
     public function index(){
         try{
-            $user = User::with('roles')->orderBy('created_at','desc')->get();
+            $user = User::with('roles','permissions')->orderBy('created_at','desc')->get();
             return response(
                 [
                     'status' => 200,
@@ -41,6 +43,10 @@ class UserController extends Controller
                 foreach($request->data['roles'] as $role){
                     $user->roles()->attach($role['id']);
                 }
+                $user->permissions()->detach();
+                foreach($request->data['permissions'] as $permission){
+                    $user->permissions()->attach($permission['id']);
+                }
                 $saved = 0;
             }
             // save
@@ -63,6 +69,52 @@ class UserController extends Controller
                     'message' => 'Users '.($saved ? 'created' : 'updated').' successfully',
                 ]
                 );
+        }
+        catch(Exception $e){
+            return response([
+                'status' => $e->getCode(),
+                'type' => 'error',
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function permissionsDataForUser(Request $request){
+        try{
+            // $roles = Role::with('permissions')->get()->take(3);
+            if($request->data){
+                $selectedRolePermissions = [];
+                foreach($request->data as $role){
+                    foreach($role['permissions'] as $item){
+                        array_push($selectedRolePermissions,$item);
+                    }
+                }
+                $selectedRolePermissions = array_unique($selectedRolePermissions,SORT_REGULAR);
+                $selectedRolePermissionIDs = array_column($selectedRolePermissions, 'id');
+                $additionalPermissions = Permission::whereNotIn('id',$selectedRolePermissionIDs)->get();
+                return response(
+                    [
+                        'status' => 200,
+                        'type' => 'success',
+                        'message' => 'Users loaded successfully',
+                        'data' => compact('selectedRolePermissions','additionalPermissions')
+                    ]
+                );
+            }
+            else{
+                $additionalPermissions = Permission::all();
+
+                return response(
+
+                    [
+                    'status' => 200,
+                    'type' => 'success',
+                    'message' => 'it is okay',
+                    'data' => compact('additionalPermissions')
+                     ]
+                );
+            }
+
         }
         catch(Exception $e){
             return response([

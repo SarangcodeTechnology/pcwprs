@@ -75,7 +75,7 @@
                                 v-model="userData.roles"
                                 :items="roles"
                                 label="Roles"
-                                @change="getPermissionsData"
+                                @input="getPermissionsDataForUser"
                                 item-text="name"
                                 placeholder="Please assign roles"
                                 hint="E.g.: Administrator"
@@ -85,18 +85,24 @@
                                 deletable-chips
                                 outlined
                             >
-              </v-autocomplete>
+                            </v-autocomplete>
                         </v-col>
                     </v-row>
                 </v-container>
             </v-card-text>
             <v-divider></v-divider>
+                            <ul>
+                                <li v-for="(item,k) in rolePermissions" :key="k">
+                                    {{ item.name }}
+                                </li>
+                            </ul>
             <v-layout mx-4 row wrap>
                 <v-checkbox
-                v-for="(item,index) in permissions"
+                v-for="(item,index) in additionalPermissions"
                 :key="index"
                 :label="item.name"
                 :value="item"
+                v-model="userData.permissions"
                 multiple
                 ></v-checkbox>
           </v-layout>
@@ -116,14 +122,17 @@
                         v => !!v || 'E-mail is required',
                         v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
                     ],
+                    rolePermissions:[],
+                    additionalPermissions: []
+
                 };
             },
             mounted(){
                 console.log(this.selectedPermissions);
+                this.getPermissionsDataForUser();
             },
             computed:{
                 ...mapState({
-                    permissions: (state) => state.webservice.resources.permissions,
                     userData: (state) => state.webservice.editUserData,
                     isUserEdit: (state) => state.webservice.isUserEdit,
                     roles: (state) => state.webservice.resources.roles,
@@ -148,7 +157,13 @@
                     this.$store.dispatch("saveUserData",this.userData);
                 },
                 getPermissionsDataForUser(){
-                    this.$store.dispatch("getPermissionsDataForUser",this.userData.roles);
+                    var tempThis = this;
+                    this.$store.dispatch("getPermissionsDataForUser",this.userData.roles).then(function(response){
+                        tempThis.rolePermissions = response.data.selectedRolePermissions;
+                        tempThis.additionalPermissions = response.data.additionalPermissions;
+                    }).catch(function(error){
+                        console.log(error);
+                    });
                 }
             }
     }

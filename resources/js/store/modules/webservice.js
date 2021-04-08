@@ -23,7 +23,7 @@ const state = {
     permissions:[],
     editPermissionData:{
 
-    }
+    },
 
 };
 
@@ -53,7 +53,7 @@ const mutations = {
     },
     SET_PERMISSION_EDIT_DATA(state, payload){
         state.editPermissionData = payload;
-    },
+    }
 };
 
 const actions = {
@@ -154,6 +154,33 @@ const actions = {
             state.dispatch("addNotification", {
                 type: "error",
                 message: error,
+            });
+        });
+    },
+    getPermissionsDataForUser(state, payload){
+        return new Promise((resolve, reject) => {
+
+            console.log(payload);
+            axios.post('/api/v1/permissions-data-for-user',{data:payload},{
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + state.getters.GET_ACCESS_TOKEN
+                }
+            }).then(function(response){
+                if(response.data.status==200){
+                    resolve(response.data);
+                } else {
+                    state.dispatch("addNotification",{
+                        type: response.data.type,
+                        message: response.data.message
+                    })
+                }
+            }).catch(function(error){
+                    state.dispatch("addNotification", {
+                        type: "error",
+                        message: error,
+                    });
+                    reject(error);
             });
         });
     },
