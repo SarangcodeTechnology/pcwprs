@@ -18,6 +18,10 @@ class TestController extends Controller
     public function index(){
 
         $roles = Role::with('permissions')->get()->take(3);
+
+
+
+
         $selectedRolePermissions = [];
         foreach($roles as $role){
             foreach($role['permissions'] as $item){
