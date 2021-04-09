@@ -82,35 +82,57 @@ class UserController extends Controller
     public function permissionsDataForUser(Request $request){
         try{
             // $roles = Role::with('permissions')->get()->take(3);
-            if($request->data){
-                $selectedRolePermissions = [];
-                foreach($request->data as $role){
+
+            if($request->roles){
+                // getting role id
+                $roleID = array_column($request->roles,'id');
+                $roles = Role::whereIn('id',$roleID)->with('permissions')->get();
+
+                $selectedRolePermissionsIDs = [];
+                foreach($roles as $role){
                     foreach($role['permissions'] as $item){
-                        array_push($selectedRolePermissions,$item);
+                        array_push($selectedRolePermissionsIDs,$item['id']);
                     }
                 }
-                $selectedRolePermissions = array_unique($selectedRolePermissions,SORT_REGULAR);
-                $selectedRolePermissionIDs = array_column($selectedRolePermissions, 'id');
-                $additionalPermissions = Permission::whereNotIn('id',$selectedRolePermissionIDs)->get();
+
+
+                // getting unique permissions
+                $selectedRolePermissionsIDs = array_unique($selectedRolePermissionsIDs);
+                $selectedRolePermissions = Permission::whereIn('id',$selectedRolePermissionsIDs)->get();
+
+
+                // getting additional permissions using whereNotIn
+                $additionalPermissions = Permission::whereNotIn('id',$selectedRolePermissionsIDs)->get();
+
+                // selected additional permissions from frontend
+                $selectedPermissions = $request->permissions ?? [];
+                $selectedPermissionsIDs = array_column($selectedPermissions, 'id');
+
+                // getting final sellected additional permissions for frontend
+                $finalSelectedPermissions = Permission::whereIn('id',$selectedPermissionsIDs)->whereNotIn('id',$selectedRolePermissionsIDs)->get();
+
+
+
+
                 return response(
                     [
                         'status' => 200,
                         'type' => 'success',
                         'message' => 'Users loaded successfully',
-                        'data' => compact('selectedRolePermissions','additionalPermissions')
+                        'data' => compact('selectedRolePermissions','additionalPermissions','finalSelectedPermissions')
                     ]
                 );
             }
             else{
                 $additionalPermissions = Permission::all();
-
+                $finalSelectedPermissions = $request->permissions;
                 return response(
 
                     [
                     'status' => 200,
                     'type' => 'success',
                     'message' => 'it is okay',
-                    'data' => compact('additionalPermissions')
+                    'data' => compact('additionalPermissions','finalSelectedPermissions')
                      ]
                 );
             }

@@ -53,6 +53,9 @@ const mutations = {
     },
     SET_PERMISSION_EDIT_DATA(state, payload){
         state.editPermissionData = payload;
+    },
+    SET_SELECTED_ADDITIONAL_PERMISSIONS(state, payload){
+        state.editUserData.permissions = payload;
     }
 };
 
@@ -161,7 +164,7 @@ const actions = {
         return new Promise((resolve, reject) => {
 
             console.log(payload);
-            axios.post('/api/v1/permissions-data-for-user',{data:payload},{
+            axios.post('/api/v1/permissions-data-for-user',payload,{
                 headers: {
                     Accept: "application/json",
                     Authorization: "Bearer " + state.getters.GET_ACCESS_TOKEN

@@ -51,34 +51,79 @@
             </v-container>
           </template>
           <template v-slot:item.actions="{ item }">
-            <div class="d-flex justify-content-center align-items-center">
-              <v-btn icon x-small @click="editData(item)">
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
+            <v-btn icon x-small @click="editData(item)">
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
 
-              <v-btn color="red" icon x-small @click="deletePopup(item)">
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
-            </div>
+            <v-btn color="red" icon x-small @click="deletePopup(item)">
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+          </template>
+          <template v-slot:item.permissions="{ item }">
+            <v-chip
+              v-for="(permission, k) in item.permissions"
+              :key="k"
+              v-if="k == 0"
+            >
+              {{ permission.name }}
+            </v-chip>
+            <span v-if="item.permissions.length > 1" class="text-caption">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <a v-bind="attrs" v-on="on" href="#"
+                    >+{{ item.permissions.length - 1 }} more</a
+                  >
+                </template>
+                <div class="d-flex flex-column">
+                  <span
+                    v-for="(tooltipPermission, k) in item.permissions"
+                    :key="k"
+                    v-if="k != 0"
+                    >{{ tooltipPermission.name }}</span
+                  >
+                </div>
+              </v-tooltip>
+            </span>
+            <span
+              v-if="item.permissions.length == 0"
+              class="grey--text text-caption"
+            >
+              No Permissions Assigned
+            </span>
           </template>
           <template v-slot:item.roles="{ item }">
-              <v-chip v-for="(role,k) in item.roles" :key="k" v-if="k==0">
-                  {{ role.name }}
-              </v-chip>
-              <span v-if="item.roles.length!=1">
-              (+{{ item.roles.length-1 }} more)
-              </span>
+            <v-chip v-for="(role, k) in item.roles" :key="k" v-if="k == 0">
+              {{ role.name }}
+            </v-chip>
+            <span v-if="item.roles.length > 1" class="text-caption">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <a v-bind="attrs" v-on="on" href="#"
+                    >+{{ item.roles.length - 1 }} more</a
+                  >
+                </template>
+                <div class="d-flex flex-column">
+                  <span
+                    v-for="(tooltipRole, k) in item.roles"
+                    :key="k"
+                    v-if="k != 0"
+                    >{{ tooltipRole.name }}</span
+                  >
+                </div>
+              </v-tooltip>
+            </span>
+            <span v-if="item.roles.length == 0" class="grey--text text-caption">
+              No Role Assigned
+            </span>
           </template>
-
         </v-data-table>
-
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -96,7 +141,8 @@ export default {
         { text: "Name", value: "name" },
         { text: "Email", value: "email" },
         { text: "Roles", value: "roles" },
-        { text: "Created At", value: "date"}
+        { text: "Additional Permissions", value: "permissions" },
+        { text: "Created At", value: "date" },
       ],
     };
   },
@@ -113,9 +159,8 @@ export default {
     this.getDataFromApi();
     console.log(this.users);
   },
-  computed:{
-      ...mapState({users: (state) => state.webservice.users}),
-
+  computed: {
+    ...mapState({ users: (state) => state.webservice.users }),
   },
   watch: {
     //this one will populate new data set when user changes current page.
@@ -132,8 +177,8 @@ export default {
       this.deleteDialog = true;
     },
     editData(item) {
-        this.$store.commit("SET_IS_USER_EDIT",true);
-        this.$store.dispatch("setUserEditData",item);
+      this.$store.commit("SET_IS_USER_EDIT", true);
+      this.$store.dispatch("setUserEditData", item);
     },
     deleteData() {
       let tempthis = this;
@@ -143,7 +188,7 @@ export default {
         .dispatch("deleteCfData", { index: index, id: deleteItem.id })
         .then(function (response) {
           if (response.data.status === 200) {
-            tempthis.cfData.splice(index,1);
+            tempthis.cfData.splice(index, 1);
             tempthis.deleteDialog = false;
             // popup close
           }
@@ -156,11 +201,11 @@ export default {
         });
     },
     goToEditPage() {
-        this.$store.commit("SET_IS_USER_EDIT",false);
-        this.$store.dispatch("setUserEditData",{
-            name: "",
-            email: ""
-        });
+      this.$store.commit("SET_IS_USER_EDIT", false);
+      this.$store.dispatch("setUserEditData", {
+        name: "",
+        email: "",
+      });
     },
 
     getDataFromApi() {
@@ -168,11 +213,9 @@ export default {
       this.loading = true;
       const { page, itemsPerPage } = tempthis.options;
       let pageNumber = page - 1;
-      this.$store
-        .dispatch("getUsers",{ })
-        .then(function (response) {
-          tempthis.loading = false;
-        });
+      this.$store.dispatch("getUsers", {}).then(function (response) {
+        tempthis.loading = false;
+      });
     },
   },
 };
