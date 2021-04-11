@@ -40,12 +40,16 @@ class UserController extends Controller
                 }
                 $user->update();
                 $user->roles()->detach();
-                foreach($request->data['roles'] as $role){
-                    $user->roles()->attach($role['id']);
+                if(count($request->data['roles'])>0){
+                    foreach($request->data['roles'] as $role){
+                        $user->roles()->attach($role['id']);
+                    }
                 }
                 $user->permissions()->detach();
-                foreach($request->data['permissions'] as $permission){
-                    $user->permissions()->attach($permission['id']);
+                if(count($request->data['permissions'])>0){
+                    foreach($request->data['permissions'] as $permission){
+                        $user->permissions()->attach($permission['id']);
+                    }
                 }
                 $saved = 0;
             }
@@ -56,8 +60,15 @@ class UserController extends Controller
                 $user->email = $request->data['email'];
                 $user->password = Hash::make($request->data['password']);
                 $user->save();
-                foreach($request->data['roles'] as $role){
-                    $user->roles()->attach($role['id']);
+                if(count($request->data['roles'])>0){
+                    foreach($request->data['roles'] as $role){
+                        $user->roles()->attach($role['id']);
+                    }
+                }
+                if(count($request->data['permissions'])>0){
+                    foreach($request->data['permissions'] as $permission){
+                        $user->permissions()->attach($permission['id']);
+                    }
                 }
                 $saved = 1;
             }
@@ -81,8 +92,6 @@ class UserController extends Controller
 
     public function permissionsDataForUser(Request $request){
         try{
-            // $roles = Role::with('permissions')->get()->take(3);
-
             if($request->roles){
                 // getting role id
                 $roleID = array_column($request->roles,'id');
