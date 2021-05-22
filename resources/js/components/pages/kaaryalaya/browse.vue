@@ -5,7 +5,7 @@
         <v-data-table
           :headers="headers"
           :hide-default-footer="true"
-          :items="roles"
+          :items="kaaryalaya"
           :items-per-page="20"
           :loading="loading"
           :options.sync="options"
@@ -19,7 +19,7 @@
               <v-row>
                 <v-col cols="3">
                   <div class="d-flex align-content-center">
-                    <h5 class="mb-0 align-self-center">Permissions</h5>
+                    <h5 class="mb-0 align-self-center">कार्यलय</h5>
                     <v-divider class="mx-4 mt-0" inset vertical></v-divider>
                     <v-btn
                       class="d-flex align-self-center"
@@ -27,7 +27,7 @@
                       @click="goToEditPage"
                     >
                       <v-icon left>mdi-plus-circle-outline</v-icon>
-                      <span>New</span></v-btn
+                      <span>नयाँ</span></v-btn
                     >
                   </div>
                 </v-col>
@@ -85,10 +85,9 @@ export default {
       totalItems: 20,
       headers: [
         { text: "Actions", value: "actions" },
-        { text: "Name", value: "name" },
-        { text: "Created At", value: "date" },
+        { text: "नाम", value: "name" },
+        { text: "बनेको मिति", value: "date" },
       ],
-      loading: true,
     };
   },
   watch: {
@@ -104,7 +103,7 @@ export default {
     this.getDataFromApi();
   },
   computed: {
-    ...mapState({ roles: (state) => state.webservice.permissions }),
+    ...mapState({ kaaryalaya: (state) => state.webservice.kaaryalaya }),
   },
   methods: {
     getDataFromApi() {
@@ -112,17 +111,17 @@ export default {
       this.loading = true;
       const { page, itemsPerPage } = tempthis.options;
       let pageNumber = page - 1;
-      this.$store.dispatch("getPermissions", {}).then(function (response) {
+      this.$store.dispatch("getKaaryalaya", {}).then(function (response) {
         tempthis.loading = false;
       });
     },
     goToEditPage() {
-      this.$store.dispatch("setPermissionEditData", {
+      this.$store.dispatch("setKaaryalayaEditData", {
         name: ""
       });
     },
     editData(item){
-        this.$store.dispatch("setPermissionEditData",item)
+        this.$store.dispatch("setKaaryalayaEditData",item)
     }
   },
 };

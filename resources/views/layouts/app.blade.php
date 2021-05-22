@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'CFSCMIS') }}</title>
+    <title>{{ config('app.name', 'PCWPRS') }}</title>
     @include('includes.styles')
 </head>
 

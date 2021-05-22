@@ -11,7 +11,7 @@ use Laravel\Passport\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
+    protected $connection = 'mysql';
     /**
      * The attributes that are mass assignable.
      *
@@ -54,6 +54,12 @@ class User extends Authenticatable
         return $this->belongsToMany(Permission::class);
     }
 
+    public function kriyakalapMaasikPragati(){
+        return $this->hasMany(KriyakalapMaasikPragati::class,'user_id','id');
+    }
+    public function kaaryalaya(){
+        return $this->belongsTo(Kaaryalaya::class,'kaaryalaya_id','id');
+    }
     public function getDateAttribute(){
         return date("Y/m/d", strtotime($this->created_at));
     }

@@ -1,9 +1,15 @@
 <?php
 
+use App\Http\Controllers\AarthikBarsaController;
+use App\Http\Controllers\AayojanaController;
 use App\Http\Controllers\api\v1\DataController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\KaaryalayaController;
+use App\Http\Controllers\KriyakalapLakshyaController;
+use App\Http\Controllers\MaasikPragatiTaalikaController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TraimaasikPragatiTaalikaController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,3 +40,28 @@ Route::middleware('auth:api')->post('save-role-data',[RoleController::class,'sav
 Route::middleware('auth:api')->get('permissions', [PermissionController::class,'index']);
 Route::middleware('auth:api')->post('save-permission-data',[PermissionController::class,'savePermissionData']);
 
+// kaaryalaya
+Route::middleware('auth:api')->get('kaaryalaya', [KaaryalayaController::class,'index']);
+Route::middleware('auth:api')->post('save-kaaryalaya-data',[KaaryalayaController::class,'saveKaaryalayaData']);
+
+
+// aarthik-barsa
+Route::middleware('auth:api')->get('aarthik-barsa', [AarthikBarsaController::class,'index']);
+Route::middleware('auth:api')->post('save-aarthik-barsa',[AarthikBarsaController::class,'saveAarthikBarsa']);
+
+// aayojana
+Route::middleware('auth:api')->get('aayojana', [AayojanaController::class,'index']);
+Route::middleware('auth:api')->post('save-aayojana',[AayojanaController::class,'saveAayojana']);
+
+// kriyakalap-lakshya
+Route::middleware('auth:api')->get('kriyakalap-lakshya', [KriyakalapLakshyaController::class,'index']);
+Route::middleware('auth:api')->post('save-kriyakalap-lakshya',[KriyakalapLakshyaController::class,'saveKriyakalapLakshya']);
+Route::middleware('auth:api')->post('upload-kriyakalap-lakshya',[KriyakalapLakshyaController::class,'uploadKriyakalapLakshya']);
+
+// maasik pragati talika
+Route::middleware('auth:api')->get('maasik-pragati-taalika', [MaasikPragatiTaalikaController::class,'index']);
+Route::middleware('auth:api')->post('save-maasik-pragati-taalika',[MaasikPragatiTaalikaController::class,'saveMaasikPragatiTaalika']);
+
+// maasik pragati talika
+Route::middleware('auth:api')->get('traimaasik-pragati-taalika', [TraimaasikPragatiTaalikaController::class,'index']);
+Route::middleware('auth:api')->post('save-traimaasik-pragati-taalika',[TraimaasikPragatiTaalikaController::class,'saveTraimaasikPragatiTaalika']);

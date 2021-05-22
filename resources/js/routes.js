@@ -23,6 +23,19 @@ const RoleEdit = () => import("./components/pages/roles/edit");
 const Permission = () => import("./components/pages/permissions/browse");
 const PermissionEdit = () => import("./components/pages/permissions/edit");
 
+const Kaaryalaya = () => import("./components/pages/kaaryalaya/browse");
+const KaaryalayaEdit = () => import("./components/pages/kaaryalaya/edit");
+
+const AarthikBarsa = () => import("./components/pages/aarthik-barsha/browse");
+const AarthikBarsaEdit = () => import("./components/pages/aarthik-barsha/edit");
+
+const Aayojana = () => import("./components/pages/aayojana/browse");
+const AayojanaEdit = () => import("./components/pages/aayojana/edit");
+
+const KriyakalapLakshya = () => import("./components/pages/kriyakalap-lakshya/browse");
+const KriyakalapMaasikPragati = () => import("./components/pages/kriyakalap-maasik-pragati/browse");
+const KriyakalapTraimaasikPragati = () => import("./components/pages/kriyakalap-traimaasik-pragati/browse");
+
 const opts = {
     mode: "history",
     routes: [
@@ -163,6 +176,114 @@ const opts = {
                         }
                     },
                 },
+                // aarthik barsha
+                {
+                    path: "/aarthik-barsa",
+                    component: AarthikBarsa,
+                    name: 'aarthik-barsa',
+                    meta: {
+                        breadcrumb: {
+                            text: "Aarthik Barsa",
+                            link: "/aarthik-barsa"
+                        }
+                    },
+                },
+                {
+                    path: "/aarthik-barsa-edit",
+                    component: AarthikBarsaEdit,
+                    name: 'aarthik-barsa-edit',
+                    meta: {
+                        breadcrumb: {
+                            text: "Aarthik Barsa Add/Edit",
+                            link: "/aarthik-barsa-edit"
+                        }
+                    },
+                },
+                // aayojana
+                {
+                    path: "/aayojana",
+                    component: Aayojana,
+                    name: 'aayojana',
+                    meta: {
+                        breadcrumb: {
+                            text: "आयोजना",
+                            link: "/aayojana"
+                        }
+                    },
+                    props: route => ({ aarthikBarsaId: route.query.aarthikId })
+                },
+                {
+                    path: "/aayojana-edit",
+                    component: AayojanaEdit,
+                    name: 'aayojana-edit',
+                    meta: {
+                        breadcrumb: {
+                            text: "आयोजना थप/सम्पादन",
+                            link: "/aayojana-edit"
+                        }
+                    },
+                },
+                // permissions
+                {
+                    path: "/kaaryalaya",
+                    component: Kaaryalaya,
+                    name: 'kaaryalaya',
+                    meta: {
+                        breadcrumb: {
+                            text: "कार्यलय",
+                            link: "/kaaryalaya"
+                        }
+                    },
+                },
+                {
+                    path: "/kaaryalaya-edit",
+                    component: KaaryalayaEdit,
+                    name: 'kaaryalaya-edit',
+                    meta: {
+                        breadcrumb: {
+                            text: "कार्यलय",
+                            link: "/kaaryalaya-edit"
+                        }
+                    },
+                },
+                // kriyakalap-lakshya
+                {
+                    path: "/kriyakalap-lakshya",
+                    component: KriyakalapLakshya,
+                    name: 'kriyakalap-lakshya',
+                    meta: {
+                        breadcrumb: {
+                            text: "कृयाकलाप लक्ष",
+                            link: "/kriyakalap-lakshya"
+                        }
+                    },
+                },
+                // kriyakalap-maasik-pragati
+                {
+                    path: "/kriyakalap-maasik-pragati",
+                    component: KriyakalapMaasikPragati,
+                    name: 'kriyakalap-maasik-pragati',
+                    meta: {
+                        breadcrumb: {
+                            text: "कृयाकलाप मासिक प्रगती",
+                            link: "/kriyakalap-maasik-pragati"
+                        }
+                    },
+                },
+                //traimaasik pragati
+                {
+                    path: "/kriyakalap-traimaasik-pragati",
+                    component: KriyakalapTraimaasikPragati,
+                    name: 'kriyakalap-traimaasik-pragati',
+                    meta: {
+                        breadcrumb: {
+                            text: "कृयाकलाप त्रैमासिक प्रगती",
+                            link: "/kriyakalap-traimaasik-pragati"
+                        }
+                    },
+                },
+
+
 
             ]
         },

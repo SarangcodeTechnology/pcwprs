@@ -134,7 +134,8 @@ Route::get('/importCfData',function() {
 });
 */
 
-Route::get('test', [TestController::class, 'index']);
+Route::get('test', [TestController::class, 'trial']);
+Route::post('test', [TestController::class, 'postTrial']);
 
 //Clear Cache
 Route::get('/clear-cache', function () {

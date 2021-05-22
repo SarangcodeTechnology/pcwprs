@@ -32,6 +32,12 @@ export default {
                 {title: 'Users', icon: 'mdi-account-circle', route: '/users'},
                 {title: 'Roles', icon: 'mdi-account-settings-outline', route: '/roles'},
                 {title: 'Permissions', icon: 'mdi-key', route: '/permissions'},
+                {title: 'कार्यलय', icon: 'mdi-folder', route: '/kaaryalaya'},
+                {title: 'आर्थिक वर्ष', icon: 'mdi-calendar', route: '/aarthik-barsa'},
+                {title: 'आयोजना', icon: 'mdi-folder', route: '/aayojana'},
+                {title: 'कृयाकलाप लक्ष', icon: 'mdi-folder', route: '/kriyakalap-lakshya'},
+                {title: 'कृयाकलाप मासिक प्रगती', icon: 'mdi-folder', route: '/kriyakalap-maasik-pragati'},
+                {title: 'कृयाकलाप त्रैमासिक प्रगती', icon: 'mdi-folder', route: '/kriyakalap-traimaasik-pragati'},
             ],
         }
     },

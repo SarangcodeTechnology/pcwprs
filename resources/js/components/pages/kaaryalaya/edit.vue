@@ -3,12 +3,12 @@
     <v-toolbar color="#E0E0E0" dark flat></v-toolbar>
     <v-card class="mx-11 my-n11">
       <v-toolbar flat>
-        <strong>भूमिका सम्पादन गर्नुहोस्</strong>
+        <strong>कार्यलय सम्पादन गर्नुहोस्</strong>
         <v-spacer></v-spacer>
         <v-btn
           :disabled="!valid"
           class="ma-2"
-          @click="savePermissionData()"
+          @click="saveKaaryalayaData()"
           hint="E.g.: save"
           depressed
           color="green darken-1"
@@ -30,9 +30,9 @@
           <v-row>
             <v-col cols="4">
               <v-text-field
-                v-model="permissionData.name"
-                label="अनुमतिको नाम"
-                placeholder="अनुमतिको नाम राख्नुहोस्"
+                v-model="kaaryalayaData.name"
+                label="कार्यलयको नाम"
+                placeholder="कार्यलयको नाम राख्नुहोस्"
                 outlined
               >
               </v-text-field>
@@ -55,12 +55,12 @@ export default {
     },
     computed:{
         ...mapState({
-            permissionData: (state) => state.webservice.editPermissionData,
+            kaaryalayaData: (state) => state.webservice.editKaaryalayaData,
         }),
     },
     methods:{
-        savePermissionData(){
-            this.$store.dispatch('savePermissionData',this.permissionData)
+        saveKaaryalayaData(){
+            this.$store.dispatch('saveKaaryalayaData',this.kaaryalayaData)
         }
     }
 

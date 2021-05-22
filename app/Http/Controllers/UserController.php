@@ -35,6 +35,7 @@ class UserController extends Controller
                 $user = User::find($request->data['id']);
                 $user->name = $request->data['name'];
                 $user->email = $request->data['email'];
+                $user->kaaryalaya_id = $request->data['kaaryalaya_id'];
                 if(isset($request->data['password'])){
                     $user->password = Hash::make($request->data['password']);
                 }
@@ -58,6 +59,7 @@ class UserController extends Controller
                 $user = new User();
                 $user->name = $request->data['name'];
                 $user->email = $request->data['email'];
+                $user->kaaryalaya_id = $request->data['kaaryalaya_id'];
                 $user->password = Hash::make($request->data['password']);
                 $user->save();
                 if(count($request->data['roles'])>0){

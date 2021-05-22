@@ -9,24 +9,11 @@
 </head>
 <body>
     <div class="container">
-        <table class="table table-bordered">
-            <tr>
-                <th>User</th>
-                <th>Roles</th>
-            </tr>
-            @foreach ($users as $item)
-            <tr>
-                <td>{{ $item->name }}</td>
-                <td>
-                    @foreach ($item->roles as $item2)
-                        @foreach ($item2->permissions as $item3)
-                            {{ $item3->name }},
-                        @endforeach
-                    @endforeach
-                </td>
-            </tr>
-            @endforeach
-        </table>
+        <form action="/test" method="post" enctype="multipart/form-data">
+            @csrf
+            <input type="file" name="myfile">
+            <button type="submit">Submit</button>
+        </form>
     </div>
 </body>
 </html>

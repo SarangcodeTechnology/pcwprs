@@ -47,6 +47,18 @@
               >
               </v-text-field>
             </v-col>
+              <v-col cols="4">
+              <v-select
+                :items="kaaryalaya"
+                v-model="userData.kaaryalaya_id"
+                item-text="name"
+                item-value="id"
+                label="कार्यलय"
+                placeholder="कार्यलय राख्नुहोस्"
+                outlined
+              >
+              </v-select>
+            </v-col>
           </v-row>
           <v-row>
             <v-col cols="4">
@@ -145,6 +157,7 @@ export default {
       userData: (state) => state.webservice.editUserData,
       isUserEdit: (state) => state.webservice.isUserEdit,
       roles: (state) => state.webservice.resources.roles,
+        kaaryalaya: (state) => state.webservice.resources.kaaryalaya,
     }),
     ...mapGetters(["selectedPermissions"]),
   },
