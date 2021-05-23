@@ -27,7 +27,7 @@
                       @click="goToEditPage"
                     >
                       <v-icon left>mdi-plus-circle-outline</v-icon>
-                      <span>New</span></v-btn
+                      <span>नयाँ</span></v-btn
                     >
                   </div>
                 </v-col>
@@ -35,7 +35,7 @@
                   <v-text-field
                     v-model="search"
                     dense
-                    label="Search"
+                    label="खोजी गर्नुहोस्"
                     outlined
                     @change="getDataFromApi"
                   ></v-text-field>
@@ -93,7 +93,7 @@ export default {
       options: {},
       totalItems: 20,
       headers: [
-        { text: "Actions", value: "actions" },
+        { text: "कार्यहरु", value: "actions" },
         { text: "आर्थिक वर्ष", value: "aarthik_barsa.name" },
         { text: "बजेट नं", value: "budget_no" },
         { text: "आयोजनाको नाम", value: "name" },
@@ -107,7 +107,7 @@ export default {
           value: "aayojana_karyalaya_pramukh_name",
         },
         { text: "वार्षिक बजेट", value: "baarsik_budget" },
-        { text: "Created At", value: "date" },
+        { text: "सिर्जना गरिएको मिति", value: "date" },
       ],
       filterData: {
         aarthik_barsa: [],

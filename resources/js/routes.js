@@ -80,7 +80,7 @@ const opts = {
                     name: 'dashboard',
                     meta: {
                         breadcrumb: {
-                            text: "Dashboard",
+                            text: "ड्यासबोर्ड",
                             link: "/dashboard"
                         }
                     },
@@ -91,7 +91,7 @@ const opts = {
                     name: 'home',
                     meta: {
                         breadcrumb: {
-                            text: "Home",
+                            text: "गृहपृष्ठ",
                             link: "/home"
                         }
                     },
@@ -114,7 +114,7 @@ const opts = {
                     name: 'users',
                     meta: {
                         breadcrumb: {
-                            text: "User",
+                            text: "प्रयोगकर्ताहरु",
                             link: "/users"
                         }
                     },
@@ -125,7 +125,7 @@ const opts = {
                     name: 'user-edit',
                     meta: {
                         breadcrumb: {
-                            text: "User Edit/Add",
+                            text: "प्रयोगकर्ताहरु सम्पादन/थप",
                             link: "/user-edit"
                         }
                     },
@@ -137,7 +137,7 @@ const opts = {
                     name: 'roles',
                     meta: {
                         breadcrumb: {
-                            text: "Roles",
+                            text: "भूमिकाहरु",
                             link: "/roles"
                         }
                     },
@@ -160,7 +160,7 @@ const opts = {
                     name: 'permissions',
                     meta: {
                         breadcrumb: {
-                            text: "Permissions",
+                            text: "अनुमतिहरु",
                             link: "/permissions"
                         }
                     },
@@ -183,7 +183,7 @@ const opts = {
                     name: 'aarthik-barsa',
                     meta: {
                         breadcrumb: {
-                            text: "Aarthik Barsa",
+                            text: "आर्थिक वर्ष",
                             link: "/aarthik-barsa"
                         }
                     },
@@ -194,7 +194,7 @@ const opts = {
                     name: 'aarthik-barsa-edit',
                     meta: {
                         breadcrumb: {
-                            text: "Aarthik Barsa Add/Edit",
+                            text: "आर्थिक वर्ष थप/सम्पादन",
                             link: "/aarthik-barsa-edit"
                         }
                     },

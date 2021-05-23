@@ -89,7 +89,7 @@
               <v-autocomplete
                 v-model="userData.roles"
                 :items="roles"
-                label="Roles"
+                label="भूमिकाहरु"
                 @input="getPermissionsDataForUser"
                 item-text="name"
                 placeholder="Please assign roles"

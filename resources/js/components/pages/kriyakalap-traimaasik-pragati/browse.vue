@@ -60,8 +60,9 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col>
-                <v-button @click="saveTraimaasikPragatiTaalika">Submit</v-button>
+            <v-col v-if="filterData.traimaasik">
+                <v-btn  color="primary" elevation="2" @click="saveTraimaasikPragatiTaalika">Save</v-btn>
+                 <v-btn color="secondary"  elevation="2"  @click="importFromMaasikPragati">Import from maasik pragati</v-btn>
             </v-col>
         </v-row>
         <v-row>
@@ -144,6 +145,36 @@ export default {
 
     },
     methods: {
+        importFromMaasikPragati(){
+            var tempthis = this;
+            this.$store
+                .dispatch("importFromMaasikPragati", {
+                    filterData: this.filterData,
+                }).then(function(response){
+                var  tempTraiaasikPragatiTaalika = [];
+                tempthis.traiMaasikPragatiTaalika.forEach(function (item){
+                        item.traimaasik_pragati={
+                            traimaasik_id:tempthis.filterData.traimaasik,
+                            user_id: tempthis.filterData.user,
+                            kaaryalaya_id: tempthis.filterData.kaaryalaya,
+                            kriyakalap_lakshya_id:item.id,
+                            pariman:null,
+                            kharcha:null
+                        }
+                    tempTraiaasikPragatiTaalika.push(item);
+                })
+                tempthis.traiMaasikPragatiTaalika = tempTraiaasikPragatiTaalika;
+
+                response.summations.forEach(function(item){
+                    tempthis.traiMaasikPragatiTaalika.forEach(function(traimaasikItem,index){
+                        if(traimaasikItem.id==item.id){
+                            tempthis.traiMaasikPragatiTaalika[index].traimaasik_pragati = item.traimaasik_pragati;
+                            tempthis.editedTraimaasikPragatiTaalikaID.push(traimaasikItem.id);
+                        }
+                    });
+                })
+            });
+        },
         addEditedTraimaasikPragatiTaalikaID(id){
             if(!this.editedTraimaasikPragatiTaalikaID.includes(id)){
                 this.editedTraimaasikPragatiTaalikaID.push(id)

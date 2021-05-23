@@ -27,7 +27,7 @@
                       @click="goToEditPage"
                     >
                       <v-icon left>mdi-plus-circle-outline</v-icon>
-                      <span>New</span></v-btn
+                      <span>नयाँ</span></v-btn
                     >
                   </div>
                 </v-col>
@@ -35,7 +35,7 @@
                   <v-text-field
                     v-model="search"
                     dense
-                    label="Search"
+                    label="खोजी गर्नुहोस्"
                     outlined
                     @change="getDataFromApi"
                   ></v-text-field>
@@ -86,9 +86,9 @@ export default {
       options: {},
       totalItems: 20,
       headers: [
-        { text: "Actions", value: "actions" },
-        { text: "Name", value: "name" },
-        { text: "Created At", value: "date" },
+        { text: "कार्यहरु", value: "actions" },
+        { text: "नाम", value: "name" },
+        { text: "सिर्जना गरिएको मिति", value: "date" },
       ],
       loading: true,
     };

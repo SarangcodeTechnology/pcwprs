@@ -6,6 +6,7 @@ use App\Helpers\CollectionHelper;
 use App\Models\Aayojana;
 use App\Models\CfData;
 use App\Models\KriyakalapLakshya;
+use App\Models\KriyakalapMaasikPragati;
 use App\Models\Mahina;
 use App\Models\Province;
 use App\Models\LocalLevel;
@@ -22,9 +23,29 @@ class TestController extends Controller
 {
     public function trial()
     {
+
         $traimaasik = Traimaasik::find(1);
         $mahina =  $traimaasik->mahina->pluck('id');
-        
+        $kaaryalaya_id = 1;
+        $items = KriyakalapMaasikPragati::whereIn('mahina_id',$mahina)->where('kaaryalaya_id',$kaaryalaya_id)->orderBy('kriyakalap_lakshya_id')->get();
+        $data = [];
+        $kriyakalap_lakshya_id = 0;
+        $nextCount = -1;
+        foreach($items as $item){
+            if($item->kriyakalap_lakshya_id != $kriyakalap_lakshya_id){
+                $kriyakalap_lakshya_id = $item->kriyakalap_lakshya_id;
+                $nextCount++;
+                $data[$nextCount]['id'] = $kriyakalap_lakshya_id;
+                $data[$nextCount]['traimaasik_pragati']['pariman'] = 0;
+                $data[$nextCount]['traimaasik_pragati']['kharcha'] = 0;
+                $data[$nextCount]['traimaasik_pragati']['kaaryalaya_id'] = $kaaryalaya_id;
+                $data[$nextCount]['traimaasik_pragati']['kriyakalap_lakshya_id'] = $kriyakalap_lakshya_id;
+
+            }
+            $data[$nextCount]['traimaasik_pragati']['pariman']+=$item->pariman;
+            $data[$nextCount]['traimaasik_pragati']['kharcha']+=$item->kharcha;
+        }
+        return $data;
         return User::first()->kriyakalapMaasikPragati;
         $inital = "pahilo";
         $mahina = 1;

@@ -64,4 +64,5 @@ Route::middleware('auth:api')->post('save-maasik-pragati-taalika',[MaasikPragati
 
 // maasik pragati talika
 Route::middleware('auth:api')->get('traimaasik-pragati-taalika', [TraimaasikPragatiTaalikaController::class,'index']);
+Route::middleware('auth:api')->get('import-from-maasik-pragati', [TraimaasikPragatiTaalikaController::class,'importFromMaasikPragati']);
 Route::middleware('auth:api')->post('save-traimaasik-pragati-taalika',[TraimaasikPragatiTaalikaController::class,'saveTraimaasikPragatiTaalika']);

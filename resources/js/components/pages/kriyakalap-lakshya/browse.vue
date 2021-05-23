@@ -64,7 +64,7 @@
                                 </v-col>
                                 <v-col cols="4" >
                                     <div class="d-flex align-items-center">
-                                        <v-file-input v-model="csvData" label="Upload .csv file" :disabled="!filterData.aayojana"></v-file-input>
+                                        <v-file-input v-model="csvData" label=".csv फाईल अपलोड गर्नुहोस्" :disabled="!filterData.aayojana"></v-file-input>
                                         <abbr title="Upload">
                                             <v-btn
                                                 fab
@@ -87,7 +87,7 @@
                                     <v-text-field
                                         v-model="search"
                                         append-icon="mdi-magnify"
-                                        label="Search"
+                                        label="खोजी गर्नुहोस्"
                                         single-line
                                         hide-details
                                         solo
@@ -523,7 +523,7 @@ export default {
         toggleEditData() {
             this.editDataButtonLoading = true;
             this.editAllData = true;
-            this.headers.unshift({text: "Actions", value: "actions"});
+            this.headers.unshift({text: "कार्यहरु", value: "actions"});
             this.editDataButtonLoading = false;
         },
         deletePopup(item) {

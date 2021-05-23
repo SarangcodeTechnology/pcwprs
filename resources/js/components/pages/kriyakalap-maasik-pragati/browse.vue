@@ -61,7 +61,7 @@
         </v-row>
         <v-row>
             <v-col>
-                <v-button @click="saveMaasikPragatiTaalika">Submit</v-button>
+                <v-btn @click="saveMaasikPragatiTaalika">Submit</v-btn>
             </v-col>
         </v-row>
         <v-row>

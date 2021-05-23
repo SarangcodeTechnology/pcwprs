@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\KriyakalapLakshya;
+use App\Models\KriyakalapMaasikPragati;
 use App\Models\KriyakalapTraimaasikPragati;
 use App\Models\Traimaasik;
 use Illuminate\Http\Request;
@@ -93,5 +94,60 @@ class TraimaasikPragatiTaalikaController extends Controller
                 'message' => $e->getMessage(),
             ]);
         }
+    }
+
+    public function importFromMaasikPragati(Request $request){
+        try {
+
+            $summations = $this->getSum(json_decode($request->filterData));
+
+            return response(
+                [
+                    'status' => 200,
+                    'type' => 'success',
+                    'data' =>compact('summations'),
+                    'message' => 'Kriyakalap Lakshya Updated successfully',
+                ]
+            );
+
+        } catch (Exception $e) {
+            return response([
+                'status' => $e->getCode(),
+                'type' => 'error',
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    private function getSum($filterData){
+        $aayojanaID= $filterData->aayojana;
+        $userID = $filterData->user;
+        $traimaasikID = $filterData->traimaasik;
+        $karyalayaID = $filterData->kaaryalaya;
+        $traimaasik = Traimaasik::find($traimaasikID);
+        $mahina =  $traimaasik->mahina->pluck('id');
+
+        $items = KriyakalapMaasikPragati::whereIn('mahina_id',$mahina)->where('kaaryalaya_id',$karyalayaID)->orderBy('kriyakalap_lakshya_id')->get();
+
+        $data = [];
+        $kriyakalap_lakshya_id = 0;
+        $nextCount = -1;
+        foreach($items as $item){
+            if($item->kriyakalap_lakshya_id != $kriyakalap_lakshya_id){
+                $kriyakalap_lakshya_id = $item->kriyakalap_lakshya_id;
+                $nextCount++;
+                $data[$nextCount]['id'] = $kriyakalap_lakshya_id;
+                $data[$nextCount]['traimaasik_pragati']['pariman'] = 0;
+                $data[$nextCount]['traimaasik_pragati']['kharcha'] = 0;
+                $data[$nextCount]['traimaasik_pragati']['kaaryalaya_id'] = $karyalayaID;
+                $data[$nextCount]['traimaasik_pragati']['kriyakalap_lakshya_id'] = $kriyakalap_lakshya_id;
+                $data[$nextCount]['traimaasik_pragati']['traimaasik_id'] = $traimaasikID;
+                $data[$nextCount]['traimaasik_pragati']['user_id'] = $userID;
+
+            }
+            $data[$nextCount]['traimaasik_pragati']['pariman']+=$item->pariman;
+            $data[$nextCount]['traimaasik_pragati']['kharcha']+=$item->kharcha;
+        }
+        return $data;
     }
 }

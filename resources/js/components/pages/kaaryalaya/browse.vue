@@ -35,7 +35,7 @@
                   <v-text-field
                     v-model="search"
                     dense
-                    label="Search"
+                    label="खोजी गर्नुहोस्"
                     outlined
                     @change="getDataFromApi"
                   ></v-text-field>
@@ -84,7 +84,7 @@ export default {
       options: {},
       totalItems: 20,
       headers: [
-        { text: "Actions", value: "actions" },
+        { text: "कार्यहरु", value: "actions" },
         { text: "नाम", value: "name" },
         { text: "बनेको मिति", value: "date" },
       ],

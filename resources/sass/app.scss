@@ -6,3 +6,10 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+.custom-homepage-title {
+    height: 150px;
+
+    img {
+        height: 100%;
+    }
+}

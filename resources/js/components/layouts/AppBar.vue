@@ -2,7 +2,7 @@
     <v-container class="d-flex justify-content-end align-items-center" fluid>
         <v-btn small text @click="loadResources">
             <v-icon>mdi-update</v-icon>
-            <span>Reload Resources</span>
+            <span>संसाधनहरू पुन: लोड गर्नुहोस्</span>
         </v-btn>
         <v-menu v-model="menu" :close-on-content-click="false" offset-overflow offset-y
                 origin="center center"
