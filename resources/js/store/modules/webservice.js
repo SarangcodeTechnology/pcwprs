@@ -834,7 +834,11 @@ const actions = {
 const getters = {
     selectedPermissions(state, payload) {
         return state.editUserData.roles;
+    },
+    CHECK_PERMISSION:(state) => (can) => {
+        return state.resources.userPermissions.includes(can);
     }
+
 };
 
 export default {

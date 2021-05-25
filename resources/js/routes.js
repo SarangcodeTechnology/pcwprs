@@ -36,6 +36,8 @@ const KriyakalapLakshya = () => import("./components/pages/kriyakalap-lakshya/br
 const KriyakalapMaasikPragati = () => import("./components/pages/kriyakalap-maasik-pragati/browse");
 const KriyakalapTraimaasikPragati = () => import("./components/pages/kriyakalap-traimaasik-pragati/browse");
 
+const NotAuthenticated = () => import("./components/pages/NotAuthenticated");
+
 const opts = {
     mode: "history",
     routes: [
@@ -61,9 +63,9 @@ const opts = {
                     component: Dashboard,
                     name: 'app',
                     beforeEnter(to, from, next) {
-                        if (store.getters.GET_USER) {
+                        if (store.getters.GET_USER ){
                             next("/dashboard");
-                        } else {
+                        } else  {
                             next("/login");
                         }
                     },
@@ -75,8 +77,26 @@ const opts = {
                     },
                 },
                 {
+                  path: "/not-authenticated",
+                    component: NotAuthenticated,
+                    name: "not-authenticated",
+                    meta:{
+                      breadcrumb: {
+                          text: "",
+                          link: "/not-authenticated"
+                      }
+                    }
+                },
+                {
                     path: "/dashboard",
                     component: Dashboard,
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('browse_dashboard')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
                     name: 'dashboard',
                     meta: {
                         breadcrumb: {
@@ -88,6 +108,13 @@ const opts = {
                 {
                     path: "/home",
                     component: Home,
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('browse_home')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
                     name: 'home',
                     meta: {
                         breadcrumb: {
@@ -111,6 +138,13 @@ const opts = {
                 {
                     path: "/users",
                     component: User,
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('browse_users')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
                     name: 'users',
                     meta: {
                         breadcrumb: {
@@ -135,6 +169,13 @@ const opts = {
                     path: "/roles",
                     component: Role,
                     name: 'roles',
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('browse_roles')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
                     meta: {
                         breadcrumb: {
                             text: "भूमिकाहरु",
@@ -157,6 +198,13 @@ const opts = {
                 {
                     path: "/permissions",
                     component: Permission,
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('browse_permissions')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
                     name: 'permissions',
                     meta: {
                         breadcrumb: {
@@ -181,6 +229,13 @@ const opts = {
                     path: "/aarthik-barsa",
                     component: AarthikBarsa,
                     name: 'aarthik-barsa',
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('browse_aarthik_barsa')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
                     meta: {
                         breadcrumb: {
                             text: "आर्थिक वर्ष",
@@ -203,6 +258,13 @@ const opts = {
                 {
                     path: "/aayojana",
                     component: Aayojana,
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('browse_aayojana')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
                     name: 'aayojana',
                     meta: {
                         breadcrumb: {
@@ -227,6 +289,13 @@ const opts = {
                 {
                     path: "/kaaryalaya",
                     component: Kaaryalaya,
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('browse_kaaryalaya')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
                     name: 'kaaryalaya',
                     meta: {
                         breadcrumb: {
@@ -250,6 +319,13 @@ const opts = {
                 {
                     path: "/kriyakalap-lakshya",
                     component: KriyakalapLakshya,
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('browse_kriyakalap_lakshya')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
                     name: 'kriyakalap-lakshya',
                     meta: {
                         breadcrumb: {
@@ -262,6 +338,13 @@ const opts = {
                 {
                     path: "/kriyakalap-maasik-pragati",
                     component: KriyakalapMaasikPragati,
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('browse_kriyakalap_maasik_pragati')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
                     name: 'kriyakalap-maasik-pragati',
                     meta: {
                         breadcrumb: {
@@ -274,6 +357,13 @@ const opts = {
                 {
                     path: "/kriyakalap-traimaasik-pragati",
                     component: KriyakalapTraimaasikPragati,
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('browse_kriyakalap_traimaasik_pragati')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
                     name: 'kriyakalap-traimaasik-pragati',
                     meta: {
                         breadcrumb: {

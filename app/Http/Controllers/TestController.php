@@ -18,11 +18,22 @@ use App\Models\User;
 use App\Module\Permission as ModulePermission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use PDF;
+
 
 class TestController extends Controller
 {
     public function trial()
     {
+        $data = Traimaasik::all();
+
+        // share data to view
+        $path = public_path().'/pdf';
+        view()->share('data',$data);
+        $pdf = PDF::loadView('pdf_view', $data);
+        $pdf->save($path.'/my_pdf_name.pdf', 'utf8mb4_unicode_ci');
+        return response()->download($path.'/my_pdf_name.pdf');
+
 
         $traimaasik = Traimaasik::find(1);
         $mahina =  $traimaasik->mahina->pluck('id');

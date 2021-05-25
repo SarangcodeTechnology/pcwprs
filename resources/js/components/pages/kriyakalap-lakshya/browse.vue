@@ -7,7 +7,7 @@
                     :search="search"
                     :hide-default-footer="false"
                     :items="kriyakalapLakshya"
-                    :items-per-page="2"
+                    :items-per-page="10"
                     :loading="loading"
                     :options.sync="options"
                     :page="page"
