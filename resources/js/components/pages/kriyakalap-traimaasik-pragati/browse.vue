@@ -60,9 +60,22 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col v-if="filterData.traimaasik">
-                <v-btn  color="primary" elevation="2" @click="saveTraimaasikPragatiTaalika">Save</v-btn>
-                 <v-btn color="secondary"  elevation="2"  @click="importFromMaasikPragati">Import from maasik pragati</v-btn>
+            <v-col v-if="filterData.traimaasik && editable">
+                <v-btn  color="primary" elevation="2" @click="saveTraimaasikPragatiTaalika(false)">Save</v-btn>
+                <v-btn color="primary" @click="saveTraimaasikPragatiTaalika(true)">Submit</v-btn>
+                <v-btn color="secondary"  elevation="2"  @click="importFromMaasikPragati">Import from maasik pragati</v-btn>
+            </v-col>
+            <v-col v-if="filterData.traimaasik && !requested && !editable">
+                <v-btn color="primary" @click="editRequest">सम्पादन अनुरोध</v-btn>
+            </v-col>
+            <v-col>
+                <v-alert
+                    dense
+                    type="info"
+                    v-if="filterData.traimaasik && submitted && requested"
+                >
+                    तपाईले आफ्नो <strong>सम्पादन अनुरोध</strong> पठाउनु भईसकेको छ।कृपया धैर्य गर्नुहोस्! हामी यसमा काम गर्दैछौं।
+                </v-alert>
             </v-col>
         </v-row>
         <v-row>
@@ -78,11 +91,11 @@
                     loading-text="Loading Data... Please wait"
                 >
                     <template v-slot:item.traimaasik_pragati.pariman="{ item }">
-                        <v-text-field type="number" v-model="item.traimaasik_pragati.pariman" @input="addEditedTraimaasikPragatiTaalikaID(item.id)" class="my-text-field">
+                        <v-text-field :disabled="submitted && !editable"  type="number" v-model="item.traimaasik_pragati.pariman" @input="addEditedTraimaasikPragatiTaalikaID(item.id)" class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-slot:item.traimaasik_pragati.kharcha="{ item }">
-                        <v-text-field type="number" v-model="item.traimaasik_pragati.kharcha" @input="addEditedTraimaasikPragatiTaalikaID(item.id)" class="my-text-field">
+                        <v-text-field :disabled="submitted && !editable"  type="number" v-model="item.traimaasik_pragati.kharcha" @input="addEditedTraimaasikPragatiTaalikaID(item.id)" class="my-text-field">
                         </v-text-field>
                     </template>
                 </v-data-table>
@@ -115,7 +128,10 @@ export default {
             ],
             editedTraimaasikPragatiTaalikaID:[
 
-            ]
+            ],
+            submitted:false,
+            requested:false,
+            editable: true
         };
     },
     mounted() {
@@ -145,6 +161,15 @@ export default {
 
     },
     methods: {
+        editRequest(){
+            var tempthis = this;
+            this.$store.dispatch("editRequest",{filterData:this.filterData}).then(
+                function (response){
+                    tempthis.requested = response.requested;
+                }
+            );
+
+        },
         importFromMaasikPragati(){
             var tempthis = this;
             this.$store
@@ -180,15 +205,17 @@ export default {
                 this.editedTraimaasikPragatiTaalikaID.push(id)
             }
         },
-        saveTraimaasikPragatiTaalika(){
+        saveTraimaasikPragatiTaalika(submitted){
             let tempthis = this;
             var items = this.traiMaasikPragatiTaalika.filter(function(item){
                     return tempthis.editedTraimaasikPragatiTaalikaID.includes(item.id);
             });
 
             this.$store
-                .dispatch("saveTraimaasikPragatiTaalika", items)
+                .dispatch("saveTraimaasikPragatiTaalika", {items:items,submitted:submitted,filterData:this.filterData})
                 .then(function (response) {
+                    tempthis.submitted = response.data.data.submitted;
+                    tempthis.editable = response.data.data.editable;
                    tempthis.editedTraimaasikPragatiTaalikaID = [];
                 });
         },
@@ -207,11 +234,12 @@ export default {
             const {page, itemsPerPage} = tempthis.options;
             let pageNumber = page - 1;
             this.$store
-                .dispatch("getTraimaasikPragatiTaalika", {
-                    filterData: this.filterData,
-                })
+                .dispatch("getTraimaasikPragatiTaalika", {filterData:this.filterData })
                 .then(function (response) {
                     tempthis.headers = response.headers;
+                    tempthis.submitted = response.submitted;
+                    tempthis.requested = response.requested;
+                    tempthis.editable = response.editable;
                     let tempTraiaasikPragatiTaalika = [];
                     response.traiMaasikPragatiTaalika.forEach(function (item){
                         if(item.traimaasik_pragati==null){

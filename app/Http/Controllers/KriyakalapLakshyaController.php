@@ -108,45 +108,36 @@ class KriyakalapLakshyaController extends Controller
             "kriyakalap_code",
             "name",
             "kharcha_sirsak",
+            "kharcha_prakar",
+            "component",
+            "milestone",
             "ikai",
             "aayojana_kul_kriyakalap_pariman",
-            "aayojana_kul_kriyakalap_vaar",
             "aayojana_kul_kriyakalap_laagat",
             "gata_aarthik_barsa_sammako_pariman",
-            "gata_aarthik_barsa_sammako_vaar",
             "gata_aarthik_barsa_sammako_laagat",
             "baarsik_lakshya_pariman",
-            "baarsik_lakshya_vaar",
             "baarsik_lakshya_budget",
             "pahilo_traimasik_lakshya_pariman",
-            "pahilo_traimasik_lakshya_vaar",
             "pahilo_traimasik_lakshya_budget",
             "dosro_traimasik_lakshya_pariman",
-            "dosro_traimasik_lakshya_vaar",
             "dosro_traimasik_lakshya_budget",
             "tesro_traimasik_lakshya_pariman",
-            "tesro_traimasik_lakshya_vaar",
             "tesro_traimasik_lakshya_budget",
             "chautho_traimasik_lakshya_pariman",
-            "chautho_traimasik_lakshya_vaar",
             "chautho_traimasik_lakshya_budget",
             "kaifiyat"
         ];
         $csv = file_get_contents($file);
         $array = array_map("str_getcsv", explode("\n", $csv));
-        $arrayCount = 0;
+        $key = $array[0];
+        $arrayCount = -1;
         $val = '';
         foreach ($array as $item) {
-            $dots = explode('.', $item[0]);
-            if ($item[1] == "" && $item[2] == "" && $item[3] == "" && $item[4] == "" && $item[5] == "" && $item[6] == "" && $item[7] == "" && $item[8] == "" && $item[9] == "" && $item[10] == "") {
-                $val = $item[0];
-            }
-            if (isset($dots[3])) {
-                $combinedArray = array_combine($key,$item);
-                $combinedArray['kharcha_prakar'] = $val;
-                $data[] = $combinedArray;
-                $arrayCount++;
-            }
+            $arrayCount++;
+            if($arrayCount==0) continue;
+            $combinedArray = array_combine($key, $item);
+            $data[] = $combinedArray;
         }
         return $data;
     }

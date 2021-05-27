@@ -13,6 +13,7 @@ use App\Models\LocalLevel;
 use App\Models\District;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\Submission;
 use App\Models\Traimaasik;
 use App\Models\User;
 use App\Module\Permission as ModulePermission;
@@ -25,6 +26,8 @@ class TestController extends Controller
 {
     public function trial()
     {
+        return view('test');
+        return Submission::where('requested',1)->with(['aarthikBarsa','kaaryalaya','aayojana','requestedBy','mahina'])->first();
         $data = Traimaasik::all();
 
         // share data to view
@@ -170,6 +173,9 @@ class TestController extends Controller
             "kriyakalap_code",
             "name",
             "kharcha_sirsak",
+            "kharcha_prakar",
+            "component",
+            "milestone",
             "ikai",
             "aayojana_kul_kriyakalap_pariman",
             "aayojana_kul_kriyakalap_vaar",
@@ -196,20 +202,15 @@ class TestController extends Controller
         ];
         $csv = file_get_contents($request->myfile);
         $array = array_map("str_getcsv", explode("\n", $csv));
-        $arrayCount = 0;
+        $key = $array[0];
+        $arrayCount = -1;
         $val = '';
         foreach ($array as $item) {
-            $dots = explode('.', $item[0]);
-            if ($item[1] == "" && $item[2] == "" && $item[3] == "" && $item[4] == "" && $item[5] == "" && $item[6] == "" && $item[7] == "" && $item[8] == "" && $item[9] == "" && $item[10] == "") {
-                $val = $item[0];
-            }
-            if (isset($dots[3])) {
-                $combinedArray = array_combine($key, $item);
-                $combinedArray['kharcha_prakar'] = $val;
-                $data[] = $combinedArray;
                 $arrayCount++;
+                if($arrayCount==0) continue;
+                $combinedArray = array_combine($key, $item);
+                $data[] = $combinedArray;
             }
-        }
         return $data;
     }
 

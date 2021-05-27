@@ -21,7 +21,7 @@
                     placeholder="कार्यलय"
                     @input="getDataFromApi"
                     class="mr-2"
-                    :disabled="1"
+                    :disabled="true"
                 >
                 </v-select>
                 <v-select
@@ -60,9 +60,23 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col>
-                <v-btn @click="saveMaasikPragatiTaalika">Submit</v-btn>
+            <v-col v-if="filterData.mahina && editable">
+                <v-btn color="primary" @click="saveMaasikPragatiTaalika(false)">Save</v-btn>
+                <v-btn color="primary" @click="saveMaasikPragatiTaalika(true)"><span v-if="submitted">Re-</span>Submit</v-btn>
             </v-col>
+            <v-col v-if="filterData.mahina && !requested && !editable">
+                <v-btn color="primary" @click="editRequest">सम्पादन अनुरोध</v-btn>
+            </v-col>
+            <v-col>
+                <v-alert
+                    dense
+                    type="info"
+                    v-if="filterData.mahina && submitted && requested"
+                >
+                    तपाईले आफ्नो <strong>सम्पादन अनुरोध</strong> पठाउनु भईसकेको छ।कृपया धैर्य गर्नुहोस्! हामी यसमा काम गर्दैछौं।
+                </v-alert>
+            </v-col>
+
         </v-row>
         <v-row>
             <v-col>
@@ -77,11 +91,11 @@
                     loading-text="Loading Data... Please wait"
                 >
                     <template v-slot:item.maasik_pragati.pariman="{ item }">
-                        <v-text-field type="number" v-model="item.maasik_pragati.pariman" @input="addEditedMaasikPragatiTaalikaID(item.id)" class="my-text-field">
+                        <v-text-field :disabled="submitted && !editable" type="number" v-model="item.maasik_pragati.pariman" @input="addEditedMaasikPragatiTaalikaID(item.id)" class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-slot:item.maasik_pragati.kharcha="{ item }">
-                        <v-text-field type="number" v-model="item.maasik_pragati.kharcha" @input="addEditedMaasikPragatiTaalikaID(item.id)" class="my-text-field">
+                        <v-text-field :disabled="submitted && !editable" type="number" v-model="item.maasik_pragati.kharcha" @input="addEditedMaasikPragatiTaalikaID(item.id)" class="my-text-field">
                         </v-text-field>
                     </template>
                 </v-data-table>
@@ -114,7 +128,10 @@ export default {
             ],
             editedMaasikPragatiTaalikaID:[
 
-            ]
+            ],
+            submitted:false,
+            requested:false,
+            editable: true
         };
     },
     mounted() {
@@ -149,16 +166,25 @@ export default {
                 this.editedMaasikPragatiTaalikaID.push(id)
             }
         },
-        saveMaasikPragatiTaalika(){
+        editRequest(){
+            var tempthis = this;
+            this.$store.dispatch("editRequest",{filterData:this.filterData}).then(
+                function (response){
+                    tempthis.requested = response.requested;
+                }
+            );
+
+        },
+        saveMaasikPragatiTaalika(submitted){
             let tempthis = this;
             var items = this.maasikPragatiTaalika.filter(function(item){
                     return tempthis.editedMaasikPragatiTaalikaID.includes(item.id);
             });
 
             this.$store
-                .dispatch("saveMaasikPragatiTaalika", items)
+                .dispatch("saveMaasikPragatiTaalika", {items:items,submitted:submitted,filterData:this.filterData })
                 .then(function (response) {
-                   tempthis.editedMaasikPragatiTaalikaID = [];
+                    tempthis.getDataFromApi();
                 });
         },
         changeInAayojana(){
@@ -166,6 +192,7 @@ export default {
         },
         changeInArthikBarsa() {
             this.filterData.aayojana = 0;
+            this.filterData.mahina = 0
         },
         changeInMahina(){
             this.getDataFromApi();
@@ -181,6 +208,9 @@ export default {
                 })
                 .then(function (response) {
                     tempthis.headers = response.headers;
+                    tempthis.submitted = response.submitted;
+                    tempthis.requested = response.requested;
+                    tempthis.editable = response.editable;
                     let tempMaasikPragatiTaalika = [];
                     response.maasikPragatiTaalika.forEach(function (item){
                         if(item.maasik_pragati==null){

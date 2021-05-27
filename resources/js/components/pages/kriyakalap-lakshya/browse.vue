@@ -198,11 +198,6 @@
                                       class="my-text-field">
                         </v-text-field>
                     </template>
-                    <template v-if="editAllData == true" v-slot:item.aayojana_kul_kriyakalap_vaar="{ item }">
-                        <v-text-field v-model="item.aayojana_kul_kriyakalap_vaar" type="number"
-                                      class="my-text-field">
-                        </v-text-field>
-                    </template>
                     <template v-if="editAllData == true" v-slot:item.aayojana_kul_kriyakalap_laagat="{ item }">
                         <v-text-field v-model="item.aayojana_kul_kriyakalap_laagat" type="number"
                                       class="my-text-field">
@@ -210,11 +205,6 @@
                     </template>
                     <template v-if="editAllData == true" v-slot:item.gata_aarthik_barsa_sammako_pariman="{ item }">
                         <v-text-field v-model="item.gata_aarthik_barsa_sammako_pariman" type="number"
-                                      class="my-text-field">
-                        </v-text-field>
-                    </template>
-                    <template v-if="editAllData == true" v-slot:item.gata_aarthik_barsa_sammako_vaar="{ item }">
-                        <v-text-field v-model="item.gata_aarthik_barsa_sammako_vaar" type="number"
                                       class="my-text-field">
                         </v-text-field>
                     </template>
@@ -227,21 +217,12 @@
                         <v-text-field v-model="item.baarsik_lakshya_pariman" type="number" class="my-text-field">
                         </v-text-field>
                     </template>
-                    <template v-if="editAllData == true" v-slot:item.baarsik_lakshya_vaar="{ item }">
-                        <v-text-field v-model="item.baarsik_lakshya_vaar" type="number" class="my-text-field">
-                        </v-text-field>
-                    </template>
                     <template v-if="editAllData == true" v-slot:item.baarsik_lakshya_budget="{ item }">
                         <v-text-field v-model="item.baarsik_lakshya_budget" type="number" class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.pahilo_traimasik_lakshya_pariman="{ item }">
                         <v-text-field v-model="item.pahilo_traimasik_lakshya_pariman" type="number"
-                                      class="my-text-field">
-                        </v-text-field>
-                    </template>
-                    <template v-if="editAllData == true" v-slot:item.pahilo_traimasik_lakshya_vaar="{ item }">
-                        <v-text-field v-model="item.pahilo_traimasik_lakshya_vaar" type="number"
                                       class="my-text-field">
                         </v-text-field>
                     </template>
@@ -255,16 +236,6 @@
                                       class="my-text-field">
                         </v-text-field>
                     </template>
-                    <template v-if="editAllData == true" v-slot:item.dosro_traimasik_lakshya_vaar="{ item }">
-                        <v-text-field v-model="item.dosro_traimasik_lakshya_vaar" type="number"
-                                      class="my-text-field">
-                        </v-text-field>
-                    </template>
-                    <template v-if="editAllData == true" v-slot:item.aayojana_kul_kriyakalap_vaar="{ item }">
-                        <v-text-field v-model="item.aayojana_kul_kriyakalap_vaar" type="number"
-                                      class="my-text-field">
-                        </v-text-field>
-                    </template>
                     <template v-if="editAllData == true" v-slot:item.dosro_traimasik_lakshya_budget="{ item }">
                         <v-text-field v-model="item.dosro_traimasik_lakshya_budget" type="number"
                                       class="my-text-field">
@@ -275,11 +246,6 @@
                                       class="my-text-field">
                         </v-text-field>
                     </template>
-                    <template v-if="editAllData == true" v-slot:item.tesro_traimasik_lakshya_vaar="{ item }">
-                        <v-text-field v-model="item.tesro_traimasik_lakshya_vaar" type="number"
-                                      class="my-text-field">
-                        </v-text-field>
-                    </template>
                     <template v-if="editAllData == true" v-slot:item.tesro_traimasik_lakshya_budget="{ item }">
                         <v-text-field v-model="item.tesro_traimasik_lakshya_budget" type="number"
                                       class="my-text-field">
@@ -287,11 +253,6 @@
                     </template>
                     <template v-if="editAllData == true" v-slot:item.chautho_traimasik_lakshya_pariman="{ item }">
                         <v-text-field v-model="item.chautho_traimasik_lakshya_pariman" type="number"
-                                      class="my-text-field">
-                        </v-text-field>
-                    </template>
-                    <template v-if="editAllData == true" v-slot:item.chautho_traimasik_lakshya_vaar="{ item }">
-                        <v-text-field v-model="item.chautho_traimasik_lakshya_vaar" type="number"
                                       class="my-text-field">
                         </v-text-field>
                     </template>
@@ -364,14 +325,12 @@ export default {
                 {text: "कृयाकलाप कोड", value: "kriyakalap_code"},
                 {text: "नाम", value: "name"},
                 {text: "खर्च शिर्षक", value: "kharcha_sirsak"},
+                {text: "खर्च प्रकार", value: "kharcha_prakar"},
+                {text: "कम्पोनेन्ट", value: "component"},
                 {text: "इकाई", value: "ikai"},
                 {
                     text: "आयोजना कुल कृयाकलाप परिमान",
                     value: "aayojana_kul_kriyakalap_pariman",
-                },
-                {
-                    text: "आयोजना कुल कृयाकलाप भार",
-                    value: "aayojana_kul_kriyakalap_vaar",
                 },
                 {
                     text: "आयोजना कुल कृयाकलाप लागत",
@@ -382,23 +341,14 @@ export default {
                     value: "gata_aarthik_barsa_sammako_pariman",
                 },
                 {
-                    text: "गत आर्थिक वर्ष सम्मको भार",
-                    value: "gata_aarthik_barsa_sammako_vaar",
-                },
-                {
                     text: "गत आर्थिक वर्ष सम्मको लागत",
                     value: "gata_aarthik_barsa_sammako_laagat",
                 },
                 {text: "वार्षिक लक्ष परिमान", value: "baarsik_lakshya_pariman"},
-                {text: "वार्षिक लक्ष भार", value: "baarsik_lakshya_vaar"},
                 {text: "वार्षिक लक्ष बजेट", value: "baarsik_lakshya_budget"},
                 {
                     text: "पहिलो त्रैमासिक लक्ष परिमान",
                     value: "pahilo_traimasik_lakshya_pariman",
-                },
-                {
-                    text: "पहिलो त्रैमासिक लक्ष भार",
-                    value: "pahilo_traimasik_lakshya_vaar",
                 },
                 {
                     text: "पहिलो त्रैमासिक लक्ष बजेट",
@@ -409,20 +359,12 @@ export default {
                     value: "dosro_traimasik_lakshya_pariman",
                 },
                 {
-                    text: "दोश्रो त्रैमासिक लक्ष भार",
-                    value: "dosro_traimasik_lakshya_vaar",
-                },
-                {
                     text: "दोश्रो त्रैमासिक लक्ष बजेट",
                     value: "dosro_traimasik_lakshya_budget",
                 },
                 {
                     text: "तेश्रो त्रैमासिक लक्ष परिमान",
                     value: "tesro_traimasik_lakshya_pariman",
-                },
-                {
-                    text: "तेश्रो त्रैमासिक लक्ष भार",
-                    value: "tesro_traimasik_lakshya_vaar",
                 },
                 {
                     text: "तेश्रो त्रैमासिक लक्ष बजेट",
@@ -433,15 +375,11 @@ export default {
                     value: "chautho_traimasik_lakshya_pariman",
                 },
                 {
-                    text: "चौथो त्रैमासिक लक्ष भार",
-                    value: "chautho_traimasik_lakshya_vaar",
-                },
-                {
                     text: "चौथो त्रैमासिक लक्ष बजेट",
                     value: "chautho_traimasik_lakshya_budget",
                 },
                 {text: "कैफियत", value: "kaifiyat"},
-                {text: "खर्च प्रकार", value: "kharcha_prakar"},
+
             ],
             filterData: {
                 aarthikBarsa: "",
@@ -576,25 +514,18 @@ export default {
                 kharcha_sirsak: "",
                 ikai: "",
                 aayojana_kul_kriyakalap_pariman: "",
-                aayojana_kul_kriyakalap_vaar: "",
                 aayojana_kul_kriyakalap_laagat: "",
                 gata_aarthik_barsa_sammako_pariman: "",
-                gata_aarthik_barsa_sammako_vaar: "",
                 gata_aarthik_barsa_sammako_laagat: "",
                 baarsik_lakshya_pariman: "",
-                baarsik_lakshya_vaar: "",
                 baarsik_lakshya_budget: "",
                 pahilo_traimasik_lakshya_pariman: "",
-                pahilo_traimasik_lakshya_vaar: "",
                 pahilo_traimasik_lakshya_budget: "",
                 dosro_traimasik_lakshya_pariman: "",
-                dosro_traimasik_lakshya_vaar: "",
                 dosro_traimasik_lakshya_budget: "",
                 tesro_traimasik_lakshya_pariman: "",
-                tesro_traimasik_lakshya_vaar: "",
                 tesro_traimasik_lakshya_budget: "",
                 chautho_traimasik_lakshya_pariman: "",
-                chautho_traimasik_lakshya_vaar: "",
                 chautho_traimasik_lakshya_budget: "",
                 kaifiyat: "",
             });

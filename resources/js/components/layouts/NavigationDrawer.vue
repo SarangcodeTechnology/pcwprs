@@ -75,6 +75,7 @@ export default {
                     ]
                 },
                 {title: 'कार्यलय', icon: 'mdi-folder', route: '/kaaryalaya', can: "browse_kaaryalaya"},
+                {title: 'सम्पादन अनुरोधहरु', icon: 'mdi-folder', route: '/edit-requests', can: "browse_kaaryalaya"},
                 {title: 'आर्थिक वर्ष', icon: 'mdi-calendar', route: '/aarthik-barsa',can:"browse_aarthik_barsa"},
                 {title: 'आयोजना', icon: 'mdi-folder', route: '/aayojana',can:"browse_aayojana"},
                 {title: 'कृयाकलाप लक्ष', icon: 'mdi-folder', route: '/kriyakalap-lakshya',can:"browse_kriyakalap_lakshya"},

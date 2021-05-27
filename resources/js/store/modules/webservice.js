@@ -421,7 +421,7 @@ const actions = {
             });
         });
     },
-
+    //aarthik barsha
     getAarthikBarsa(state, payload) {
         return new Promise((resolve, reject) => {
             axios.get('/api/v1/aarthik-barsa', {
@@ -697,7 +697,7 @@ const actions = {
     },
     saveMaasikPragatiTaalika(state, payload) {
         return new Promise((resolve, reject) => {
-            axios.post('/api/v1/save-maasik-pragati-taalika', {items: payload}, {
+            axios.post('/api/v1/save-maasik-pragati-taalika', payload, {
                 headers: {
                     Accept: "application/json",
                     Authorization: "Bearer " + state.getters.GET_ACCESS_TOKEN
@@ -725,6 +725,35 @@ const actions = {
                 reject(error)
             });
         });
+    },
+    editRequest(state,payload){
+      return new Promise((resolve,reject)=>{
+        axios.post('/api/v1/edit-request',payload,{
+            headers:{
+                Accept: "application/json",
+                Authorization: "Bearer " + state.getters.GET_ACCESS_TOKEN
+            }
+        }).then(function (response){
+            if(response.data.status === 200) {
+                state.dispatch("addNotification",{
+                    type: response.data.type,
+                    message: response.data.message
+                });
+                resolve(response.data.data);
+            }else {
+                state.dispatch("addNotification", {
+                    type: response.data.type,
+                    message: response.data.message,
+                });
+            }
+        }).catch(function (error) {
+            state.dispatch("addNotification", {
+                type: "error",
+                message: error,
+            });
+            reject(error)
+        });
+      });
     },
     //traimaasik pragati taalika
     getTraimaasikPragatiTaalika(state, payload) {
@@ -764,7 +793,7 @@ const actions = {
     },
     saveTraimaasikPragatiTaalika(state, payload) {
         return new Promise((resolve, reject) => {
-            axios.post('/api/v1/save-traimaasik-pragati-taalika', {items: payload}, {
+            axios.post('/api/v1/save-traimaasik-pragati-taalika', payload, {
                 headers: {
                     Accept: "application/json",
                     Authorization: "Bearer " + state.getters.GET_ACCESS_TOKEN
@@ -827,6 +856,69 @@ const actions = {
                 }
             )
         });
+    },
+    //requests
+    getRequests(state, payload) {
+        return new Promise((resolve, reject) => {
+            axios.get('/api/v1/edit-requests', {
+                    headers: {
+                        // Accept: "application/json",
+                        Authorization: "Bearer " + state.getters.GET_ACCESS_TOKEN
+                    }
+                }
+            ).then(
+                function (response) {
+                    if (response.data.status == 200) {
+                        resolve(response.data.data);
+
+                    } else {
+                        state.dispatch("addNotification", {
+                            type: response.data.type,
+                            message: response.data.message
+                        })
+                    }
+                }
+            ).catch(
+                function (error) {
+                    state.dispatch("addNotification", {
+                        type: "error",
+                        message: error,
+                    });
+                    reject(error);
+                }
+            )
+        });
+    },
+    approveRequest(state,payload){
+      return new Promise((resolve,reject) => {
+         axios.post('/api/v1/approve-request',payload,{
+             headers: {
+                 Accept: "application/json",
+                 Authorization: "Bearer " + state.getters.GET_ACCESS_TOKEN
+             }
+         }).then(function (response) {
+
+             if (response.data.status === 200) {
+                 state.dispatch("addNotification", {
+                     type: response.data.type,
+                     message: response.data.message,
+                 });
+                 resolve(response);
+             } else {
+                 state.dispatch("addNotification", {
+                     type: response.data.type,
+                     message: response.data.message,
+                 });
+             }
+
+         }).catch(function (error) {
+             state.dispatch("addNotification", {
+                 type: "error",
+                 message: error,
+             });
+             reject(error)
+         });
+      });
     },
 
 };

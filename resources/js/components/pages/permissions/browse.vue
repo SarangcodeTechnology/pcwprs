@@ -88,7 +88,6 @@ export default {
         { text: "नाम", value: "name" },
         { text: "सिर्जना गरिएको मिति", value: "date" },
       ],
-      loading: true,
     };
   },
   watch: {

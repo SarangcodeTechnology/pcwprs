@@ -8,6 +8,7 @@ use App\Http\Controllers\KaaryalayaController;
 use App\Http\Controllers\KriyakalapLakshyaController;
 use App\Http\Controllers\MaasikPragatiTaalikaController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RequestController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TraimaasikPragatiTaalikaController;
 use App\Http\Controllers\UserController;
@@ -66,3 +67,8 @@ Route::middleware('auth:api')->post('save-maasik-pragati-taalika',[MaasikPragati
 Route::middleware('auth:api')->get('traimaasik-pragati-taalika', [TraimaasikPragatiTaalikaController::class,'index']);
 Route::middleware('auth:api')->get('import-from-maasik-pragati', [TraimaasikPragatiTaalikaController::class,'importFromMaasikPragati']);
 Route::middleware('auth:api')->post('save-traimaasik-pragati-taalika',[TraimaasikPragatiTaalikaController::class,'saveTraimaasikPragatiTaalika']);
+
+//edit request
+Route::middleware('auth:api')->post('edit-request',[RequestController::class,'editRequest']);
+Route::middleware('auth:api')->get('edit-requests',[RequestController::class,'index']);
+Route::middleware('auth:api')->post('approve-request',[RequestController::class,'approveRequest']);

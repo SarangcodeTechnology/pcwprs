@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\KriyakalapLakshya;
 use App\Models\KriyakalapMaasikPragati;
 use App\Models\Mahina;
+use App\Models\Submission;
 use Illuminate\Http\Request;
+use App\Models\Request as FormRequest;
+
 
 class MaasikPragatiTaalikaController extends Controller
 {
@@ -29,6 +32,13 @@ class MaasikPragatiTaalikaController extends Controller
                     $query->where('mahina_id', $mahinaID)->where('kaaryalaya_id',$karyalayaID);
                 }])
                 ->get();
+            $editable = true;
+            $submitted = Submission::where('kaaryalaya_id',$karyalayaID)->where('aayojana_id',$aayojanaID)->where('mahina_id',$mahinaID)->where('submitted',1)->first() ? true : false;
+            if($submitted){
+                $editable = Submission::where('kaaryalaya_id',$karyalayaID)->where('aayojana_id',$aayojanaID)->where('mahina_id',$mahinaID)->where('submitted',1)->where('editable',1)->first() ? true : false;
+            }
+            $requested = Submission::where('kaaryalaya_id',$karyalayaID)->where('aayojana_id',$aayojanaID)->where('mahina_id',$mahinaID)->where('submitted',1)->where('requested',1)->first() ? true : false;
+
             $headers = [
                 0 => [
                     'text' => 'कृयाकलाप कोड',
@@ -56,7 +66,7 @@ class MaasikPragatiTaalikaController extends Controller
                     'status' => 200,
                     'type' => 'success',
                     'message' => 'Aayojana loaded successfully',
-                    'data' => compact('maasikPragatiTaalika','headers')
+                    'data' => compact('requested','maasikPragatiTaalika','headers','submitted','editable')
                 ]
             );
         } catch (Exception $e) {
@@ -78,11 +88,36 @@ class MaasikPragatiTaalikaController extends Controller
                     KriyakalapMaasikPragati::create($maasikPragati);
                 }
             }
+            $submitted = false;
+            $editable = true;
+            if($request->submitted){
+                 // if row is already present of such data
+                $submission = Submission::where('mahina_id',$request->filterData['mahina'])->where('aayojana_id',$request->filterData['aayojana'])->where('kaaryalaya_id',$request->filterData['kaaryalaya'])->first();
+                if($submission){
+                    $submission->submitted = 1;
+                    $submission->editable = 0;
+                    $submission->update();
+                }
+                // if row is not present of such data, create one
+                else{
+                    $submission = new Submission();
+                    $submission->submitted_by = $request->filterData['user'];
+                    $submission->aayojana_id = $request->filterData['aayojana'];
+                    $submission->mahina_id = $request->filterData['mahina'];
+                    $submission->kaaryalaya_id = $request->filterData['kaaryalaya'];
+                    $submission->submitted = 1;
+                    $submission->editable = 0;
+                    $submission->save();
+                }
+                $editable = false;
+                $submitted = true;
+            }
 
             return response(
                 [
                     'status' => 200,
                     'type' => 'success',
+                    'data' => compact('submitted','editable'),
                     'message' => 'Kriyakalap Lakshya Updated successfully',
                 ]
             );

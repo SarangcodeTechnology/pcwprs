@@ -36,8 +36,11 @@ const KriyakalapLakshya = () => import("./components/pages/kriyakalap-lakshya/br
 const KriyakalapMaasikPragati = () => import("./components/pages/kriyakalap-maasik-pragati/browse");
 const KriyakalapTraimaasikPragati = () => import("./components/pages/kriyakalap-traimaasik-pragati/browse");
 
-const NotAuthenticated = () => import("./components/pages/NotAuthenticated");
+const KriyakalapMaasikPragatiReport = () => import("./components/pages/kriyakalap-maasik-pragati-report/browse");
 
+
+const NotAuthenticated = () => import("./components/pages/NotAuthenticated");
+const EditRequests = () => import("./components/pages/requests/browse");
 const opts = {
     mode: "history",
     routes: [
@@ -131,6 +134,25 @@ const opts = {
                         breadcrumb: {
                             text: "Change Password",
                             link: "/change-password"
+                        }
+                    },
+                },
+                // edit-requests
+                {
+                    path: "/edit-requests",
+                    component: EditRequests,
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('browse_kaaryalaya')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
+                    name: 'users',
+                    meta: {
+                        breadcrumb: {
+                            text: "प्रयोगकर्ताहरु",
+                            link: "/users"
                         }
                     },
                 },
@@ -350,6 +372,24 @@ const opts = {
                         breadcrumb: {
                             text: "कृयाकलाप मासिक प्रगती",
                             link: "/kriyakalap-maasik-pragati"
+                        }
+                    },
+                },
+                {
+                    path: "/kriyakalap-maasik-pragati-report",
+                    component: KriyakalapMaasikPragatiReport,
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('browse_kriyakalap_maasik_pragati_report')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
+                    name: 'kriyakalap-maasik-pragati-report',
+                    meta: {
+                        breadcrumb: {
+                            text: "कृयाकलाप मासिक प्रगती प्रतिवेदन",
+                            link: "/kriyakalap-maasik-pragati-report"
                         }
                     },
                 },
