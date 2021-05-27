@@ -135,6 +135,7 @@ class KriyakalapLakshyaController extends Controller
         $val = '';
         foreach ($array as $item) {
             $arrayCount++;
+            if(count($item)==1) continue;
             if($arrayCount==0) continue;
             $combinedArray = array_combine($key, $item);
             $data[] = $combinedArray;

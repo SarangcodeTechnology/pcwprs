@@ -178,39 +178,33 @@ class TestController extends Controller
             "milestone",
             "ikai",
             "aayojana_kul_kriyakalap_pariman",
-            "aayojana_kul_kriyakalap_vaar",
             "aayojana_kul_kriyakalap_laagat",
             "gata_aarthik_barsa_sammako_pariman",
-            "gata_aarthik_barsa_sammako_vaar",
             "gata_aarthik_barsa_sammako_laagat",
             "baarsik_lakshya_pariman",
-            "baarsik_lakshya_vaar",
             "baarsik_lakshya_budget",
             "pahilo_traimasik_lakshya_pariman",
-            "pahilo_traimasik_lakshya_vaar",
             "pahilo_traimasik_lakshya_budget",
             "dosro_traimasik_lakshya_pariman",
-            "dosro_traimasik_lakshya_vaar",
             "dosro_traimasik_lakshya_budget",
             "tesro_traimasik_lakshya_pariman",
-            "tesro_traimasik_lakshya_vaar",
             "tesro_traimasik_lakshya_budget",
             "chautho_traimasik_lakshya_pariman",
-            "chautho_traimasik_lakshya_vaar",
             "chautho_traimasik_lakshya_budget",
             "kaifiyat"
         ];
         $csv = file_get_contents($request->myfile);
-        $array = array_map("str_getcsv", explode("\n", $csv));
+          $array = array_map("str_getcsv", explode("\n", $csv));
         $key = $array[0];
         $arrayCount = -1;
         $val = '';
         foreach ($array as $item) {
                 $arrayCount++;
+                if(count($item)==1) continue;
                 if($arrayCount==0) continue;
                 $combinedArray = array_combine($key, $item);
                 $data[] = $combinedArray;
-            }
+        }
         return $data;
     }
 
