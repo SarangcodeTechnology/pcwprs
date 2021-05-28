@@ -74,6 +74,12 @@ export default {
                         {title: 'अनुमतिहरू', icon: 'mdi-key', route: '/permissions', can: "browse_permissions"},
                     ]
                 },
+                {
+                    title: "प्रतिवेदन", icon: "mdi-folder", subItems: [
+                        {title: 'मासिक प्रगती प्रतिवेदन', icon: 'mdi-folder', route: '/kriyakalap-maasik-pragati-report',can:"browse_kriyakalap_maasik_pragati"},
+                        {title: 'त्रैमासिक प्रगती प्रतिवेदन', icon: 'mdi-folder', route: '/kriyakalap-traimaasik-pragati-report', can: "browse_kriyakalap_traimaasik_pragati"},
+                    ]
+                },
                 {title: 'कार्यलय', icon: 'mdi-folder', route: '/kaaryalaya', can: "browse_kaaryalaya"},
                 {title: 'सम्पादन अनुरोधहरु', icon: 'mdi-folder', route: '/edit-requests', can: "browse_kaaryalaya"},
                 {title: 'आर्थिक वर्ष', icon: 'mdi-calendar', route: '/aarthik-barsa',can:"browse_aarthik_barsa"},

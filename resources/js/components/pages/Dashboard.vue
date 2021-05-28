@@ -1,7 +1,7 @@
 <template>
     <v-container class="pa-5" fluid>
         <v-row>
-            <v-col v-for="(item,k) in dashboardResources"  v-if="state.webservice.getters.CHECK_PERMISSION('browse_dashboard')" :key="k" cols="3">
+            <v-col v-for="(item,k) in dashboardResources"  :key="k" cols="3">
                 <v-card
                     class="mt-4 mx-auto"
                     color="#EEEEEE"

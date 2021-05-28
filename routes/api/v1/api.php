@@ -61,12 +61,14 @@ Route::middleware('auth:api')->post('upload-kriyakalap-lakshya',[KriyakalapLaksh
 
 // maasik pragati talika
 Route::middleware('auth:api')->get('maasik-pragati-taalika', [MaasikPragatiTaalikaController::class,'index']);
+Route::middleware('auth:api')->get('maasik-pragati-taalika-report', [MaasikPragatiTaalikaController::class,'report']);
 Route::middleware('auth:api')->post('save-maasik-pragati-taalika',[MaasikPragatiTaalikaController::class,'saveMaasikPragatiTaalika']);
 
 // maasik pragati talika
 Route::middleware('auth:api')->get('traimaasik-pragati-taalika', [TraimaasikPragatiTaalikaController::class,'index']);
 Route::middleware('auth:api')->get('import-from-maasik-pragati', [TraimaasikPragatiTaalikaController::class,'importFromMaasikPragati']);
 Route::middleware('auth:api')->post('save-traimaasik-pragati-taalika',[TraimaasikPragatiTaalikaController::class,'saveTraimaasikPragatiTaalika']);
+Route::middleware('auth:api')->get('traimaasik-pragati-taalika-report', [TraimaasikPragatiTaalikaController::class,'report']);
 
 //edit request
 Route::middleware('auth:api')->post('edit-request',[RequestController::class,'editRequest']);

@@ -37,7 +37,10 @@ const KriyakalapMaasikPragati = () => import("./components/pages/kriyakalap-maas
 const KriyakalapTraimaasikPragati = () => import("./components/pages/kriyakalap-traimaasik-pragati/browse");
 
 const KriyakalapMaasikPragatiReport = () => import("./components/pages/kriyakalap-maasik-pragati-report/browse");
+const KriyakalapTraimaasikPragatiReport = () => import("./components/pages/kriyakalap-traimaasik-pragati-report/browse");
 
+const MaasikPrint = () => import("./components/pages/print/maasik-print");
+const TraimaasikPrint = () => import("./components/pages/print/traimaasik-print");
 
 const NotAuthenticated = () => import("./components/pages/NotAuthenticated");
 const EditRequests = () => import("./components/pages/requests/browse");
@@ -395,6 +398,25 @@ const opts = {
                 },
                 //traimaasik pragati
                 {
+                    path: "/kriyakalap-traimaasik-pragati-report",
+                    component: KriyakalapTraimaasikPragatiReport,
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('browse_kriyakalap_maasik_pragati_report')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
+                    name: 'kriyakalap-traimaasik-pragati-report',
+                    meta: {
+                        breadcrumb: {
+                            text: "कृयाकलाप त्रैमासिक प्रगती प्रतिवेदन",
+                            link: "/kriyakalap-traimaasik-pragati-report"
+                        }
+                    },
+                },
+
+                {
                     path: "/kriyakalap-traimaasik-pragati",
                     component: KriyakalapTraimaasikPragati,
                     beforeEnter(to, from, next) {
@@ -428,6 +450,16 @@ const opts = {
                     next();
                 }
             },
+        },
+        {
+            path: "/maasik-print",
+            component: MaasikPrint,
+            name: 'Print',
+        },
+        {
+            path: "/traimaasik-print",
+            component: TraimaasikPrint,
+            name: 'Print',
         },
         {
             path: "/register",

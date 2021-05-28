@@ -17,4 +17,7 @@ class KriyakalapMaasikPragati extends Model
     public function user(){
         return $this->belongsTo(User::class,'user_id','id');
     }
+    public function mahina(){
+        return $this->belongsTo(Mahina::class,'mahina_id','id');
+    }
 }

@@ -19,7 +19,6 @@
                     item-text="name"
                     item-value="id"
                     placeholder="कार्यलय"
-                    @input="getDataFromApi"
                     class="mr-2"
                     :disabled="true"
                 >
@@ -59,46 +58,63 @@
                 </v-select>
             </v-col>
         </v-row>
-        <v-row>
-            <v-col v-if="filterData.mahina && editable">
-                <v-btn color="primary" @click="saveMaasikPragatiTaalika(false)">Save</v-btn>
-                <v-btn color="primary" @click="saveMaasikPragatiTaalika(true)"><span v-if="submitted">Re-</span>Submit</v-btn>
-            </v-col>
-            <v-col v-if="filterData.mahina && !requested && !editable">
-                <v-btn color="primary" @click="editRequest">सम्पादन अनुरोध</v-btn>
+        <v-row v-if="filterData.mahina">
+            <v-col cols="12">
+                <v-btn target="_blank" href="/maasik-print">
+                    Print
+                </v-btn>
             </v-col>
             <v-col>
-                <v-alert
-                    dense
-                    type="info"
-                    v-if="filterData.mahina && submitted && requested"
-                >
-                    तपाईले आफ्नो <strong>सम्पादन अनुरोध</strong> पठाउनु भईसकेको छ।कृपया धैर्य गर्नुहोस्! हामी यसमा काम गर्दैछौं।
-                </v-alert>
-            </v-col>
-
-        </v-row>
-        <v-row>
-            <v-col>
-                <v-data-table
-                    :headers="headers"
-                    :hide-default-footer="false"
-                    :items="maasikPragatiTaalika"
-                    :items-per-page="5"
-                    :loading="loading"
-                    :options.sync="options"
-                    fixed-header
-                    loading-text="Loading Data... Please wait"
-                >
-                    <template v-slot:item.maasik_pragati.pariman="{ item }">
-                        <v-text-field :disabled="submitted && !editable" type="number" v-model="item.maasik_pragati.pariman" @input="addEditedMaasikPragatiTaalikaID(item.id)" class="my-text-field">
-                        </v-text-field>
-                    </template>
-                    <template v-slot:item.maasik_pragati.kharcha="{ item }">
-                        <v-text-field :disabled="submitted && !editable" type="number" v-model="item.maasik_pragati.kharcha" @input="addEditedMaasikPragatiTaalikaID(item.id)" class="my-text-field">
-                        </v-text-field>
-                    </template>
-                </v-data-table>
+                <div id="printableArea">
+                    <div style="text-align: center">
+                        <p><strong>नेपाल सरकार</strong></p>
+                        <p><strong>रास्ट्रपति चुरे-तराई मधेश संरक्षण विकास समिति</strong></p>
+                        <p><strong>दोश्रो चौमासिक प्रगति</strong></p>
+                        <table border="1" cellspacing="0" style="margin:auto">
+                            <thead>
+                            <tr>
+                                <td rowspan="2" height="49"><strong>क्र.सं.</strong></td>
+                                <td rowspan="2"><strong>कार्यक्रम /क्रियाकलाप</strong></td>
+                                <td rowspan="2"><strong>खर्च शीर्षक</strong></td>
+                                <td rowspan="2"><strong>इकाई</strong></td>
+                                <td colspan="3"><strong>बार्षिक लक्ष्य</strong></td>
+                                <td colspan="3"><strong>{{ maasikPragatiReport.month }} महिनाको प्रगति</strong></td>
+                                <td colspan="3"><strong>प्रतिवेदन अवधिसम्मको यस आ.व.को प्रगति</strong></td>
+                                <td colspan="2" rowspan="2"><strong>भौतिक प्रगति</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>परिमाण</strong></td>
+                                <td><strong>भार</strong></td>
+                                <td><strong>बजेट</strong></td>
+                                <td><strong>परिमाण</strong></td>
+                                <td><strong>भारित</strong></td>
+                                <td><strong>खर्च</strong></td>
+                                <td><strong>परिमाण</strong></td>
+                                <td><strong>भारित</strong></td>
+                                <td><strong>खर्च</strong></td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="(item,index) in maasikPragatiReport.items" :key="index">
+                                <td>{{item.kriyakalap_code}}</td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.kharcha_sirsak}}</td>
+                                <td>{{item.ikai}}</td>
+                                <td>{{item.baarsik_lakshya_pariman}}</td>
+                                <td>{{item.baarsik_lakshya_vaar}}</td>
+                                <td>{{item.baarsik_lakshya_budget}}</td>
+                                <td>{{item.maasik_pragati.pariman ? item.maasik_pragati.pariman :'' }}</td>
+                                <td>{{item.maasik_pragati.vaarit ? item.maasik_pragati.vaarit :''}}</td>
+                                <td>{{item.maasik_pragati.kharcha ? item.maasik_pragati.kharcha :''}}</td>
+                                <td>{{item.total_till_now.pariman ? item.total_till_now.pariman : ''}}</td>
+                                <td>{{item.total_till_now.vaarit ? item.total_till_now.vaarit : ''}}</td>
+                                <td>{{item.total_till_now.kharcha ? item.total_till_now.kharcha : ''}}</td>
+                                <td>{{item.vautik_pragati ? item.vautik_pragati : ''}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </v-col>
         </v-row>
     </v-container>
@@ -110,28 +126,16 @@ import {mapState} from "vuex";
 export default {
     data() {
         return {
-            loading: false,
-            options: {},
-            totalItems: 20,
             filterData: {
-                kaaryalaya:0,
-                user:0,
+                kaaryalaya: 0,
+                user: 0,
                 aarthikBarsa: "",
                 aayojana: 0,
                 mahina: 0
             },
-            headers:[
 
-            ],
-            maasikPragatiTaalika:[
+            maasikPragatiTaalika: [],
 
-            ],
-            editedMaasikPragatiTaalikaID:[
-
-            ],
-            submitted:false,
-            requested:false,
-            editable: true
         };
     },
     mounted() {
@@ -142,8 +146,9 @@ export default {
         ...mapState({
             mahina: (state) => state.webservice.resources.mahina,
             aarthikBarsa: (state) => state.webservice.resources.aarthik_barsa,
-            kaaryalaya: (state) =>state.webservice.resources.kaaryalaya,
+            kaaryalaya: (state) => state.webservice.resources.kaaryalaya,
             user: (state) => state.auth.user,
+            maasikPragatiReport: (state) => state.webservice.maasikPragatiReport,
         }),
         aayojana: function () {
             const tempthis = this;
@@ -161,82 +166,42 @@ export default {
 
     },
     methods: {
-        addEditedMaasikPragatiTaalikaID(id){
-            if(!this.editedMaasikPragatiTaalikaID.includes(id)){
-                this.editedMaasikPragatiTaalikaID.push(id)
-            }
-        },
-        editRequest(){
-            var tempthis = this;
-            this.$store.dispatch("editRequest",{filterData:this.filterData}).then(
-                function (response){
-                    tempthis.requested = response.requested;
-                }
-            );
+        printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
 
-        },
-        saveMaasikPragatiTaalika(submitted){
-            let tempthis = this;
-            var items = this.maasikPragatiTaalika.filter(function(item){
-                    return tempthis.editedMaasikPragatiTaalikaID.includes(item.id);
-            });
+            document.body.innerHTML = printContents;
 
-            this.$store
-                .dispatch("saveMaasikPragatiTaalika", {items:items,submitted:submitted,filterData:this.filterData })
-                .then(function (response) {
-                    tempthis.getDataFromApi();
-                });
+            window.print();
+
+            document.body.innerHTML = originalContents;
         },
-        changeInAayojana(){
+        changeInAayojana() {
             this.filterData.mahina = 0;
         },
         changeInArthikBarsa() {
             this.filterData.aayojana = 0;
             this.filterData.mahina = 0
         },
-        changeInMahina(){
+        changeInMahina() {
             this.getDataFromApi();
         },
         getDataFromApi() {
             const tempthis = this;
-            this.loading = true;
-            const {page, itemsPerPage} = tempthis.options;
-            let pageNumber = page - 1;
             this.$store
-                .dispatch("getMaasikPragatiTaalika", {
+                .dispatch("getMaasikPragatiTaalikaReport", {
                     filterData: this.filterData,
                 })
                 .then(function (response) {
-                    tempthis.headers = response.headers;
-                    tempthis.submitted = response.submitted;
-                    tempthis.requested = response.requested;
-                    tempthis.editable = response.editable;
-                    let tempMaasikPragatiTaalika = [];
-                    response.maasikPragatiTaalika.forEach(function (item){
-                        if(item.maasik_pragati==null){
-                            item.maasik_pragati={
-                                mahina_id:tempthis.filterData.mahina,
-                                user_id: tempthis.filterData.user,
-                                kaaryalaya_id: tempthis.filterData.kaaryalaya,
-                                kriyakalap_lakshya_id:item.id,
-                                pariman:null,
-                                kharcha:null
-                            }
-                        }
-                        tempMaasikPragatiTaalika.push(item);
-                    })
-                    tempthis.maasikPragatiTaalika = tempMaasikPragatiTaalika;
-                    tempthis.loading = false;
+
                 });
         },
 
-        editData(item) {
-            this.$store.dispatch("setAayojanaEditData", item);
-        },
     },
 };
 </script>
 <style scoped>
+
 .my-text-field {
     width: 150px;
 }
@@ -248,7 +213,24 @@ v-select {
 abbr {
     text-decoration: none;
 }
-v-tab-items{
+
+v-tab-items {
     min-width: 400px;
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    #printable, #printable * {
+        visibility: visible;
+    }
+
+    #printable {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
 }
 </style>

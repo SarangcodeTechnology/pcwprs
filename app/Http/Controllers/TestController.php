@@ -2,51 +2,101 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\CollectionHelper;
 use App\Models\Aayojana;
 use App\Models\CfData;
+use App\Models\District;
 use App\Models\KriyakalapLakshya;
 use App\Models\KriyakalapMaasikPragati;
-use App\Models\Mahina;
-use App\Models\Province;
 use App\Models\LocalLevel;
-use App\Models\District;
+use App\Models\Mahina;
 use App\Models\Permission;
+use App\Models\Province;
 use App\Models\Role;
-use App\Models\Submission;
 use App\Models\Traimaasik;
 use App\Models\User;
-use App\Module\Permission as ModulePermission;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use PDF;
 
 
 class TestController extends Controller
 {
+    private function calculateVaar($budget,$totalSum){
+        return ($budget/$totalSum)*100;
+    }
+
+
+    private function getSpecificData($traimaasikPragati, $totalBaarsikLakshyaBudget)
+    {
+        foreach ($traimaasikPragati as $item) {
+            $item['total_till_now']['pariman'] = 0;
+            $item['total_till_now']['kharcha'] = 0;
+            $item['baarsik_lakshya_vaar'] = round($this->calculateVaar($item['baarsik_lakshya_budget'] ,$totalBaarsikLakshyaBudget),3);
+
+            // if maasik_pragati is not null then calculate vaar else set all to 0
+            if ($item['traimaasik_pragati']) {
+                $item['traimaasik_pragati']['vaarit'] = round(($item['baarsik_lakshya_vaar']/$item['baarsik_lakshya_pariman'])*$item['traimaasik_pragati']['pariman'],3);
+            } else {
+                $item['traimaasik_pragati']['pariman'] = 0;
+                $item['traimaasik_pragati']['kharcha'] = 0;
+                $item['traimaasik_pragati']['vaarit'] = 0;
+            }
+            foreach ($item['traimaasik_pragatis'] as $subitem) {
+                $item['total_till_now']['pariman'] += $subitem['pariman'];
+                $item['total_till_now']['kharcha'] += $subitem['kharcha'];
+
+                //$item['vautik_pragati']['this_month'] =
+                // unset($item['maasik_pragatis']);
+            }
+            $item['total_till_now']['vaarit'] = round(($item['baarsik_lakshya_vaar']/$item['baarsik_lakshya_pariman'])*$item['total_till_now']['pariman'],3);
+            $item['vautik_pragati'] = round(($item['total_till_now']['pariman'] / $item['baarsik_lakshya_pariman'])*100,2);
+
+            $myData[] = $item;
+        }
+        return $myData;
+    }
+
+
     public function trial()
     {
-        return view('test');
-        return Submission::where('requested',1)->with(['aarthikBarsa','kaaryalaya','aayojana','requestedBy','mahina'])->first();
-        $data = Traimaasik::all();
+//        return view('test');
+
+        $aayojanaID= 1;
+        $traimaasikID = 1;
+        $karyalayaID = 1;
+
+        $traimaasikPragati= KriyakalapLakshya::where('aayojana_id', $aayojanaID)
+            ->where('kaaryalaya_id',$karyalayaID)
+//                ->select('id', 'name', 'kriyakalap_code')
+            ->with(['traimaasikPragati'=>function($query) use ($traimaasikID){
+                return $query->where('traimaasik_id',$traimaasikID);
+            }])
+            ->with(['traimaasikPragatis'=>function($query) use ($traimaasikID){
+
+                return $query->where('traimaasik_id','<=',$traimaasikID);
+            }])
+            ->get();
+         $totalBaarsikLakshyaBudget = $traimaasikPragati->sum('baarsik_lakshya_budget');
+
+        $traimaasikPragati = json_decode(json_encode($traimaasikPragati),true);
+        return $this->getSpecificData($traimaasikPragati,$totalBaarsikLakshyaBudget);
 
         // share data to view
-        $path = public_path().'/pdf';
-        view()->share('data',$data);
+        $path = public_path() . '/pdf';
+        view()->share('data', $data);
         $pdf = PDF::loadView('pdf_view', $data);
-        $pdf->save($path.'/my_pdf_name.pdf', 'utf8mb4_unicode_ci');
-        return response()->download($path.'/my_pdf_name.pdf');
+        $pdf->save($path . '/my_pdf_name.pdf', 'utf8mb4_unicode_ci');
+        return response()->download($path . '/my_pdf_name.pdf');
 
 
         $traimaasik = Traimaasik::find(1);
-        $mahina =  $traimaasik->mahina->pluck('id');
+        $mahina = $traimaasik->mahina->pluck('id');
         $kaaryalaya_id = 1;
-        $items = KriyakalapMaasikPragati::whereIn('mahina_id',$mahina)->where('kaaryalaya_id',$kaaryalaya_id)->orderBy('kriyakalap_lakshya_id')->get();
+        $items = KriyakalapMaasikPragati::whereIn('mahina_id', $mahina)->where('kaaryalaya_id', $kaaryalaya_id)->orderBy('kriyakalap_lakshya_id')->get();
         $data = [];
         $kriyakalap_lakshya_id = 0;
         $nextCount = -1;
-        foreach($items as $item){
-            if($item->kriyakalap_lakshya_id != $kriyakalap_lakshya_id){
+        foreach ($items as $item) {
+            if ($item->kriyakalap_lakshya_id != $kriyakalap_lakshya_id) {
                 $kriyakalap_lakshya_id = $item->kriyakalap_lakshya_id;
                 $nextCount++;
                 $data[$nextCount]['id'] = $kriyakalap_lakshya_id;
@@ -56,15 +106,15 @@ class TestController extends Controller
                 $data[$nextCount]['traimaasik_pragati']['kriyakalap_lakshya_id'] = $kriyakalap_lakshya_id;
 
             }
-            $data[$nextCount]['traimaasik_pragati']['pariman']+=$item->pariman;
-            $data[$nextCount]['traimaasik_pragati']['kharcha']+=$item->kharcha;
+            $data[$nextCount]['traimaasik_pragati']['pariman'] += $item->pariman;
+            $data[$nextCount]['traimaasik_pragati']['kharcha'] += $item->kharcha;
         }
         return $data;
         return User::first()->kriyakalapMaasikPragati;
         $inital = "pahilo";
         $mahina = 1;
         $mahinaModel = Mahina::find($mahina);
-       return $data = KriyakalapLakshya::where('aayojana_id', 4)
+        return $data = KriyakalapLakshya::where('aayojana_id', 4)
             ->where(function ($query) use ($inital) {
                 return $query->where($inital . '_traimasik_lakshya_pariman', '>', 0)->orWhere($inital . '_traimasik_lakshya_budget', '>', 0);
             })
@@ -194,16 +244,16 @@ class TestController extends Controller
             "kaifiyat"
         ];
         $csv = file_get_contents($request->myfile);
-          $array = array_map("str_getcsv", explode("\n", $csv));
+        $array = array_map("str_getcsv", explode("\n", $csv));
         $key = $array[0];
         $arrayCount = -1;
         $val = '';
         foreach ($array as $item) {
-                $arrayCount++;
-                if(count($item)==1) continue;
-                if($arrayCount==0) continue;
-                $combinedArray = array_combine($key, $item);
-                $data[] = $combinedArray;
+            $arrayCount++;
+            if (count($item) == 1) continue;
+            if ($arrayCount == 0) continue;
+            $combinedArray = array_combine($key, $item);
+            $data[] = $combinedArray;
         }
         return $data;
     }

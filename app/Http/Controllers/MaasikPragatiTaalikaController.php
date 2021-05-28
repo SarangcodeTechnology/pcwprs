@@ -78,11 +78,100 @@ class MaasikPragatiTaalikaController extends Controller
         }
     }
 
+
+    private function calculateVaar($budget,$totalSum){
+        return ($budget/$totalSum)*100;
+    }
+
+
+    private function getSpecificData($maasikPragati, $mahina, $totalBaarsikLakshyaBudget)
+    {
+        foreach ($maasikPragati as $item) {
+            $item['total_till_now']['pariman'] = 0;
+            $item['total_till_now']['kharcha'] = 0;
+            $item['baarsik_lakshya_vaar'] = round($this->calculateVaar($item['baarsik_lakshya_budget'] ,$totalBaarsikLakshyaBudget),3);
+
+            // if maasik_pragati is not null then calculate vaar else set all to 0
+            if ($item['maasik_pragati']) {
+                $item['maasik_pragati']['vaarit'] = round(($item['baarsik_lakshya_vaar']/$item['baarsik_lakshya_pariman'])*$item['maasik_pragati']['pariman'],3);
+            } else {
+                $item['maasik_pragati']['pariman'] = 0;
+                $item['maasik_pragati']['kharcha'] = 0;
+                $item['maasik_pragati']['vaarit'] = 0;
+            }
+            foreach ($item['maasik_pragatis'] as $subitem) {
+                $item['total_till_now']['pariman'] += $subitem['pariman'];
+                $item['total_till_now']['kharcha'] += $subitem['kharcha'];
+
+                //$item['vautik_pragati']['this_month'] =
+                // unset($item['maasik_pragatis']);
+            }
+            $item['total_till_now']['vaarit'] = round(($item['baarsik_lakshya_vaar']/$item['baarsik_lakshya_pariman'])*$item['total_till_now']['pariman'],3);
+            $item['vautik_pragati'] = round(($item['total_till_now']['pariman'] / $item['baarsik_lakshya_pariman'])*100,2);
+
+            $myData[] = $item;
+        }
+        return $myData;
+    }
+
+    public function report(Request $request){
+        try {
+            $filterData = json_decode($request->filterData);
+            $aayojanaID= $filterData->aayojana;
+            $mahinaID = $filterData->mahina;
+            $mahina = Mahina::find($mahinaID);
+            $initial = $mahina->traimaasik->initial;
+            $traimaasik = $mahina->traimaasik->name;
+            $karyalayaID = $filterData->kaaryalaya;
+
+            $maasikPragati= KriyakalapLakshya::where('aayojana_id', $aayojanaID)
+                ->where('kaaryalaya_id',$karyalayaID)
+                ->where(function ($query) use ($initial) {
+                    return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->orWhere($initial . '_traimasik_lakshya_budget', '>', 0);
+                })
+                ->with(['maasikPragati'=>function($query) use ($mahinaID){
+                    return $query->where('mahina_id',$mahinaID);
+                }])
+                ->with(['maasikPragatis'=>function($query) use ($mahinaID){
+
+                    return $query->where('mahina_id','<=',$mahinaID);
+                }])
+                ->get();
+
+            //for total baarsiklakshya budget we shouldn't filter
+            $maasikPragatiUnfiltered= KriyakalapLakshya::where('aayojana_id', $aayojanaID)
+                ->where('kaaryalaya_id',$karyalayaID)
+                ->get();
+            $totalBaarsikLakshyaBudget = $maasikPragatiUnfiltered->sum('baarsik_lakshya_budget');
+
+            $maasikPragati = json_decode(json_encode($maasikPragati),true);
+            $maasikPragatiReport =
+            [
+                'month' => Mahina::find($mahinaID)->name,
+                'items' => $this->getSpecificData($maasikPragati,$mahinaID,$totalBaarsikLakshyaBudget)];
+            return response(
+                [
+                    'status' => 200,
+                    'type' => 'success',
+                    'message' => 'Aayojana loaded successfully',
+                    'data' => compact('maasikPragatiReport')
+                ]
+            );
+        } catch (Exception $e) {
+            return response([
+                'status' => $e->getCode(),
+                'type' => 'error',
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
     public function saveMaasikPragatiTaalika(Request $request){
         try {
             foreach ($request->items as $item) {
                 $maasikPragati = $item['maasik_pragati'];
                 if (isset($maasikPragati['id'])) {
+                    unset($maasikPragati['mahina']);
                     KriyakalapMaasikPragati::find($maasikPragati['id'])->update($maasikPragati);
                 } else {
                     KriyakalapMaasikPragati::create($maasikPragati);

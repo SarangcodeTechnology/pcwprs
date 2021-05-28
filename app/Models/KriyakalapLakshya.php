@@ -21,11 +21,19 @@ class KriyakalapLakshya extends Model
     }
 
     public function maasikPragati(){
-        return $this->hasOne(KriyakalapMaasikPragati::class,'kriyakalap_lakshya_id');
+        return $this->hasOne(KriyakalapMaasikPragati::class,'kriyakalap_lakshya_id')->with('mahina');
+    }
+
+    public function maasikPragatis(){
+        return $this->hasMany(KriyakalapMaasikPragati::class,'kriyakalap_lakshya_id');
     }
 
     public function traimaasikPragati(){
         return $this->hasOne(KriyakalapTraimaasikPragati::class,'kriyakalap_lakshya_id');
+    }
+
+    public function traimaasikPragatis(){
+        return $this->hasMany(KriyakalapTraimaasikPragati::class,'kriyakalap_lakshya_id');
     }
 
     protected $appends = ['name_with_kriyakalap_code'];
