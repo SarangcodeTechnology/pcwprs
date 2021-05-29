@@ -95,7 +95,7 @@
                         <td>{{item.total_till_now.pariman ? item.total_till_now.pariman : ''}}</td>
                         <td>{{item.total_till_now.vaarit ? item.total_till_now.vaarit : ''}}</td>
                         <td>{{item.total_till_now.kharcha ? item.total_till_now.kharcha : ''}}</td>
-                        <td>{{item.vautik_pragati ? item.vautik_pragati : ''}}</td>
+                        <td>{{item.vautik_pragati < 100 ? (item.vautik_pragati ? item.vautik_pragati : '') : 100}}</td>
                     </tr>
                       <!-- punjigat total -->
                     <tr>
@@ -131,7 +131,7 @@
                         <td>{{item.total_till_now.pariman ? item.total_till_now.pariman : ''}}</td>
                         <td>{{item.total_till_now.vaarit ? item.total_till_now.vaarit : ''}}</td>
                         <td>{{item.total_till_now.kharcha ? item.total_till_now.kharcha : ''}}</td>
-                        <td>{{item.vautik_pragati ? item.vautik_pragati : ''}}</td>
+                        <td>{{item.vautik_pragati < 100 ? (item.vautik_pragati ? item.vautik_pragati : '') : 100}}</td>
                     </tr>
                     <tr>
                         <td></td>
