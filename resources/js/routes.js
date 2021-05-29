@@ -39,8 +39,8 @@ const KriyakalapTraimaasikPragati = () => import("./components/pages/kriyakalap-
 const KriyakalapMaasikPragatiReport = () => import("./components/pages/kriyakalap-maasik-pragati-report/browse");
 const KriyakalapTraimaasikPragatiReport = () => import("./components/pages/kriyakalap-traimaasik-pragati-report/browse");
 
-const MaasikPrint = () => import("./components/pages/print/maasik-print");
-const TraimaasikPrint = () => import("./components/pages/print/traimaasik-print");
+const MaasikPrint = () => import("./components/pages/print/MaasikPrint");
+const TraimaasikPrint = () => import("./components/pages/print/TraimaasikPrint");
 
 const NotAuthenticated = () => import("./components/pages/NotAuthenticated");
 const EditRequests = () => import("./components/pages/requests/browse");
@@ -373,7 +373,7 @@ const opts = {
                     name: 'kriyakalap-maasik-pragati',
                     meta: {
                         breadcrumb: {
-                            text: "कृयाकलाप मासिक प्रगती",
+                            text: "मासिक प्रगती",
                             link: "/kriyakalap-maasik-pragati"
                         }
                     },
@@ -391,7 +391,7 @@ const opts = {
                     name: 'kriyakalap-maasik-pragati-report',
                     meta: {
                         breadcrumb: {
-                            text: "कृयाकलाप मासिक प्रगती प्रतिवेदन",
+                            text: "मासिक प्रगती प्रतिवेदन",
                             link: "/kriyakalap-maasik-pragati-report"
                         }
                     },
@@ -410,7 +410,7 @@ const opts = {
                     name: 'kriyakalap-traimaasik-pragati-report',
                     meta: {
                         breadcrumb: {
-                            text: "कृयाकलाप त्रैमासिक प्रगती प्रतिवेदन",
+                            text: "त्रैमासिक प्रगती प्रतिवेदन",
                             link: "/kriyakalap-traimaasik-pragati-report"
                         }
                     },
@@ -429,7 +429,7 @@ const opts = {
                     name: 'kriyakalap-traimaasik-pragati',
                     meta: {
                         breadcrumb: {
-                            text: "कृयाकलाप त्रैमासिक प्रगती",
+                            text: "त्रैमासिक प्रगती",
                             link: "/kriyakalap-traimaasik-pragati"
                         }
                     },

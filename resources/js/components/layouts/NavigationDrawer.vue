@@ -21,7 +21,7 @@
                     </v-list-item-content>
                 </v-list-item>
                 <v-list-group v-if="item.subItems && checkPermissionForSubItems(item.subItems)" :prepend-icon="item.icon"
-                              color="grey darken-4">
+                              color="grey lighten-3" >
                     <template v-slot:activator>
                         <v-list-item-content>
                             <v-list-item-title class="pt-1"
@@ -62,8 +62,9 @@ export default {
             items: [
                 {title: 'ड्यासबोर्ड', icon: 'mdi-view-dashboard', route: '/dashboard',can: "browse_dashboard"},
                 {title: 'गृहपृष्ठ', icon: 'mdi-home', route: '/home',can:"browse_home"},
+                {title: 'सम्पादन अनुरोधहरु', icon: 'mdi-account-edit', route: '/edit-requests', can: "browse_kaaryalaya"},
                 {
-                    title: "खाताहरु", icon: "mdi-account-circle", route: "/users", subItems: [
+                    title: "खाताहरु", icon: "mdi-account-box-multiple", route: "/users", subItems: [
                         {title: 'प्रयोगकर्ताहरू', icon: 'mdi-account-circle', route: '/users',can:"browse_users"},
                         {
                             title: 'भूमिकाहरू',
@@ -75,18 +76,27 @@ export default {
                     ]
                 },
                 {
-                    title: "प्रतिवेदन", icon: "mdi-folder", subItems: [
-                        {title: 'मासिक प्रगती प्रतिवेदन', icon: 'mdi-folder', route: '/kriyakalap-maasik-pragati-report',can:"browse_kriyakalap_maasik_pragati"},
-                        {title: 'त्रैमासिक प्रगती प्रतिवेदन', icon: 'mdi-folder', route: '/kriyakalap-traimaasik-pragati-report', can: "browse_kriyakalap_traimaasik_pragati"},
+                    title: "प्रतिवेदन", icon: "mdi-file-document", subItems: [
+                        {title: 'मासिक प्रगती प्रतिवेदन', icon: 'mdi-calendar-month-outline', route: '/kriyakalap-maasik-pragati-report',can:"browse_kriyakalap_maasik_pragati"},
+                        {title: 'त्रैमासिक प्रगती प्रतिवेदन', icon: 'mdi-file-chart', route: '/kriyakalap-traimaasik-pragati-report', can: "browse_kriyakalap_traimaasik_pragati"},
                     ]
                 },
-                {title: 'कार्यलय', icon: 'mdi-folder', route: '/kaaryalaya', can: "browse_kaaryalaya"},
-                {title: 'सम्पादन अनुरोधहरु', icon: 'mdi-folder', route: '/edit-requests', can: "browse_kaaryalaya"},
-                {title: 'आर्थिक वर्ष', icon: 'mdi-calendar', route: '/aarthik-barsa',can:"browse_aarthik_barsa"},
-                {title: 'आयोजना', icon: 'mdi-folder', route: '/aayojana',can:"browse_aayojana"},
-                {title: 'कृयाकलाप लक्ष', icon: 'mdi-folder', route: '/kriyakalap-lakshya',can:"browse_kriyakalap_lakshya"},
-                {title: 'कृयाकलाप मासिक प्रगती', icon: 'mdi-folder', route: '/kriyakalap-maasik-pragati',can:"browse_kriyakalap_maasik_pragati"},
-                {title: 'कृयाकलाप त्रैमासिक प्रगती', icon: 'mdi-folder', route: '/kriyakalap-traimaasik-pragati',can:"browse_kriyakalap_traimaasik_pragati"},
+                {
+                    title: "फारम", icon: "mdi-note", subItems: [
+                        {title: 'कृयाकलाप लक्ष', icon: 'mdi-folder', route: '/kriyakalap-lakshya',can:"browse_kriyakalap_lakshya"},
+                        {title: 'मासिक प्रगती', icon: 'mdi-folder', route: '/kriyakalap-maasik-pragati',can:"browse_kriyakalap_maasik_pragati"},
+                        {title: 'त्रैमासिक प्रगती', icon: 'mdi-folder', route: '/kriyakalap-traimaasik-pragati',can:"browse_kriyakalap_traimaasik_pragati"},
+                    ]
+                },
+                {
+                    title: "संसाधनहरु", icon: "mdi-folder", subItems: [
+                        {title: 'आर्थिक वर्ष', icon: 'mdi-calendar', route: '/aarthik-barsa',can:"browse_aarthik_barsa"},
+                        {title: 'आयोजना', icon: 'mdi-folder', route: '/aayojana',can:"browse_aayojana"},
+                        {title: 'कार्यलय', icon: 'mdi-folder', route: '/kaaryalaya', can: "browse_kaaryalaya"},
+                    ]
+                },
+
+
             ],
         }
     },
@@ -121,8 +131,17 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .v-list-item {
     text-decoration: none;
 }
+
+.v-list-group {
+    &--active{
+        background: #0e360c;
+        border-radius: 5px;
+    }
+
+}
+
 </style>

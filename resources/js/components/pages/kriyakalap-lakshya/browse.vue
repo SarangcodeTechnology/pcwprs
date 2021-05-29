@@ -16,7 +16,6 @@
                     loading-text="Loading Data... Please wait"
                 >
                     <template v-slot:top="{ pagination, options, updateOptions }">
-                        <v-container fluid>
                             <v-row class="d-flex justify-content-between">
 
                                 <v-col cols="2" class="d-flex align-items-center">
@@ -149,7 +148,6 @@
                                 </v-col>
 
                             </v-row>
-                        </v-container>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.actions="{ item }">
                         <div class="d-flex justify-content-center align-items-center">
