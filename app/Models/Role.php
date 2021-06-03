@@ -11,7 +11,7 @@ class Role extends Model
     protected $hidden = ['pivot'];
 
     public function permissions(){
-        return $this->belongsToMany(Permission::class);
+        return $this->belongsToMany(Permission::class)->orderBy('name');
     }
 
     public function users(){

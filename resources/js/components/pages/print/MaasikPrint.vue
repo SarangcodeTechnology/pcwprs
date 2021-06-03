@@ -164,6 +164,21 @@
                     </tbody>
                 </table>
             </div>
+            <div style="display:flex; justify-content: space-between; margin-top: 15px">
+                <div>
+                    <p><strong>तयार गर्ने</strong></p>
+                    <p>स.व.अ.</p>
+                </div>
+                <div>
+                    <p><strong>आ.प्र.शाखा</strong></p>
+                    <p>ले.अ.</p>
+                </div>
+                <div>
+                    <p><strong>प्रमाणित गर्ने</strong></p>
+                    <p>सदस्य-सचिव</p>
+                </div>
+            </div>
+
         </div>
 
 
@@ -195,20 +210,20 @@ export default {
 
 <style scoped>
 h5{
-    font-size: 12px;
+    font-size: 15px;
 }
 h4{
-    font-size: 14px;
+    font-size: 19px;
 }
 table td{
     padding: 0px 3px 0px 3px;
 }
 
 p{
-    font-size: 10px;
+    font-size: 13px;
     margin: 0;
 }
 table {
-    font-size: 10px;
+    font-size: 13px;
 }
 </style>

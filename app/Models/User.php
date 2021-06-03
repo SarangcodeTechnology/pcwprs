@@ -43,7 +43,7 @@ class User extends Authenticatable
     ];
 
     public function roles(){
-        return $this->belongsToMany(Role::class)->with('permissions');
+        return $this->belongsToMany(Role::class)->with('permissions')->orderBy('name');
     }
 
     public function rolesWithOutPermissions(){
@@ -51,7 +51,7 @@ class User extends Authenticatable
     }
 
     public function permissions(){
-        return $this->belongsToMany(Permission::class);
+        return $this->belongsToMany(Permission::class)->orderBy('name');
     }
 
     public function kriyakalapMaasikPragati(){

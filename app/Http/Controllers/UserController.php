@@ -110,11 +110,25 @@ class UserController extends Controller
                 // getting unique permissions
                 $selectedRolePermissionsIDs = array_unique($selectedRolePermissionsIDs);
                 $selectedRolePermissions = Permission::whereIn('id',$selectedRolePermissionsIDs)->get();
+                $formattedSelectedRolePermissions = [];
+                foreach ($selectedRolePermissions as $item){
+                    $key = explode('-',$item->name)[0];
+                    $formattedSelectedRolePermissions[$key][] = $item;
+                }
+
+
 
 
                 // getting additional permissions using whereNotIn
                 $additionalPermissions = Permission::whereNotIn('id',$selectedRolePermissionsIDs)->get();
+                $formattedPermissions = [];
+                foreach ($additionalPermissions as $item){
+                    $key = explode('-',$item->name)[0];
+                    $formattedPermissions[$key][] = $item;
+                }
 
+                // assigning additionalPermissions as formatted Permissions as it is already passed to front end
+                $additionalPermissions = $formattedPermissions;
                 // selected additional permissions from frontend
                 $selectedPermissions = $request->permissions ?? [];
                 $selectedPermissionsIDs = array_column($selectedPermissions, 'id');
@@ -130,12 +144,20 @@ class UserController extends Controller
                         'status' => 200,
                         'type' => 'success',
                         'message' => 'Users loaded successfully',
-                        'data' => compact('selectedRolePermissions','additionalPermissions','finalSelectedPermissions')
+                        'data' => compact('formattedSelectedRolePermissions','selectedRolePermissions','additionalPermissions','finalSelectedPermissions')
                     ]
                 );
             }
             else{
                 $additionalPermissions = Permission::all();
+                $formattedPermissions = [];
+                foreach ($additionalPermissions as $item){
+                    $key = explode('-',$item->name)[0];
+                    $formattedPermissions[$key][] = $item;
+                }
+
+                // assigning additionalPermissions as formatted Permissions as it is already passed to front end
+                $additionalPermissions = $formattedPermissions;
                 $finalSelectedPermissions = $request->permissions;
                 return response(
 

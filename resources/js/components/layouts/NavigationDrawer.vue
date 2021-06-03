@@ -60,39 +60,39 @@ export default {
         return {
             miniVariant: false,
             items: [
-                {title: 'ड्यासबोर्ड', icon: 'mdi-view-dashboard', route: '/dashboard',can: "browse_dashboard"},
-                {title: 'गृहपृष्ठ', icon: 'mdi-home', route: '/home',can:"browse_home"},
-                {title: 'सम्पादन अनुरोधहरु', icon: 'mdi-account-edit', route: '/edit-requests', can: "browse_kaaryalaya"},
+                {title: 'ड्यासबोर्ड', icon: 'mdi-view-dashboard', route: '/dashboard',can: "dashboard-browse"},
+                {title: 'गृहपृष्ठ', icon: 'mdi-home', route: '/home',can:"home-browse"},
+                {title: 'सम्पादन अनुरोधहरु', icon: 'mdi-account-edit', route: '/edit-requests', can: "kaaryalaya-browse"},
                 {
                     title: "खाताहरु", icon: "mdi-account-box-multiple", route: "/users", subItems: [
-                        {title: 'प्रयोगकर्ताहरू', icon: 'mdi-account-circle', route: '/users',can:"browse_users"},
+                        {title: 'प्रयोगकर्ताहरू', icon: 'mdi-account-circle', route: '/users',can:"users-browse"},
                         {
                             title: 'भूमिकाहरू',
                             icon: 'mdi-account-settings-outline',
                             route: '/roles',
-                            can: "browse_roles"
+                            can: "roles-browse"
                         },
-                        {title: 'अनुमतिहरू', icon: 'mdi-key', route: '/permissions', can: "browse_permissions"},
+                        {title: 'अनुमतिहरू', icon: 'mdi-key', route: '/permissions', can: "permissions-browse"},
                     ]
                 },
                 {
                     title: "प्रतिवेदन", icon: "mdi-file-document", subItems: [
-                        {title: 'मासिक प्रगती प्रतिवेदन', icon: 'mdi-calendar-month-outline', route: '/kriyakalap-maasik-pragati-report',can:"browse_kriyakalap_maasik_pragati"},
-                        {title: 'त्रैमासिक प्रगती प्रतिवेदन', icon: 'mdi-file-chart', route: '/kriyakalap-traimaasik-pragati-report', can: "browse_kriyakalap_traimaasik_pragati"},
+                        {title: 'मासिक प्रगती प्रतिवेदन', icon: 'mdi-calendar-month-outline', route: '/kriyakalap-maasik-pragati-report',can:"maasik_pragati_report-browse"},
+                        {title: 'त्रैमासिक प्रगती प्रतिवेदन', icon: 'mdi-file-chart', route: '/kriyakalap-traimaasik-pragati-report', can: "traimaasik_pragati_report-browse"},
                     ]
                 },
                 {
                     title: "फारम", icon: "mdi-note", subItems: [
-                        {title: 'कृयाकलाप लक्ष', icon: 'mdi-folder', route: '/kriyakalap-lakshya',can:"browse_kriyakalap_lakshya"},
-                        {title: 'मासिक प्रगती', icon: 'mdi-folder', route: '/kriyakalap-maasik-pragati',can:"browse_kriyakalap_maasik_pragati"},
-                        {title: 'त्रैमासिक प्रगती', icon: 'mdi-folder', route: '/kriyakalap-traimaasik-pragati',can:"browse_kriyakalap_traimaasik_pragati"},
+                        {title: 'कृयाकलाप लक्ष', icon: 'mdi-folder', route: '/kriyakalap-lakshya',can:"kriyakalap_lakshya-browse"},
+                        {title: 'मासिक प्रगती', icon: 'mdi-folder', route: '/kriyakalap-maasik-pragati',can:"maasik_pragati_form-browse"},
+                        {title: 'त्रैमासिक प्रगती', icon: 'mdi-folder', route: '/kriyakalap-traimaasik-pragati',can:"traimaasik_pragati_form-browse"},
                     ]
                 },
                 {
                     title: "संसाधनहरु", icon: "mdi-folder", subItems: [
-                        {title: 'आर्थिक वर्ष', icon: 'mdi-calendar', route: '/aarthik-barsa',can:"browse_aarthik_barsa"},
-                        {title: 'आयोजना', icon: 'mdi-folder', route: '/aayojana',can:"browse_aayojana"},
-                        {title: 'कार्यलय', icon: 'mdi-folder', route: '/kaaryalaya', can: "browse_kaaryalaya"},
+                        {title: 'आर्थिक वर्ष', icon: 'mdi-calendar', route: '/aarthik-barsa',can:"aarthik_barsa-browse"},
+                        {title: 'आयोजना', icon: 'mdi-folder', route: '/aayojana',can:"aayojana-browse"},
+                        {title: 'कार्यलय', icon: 'mdi-folder', route: '/kaaryalaya', can: "kaaryalaya-browse"},
                     ]
                 },
 

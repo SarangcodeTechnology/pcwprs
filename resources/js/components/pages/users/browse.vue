@@ -65,7 +65,7 @@
               :key="k"
               v-if="k == 0"
             >
-              {{ permission.name }}
+              {{ 'can '+ permission.name.split('-')[1].split('_').join(' ') + ' in ' + permission.name.split('-')[0].split('_').join(' ') }}
             </v-chip>
             <span v-if="item.permissions.length > 1" class="text-caption">
               <v-tooltip bottom>
@@ -79,7 +79,7 @@
                     v-for="(tooltipPermission, k) in item.permissions"
                     :key="k"
                     v-if="k != 0"
-                    >{{ tooltipPermission.name }}</span
+                    >{{ 'can '+ tooltipPermission.name.split('-')[1].split('_').join(' ') + ' in ' + tooltipPermission.name.split('-')[0].split('_').join(' ') }}</span
                   >
                 </div>
               </v-tooltip>
@@ -129,13 +129,7 @@ export default {
     return {
       deleteItem: "",
       deleteDialog: false,
-      search: "",
-      page: 1,
-      totalCfData: 0,
-      numberOfPages: 0,
       loading: true,
-      options: {},
-      totalItems: 20,
       headers: [
         { text: "कार्यहरु", value: "actions" },
         { text: "नाम", value: "name" },
