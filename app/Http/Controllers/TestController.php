@@ -56,8 +56,10 @@ class TestController extends Controller
     }
 
 
-    public function trial()
+    public function trial(Request $request)
     {
+        return $request->user();
+        return Auth::user();
 //        return view('test');
 
         $aayojanaID= 1;

@@ -39,8 +39,8 @@ const KriyakalapTraimaasikPragati = () => import("./components/pages/kriyakalap-
 const KriyakalapMaasikPragatiReport = () => import("./components/pages/kriyakalap-maasik-pragati-report/browse");
 const KriyakalapTraimaasikPragatiReport = () => import("./components/pages/kriyakalap-traimaasik-pragati-report/browse");
 
-const MaasikPrint = () => import("./components/pages/print/maasik-print");
-const TraimaasikPrint = () => import("./components/pages/print/traimaasik-print");
+const MaasikPrint = () => import("./components/pages/print/MaasikPrint");
+const TraimaasikPrint = () => import("./components/pages/print/TraimaasikPrint");
 
 const NotAuthenticated = () => import("./components/pages/NotAuthenticated");
 const EditRequests = () => import("./components/pages/requests/browse");
@@ -97,7 +97,7 @@ const opts = {
                     path: "/dashboard",
                     component: Dashboard,
                     beforeEnter(to, from, next) {
-                        if (store.getters.CHECK_PERMISSION('browse_dashboard')){
+                        if (store.getters.CHECK_PERMISSION('dashboard-browse')){
                             next();
                         } else  {
                             next({name:"not-authenticated"});
@@ -115,7 +115,7 @@ const opts = {
                     path: "/home",
                     component: Home,
                     beforeEnter(to, from, next) {
-                        if (store.getters.CHECK_PERMISSION('browse_home')){
+                        if (store.getters.CHECK_PERMISSION('home-browse')){
                             next();
                         } else  {
                             next({name:"not-authenticated"});
@@ -145,7 +145,7 @@ const opts = {
                     path: "/edit-requests",
                     component: EditRequests,
                     beforeEnter(to, from, next) {
-                        if (store.getters.CHECK_PERMISSION('browse_kaaryalaya')){
+                        if (store.getters.CHECK_PERMISSION('kaaryalaya-browse')){
                             next();
                         } else  {
                             next({name:"not-authenticated"});
@@ -164,7 +164,7 @@ const opts = {
                     path: "/users",
                     component: User,
                     beforeEnter(to, from, next) {
-                        if (store.getters.CHECK_PERMISSION('browse_users')){
+                        if (store.getters.CHECK_PERMISSION('users-browse')){
                             next();
                         } else  {
                             next({name:"not-authenticated"});
@@ -195,7 +195,7 @@ const opts = {
                     component: Role,
                     name: 'roles',
                     beforeEnter(to, from, next) {
-                        if (store.getters.CHECK_PERMISSION('browse_roles')){
+                        if (store.getters.CHECK_PERMISSION('roles-browse')){
                             next();
                         } else  {
                             next({name:"not-authenticated"});
@@ -224,7 +224,7 @@ const opts = {
                     path: "/permissions",
                     component: Permission,
                     beforeEnter(to, from, next) {
-                        if (store.getters.CHECK_PERMISSION('browse_permissions')){
+                        if (store.getters.CHECK_PERMISSION('permissions-browse')){
                             next();
                         } else  {
                             next({name:"not-authenticated"});
@@ -255,7 +255,7 @@ const opts = {
                     component: AarthikBarsa,
                     name: 'aarthik-barsa',
                     beforeEnter(to, from, next) {
-                        if (store.getters.CHECK_PERMISSION('browse_aarthik_barsa')){
+                        if (store.getters.CHECK_PERMISSION('aarthik_barsa-browse')){
                             next();
                         } else  {
                             next({name:"not-authenticated"});
@@ -284,7 +284,7 @@ const opts = {
                     path: "/aayojana",
                     component: Aayojana,
                     beforeEnter(to, from, next) {
-                        if (store.getters.CHECK_PERMISSION('browse_aayojana')){
+                        if (store.getters.CHECK_PERMISSION('aayojana-browse')){
                             next();
                         } else  {
                             next({name:"not-authenticated"});
@@ -315,7 +315,7 @@ const opts = {
                     path: "/kaaryalaya",
                     component: Kaaryalaya,
                     beforeEnter(to, from, next) {
-                        if (store.getters.CHECK_PERMISSION('browse_kaaryalaya')){
+                        if (store.getters.CHECK_PERMISSION('kaaryalaya-browse')){
                             next();
                         } else  {
                             next({name:"not-authenticated"});
@@ -345,7 +345,7 @@ const opts = {
                     path: "/kriyakalap-lakshya",
                     component: KriyakalapLakshya,
                     beforeEnter(to, from, next) {
-                        if (store.getters.CHECK_PERMISSION('browse_kriyakalap_lakshya')){
+                        if (store.getters.CHECK_PERMISSION('kriyakalap_lakshya-browse')){
                             next();
                         } else  {
                             next({name:"not-authenticated"});
@@ -364,7 +364,7 @@ const opts = {
                     path: "/kriyakalap-maasik-pragati",
                     component: KriyakalapMaasikPragati,
                     beforeEnter(to, from, next) {
-                        if (store.getters.CHECK_PERMISSION('browse_kriyakalap_maasik_pragati')){
+                        if (store.getters.CHECK_PERMISSION('maasik_pragati_form-browse')){
                             next();
                         } else  {
                             next({name:"not-authenticated"});
@@ -373,7 +373,7 @@ const opts = {
                     name: 'kriyakalap-maasik-pragati',
                     meta: {
                         breadcrumb: {
-                            text: "कृयाकलाप मासिक प्रगती",
+                            text: "मासिक प्रगती",
                             link: "/kriyakalap-maasik-pragati"
                         }
                     },
@@ -382,7 +382,7 @@ const opts = {
                     path: "/kriyakalap-maasik-pragati-report",
                     component: KriyakalapMaasikPragatiReport,
                     beforeEnter(to, from, next) {
-                        if (store.getters.CHECK_PERMISSION('browse_kriyakalap_maasik_pragati_report')){
+                        if (store.getters.CHECK_PERMISSION('maasik_pragati_report-browse')){
                             next();
                         } else  {
                             next({name:"not-authenticated"});
@@ -391,7 +391,7 @@ const opts = {
                     name: 'kriyakalap-maasik-pragati-report',
                     meta: {
                         breadcrumb: {
-                            text: "कृयाकलाप मासिक प्रगती प्रतिवेदन",
+                            text: "मासिक प्रगती प्रतिवेदन",
                             link: "/kriyakalap-maasik-pragati-report"
                         }
                     },
@@ -401,7 +401,7 @@ const opts = {
                     path: "/kriyakalap-traimaasik-pragati-report",
                     component: KriyakalapTraimaasikPragatiReport,
                     beforeEnter(to, from, next) {
-                        if (store.getters.CHECK_PERMISSION('browse_kriyakalap_maasik_pragati_report')){
+                        if (store.getters.CHECK_PERMISSION('traimaasik_pragati_report-browse')){
                             next();
                         } else  {
                             next({name:"not-authenticated"});
@@ -410,7 +410,7 @@ const opts = {
                     name: 'kriyakalap-traimaasik-pragati-report',
                     meta: {
                         breadcrumb: {
-                            text: "कृयाकलाप त्रैमासिक प्रगती प्रतिवेदन",
+                            text: "त्रैमासिक प्रगती प्रतिवेदन",
                             link: "/kriyakalap-traimaasik-pragati-report"
                         }
                     },
@@ -420,7 +420,7 @@ const opts = {
                     path: "/kriyakalap-traimaasik-pragati",
                     component: KriyakalapTraimaasikPragati,
                     beforeEnter(to, from, next) {
-                        if (store.getters.CHECK_PERMISSION('browse_kriyakalap_traimaasik_pragati')){
+                        if (store.getters.CHECK_PERMISSION('traimaasik_pragati_form-browse')){
                             next();
                         } else  {
                             next({name:"not-authenticated"});
@@ -429,7 +429,7 @@ const opts = {
                     name: 'kriyakalap-traimaasik-pragati',
                     meta: {
                         breadcrumb: {
-                            text: "कृयाकलाप त्रैमासिक प्रगती",
+                            text: "त्रैमासिक प्रगती",
                             link: "/kriyakalap-traimaasik-pragati"
                         }
                     },

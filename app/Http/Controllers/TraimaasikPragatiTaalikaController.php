@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aayojana;
 use App\Models\KriyakalapLakshya;
 use App\Models\KriyakalapMaasikPragati;
 use App\Models\KriyakalapTraimaasikPragati;
@@ -114,7 +115,36 @@ class TraimaasikPragatiTaalikaController extends Controller
 
             $myData[] = $item;
         }
-        return $myData;
+        // chalu data
+        $items['chalu']['data']= collect($myData)->where('kharcha_prakar','चालु');
+        $items['chalu']['totals']['baarsik_lakshya_vaar'] = round($items['chalu']['data']->sum('baarsik_lakshya_vaar'),3);
+        $items['chalu']['totals']['baarsik_lakshya_budget'] = round($items['chalu']['data']->sum('baarsik_lakshya_budget'),3);
+        $items['chalu']['totals'][$initial.'_traimasik_lakshya_vaar'] = round($items['chalu']['data']->sum($initial.'_traimasik_lakshya_vaar'),3);
+        $items['chalu']['totals'][$initial.'_traimasik_lakshya_budget'] = round($items['chalu']['data']->sum($initial.'_traimasik_lakshya_budget'),3);
+        $items['chalu']['totals'][$initial.'_traimasik_pragati_vaarit'] = round($items['chalu']['data']->sum('traimaasik_pragati.vaarit'),3);
+        $items['chalu']['totals'][$initial.'_traimasik_pragati_kharcha'] = round($items['chalu']['data']->sum('traimaasik_pragati.kharcha'),3);
+        $items['chalu']['totals']['total_till_now_vaarit'] = round($items['chalu']['data']->sum('total_till_now.vaarit'),3);
+        $items['chalu']['totals']['total_till_now_kharcha'] = round($items['chalu']['data']->sum('total_till_now.kharcha'),3);
+        // punjigat data
+        $items['punjigat']['data'] = collect($myData)->where('kharcha_prakar','पूँजीगत');
+        $items['punjigat']['totals']['baarsik_lakshya_vaar'] = round($items['punjigat']['data']->sum('baarsik_lakshya_vaar'),3);
+        $items['punjigat']['totals']['baarsik_lakshya_budget'] = round($items['punjigat']['data']->sum('baarsik_lakshya_budget'),3);
+        $items['punjigat']['totals'][$initial.'_traimasik_lakshya_vaar'] = round($items['punjigat']['data']->sum($initial.'_traimasik_lakshya_vaar'),3);
+        $items['punjigat']['totals'][$initial.'_traimasik_lakshya_budget'] = round($items['punjigat']['data']->sum($initial.'_traimasik_lakshya_budget'),3);
+        $items['punjigat']['totals'][$initial.'_traimasik_pragati_vaarit'] = round($items['punjigat']['data']->sum('traimaasik_pragati.vaarit'),3);
+        $items['punjigat']['totals'][$initial.'_traimasik_pragati_kharcha'] = round($items['punjigat']['data']->sum('traimaasik_pragati.kharcha'),3);
+        $items['punjigat']['totals']['total_till_now_vaarit'] = round($items['punjigat']['data']->sum('total_till_now.vaarit'),3);
+        $items['punjigat']['totals']['total_till_now_kharcha'] = round($items['punjigat']['data']->sum('total_till_now.kharcha'),3);
+
+        $items['totals']['baarsik_lakshya_vaar'] = round(collect($myData)->sum('baarsik_lakshya_vaar'),3);
+        $items['totals']['baarsik_lakshya_budget'] = round(collect($myData)->sum('baarsik_lakshya_budget'),3);
+        $items['totals'][$initial.'_traimasik_lakshya_vaar'] = round(collect($myData)->sum($initial.'_traimasik_lakshya_vaar'),3);
+        $items['totals'][$initial.'_traimasik_lakshya_budget'] = round(collect($myData)->sum($initial.'_traimasik_lakshya_budget'),3);
+        $items['totals'][$initial.'_traimasik_pragati_vaarit'] = round(collect($myData)->sum('traimaasik_pragati.vaarit'),3);
+        $items['totals'][$initial.'_traimasik_pragati_kharcha'] = round(collect($myData)->sum('traimaasik_pragati.kharcha'),3);
+        $items['totals']['total_till_now_vaarit'] = round(collect($myData)->sum('total_till_now.vaarit'),3);
+        $items['totals']['total_till_now_kharcha'] = round(collect($myData)->sum('total_till_now.kharcha'),3);
+        return $items;
     }
 
     public function report(Request $request){
@@ -148,6 +178,7 @@ class TraimaasikPragatiTaalikaController extends Controller
             $traimaasikPragati = json_decode(json_encode($traimaasikPragati),true);
             $traimaasikPragatiReport =
                 [
+                    'aayojana' => Aayojana::find($aayojanaID)->name,
                     'trimester' => Traimaasik::find($traimaasikID)->name,
                     'initial' => $initial,
                     'items' => $this->getSpecificData($traimaasikPragati,$totalBaarsikLakshyaBudget,$initial)];

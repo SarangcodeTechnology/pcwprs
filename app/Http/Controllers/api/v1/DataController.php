@@ -30,13 +30,14 @@ class DataController extends Controller
     {
         try {
             $roles = Role::with('permissions')->get();
-            $permissions = Permission::all();
+            $permissions = Permission::orderBy('name')->get();
             $aarthik_barsa = AarthikBarsa::orderBy('name')->with('aayojana')->get();
             $aayojana = Aayojana::orderBy('name')->get();
             $traimaasik = Traimaasik::all();
             $mahina = Mahina::orderBy('traimaasik_id')->get();
             $kaaryalaya = Kaaryalaya::all();
             $userPermissions = $this->permissions();
+            $formattedPermissions = $this->formattedPermissions();
             $dashboard_items = [
                 1 => [
                     'title' => 'प्रयोगकर्ताहरू',
@@ -73,7 +74,7 @@ class DataController extends Controller
                 'status' => 200,
                 'type' => 'success',
                 'message' => 'Resources loaded successfully',
-                'data' => compact('dashboard_items','userPermissions','kaaryalaya','roles','permissions','aarthik_barsa','aayojana','mahina','traimaasik')
+                'data' => compact('formattedPermissions','dashboard_items','userPermissions','kaaryalaya','roles','permissions','aarthik_barsa','aayojana','mahina','traimaasik')
             ]);
         } catch (Exception $e) {
             return response([
@@ -95,6 +96,15 @@ class DataController extends Controller
 
         // yesle array linxa ani string return garxa
         return implode($num);
+    }
+    private function formattedPermissions(){
+        $permissions = Permission::orderBy('name')->get();
+        $formattedPermissions = [];
+        foreach ($permissions as $item){
+            $key = explode('-',$item->name)[0];
+            $formattedPermissions[$key][] = $item;
+        }
+        return $formattedPermissions;
     }
     private function permissions(){
         $user = Auth::user();

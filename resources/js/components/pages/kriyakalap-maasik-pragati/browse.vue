@@ -3,7 +3,7 @@
         <v-row class="d-flex justify-content-between">
 
             <v-col cols="3" class="d-flex align-items-center">
-                <h5>कृयाकलाप मासिक प्रगती</h5>
+                <h5>मासिक प्रगती</h5>
                 <v-divider class="ml-5" inset vertical></v-divider>
             </v-col>
 
@@ -21,7 +21,7 @@
                     placeholder="कार्यलय"
                     @input="getDataFromApi"
                     class="mr-2"
-                    :disabled="true"
+                    :disabled="$store.getters.CHECK_PERMISSION('maasik_pragati_form-select_kaaryalaya')"
                 >
                 </v-select>
                 <v-select

@@ -3,7 +3,7 @@
         <v-row class="d-flex justify-content-between">
 
             <v-col cols="3" class="d-flex align-items-center">
-                <h5>कृयाकलाप त्रैमासिक प्रगती</h5>
+                <h5>त्रैमासिक प्रगती</h5>
                 <v-divider class="ml-5" inset vertical></v-divider>
             </v-col>
 
@@ -21,7 +21,7 @@
                     placeholder="कार्यलय"
                     @input="getDataFromApi"
                     class="mr-2"
-                    :disabled="1"
+                    :disabled="$store.getters.CHECK_PERMISSION('traimaasik_pragati_form-select_kaaryalaya')"
                 >
                 </v-select>
                 <v-select
@@ -62,7 +62,7 @@
         <v-row>
             <v-col v-if="filterData.traimaasik && editable">
                 <v-btn  color="primary" elevation="2" @click="saveTraimaasikPragatiTaalika(false)">Save</v-btn>
-                <v-btn color="primary" @click="saveTraimaasikPragatiTaalika(true)">Submit</v-btn>
+                <v-btn v-if="$store.getters.CHECK_PERMISSION('traimaasik_pragati_form-select_kaaryalaya')" color="primary" @click="saveTraimaasikPragatiTaalika(true)">Submit</v-btn>
                 <v-btn color="secondary"  elevation="2"  @click="importFromMaasikPragati">Import from maasik pragati</v-btn>
             </v-col>
             <v-col v-if="filterData.traimaasik && !requested && !editable">
