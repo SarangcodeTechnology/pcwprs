@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container class="login-page-bg" fill-height fluid>
+        <v-container class="background-primary-dark" fill-height fluid>
             <v-row justify="center">
                 <v-col cols="4">
                     <v-card class="pa-3" elevation="10">

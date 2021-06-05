@@ -10950,4 +10950,28 @@ a.text-dark:focus {
   height: 100%;
 }
 
+.background-primary-light {
+  background-color: #4CAF50;
+}
+
+.background-secondary-light {
+  background-color: #FF9800;
+}
+
+.background-accent-light {
+  background-color: #00C853;
+}
+
+.background-primary-dark {
+  background-color: #2E7D32;
+}
+
+.background-secondary-dark {
+  background-color: #EF6C00;
+}
+
+.background-accent-dark {
+  background-color: #00C853;
+}
+
 

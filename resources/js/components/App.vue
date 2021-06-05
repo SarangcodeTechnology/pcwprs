@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-navigation-drawer v-model="expandDrawer" :expand-on-hover="expandOnHover" :mini-variant="miniVariant"
-                             app color="rgb(0 77 24)" dark>
+                             app color="#2E7D32" dark>
             <v-list
                 dense
                 nav
