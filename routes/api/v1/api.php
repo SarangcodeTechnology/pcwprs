@@ -69,6 +69,7 @@ Route::middleware('auth:api')->get('traimaasik-pragati-taalika', [TraimaasikPrag
 Route::middleware('auth:api')->get('import-from-maasik-pragati', [TraimaasikPragatiTaalikaController::class,'importFromMaasikPragati']);
 Route::middleware('auth:api')->post('save-traimaasik-pragati-taalika',[TraimaasikPragatiTaalikaController::class,'saveTraimaasikPragatiTaalika']);
 Route::middleware('auth:api')->get('traimaasik-pragati-taalika-report', [TraimaasikPragatiTaalikaController::class,'report']);
+Route::middleware('auth:api')->get('traimaasik-pragati-report-filterable', [TraimaasikPragatiTaalikaController::class,'filterableReport']);
 
 //edit request
 Route::middleware('auth:api')->post('edit-request',[RequestController::class,'editRequest']);

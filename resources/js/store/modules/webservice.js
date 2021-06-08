@@ -933,6 +933,40 @@ const actions = {
             }
         )
     },
+    getTraimaasikPragatiReportFilterable(state,payload){
+        return new Promise((resolve, reject) => {
+            axios.get('/api/v1/traimaasik-pragati-report-filterable', {
+                    params: {
+                        filterData: payload.filterData
+                    },
+                    headers: {
+                        // Accept: "application/json",
+                        Authorization: "Bearer " + state.getters.GET_ACCESS_TOKEN
+                    }
+                }
+            ).then(
+                function (response) {
+                    if (response.data.status == 200) {
+                        // state.commit("SET_TRAIMAASIK_PRAGATI_REPORT", response.data.data.traimaasikPragatiReport);
+                        resolve(response.data.data);
+                    } else {
+                        state.dispatch("addNotification", {
+                            type: response.data.type,
+                            message: response.data.message
+                        })
+                    }
+                }
+            ).catch(
+                function (error) {
+                    state.dispatch("addNotification", {
+                        type: "error",
+                        message: error,
+                    });
+                    reject(error);
+                }
+            )
+        })
+    },
 
 
     //requests

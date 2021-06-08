@@ -189,6 +189,49 @@
                         <td></td>
                         <td></td>
                     </tr>
+
+                    <tr>
+                        <td></td>
+                        <td>प्रतिवेदन अवधिको प्रगति</td>
+                        <td></td>
+                        <td>भारित</td>
+                        <td>{{ traimaasikPragatiReport.items.prdatibedan_awadi_ko_pragati.vaarit }}</td>
+                        <td>प्रतिशत</td>
+                        <td>भौतिक</td>
+                        <td>{{ traimaasikPragatiReport.items.prdatibedan_awadi_ko_pragati.vautik }}</td>
+                        <td>प्रतिशत</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>प्रतिवेदन अवधिको खर्च</td>
+                        <td></td>
+                        <td>पुँजिगत रु.</td>
+                        <td>{{ traimaasikPragatiReport.items.pratibedan_awadi_ko_kharcha.punjigat }}</td>
+                        <td>चालु रू.</td>
+                        <td>{{ traimaasikPragatiReport.items.pratibedan_awadi_ko_kharcha.chalu }}</td>
+                        <td>जम्मा रू.</td>
+                        <td>{{ traimaasikPragatiReport.items.pratibedan_awadi_ko_kharcha.total }}</td>
+                        <td>प्रतिशत</td>
+                        <td>{{ traimaasikPragatiReport.items.pratibedan_awadi_ko_kharcha.total_percent }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
                     </tbody>
                 </table>
             </div>
