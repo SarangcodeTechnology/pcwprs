@@ -2296,81 +2296,89 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         title: 'ड्यासबोर्ड',
         icon: 'mdi-view-dashboard',
         route: '/dashboard',
-        can: "browse_dashboard"
+        can: "dashboard-browse"
       }, {
         title: 'गृहपृष्ठ',
         icon: 'mdi-home',
         route: '/home',
-        can: "browse_home"
+        can: "home-browse"
+      }, {
+        title: 'सम्पादन अनुरोधहरु',
+        icon: 'mdi-account-edit',
+        route: '/edit-requests',
+        can: "kaaryalaya-browse"
       }, {
         title: "खाताहरु",
-        icon: "mdi-account-circle",
+        icon: "mdi-account-box-multiple",
         route: "/users",
         subItems: [{
           title: 'प्रयोगकर्ताहरू',
           icon: 'mdi-account-circle',
           route: '/users',
-          can: "browse_users"
+          can: "users-browse"
         }, {
           title: 'भूमिकाहरू',
           icon: 'mdi-account-settings-outline',
           route: '/roles',
-          can: "browse_roles"
+          can: "roles-browse"
         }, {
           title: 'अनुमतिहरू',
           icon: 'mdi-key',
           route: '/permissions',
-          can: "browse_permissions"
+          can: "permissions-browse"
         }]
       }, {
         title: "प्रतिवेदन",
-        icon: "mdi-folder",
+        icon: "mdi-file-document",
         subItems: [{
           title: 'मासिक प्रगती प्रतिवेदन',
-          icon: 'mdi-folder',
+          icon: 'mdi-calendar-month-outline',
           route: '/kriyakalap-maasik-pragati-report',
-          can: "browse_kriyakalap_maasik_pragati"
+          can: "maasik_pragati_report-browse"
         }, {
           title: 'त्रैमासिक प्रगती प्रतिवेदन',
-          icon: 'mdi-folder',
+          icon: 'mdi-file-chart',
           route: '/kriyakalap-traimaasik-pragati-report',
-          can: "browse_kriyakalap_traimaasik_pragati"
+          can: "traimaasik_pragati_report-browse"
         }]
       }, {
-        title: 'कार्यलय',
-        icon: 'mdi-folder',
-        route: '/kaaryalaya',
-        can: "browse_kaaryalaya"
+        title: "फारम",
+        icon: "mdi-note",
+        subItems: [{
+          title: 'कृयाकलाप लक्ष',
+          icon: 'mdi-folder',
+          route: '/kriyakalap-lakshya',
+          can: "kriyakalap_lakshya-browse"
+        }, {
+          title: 'मासिक प्रगती',
+          icon: 'mdi-folder',
+          route: '/kriyakalap-maasik-pragati',
+          can: "maasik_pragati_form-browse"
+        }, {
+          title: 'त्रैमासिक प्रगती',
+          icon: 'mdi-folder',
+          route: '/kriyakalap-traimaasik-pragati',
+          can: "traimaasik_pragati_form-browse"
+        }]
       }, {
-        title: 'सम्पादन अनुरोधहरु',
-        icon: 'mdi-folder',
-        route: '/edit-requests',
-        can: "browse_kaaryalaya"
-      }, {
-        title: 'आर्थिक वर्ष',
-        icon: 'mdi-calendar',
-        route: '/aarthik-barsa',
-        can: "browse_aarthik_barsa"
-      }, {
-        title: 'आयोजना',
-        icon: 'mdi-folder',
-        route: '/aayojana',
-        can: "browse_aayojana"
-      }, {
-        title: 'कृयाकलाप लक्ष',
-        icon: 'mdi-folder',
-        route: '/kriyakalap-lakshya',
-        can: "browse_kriyakalap_lakshya"
-      }, {
-        title: 'कृयाकलाप मासिक प्रगती',
-        icon: 'mdi-folder',
-        route: '/kriyakalap-maasik-pragati',
-        can: "browse_kriyakalap_maasik_pragati"
-      }, {
-        title: 'कृयाकलाप त्रैमासिक प्रगती',
-        icon: 'mdi-folder',
-        route: '/kriyakalap-traimaasik-pragati',
-        can: "browse_kriyakalap_traimaasik_pragati"
+        title: "संसाधनहरु",
+        icon: "mdi-folder",
+        subItems: [{
+          title: 'आर्थिक वर्ष',
+          icon: 'mdi-calendar',
+          route: '/aarthik-barsa',
+          can: "aarthik_barsa-browse"
+        }, {
+          title: 'आयोजना',
+          icon: 'mdi-folder',
+          route: '/aayojana',
+          can: "aayojana-browse"
+        }, {
+          title: 'कार्यलय',
+          icon: 'mdi-folder',
+          route: '/kaaryalaya',
+          can: "kaaryalaya-browse"
+        }]
       }]
     };
   },
@@ -2970,9 +2978,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["aarthikBarsaId"],
   data: function data() {
-    var _ref;
-
-    return _ref = {
+    return {
       deleteItem: "",
       deleteDialog: false,
       search: "",
@@ -2980,7 +2986,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       totalCfData: 0,
       numberOfPages: 0,
       cfData: [],
-      loading: true,
       options: {},
       totalItems: 20,
       headers: [{
@@ -3022,8 +3027,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }],
       filterData: {
         aarthik_barsa: []
-      }
-    }, _defineProperty(_ref, "loading", true), _defineProperty(_ref, "editAllData", false), _ref;
+      },
+      loading: true,
+      editAllData: false
+    };
   },
   watch: {
     //this one will populate new data set when user changes current page.
@@ -3823,8 +3830,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -4156,55 +4161,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -4303,8 +4259,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
 //
 //
 //
@@ -4561,66 +4515,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -5052,6 +4946,190 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      filterData: {
+        kaaryalaya: 0,
+        user: 0,
+        aarthikBarsa: [],
+        aayojana: 0,
+        traimaasik: 0,
+        kharchaPrakar: []
+      },
+      headers: [],
+      items: [],
+      aayojana: []
+    };
+  },
+  mounted: function mounted() {
+    this.filterData.kaaryalaya = this.user.kaaryalaya_id;
+    this.filterData.user = this.user.id;
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)({
+    traimaasik: function traimaasik(state) {
+      return state.webservice.resources.traimaasik;
+    },
+    aarthikBarsa: function aarthikBarsa(state) {
+      return state.webservice.resources.aarthik_barsa;
+    },
+    kaaryalaya: function kaaryalaya(state) {
+      return state.webservice.resources.kaaryalaya;
+    },
+    user: function user(state) {
+      return state.auth.user;
+    },
+    traimaasikPragatiReport: function traimaasikPragatiReport(state) {
+      return state.webservice.traimaasikPragatiReport;
+    }
+  })),
+  methods: {
+    changeInAayojana: function changeInAayojana() {
+      if (this.filterData.traimaasik) {
+        this.getDataFromApi();
+      }
+    },
+    changeInArthikBarsa: function changeInArthikBarsa() {
+      this.filterData.aayojana = 0;
+      var tempthis = this;
+      var data = [];
+
+      if (this.filterData.aarthikBarsa) {
+        this.aarthikBarsa.forEach(function (item) {
+          if (tempthis.filterData.aarthikBarsa.includes(item.id)) {
+            item.aayojana.forEach(function (aayojanaItem) {
+              data.push(aayojanaItem);
+            });
+          }
+        });
+      } else {
+        data = [];
+      }
+
+      this.aayojana = data;
+    },
+    changeInTraimaasik: function changeInTraimaasik() {
+      this.getDataFromApi();
+    },
+    getDataFromApi: function getDataFromApi() {
+      var tempthis = this;
+      this.$store.dispatch("getTraimaasikPragatiReportFilterable", {
+        filterData: this.filterData
+      }).then(function (response) {
+        tempthis.items = response.traimaasikPragatiReport.items;
+        tempthis.headers = response.traimaasikPragatiReport.headers;
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/permissions/browse.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/permissions/browse.vue?vue&type=script&lang=js& ***!
@@ -5292,10 +5370,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/maasik-print.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/maasik-print.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/MaasikPrint.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/MaasikPrint.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -5310,6 +5388,138 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5381,10 +5591,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/traimaasik-print.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/traimaasik-print.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -5399,6 +5609,194 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5832,6 +6230,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -5845,6 +6259,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     permissions: function permissions(state) {
       return state.webservice.resources.permissions;
+    },
+    formattedPermissions: function formattedPermissions(state) {
+      return state.webservice.resources.formattedPermissions;
     }
   })),
   methods: {
@@ -6006,13 +6423,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       deleteItem: "",
       deleteDialog: false,
-      search: "",
-      page: 1,
-      totalCfData: 0,
-      numberOfPages: 0,
       loading: true,
-      options: {},
-      totalItems: 20,
       headers: [{
         text: "कार्यहरु",
         value: "actions"
@@ -6262,6 +6673,50 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -6274,6 +6729,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return /.+@.+\..+/.test(v) || "E-mail must be valid";
       }],
       rolePermissions: [],
+      formattedRolePermissions: [],
       additionalPermissions: []
     };
   },
@@ -6316,6 +6772,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         permissions: this.userData.permissions
       }).then(function (response) {
         tempThis.rolePermissions = response.data.selectedRolePermissions;
+        tempThis.formattedRolePermissions = response.data.formattedSelectedRolePermissions;
         tempThis.additionalPermissions = response.data.additionalPermissions;
         tempThis.$store.commit("SET_SELECTED_ADDITIONAL_PERMISSIONS", response.data.finalSelectedPermissions);
       })["catch"](function (error) {
@@ -6419,13 +6876,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_2__.default);
+vue__WEBPACK_IMPORTED_MODULE_1__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_2__.default);
 
 var App = function App() {
   return Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ./components/App */ "./resources/js/components/App.vue"));
@@ -6519,12 +6976,16 @@ var KriyakalapTraimaasikPragatiReport = function KriyakalapTraimaasikPragatiRepo
   return Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ./components/pages/kriyakalap-traimaasik-pragati-report/browse */ "./resources/js/components/pages/kriyakalap-traimaasik-pragati-report/browse.vue"));
 };
 
+var KriyakalapTraimaasikPragatiFilterable = function KriyakalapTraimaasikPragatiFilterable() {
+  return Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ./components/pages/kriyakalap-traimaasik-pragrati-filterable/browse */ "./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue"));
+};
+
 var MaasikPrint = function MaasikPrint() {
-  return Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ./components/pages/print/maasik-print */ "./resources/js/components/pages/print/maasik-print.vue"));
+  return Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ./components/pages/print/MaasikPrint */ "./resources/js/components/pages/print/MaasikPrint.vue"));
 };
 
 var TraimaasikPrint = function TraimaasikPrint() {
-  return Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ./components/pages/print/traimaasik-print */ "./resources/js/components/pages/print/traimaasik-print.vue"));
+  return Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ./components/pages/print/TraimaasikPrint */ "./resources/js/components/pages/print/TraimaasikPrint.vue"));
 };
 
 var NotAuthenticated = function NotAuthenticated() {
@@ -6541,7 +7002,7 @@ var opts = {
     path: "/",
     component: App,
     beforeEnter: function beforeEnter(to, from, next) {
-      if (_store__WEBPACK_IMPORTED_MODULE_1__.default.getters.GET_USER) {
+      if (_store__WEBPACK_IMPORTED_MODULE_0__.default.getters.GET_USER) {
         next();
       } else {
         next("/login");
@@ -6558,7 +7019,7 @@ var opts = {
       component: Dashboard,
       name: 'app',
       beforeEnter: function beforeEnter(to, from, next) {
-        if (_store__WEBPACK_IMPORTED_MODULE_1__.default.getters.GET_USER) {
+        if (_store__WEBPACK_IMPORTED_MODULE_0__.default.getters.GET_USER) {
           next("/dashboard");
         } else {
           next("/login");
@@ -6584,7 +7045,7 @@ var opts = {
       path: "/dashboard",
       component: Dashboard,
       beforeEnter: function beforeEnter(to, from, next) {
-        if (_store__WEBPACK_IMPORTED_MODULE_1__.default.getters.CHECK_PERMISSION('browse_dashboard')) {
+        if (_store__WEBPACK_IMPORTED_MODULE_0__.default.getters.CHECK_PERMISSION('dashboard-browse')) {
           next();
         } else {
           next({
@@ -6603,7 +7064,7 @@ var opts = {
       path: "/home",
       component: Home,
       beforeEnter: function beforeEnter(to, from, next) {
-        if (_store__WEBPACK_IMPORTED_MODULE_1__.default.getters.CHECK_PERMISSION('browse_home')) {
+        if (_store__WEBPACK_IMPORTED_MODULE_0__.default.getters.CHECK_PERMISSION('home-browse')) {
           next();
         } else {
           next({
@@ -6633,7 +7094,7 @@ var opts = {
       path: "/edit-requests",
       component: EditRequests,
       beforeEnter: function beforeEnter(to, from, next) {
-        if (_store__WEBPACK_IMPORTED_MODULE_1__.default.getters.CHECK_PERMISSION('browse_kaaryalaya')) {
+        if (_store__WEBPACK_IMPORTED_MODULE_0__.default.getters.CHECK_PERMISSION('kaaryalaya-browse')) {
           next();
         } else {
           next({
@@ -6653,7 +7114,7 @@ var opts = {
       path: "/users",
       component: User,
       beforeEnter: function beforeEnter(to, from, next) {
-        if (_store__WEBPACK_IMPORTED_MODULE_1__.default.getters.CHECK_PERMISSION('browse_users')) {
+        if (_store__WEBPACK_IMPORTED_MODULE_0__.default.getters.CHECK_PERMISSION('users-browse')) {
           next();
         } else {
           next({
@@ -6684,7 +7145,7 @@ var opts = {
       component: Role,
       name: 'roles',
       beforeEnter: function beforeEnter(to, from, next) {
-        if (_store__WEBPACK_IMPORTED_MODULE_1__.default.getters.CHECK_PERMISSION('browse_roles')) {
+        if (_store__WEBPACK_IMPORTED_MODULE_0__.default.getters.CHECK_PERMISSION('roles-browse')) {
           next();
         } else {
           next({
@@ -6713,7 +7174,7 @@ var opts = {
       path: "/permissions",
       component: Permission,
       beforeEnter: function beforeEnter(to, from, next) {
-        if (_store__WEBPACK_IMPORTED_MODULE_1__.default.getters.CHECK_PERMISSION('browse_permissions')) {
+        if (_store__WEBPACK_IMPORTED_MODULE_0__.default.getters.CHECK_PERMISSION('permissions-browse')) {
           next();
         } else {
           next({
@@ -6744,7 +7205,7 @@ var opts = {
       component: AarthikBarsa,
       name: 'aarthik-barsa',
       beforeEnter: function beforeEnter(to, from, next) {
-        if (_store__WEBPACK_IMPORTED_MODULE_1__.default.getters.CHECK_PERMISSION('browse_aarthik_barsa')) {
+        if (_store__WEBPACK_IMPORTED_MODULE_0__.default.getters.CHECK_PERMISSION('aarthik_barsa-browse')) {
           next();
         } else {
           next({
@@ -6773,7 +7234,7 @@ var opts = {
       path: "/aayojana",
       component: Aayojana,
       beforeEnter: function beforeEnter(to, from, next) {
-        if (_store__WEBPACK_IMPORTED_MODULE_1__.default.getters.CHECK_PERMISSION('browse_aayojana')) {
+        if (_store__WEBPACK_IMPORTED_MODULE_0__.default.getters.CHECK_PERMISSION('aayojana-browse')) {
           next();
         } else {
           next({
@@ -6808,7 +7269,7 @@ var opts = {
       path: "/kaaryalaya",
       component: Kaaryalaya,
       beforeEnter: function beforeEnter(to, from, next) {
-        if (_store__WEBPACK_IMPORTED_MODULE_1__.default.getters.CHECK_PERMISSION('browse_kaaryalaya')) {
+        if (_store__WEBPACK_IMPORTED_MODULE_0__.default.getters.CHECK_PERMISSION('kaaryalaya-browse')) {
           next();
         } else {
           next({
@@ -6838,7 +7299,7 @@ var opts = {
       path: "/kriyakalap-lakshya",
       component: KriyakalapLakshya,
       beforeEnter: function beforeEnter(to, from, next) {
-        if (_store__WEBPACK_IMPORTED_MODULE_1__.default.getters.CHECK_PERMISSION('browse_kriyakalap_lakshya')) {
+        if (_store__WEBPACK_IMPORTED_MODULE_0__.default.getters.CHECK_PERMISSION('kriyakalap_lakshya-browse')) {
           next();
         } else {
           next({
@@ -6858,7 +7319,7 @@ var opts = {
       path: "/kriyakalap-maasik-pragati",
       component: KriyakalapMaasikPragati,
       beforeEnter: function beforeEnter(to, from, next) {
-        if (_store__WEBPACK_IMPORTED_MODULE_1__.default.getters.CHECK_PERMISSION('browse_kriyakalap_maasik_pragati')) {
+        if (_store__WEBPACK_IMPORTED_MODULE_0__.default.getters.CHECK_PERMISSION('maasik_pragati_form-browse')) {
           next();
         } else {
           next({
@@ -6869,7 +7330,7 @@ var opts = {
       name: 'kriyakalap-maasik-pragati',
       meta: {
         breadcrumb: {
-          text: "कृयाकलाप मासिक प्रगती",
+          text: "मासिक प्रगती",
           link: "/kriyakalap-maasik-pragati"
         }
       }
@@ -6877,7 +7338,7 @@ var opts = {
       path: "/kriyakalap-maasik-pragati-report",
       component: KriyakalapMaasikPragatiReport,
       beforeEnter: function beforeEnter(to, from, next) {
-        if (_store__WEBPACK_IMPORTED_MODULE_1__.default.getters.CHECK_PERMISSION('browse_kriyakalap_maasik_pragati_report')) {
+        if (_store__WEBPACK_IMPORTED_MODULE_0__.default.getters.CHECK_PERMISSION('maasik_pragati_report-browse')) {
           next();
         } else {
           next({
@@ -6888,7 +7349,7 @@ var opts = {
       name: 'kriyakalap-maasik-pragati-report',
       meta: {
         breadcrumb: {
-          text: "कृयाकलाप मासिक प्रगती प्रतिवेदन",
+          text: "मासिक प्रगती प्रतिवेदन",
           link: "/kriyakalap-maasik-pragati-report"
         }
       }
@@ -6897,7 +7358,7 @@ var opts = {
       path: "/kriyakalap-traimaasik-pragati-report",
       component: KriyakalapTraimaasikPragatiReport,
       beforeEnter: function beforeEnter(to, from, next) {
-        if (_store__WEBPACK_IMPORTED_MODULE_1__.default.getters.CHECK_PERMISSION('browse_kriyakalap_maasik_pragati_report')) {
+        if (_store__WEBPACK_IMPORTED_MODULE_0__.default.getters.CHECK_PERMISSION('traimaasik_pragati_report-browse')) {
           next();
         } else {
           next({
@@ -6908,15 +7369,34 @@ var opts = {
       name: 'kriyakalap-traimaasik-pragati-report',
       meta: {
         breadcrumb: {
-          text: "कृयाकलाप त्रैमासिक प्रगती प्रतिवेदन",
+          text: "त्रैमासिक प्रगती प्रतिवेदन",
           link: "/kriyakalap-traimaasik-pragati-report"
+        }
+      }
+    }, {
+      path: "/kriyakalap-traimaasik-pragati-filterable",
+      component: KriyakalapTraimaasikPragatiFilterable,
+      beforeEnter: function beforeEnter(to, from, next) {
+        if (_store__WEBPACK_IMPORTED_MODULE_0__.default.getters.CHECK_PERMISSION('traimaasik_pragati_report-browse')) {
+          next();
+        } else {
+          next({
+            name: "not-authenticated"
+          });
+        }
+      },
+      name: 'kriyakalap-traimaasik-pragati-filterable',
+      meta: {
+        breadcrumb: {
+          text: "त्रैमासिक प्रगती प्रतिवेदन",
+          link: "/kriyakalap-traimaasik-pragati-filterable"
         }
       }
     }, {
       path: "/kriyakalap-traimaasik-pragati",
       component: KriyakalapTraimaasikPragati,
       beforeEnter: function beforeEnter(to, from, next) {
-        if (_store__WEBPACK_IMPORTED_MODULE_1__.default.getters.CHECK_PERMISSION('browse_kriyakalap_traimaasik_pragati')) {
+        if (_store__WEBPACK_IMPORTED_MODULE_0__.default.getters.CHECK_PERMISSION('traimaasik_pragati_form-browse')) {
           next();
         } else {
           next({
@@ -6927,7 +7407,7 @@ var opts = {
       name: 'kriyakalap-traimaasik-pragati',
       meta: {
         breadcrumb: {
-          text: "कृयाकलाप त्रैमासिक प्रगती",
+          text: "त्रैमासिक प्रगती",
           link: "/kriyakalap-traimaasik-pragati"
         }
       }
@@ -6937,7 +7417,7 @@ var opts = {
     component: Login,
     name: 'Login',
     beforeEnter: function beforeEnter(to, from, next) {
-      if (_store__WEBPACK_IMPORTED_MODULE_1__.default.getters.GET_USER) {
+      if (_store__WEBPACK_IMPORTED_MODULE_0__.default.getters.GET_USER) {
         next("/dashboard");
       } else {
         next();
@@ -6956,7 +7436,7 @@ var opts = {
     component: Register,
     name: 'register',
     beforeEnter: function beforeEnter(to, from, next) {
-      if (_store__WEBPACK_IMPORTED_MODULE_1__.default.getters.GET_USER) {
+      if (_store__WEBPACK_IMPORTED_MODULE_0__.default.getters.GET_USER) {
         next("/dashboard");
       } else {
         next();
@@ -6979,21 +7459,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var vuex_persistedstate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex-persistedstate */ "./node_modules/vuex-persistedstate/dist/vuex-persistedstate.es.js");
-/* harmony import */ var _modules_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/auth */ "./resources/js/store/modules/auth.js");
-/* harmony import */ var _modules_webservice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/webservice */ "./resources/js/store/modules/webservice.js");
+/* harmony import */ var vuex_persistedstate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex-persistedstate */ "./node_modules/vuex-persistedstate/dist/vuex-persistedstate.es.js");
+/* harmony import */ var _modules_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/auth */ "./resources/js/store/modules/auth.js");
+/* harmony import */ var _modules_webservice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/webservice */ "./resources/js/store/modules/webservice.js");
 
 
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_4__.default);
+vue__WEBPACK_IMPORTED_MODULE_3__.default.use(vuex__WEBPACK_IMPORTED_MODULE_4__.default);
 var opts = {
   modules: {
-    auth: _modules_auth__WEBPACK_IMPORTED_MODULE_2__.default,
-    webservice: _modules_webservice__WEBPACK_IMPORTED_MODULE_3__.default
+    auth: _modules_auth__WEBPACK_IMPORTED_MODULE_1__.default,
+    webservice: _modules_webservice__WEBPACK_IMPORTED_MODULE_2__.default
   },
   state: {
     notifications: [],
@@ -7032,7 +7512,7 @@ var opts = {
       return state.miniVariant;
     }
   },
-  plugins: [(0,vuex_persistedstate__WEBPACK_IMPORTED_MODULE_1__.default)({
+  plugins: [(0,vuex_persistedstate__WEBPACK_IMPORTED_MODULE_0__.default)({
     storage: window.f
   })]
 };
@@ -8006,6 +8486,35 @@ var actions = {
       reject(error);
     });
   },
+  getTraimaasikPragatiReportFilterable: function getTraimaasikPragatiReportFilterable(state, payload) {
+    return new es6_promise__WEBPACK_IMPORTED_MODULE_1__.Promise(function (resolve, reject) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/v1/traimaasik-pragati-report-filterable', {
+        params: {
+          filterData: payload.filterData
+        },
+        headers: {
+          // Accept: "application/json",
+          Authorization: "Bearer " + state.getters.GET_ACCESS_TOKEN
+        }
+      }).then(function (response) {
+        if (response.data.status == 200) {
+          // state.commit("SET_TRAIMAASIK_PRAGATI_REPORT", response.data.data.traimaasikPragatiReport);
+          resolve(response.data.data);
+        } else {
+          state.dispatch("addNotification", {
+            type: response.data.type,
+            message: response.data.message
+          });
+        }
+      })["catch"](function (error) {
+        state.dispatch("addNotification", {
+          type: "error",
+          message: error
+        });
+        reject(error);
+      });
+    });
+  },
   //requests
   getRequests: function getRequests(state, payload) {
     return new es6_promise__WEBPACK_IMPORTED_MODULE_1__.Promise(function (resolve, reject) {
@@ -8093,12 +8602,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuetify_lib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuetify/lib */ "./node_modules/vuetify/lib/framework.js");
-/* harmony import */ var vuetify_lib_util_colors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuetify/lib/util/colors */ "./node_modules/vuetify/lib/util/colors.js");
+/* harmony import */ var vuetify_lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuetify/lib */ "./node_modules/vuetify/lib/framework.js");
+/* harmony import */ var vuetify_lib_util_colors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuetify/lib/util/colors */ "./node_modules/vuetify/lib/util/colors.js");
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuetify_lib__WEBPACK_IMPORTED_MODULE_2__.default);
+vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuetify_lib__WEBPACK_IMPORTED_MODULE_1__.default);
 var opts = {
   theme: {
     themes: {
@@ -8106,20 +8615,20 @@ var opts = {
         primary: "#4CAF50",
         secondary: "#FF9800",
         accent: "#00C853",
-        error: vuetify_lib_util_colors__WEBPACK_IMPORTED_MODULE_1__.default.red,
-        success: vuetify_lib_util_colors__WEBPACK_IMPORTED_MODULE_1__.default.green
+        error: vuetify_lib_util_colors__WEBPACK_IMPORTED_MODULE_2__.default.red,
+        success: vuetify_lib_util_colors__WEBPACK_IMPORTED_MODULE_2__.default.green
       },
       dark: {
         primary: "#2E7D32",
         secondary: "#EF6C00",
         accent: "#00C853",
-        error: vuetify_lib_util_colors__WEBPACK_IMPORTED_MODULE_1__.default.red,
-        success: vuetify_lib_util_colors__WEBPACK_IMPORTED_MODULE_1__.default.green
+        error: vuetify_lib_util_colors__WEBPACK_IMPORTED_MODULE_2__.default.red,
+        success: vuetify_lib_util_colors__WEBPACK_IMPORTED_MODULE_2__.default.green
       }
     }
   }
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuetify_lib__WEBPACK_IMPORTED_MODULE_2__.default(opts));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuetify_lib__WEBPACK_IMPORTED_MODULE_1__.default(opts));
 
 /***/ }),
 
@@ -12588,6 +13097,30 @@ ___CSS_LOADER_EXPORT___.push([module.id, "::-webkit-scrollbar {\n  width: 8px;\n
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&lang=scss&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&lang=scss&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".v-list-item[data-v-4d756cd6] {\n  text-decoration: none;\n}\n.v-list-group--active[data-v-4d756cd6] {\n  background: #0e360c;\n  border-radius: 5px;\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/Dashboard.vue?vue&type=style&index=0&id=28b201ee&lang=scss&scoped=true&":
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/Dashboard.vue?vue&type=style&index=0&id=28b201ee&lang=scss&scoped=true& ***!
@@ -13788,30 +14321,6 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.v-list-item[data-v-ec6bd8ba] {\n   
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&scoped=true&lang=css&":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&scoped=true&lang=css& ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.v-list-item[data-v-4d756cd6] {\n    text-decoration: none;\n}\n", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
 /***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/notification/NotificationList.vue?vue&type=style&index=0&lang=css&":
 /*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/notification/NotificationList.vue?vue&type=style&index=0&lang=css& ***!
@@ -13901,7 +14410,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.my-text-field[data-v-76b6bd2d] {\n    width: 150px;\n}\nv-select[data-v-76b6bd2d] {\n    width: 20px;\n}\nabbr[data-v-76b6bd2d] {\n    text-decoration: none;\n}\nv-tab-items[data-v-76b6bd2d] {\n    min-width: 400px;\n}\n@media print {\nbody *[data-v-76b6bd2d] {\n        visibility: hidden;\n}\n#printable[data-v-76b6bd2d], #printable *[data-v-76b6bd2d] {\n        visibility: visible;\n}\n#printable[data-v-76b6bd2d] {\n        position: absolute;\n        left: 0;\n        top: 0;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\ntable td[data-v-76b6bd2d]{\n    padding: 0px 10px 0px 10px;\n}\n.my-text-field[data-v-76b6bd2d] {\n    width: 150px;\n}\nv-select[data-v-76b6bd2d] {\n    width: 20px;\n}\nabbr[data-v-76b6bd2d] {\n    text-decoration: none;\n}\nv-tab-items[data-v-76b6bd2d] {\n    min-width: 400px;\n}\n@media print {\nbody *[data-v-76b6bd2d] {\n        visibility: hidden;\n}\n#printable[data-v-76b6bd2d], #printable *[data-v-76b6bd2d] {\n        visibility: visible;\n}\n#printable[data-v-76b6bd2d] {\n        position: absolute;\n        left: 0;\n        top: 0;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -13949,7 +14458,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.my-text-field[data-v-e5f0a35a] {\n    width: 150px;\n}\nv-select[data-v-e5f0a35a] {\n    width: 20px;\n}\nabbr[data-v-e5f0a35a] {\n    text-decoration: none;\n}\nv-tab-items[data-v-e5f0a35a] {\n    min-width: 400px;\n}\n@media print {\nbody *[data-v-e5f0a35a] {\n        visibility: hidden;\n}\n#printable[data-v-e5f0a35a], #printable *[data-v-e5f0a35a] {\n        visibility: visible;\n}\n#printable[data-v-e5f0a35a] {\n        position: absolute;\n        left: 0;\n        top: 0;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\ntable td[data-v-e5f0a35a]{\n    padding: 0px 3px 0px 3px;\n}\np[data-v-e5f0a35a]{\n    margin: 0;\n}\n.my-text-field[data-v-e5f0a35a] {\n    width: 150px;\n}\nv-select[data-v-e5f0a35a] {\n    width: 20px;\n}\nabbr[data-v-e5f0a35a] {\n    text-decoration: none;\n}\nv-tab-items[data-v-e5f0a35a] {\n    min-width: 400px;\n}\n@media print {\nbody *[data-v-e5f0a35a] {\n        visibility: hidden;\n}\n#printable[data-v-e5f0a35a], #printable *[data-v-e5f0a35a] {\n        visibility: visible;\n}\n#printable[data-v-e5f0a35a] {\n        position: absolute;\n        left: 0;\n        top: 0;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -13980,6 +14489,78 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.my-text-field[data-v-07656bee] {\n 
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=style&index=0&id=3f40a789&scoped=true&lang=css&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=style&index=0&id=3f40a789&scoped=true&lang=css& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\ntable td[data-v-3f40a789] {\n    padding: 0px 3px 0px 3px;\n}\np[data-v-3f40a789] {\n    margin: 0;\n}\n.my-text-field[data-v-3f40a789] {\n    width: 150px;\n}\nv-select[data-v-3f40a789] {\n    width: 20px;\n}\nabbr[data-v-3f40a789] {\n    text-decoration: none;\n}\nv-tab-items[data-v-3f40a789] {\n    min-width: 400px;\n}\n@media print {\nbody *[data-v-3f40a789] {\n        visibility: hidden;\n}\n#printable[data-v-3f40a789], #printable *[data-v-3f40a789] {\n        visibility: visible;\n}\n#printable[data-v-3f40a789] {\n        position: absolute;\n        left: 0;\n        top: 0;\n}\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/MaasikPrint.vue?vue&type=style&index=0&id=e369a6c6&scoped=true&lang=css&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/MaasikPrint.vue?vue&type=style&index=0&id=e369a6c6&scoped=true&lang=css& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\nh5[data-v-e369a6c6]{\n    font-size: 15px;\n}\nh4[data-v-e369a6c6]{\n    font-size: 19px;\n}\ntable td[data-v-e369a6c6]{\n    padding: 0px 3px 0px 3px;\n}\np[data-v-e369a6c6]{\n    font-size: 13px;\n    margin: 0;\n}\ntable[data-v-e369a6c6] {\n    font-size: 13px;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=style&index=0&id=5ce398b7&scoped=true&lang=css&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=style&index=0&id=5ce398b7&scoped=true&lang=css& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\nh5[data-v-5ce398b7]{\n    font-size: 15px;\n}\nh4[data-v-5ce398b7]{\n    font-size: 19px;\n}\ntable td[data-v-5ce398b7]{\n    padding: 0px 3px 0px 3px;\n}\np[data-v-5ce398b7]{\n    font-size: 13px;\n    margin: 0;\n}\ntable[data-v-5ce398b7] {\n    font-size: 13px;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/roles/edit.vue?vue&type=style&index=0&id=ee053fdc&scoped=true&lang=css&":
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/roles/edit.vue?vue&type=style&index=0&id=ee053fdc&scoped=true&lang=css& ***!
@@ -13997,7 +14578,31 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.permissions[data-v-ee053fdc]{\n    display: flex;\n    flex-wrap: wrap;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.permissionTitle[data-v-ee053fdc] {\n    text-transform: capitalize;\n    font-size: 14px;\n    font-weight: 600;\n    position: relative;\n}\n\n/*.permissionTitle::before{*/\n/*    position: absolute;*/\n/*    bottom: -2px;*/\n/*    content: \"\";*/\n/*    left: -4px;*/\n/*    width: 45px;*/\n/*    height: 3px;*/\n/*    background: #1b4d1978;*/\n/*    border-radius: 42%;*/\n/*}*/\n.permissions[data-v-ee053fdc] {\n    display: flex;\n    flex-wrap: wrap;\n}\n.checkboxLabel[data-v-ee053fdc] {\n    text-transform: capitalize;\n    font-size: 14px !important;\n}\n.v-input__slot[data-v-ee053fdc], .v-input[data-v-ee053fdc] {\n    margin-top: 0px;\n}\n.v-input__control.v-input__slot.label.v-label[data-v-ee053fdc] {\n    margin-bottom: 0px !important;\n}\nv-input__slot[data-v-ee053fdc] {\n    display: inline-block;\n}\n.item[data-v-ee053fdc] {\n    width: 100%;\n    -moz-columns: 4;\n         columns: 4;\n    -moz-column-gap: 2px;\n         column-gap: 2px;\n}\n.sub-item[data-v-ee053fdc] {\n    width: 100%;\n    margin: 0 0 5px;\n    padding: 5px;\n    overflow: hidden;\n    -moz-column-break-inside: avoid;\n         break-inside: avoid;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/users/edit.vue?vue&type=style&index=0&id=42646527&scoped=true&lang=css&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/users/edit.vue?vue&type=style&index=0&id=42646527&scoped=true&lang=css& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.permissionTitle[data-v-42646527] {\n    text-transform: capitalize;\n    font-size: 14px;\n    font-weight: 600;\n    position: relative;\n}\nh5[data-v-42646527] {\n    font-weight: 600;\n}\n\n/*.permissionTitle::before{*/\n/*    position: absolute;*/\n/*    bottom: -2px;*/\n/*    content: \"\";*/\n/*    left: -4px;*/\n/*    width: 45px;*/\n/*    height: 3px;*/\n/*    background: #1b4d1978;*/\n/*    border-radius: 42%;*/\n/*}*/\n.permissions[data-v-42646527] {\n    display: flex;\n    flex-wrap: wrap;\n}\n.checkboxLabel[data-v-42646527] {\n    text-transform: capitalize;\n    font-size: 13px !important;\n}\n.v-input__slot[data-v-42646527], .v-input[data-v-42646527] {\n    margin-top: 0px;\n}\n.v-input__control.v-input__slot.label.v-label[data-v-42646527] {\n    margin-bottom: 0px !important;\n}\nv-input__slot[data-v-42646527] {\n    display: inline-block;\n}\n.item[data-v-42646527] {\n    width: 100%;\n    -moz-columns: 2;\n         columns: 2;\n    -moz-column-gap: 2px;\n         column-gap: 2px;\n}\n.sub-item[data-v-42646527] {\n    width: 100%;\n    margin: 0 0 5px;\n    padding: 5px;\n    overflow: hidden;\n    -moz-column-break-inside: avoid;\n         break-inside: avoid;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -46236,6 +46841,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&lang=scss&scoped=true&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&lang=scss&scoped=true& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_3_node_modules_vue_loader_lib_index_js_vue_loader_options_NavigationDrawer_vue_vue_type_style_index_0_id_4d756cd6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!../../../../node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&lang=scss&scoped=true& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&lang=scss&scoped=true&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_3_node_modules_vue_loader_lib_index_js_vue_loader_options_NavigationDrawer_vue_vue_type_style_index_0_id_4d756cd6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_3_node_modules_vue_loader_lib_index_js_vue_loader_options_NavigationDrawer_vue_vue_type_style_index_0_id_4d756cd6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/Dashboard.vue?vue&type=style&index=0&id=28b201ee&lang=scss&scoped=true&":
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/Dashboard.vue?vue&type=style&index=0&id=28b201ee&lang=scss&scoped=true& ***!
@@ -47736,36 +48371,6 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&scoped=true&lang=css&":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&scoped=true&lang=css& ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_NavigationDrawer_vue_vue_type_style_index_0_id_4d756cd6_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&scoped=true&lang=css&");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_NavigationDrawer_vue_vue_type_style_index_0_id_4d756cd6_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default, options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_NavigationDrawer_vue_vue_type_style_index_0_id_4d756cd6_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
-
-/***/ }),
-
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/notification/NotificationList.vue?vue&type=style&index=0&lang=css&":
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/notification/NotificationList.vue?vue&type=style&index=0&lang=css& ***!
@@ -47976,6 +48581,96 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=style&index=0&id=3f40a789&scoped=true&lang=css&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=style&index=0&id=3f40a789&scoped=true&lang=css& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_browse_vue_vue_type_style_index_0_id_3f40a789_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./browse.vue?vue&type=style&index=0&id=3f40a789&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=style&index=0&id=3f40a789&scoped=true&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_browse_vue_vue_type_style_index_0_id_3f40a789_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_browse_vue_vue_type_style_index_0_id_3f40a789_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/MaasikPrint.vue?vue&type=style&index=0&id=e369a6c6&scoped=true&lang=css&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/MaasikPrint.vue?vue&type=style&index=0&id=e369a6c6&scoped=true&lang=css& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MaasikPrint_vue_vue_type_style_index_0_id_e369a6c6_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MaasikPrint.vue?vue&type=style&index=0&id=e369a6c6&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/MaasikPrint.vue?vue&type=style&index=0&id=e369a6c6&scoped=true&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MaasikPrint_vue_vue_type_style_index_0_id_e369a6c6_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MaasikPrint_vue_vue_type_style_index_0_id_e369a6c6_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=style&index=0&id=5ce398b7&scoped=true&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=style&index=0&id=5ce398b7&scoped=true&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TraimaasikPrint_vue_vue_type_style_index_0_id_5ce398b7_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TraimaasikPrint.vue?vue&type=style&index=0&id=5ce398b7&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=style&index=0&id=5ce398b7&scoped=true&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TraimaasikPrint_vue_vue_type_style_index_0_id_5ce398b7_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TraimaasikPrint_vue_vue_type_style_index_0_id_5ce398b7_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/roles/edit.vue?vue&type=style&index=0&id=ee053fdc&scoped=true&lang=css&":
 /*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/roles/edit.vue?vue&type=style&index=0&id=ee053fdc&scoped=true&lang=css& ***!
@@ -48003,6 +48698,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_edit_vue_vue_type_style_index_0_id_ee053fdc_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/users/edit.vue?vue&type=style&index=0&id=42646527&scoped=true&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/users/edit.vue?vue&type=style&index=0&id=42646527&scoped=true&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_edit_vue_vue_type_style_index_0_id_42646527_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./edit.vue?vue&type=style&index=0&id=42646527&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/users/edit.vue?vue&type=style&index=0&id=42646527&scoped=true&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_edit_vue_vue_type_style_index_0_id_42646527_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_edit_vue_vue_type_style_index_0_id_42646527_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
 
 /***/ }),
 
@@ -48637,6 +49362,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************!*\
+  !*** ./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_browse_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./browse.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_browse_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/components/pages/permissions/browse.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************!*\
   !*** ./resources/js/components/pages/permissions/browse.vue?vue&type=script&lang=js& ***!
@@ -48669,10 +49410,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/pages/print/maasik-print.vue?vue&type=script&lang=js&":
-/*!***************************************************************************************!*\
-  !*** ./resources/js/components/pages/print/maasik-print.vue?vue&type=script&lang=js& ***!
-  \***************************************************************************************/
+/***/ "./resources/js/components/pages/print/MaasikPrint.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/pages/print/MaasikPrint.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -48680,15 +49421,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_maasik_print_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./maasik-print.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/maasik-print.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_maasik_print_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MaasikPrint_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MaasikPrint.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/MaasikPrint.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MaasikPrint_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
-/***/ "./resources/js/components/pages/print/traimaasik-print.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************!*\
-  !*** ./resources/js/components/pages/print/traimaasik-print.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************/
+/***/ "./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -48696,8 +49437,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_traimaasik_print_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./traimaasik-print.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/traimaasik-print.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_traimaasik_print_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TraimaasikPrint_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TraimaasikPrint.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TraimaasikPrint_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -48794,6 +49535,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/layouts/NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&lang=scss&scoped=true&":
+/*!************************************************************************************************************************!*\
+  !*** ./resources/js/components/layouts/NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&lang=scss&scoped=true& ***!
+  \************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_3_node_modules_vue_loader_lib_index_js_vue_loader_options_NavigationDrawer_vue_vue_type_style_index_0_id_4d756cd6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!../../../../node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&lang=scss&scoped=true& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&lang=scss&scoped=true&");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/pages/Dashboard.vue?vue&type=style&index=0&id=28b201ee&lang=scss&scoped=true&":
 /*!***************************************************************************************************************!*\
   !*** ./resources/js/components/pages/Dashboard.vue?vue&type=style&index=0&id=28b201ee&lang=scss&scoped=true& ***!
@@ -48829,19 +49583,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AppBar_vue_vue_type_style_index_0_id_ec6bd8ba_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AppBar.vue?vue&type=style&index=0&id=ec6bd8ba&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/AppBar.vue?vue&type=style&index=0&id=ec6bd8ba&scoped=true&lang=css&");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/layouts/NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&scoped=true&lang=css&":
-/*!***********************************************************************************************************************!*\
-  !*** ./resources/js/components/layouts/NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&scoped=true&lang=css& ***!
-  \***********************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_NavigationDrawer_vue_vue_type_style_index_0_id_4d756cd6_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&scoped=true&lang=css&");
 
 
 /***/ }),
@@ -48937,6 +49678,45 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=style&index=0&id=3f40a789&scoped=true&lang=css&":
+/*!*****************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=style&index=0&id=3f40a789&scoped=true&lang=css& ***!
+  \*****************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_browse_vue_vue_type_style_index_0_id_3f40a789_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./browse.vue?vue&type=style&index=0&id=3f40a789&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=style&index=0&id=3f40a789&scoped=true&lang=css&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/pages/print/MaasikPrint.vue?vue&type=style&index=0&id=e369a6c6&scoped=true&lang=css&":
+/*!**********************************************************************************************************************!*\
+  !*** ./resources/js/components/pages/print/MaasikPrint.vue?vue&type=style&index=0&id=e369a6c6&scoped=true&lang=css& ***!
+  \**********************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MaasikPrint_vue_vue_type_style_index_0_id_e369a6c6_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MaasikPrint.vue?vue&type=style&index=0&id=e369a6c6&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/MaasikPrint.vue?vue&type=style&index=0&id=e369a6c6&scoped=true&lang=css&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=style&index=0&id=5ce398b7&scoped=true&lang=css&":
+/*!**************************************************************************************************************************!*\
+  !*** ./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=style&index=0&id=5ce398b7&scoped=true&lang=css& ***!
+  \**************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TraimaasikPrint_vue_vue_type_style_index_0_id_5ce398b7_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TraimaasikPrint.vue?vue&type=style&index=0&id=5ce398b7&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=style&index=0&id=5ce398b7&scoped=true&lang=css&");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/pages/roles/edit.vue?vue&type=style&index=0&id=ee053fdc&scoped=true&lang=css&":
 /*!***************************************************************************************************************!*\
   !*** ./resources/js/components/pages/roles/edit.vue?vue&type=style&index=0&id=ee053fdc&scoped=true&lang=css& ***!
@@ -48946,6 +49726,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_edit_vue_vue_type_style_index_0_id_ee053fdc_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./edit.vue?vue&type=style&index=0&id=ee053fdc&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/roles/edit.vue?vue&type=style&index=0&id=ee053fdc&scoped=true&lang=css&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/pages/users/edit.vue?vue&type=style&index=0&id=42646527&scoped=true&lang=css&":
+/*!***************************************************************************************************************!*\
+  !*** ./resources/js/components/pages/users/edit.vue?vue&type=style&index=0&id=42646527&scoped=true&lang=css& ***!
+  \***************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_edit_vue_vue_type_style_index_0_id_42646527_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./edit.vue?vue&type=style&index=0&id=42646527&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/users/edit.vue?vue&type=style&index=0&id=42646527&scoped=true&lang=css&");
 
 
 /***/ }),
@@ -49324,6 +50117,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=template&id=3f40a789&scoped=true&":
+/*!***************************************************************************************************************************************!*\
+  !*** ./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=template&id=3f40a789&scoped=true& ***!
+  \***************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_browse_vue_vue_type_template_id_3f40a789_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_browse_vue_vue_type_template_id_3f40a789_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_browse_vue_vue_type_template_id_3f40a789_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./browse.vue?vue&type=template&id=3f40a789&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=template&id=3f40a789&scoped=true&");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/pages/permissions/browse.vue?vue&type=template&id=7348b42a&":
 /*!*********************************************************************************************!*\
   !*** ./resources/js/components/pages/permissions/browse.vue?vue&type=template&id=7348b42a& ***!
@@ -49358,36 +50168,36 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/pages/print/maasik-print.vue?vue&type=template&id=76aade20&scoped=true&":
-/*!*********************************************************************************************************!*\
-  !*** ./resources/js/components/pages/print/maasik-print.vue?vue&type=template&id=76aade20&scoped=true& ***!
-  \*********************************************************************************************************/
+/***/ "./resources/js/components/pages/print/MaasikPrint.vue?vue&type=template&id=e369a6c6&scoped=true&":
+/*!********************************************************************************************************!*\
+  !*** ./resources/js/components/pages/print/MaasikPrint.vue?vue&type=template&id=e369a6c6&scoped=true& ***!
+  \********************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_maasik_print_vue_vue_type_template_id_76aade20_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_maasik_print_vue_vue_type_template_id_76aade20_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MaasikPrint_vue_vue_type_template_id_e369a6c6_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MaasikPrint_vue_vue_type_template_id_e369a6c6_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_maasik_print_vue_vue_type_template_id_76aade20_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./maasik-print.vue?vue&type=template&id=76aade20&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/maasik-print.vue?vue&type=template&id=76aade20&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MaasikPrint_vue_vue_type_template_id_e369a6c6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MaasikPrint.vue?vue&type=template&id=e369a6c6&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/MaasikPrint.vue?vue&type=template&id=e369a6c6&scoped=true&");
 
 
 /***/ }),
 
-/***/ "./resources/js/components/pages/print/traimaasik-print.vue?vue&type=template&id=3d1f0546&scoped=true&":
-/*!*************************************************************************************************************!*\
-  !*** ./resources/js/components/pages/print/traimaasik-print.vue?vue&type=template&id=3d1f0546&scoped=true& ***!
-  \*************************************************************************************************************/
+/***/ "./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=template&id=5ce398b7&scoped=true&":
+/*!************************************************************************************************************!*\
+  !*** ./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=template&id=5ce398b7&scoped=true& ***!
+  \************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_traimaasik_print_vue_vue_type_template_id_3d1f0546_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_traimaasik_print_vue_vue_type_template_id_3d1f0546_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TraimaasikPrint_vue_vue_type_template_id_5ce398b7_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TraimaasikPrint_vue_vue_type_template_id_5ce398b7_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_traimaasik_print_vue_vue_type_template_id_3d1f0546_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./traimaasik-print.vue?vue&type=template&id=3d1f0546&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/traimaasik-print.vue?vue&type=template&id=3d1f0546&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TraimaasikPrint_vue_vue_type_template_id_5ce398b7_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TraimaasikPrint.vue?vue&type=template&id=5ce398b7&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=template&id=5ce398b7&scoped=true&");
 
 
 /***/ }),
@@ -49460,19 +50270,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/pages/users/edit.vue?vue&type=template&id=42646527&":
-/*!*************************************************************************************!*\
-  !*** ./resources/js/components/pages/users/edit.vue?vue&type=template&id=42646527& ***!
-  \*************************************************************************************/
+/***/ "./resources/js/components/pages/users/edit.vue?vue&type=template&id=42646527&scoped=true&":
+/*!*************************************************************************************************!*\
+  !*** ./resources/js/components/pages/users/edit.vue?vue&type=template&id=42646527&scoped=true& ***!
+  \*************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_edit_vue_vue_type_template_id_42646527___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_edit_vue_vue_type_template_id_42646527___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_edit_vue_vue_type_template_id_42646527_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_edit_vue_vue_type_template_id_42646527_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_edit_vue_vue_type_template_id_42646527___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./edit.vue?vue&type=template&id=42646527& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/users/edit.vue?vue&type=template&id=42646527&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_edit_vue_vue_type_template_id_42646527_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./edit.vue?vue&type=template&id=42646527&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/users/edit.vue?vue&type=template&id=42646527&scoped=true&");
 
 
 /***/ }),
@@ -50190,7 +51000,7 @@ var render = function() {
             ? _c(
                 "v-list-group",
                 {
-                  attrs: { "prepend-icon": item.icon, color: "grey darken-4" },
+                  attrs: { "prepend-icon": item.icon, color: "grey lighten-3" },
                   scopedSlots: _vm._u(
                     [
                       {
@@ -52009,344 +52819,323 @@ var render = function() {
                         var updateOptions = ref.updateOptions
                         return [
                           _c(
-                            "v-container",
-                            { attrs: { fluid: "" } },
+                            "v-row",
+                            { staticClass: "d-flex justify-content-between" },
                             [
                               _c(
-                                "v-row",
+                                "v-col",
                                 {
-                                  staticClass: "d-flex justify-content-between"
+                                  staticClass: "d-flex align-items-center",
+                                  attrs: { cols: "2" }
                                 },
                                 [
-                                  _c(
-                                    "v-col",
-                                    {
-                                      staticClass: "d-flex align-items-center",
-                                      attrs: { cols: "2" }
-                                    },
-                                    [
-                                      _c("h5", [_vm._v("कृयाकलाप लक्ष")]),
-                                      _vm._v(" "),
-                                      _c("v-divider", {
-                                        staticClass: "ml-5",
-                                        attrs: { inset: "", vertical: "" }
-                                      })
-                                    ],
-                                    1
-                                  ),
+                                  _c("h5", [_vm._v("कृयाकलाप लक्ष")]),
                                   _vm._v(" "),
-                                  _c(
-                                    "v-col",
-                                    {
-                                      staticClass: "d-flex align-items-center",
-                                      attrs: { cols: "6" }
+                                  _c("v-divider", {
+                                    staticClass: "ml-5",
+                                    attrs: { inset: "", vertical: "" }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "d-flex align-items-center",
+                                  attrs: { cols: "6" }
+                                },
+                                [
+                                  _c("v-select", {
+                                    attrs: {
+                                      items: _vm.kaaryalaya,
+                                      label: "कार्यलय",
+                                      "item-text": "name",
+                                      "item-value": "id",
+                                      placeholder: "कार्यलय",
+                                      disabled: _vm.editAllData || 1
                                     },
-                                    [
-                                      _c("v-select", {
-                                        attrs: {
-                                          items: _vm.kaaryalaya,
-                                          label: "कार्यलय",
-                                          "item-text": "name",
-                                          "item-value": "id",
-                                          placeholder: "कार्यलय",
-                                          disabled: _vm.editAllData || 1
-                                        },
-                                        on: { input: _vm.getDataFromApi },
-                                        model: {
-                                          value: _vm.filterData.kaaryalaya,
-                                          callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.filterData,
-                                              "kaaryalaya",
-                                              $$v
-                                            )
-                                          },
-                                          expression: "filterData.kaaryalaya"
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("v-select", {
-                                        staticClass: "mr-2",
-                                        attrs: {
-                                          items: _vm.aarthikBarsa,
-                                          label: "आर्थिक वर्ष",
-                                          "item-text": "name",
-                                          "item-value": "id",
-                                          placeholder: "आर्थिक वर्ष",
-                                          disabled: _vm.editAllData
-                                        },
-                                        on: { input: _vm.changeInArthikBarsa },
-                                        model: {
-                                          value: _vm.filterData.aarthikBarsa,
-                                          callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.filterData,
-                                              "aarthikBarsa",
-                                              $$v
-                                            )
-                                          },
-                                          expression: "filterData.aarthikBarsa"
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("v-select", {
-                                        staticClass: "mr-2",
-                                        attrs: {
-                                          items: _vm.aayojana,
-                                          label: "आयोजना",
-                                          "item-text": "name",
-                                          "item-value": "id",
-                                          placeholder: "आयोजना",
-                                          disabled: _vm.editAllData
-                                        },
-                                        on: { input: _vm.getDataFromApi },
-                                        model: {
-                                          value: _vm.filterData.aayojana,
-                                          callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.filterData,
-                                              "aayojana",
-                                              $$v
-                                            )
-                                          },
-                                          expression: "filterData.aayojana"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c("v-col", { attrs: { cols: "4" } }, [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass: "d-flex align-items-center"
+                                    on: { input: _vm.getDataFromApi },
+                                    model: {
+                                      value: _vm.filterData.kaaryalaya,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.filterData,
+                                          "kaaryalaya",
+                                          $$v
+                                        )
                                       },
+                                      expression: "filterData.kaaryalaya"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-select", {
+                                    staticClass: "mr-2",
+                                    attrs: {
+                                      items: _vm.aarthikBarsa,
+                                      label: "आर्थिक वर्ष",
+                                      "item-text": "name",
+                                      "item-value": "id",
+                                      placeholder: "आर्थिक वर्ष",
+                                      disabled: _vm.editAllData
+                                    },
+                                    on: { input: _vm.changeInArthikBarsa },
+                                    model: {
+                                      value: _vm.filterData.aarthikBarsa,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.filterData,
+                                          "aarthikBarsa",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "filterData.aarthikBarsa"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-select", {
+                                    staticClass: "mr-2",
+                                    attrs: {
+                                      items: _vm.aayojana,
+                                      label: "आयोजना",
+                                      "item-text": "name",
+                                      "item-value": "id",
+                                      placeholder: "आयोजना",
+                                      disabled: _vm.editAllData
+                                    },
+                                    on: { input: _vm.getDataFromApi },
+                                    model: {
+                                      value: _vm.filterData.aayojana,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.filterData,
+                                          "aayojana",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "filterData.aayojana"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("v-col", { attrs: { cols: "4" } }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "d-flex align-items-center" },
+                                  [
+                                    _c("v-file-input", {
+                                      attrs: {
+                                        label: ".csv फाईल अपलोड गर्नुहोस्",
+                                        disabled: !_vm.filterData.aayojana
+                                      },
+                                      model: {
+                                        value: _vm.csvData,
+                                        callback: function($$v) {
+                                          _vm.csvData = $$v
+                                        },
+                                        expression: "csvData"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "abbr",
+                                      { attrs: { title: "Upload" } },
                                       [
-                                        _c("v-file-input", {
-                                          attrs: {
-                                            label: ".csv फाईल अपलोड गर्नुहोस्",
-                                            disabled: !_vm.filterData.aayojana
-                                          },
-                                          model: {
-                                            value: _vm.csvData,
-                                            callback: function($$v) {
-                                              _vm.csvData = $$v
-                                            },
-                                            expression: "csvData"
-                                          }
-                                        }),
-                                        _vm._v(" "),
                                         _c(
-                                          "abbr",
-                                          { attrs: { title: "Upload" } },
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              fab: "",
+                                              small: "",
+                                              color: "primary",
+                                              loading: _vm.uploadCsvDataLoad,
+                                              disabled: !_vm.filterData.aayojana
+                                            },
+                                            on: {
+                                              click: _vm.beforeUploadCsvData
+                                            }
+                                          },
                                           [
-                                            _c(
-                                              "v-btn",
-                                              {
-                                                attrs: {
-                                                  fab: "",
-                                                  small: "",
-                                                  color: "primary",
-                                                  loading:
-                                                    _vm.uploadCsvDataLoad,
-                                                  disabled: !_vm.filterData
-                                                    .aayojana
-                                                },
-                                                on: {
-                                                  click: _vm.beforeUploadCsvData
-                                                }
-                                              },
-                                              [
-                                                _c("v-icon", [
-                                                  _vm._v("mdi-upload")
-                                                ])
-                                              ],
-                                              1
-                                            )
+                                            _c("v-icon", [_vm._v("mdi-upload")])
                                           ],
                                           1
                                         )
                                       ],
                                       1
                                     )
-                                  ])
+                                  ],
+                                  1
+                                )
+                              ])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass:
+                                    "d-flex justify-space-between align-items-center",
+                                  attrs: { cols: "5" }
+                                },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      "append-icon": "mdi-magnify",
+                                      label: "खोजी गर्नुहोस्",
+                                      "single-line": "",
+                                      "hide-details": "",
+                                      solo: ""
+                                    },
+                                    model: {
+                                      value: _vm.search,
+                                      callback: function($$v) {
+                                        _vm.search = $$v
+                                      },
+                                      expression: "search"
+                                    }
+                                  })
                                 ],
                                 1
                               ),
                               _vm._v(" "),
                               _c(
-                                "v-row",
+                                "v-col",
+                                {
+                                  staticClass:
+                                    "d-flex justify-space-between align-items-center",
+                                  attrs: { cols: "2" }
+                                },
                                 [
-                                  _c(
-                                    "v-col",
-                                    {
-                                      staticClass:
-                                        "d-flex justify-space-between align-items-center",
-                                      attrs: { cols: "5" }
-                                    },
-                                    [
-                                      _c("v-text-field", {
-                                        attrs: {
-                                          "append-icon": "mdi-magnify",
-                                          label: "खोजी गर्नुहोस्",
-                                          "single-line": "",
-                                          "hide-details": "",
-                                          solo: ""
-                                        },
-                                        model: {
-                                          value: _vm.search,
-                                          callback: function($$v) {
-                                            _vm.search = $$v
-                                          },
-                                          expression: "search"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  ),
+                                  _vm.editAllData == false &&
+                                  _vm.filterData.aayojana != 0
+                                    ? _c(
+                                        "abbr",
+                                        { attrs: { title: "Edit" } },
+                                        [
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              attrs: {
+                                                color: "primary",
+                                                fab: "",
+                                                small: "",
+                                                dark: "",
+                                                loading:
+                                                  _vm.editDataButtonLoading
+                                              },
+                                              on: { click: _vm.toggleEditData }
+                                            },
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-pencil-outline")
+                                              ])
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e(),
                                   _vm._v(" "),
-                                  _c(
-                                    "v-col",
-                                    {
-                                      staticClass:
-                                        "d-flex justify-space-between align-items-center",
-                                      attrs: { cols: "2" }
-                                    },
-                                    [
-                                      _vm.editAllData == false &&
-                                      _vm.filterData.aayojana != 0
-                                        ? _c(
-                                            "abbr",
-                                            { attrs: { title: "Edit" } },
+                                  _vm.editAllData == true
+                                    ? _c(
+                                        "abbr",
+                                        { attrs: { title: "Add" } },
+                                        [
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              staticClass:
+                                                "d-flex align-self-center",
+                                              attrs: {
+                                                fab: "",
+                                                small: "",
+                                                color: "primary"
+                                              },
+                                              on: {
+                                                click: _vm.addKriyakalapLakshya
+                                              }
+                                            },
                                             [
-                                              _c(
-                                                "v-btn",
-                                                {
-                                                  attrs: {
-                                                    color: "primary",
-                                                    fab: "",
-                                                    small: "",
-                                                    dark: "",
-                                                    loading:
-                                                      _vm.editDataButtonLoading
-                                                  },
-                                                  on: {
-                                                    click: _vm.toggleEditData
-                                                  }
-                                                },
-                                                [
-                                                  _c("v-icon", [
-                                                    _vm._v("mdi-pencil-outline")
-                                                  ])
-                                                ],
-                                                1
-                                              )
+                                              _c("v-icon", [_vm._v("mdi-plus")])
                                             ],
                                             1
                                           )
-                                        : _vm._e(),
-                                      _vm._v(" "),
-                                      _vm.editAllData == true
-                                        ? _c(
-                                            "abbr",
-                                            { attrs: { title: "Add" } },
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.editAllData == true
+                                    ? _c(
+                                        "abbr",
+                                        { attrs: { title: "Save" } },
+                                        [
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              staticClass:
+                                                "d-flex align-self-center",
+                                              attrs: {
+                                                fab: "",
+                                                small: "",
+                                                dark: "",
+                                                color: "success"
+                                              },
+                                              on: {
+                                                click: _vm.saveKriyakalapLakshya
+                                              }
+                                            },
                                             [
-                                              _c(
-                                                "v-btn",
-                                                {
-                                                  staticClass:
-                                                    "d-flex align-self-center",
-                                                  attrs: {
-                                                    fab: "",
-                                                    small: "",
-                                                    color: "primary"
-                                                  },
-                                                  on: {
-                                                    click:
-                                                      _vm.addKriyakalapLakshya
-                                                  }
-                                                },
-                                                [
-                                                  _c("v-icon", [
-                                                    _vm._v("mdi-plus")
-                                                  ])
-                                                ],
-                                                1
-                                              )
+                                              _c("v-icon", [
+                                                _vm._v("mdi-content-save")
+                                              ])
                                             ],
                                             1
                                           )
-                                        : _vm._e(),
-                                      _vm._v(" "),
-                                      _vm.editAllData == true
-                                        ? _c(
-                                            "abbr",
-                                            { attrs: { title: "Save" } },
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.editAllData == true
+                                    ? _c(
+                                        "abbr",
+                                        { attrs: { title: "Cancel" } },
+                                        [
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              staticClass:
+                                                "d-flex align-self-center",
+                                              attrs: {
+                                                fab: "",
+                                                small: "",
+                                                dark: "",
+                                                color: "red"
+                                              },
+                                              on: {
+                                                click: _vm.cancelSavingData
+                                              }
+                                            },
                                             [
-                                              _c(
-                                                "v-btn",
-                                                {
-                                                  staticClass:
-                                                    "d-flex align-self-center",
-                                                  attrs: {
-                                                    fab: "",
-                                                    small: "",
-                                                    dark: "",
-                                                    color: "success"
-                                                  },
-                                                  on: {
-                                                    click:
-                                                      _vm.saveKriyakalapLakshya
-                                                  }
-                                                },
-                                                [
-                                                  _c("v-icon", [
-                                                    _vm._v("mdi-content-save")
-                                                  ])
-                                                ],
-                                                1
-                                              )
+                                              _c("v-icon", [
+                                                _vm._v("mdi-close")
+                                              ])
                                             ],
                                             1
                                           )
-                                        : _vm._e(),
-                                      _vm._v(" "),
-                                      _vm.editAllData == true
-                                        ? _c(
-                                            "abbr",
-                                            { attrs: { title: "Cancel" } },
-                                            [
-                                              _c(
-                                                "v-btn",
-                                                {
-                                                  staticClass:
-                                                    "d-flex align-self-center",
-                                                  attrs: {
-                                                    fab: "",
-                                                    small: "",
-                                                    dark: "",
-                                                    color: "red"
-                                                  },
-                                                  on: {
-                                                    click: _vm.cancelSavingData
-                                                  }
-                                                },
-                                                [
-                                                  _c("v-icon", [
-                                                    _vm._v("mdi-close")
-                                                  ])
-                                                ],
-                                                1
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        : _vm._e()
-                                    ]
-                                  )
-                                ],
-                                1
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e()
+                                ]
                               )
                             ],
                             1
@@ -53007,7 +53796,7 @@ var render = function() {
             "v-col",
             { staticClass: "d-flex align-items-center", attrs: { cols: "3" } },
             [
-              _c("h5", [_vm._v("कृयाकलाप मासिक प्रगती")]),
+              _c("h5", [_vm._v("मासिक प्रगती")]),
               _vm._v(" "),
               _c("v-divider", {
                 staticClass: "ml-5",
@@ -53127,198 +53916,7 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c("v-col", [
-                _c("div", { attrs: { id: "printableArea" } }, [
-                  _c("div", { staticStyle: { "text-align": "center" } }, [
-                    _c("p", [_c("strong", [_vm._v("नेपाल सरकार")])]),
-                    _vm._v(" "),
-                    _c("p", [
-                      _c("strong", [
-                        _vm._v("रास्ट्रपति चुरे-तराई मधेश संरक्षण विकास समिति")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("p", [_c("strong", [_vm._v("दोश्रो चौमासिक प्रगति")])]),
-                    _vm._v(" "),
-                    _c(
-                      "table",
-                      {
-                        staticStyle: { margin: "auto" },
-                        attrs: { border: "1", cellspacing: "0" }
-                      },
-                      [
-                        _c("thead", [
-                          _c("tr", [
-                            _c(
-                              "td",
-                              { attrs: { rowspan: "2", height: "49" } },
-                              [_c("strong", [_vm._v("क्र.सं.")])]
-                            ),
-                            _vm._v(" "),
-                            _c("td", { attrs: { rowspan: "2" } }, [
-                              _c("strong", [_vm._v("कार्यक्रम /क्रियाकलाप")])
-                            ]),
-                            _vm._v(" "),
-                            _c("td", { attrs: { rowspan: "2" } }, [
-                              _c("strong", [_vm._v("खर्च शीर्षक")])
-                            ]),
-                            _vm._v(" "),
-                            _c("td", { attrs: { rowspan: "2" } }, [
-                              _c("strong", [_vm._v("इकाई")])
-                            ]),
-                            _vm._v(" "),
-                            _c("td", { attrs: { colspan: "3" } }, [
-                              _c("strong", [_vm._v("बार्षिक लक्ष्य")])
-                            ]),
-                            _vm._v(" "),
-                            _c("td", { attrs: { colspan: "3" } }, [
-                              _c("strong", [
-                                _vm._v(
-                                  _vm._s(_vm.maasikPragatiReport.month) +
-                                    " महिनाको प्रगति"
-                                )
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("td", { attrs: { colspan: "3" } }, [
-                              _c("strong", [
-                                _vm._v("प्रतिवेदन अवधिसम्मको यस आ.व.को प्रगति")
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "td",
-                              { attrs: { colspan: "2", rowspan: "2" } },
-                              [_c("strong", [_vm._v("भौतिक प्रगति")])]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("tr", [
-                            _c("td", [_c("strong", [_vm._v("परिमाण")])]),
-                            _vm._v(" "),
-                            _c("td", [_c("strong", [_vm._v("भार")])]),
-                            _vm._v(" "),
-                            _c("td", [_c("strong", [_vm._v("बजेट")])]),
-                            _vm._v(" "),
-                            _c("td", [_c("strong", [_vm._v("परिमाण")])]),
-                            _vm._v(" "),
-                            _c("td", [_c("strong", [_vm._v("भारित")])]),
-                            _vm._v(" "),
-                            _c("td", [_c("strong", [_vm._v("खर्च")])]),
-                            _vm._v(" "),
-                            _c("td", [_c("strong", [_vm._v("परिमाण")])]),
-                            _vm._v(" "),
-                            _c("td", [_c("strong", [_vm._v("भारित")])]),
-                            _vm._v(" "),
-                            _c("td", [_c("strong", [_vm._v("खर्च")])])
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "tbody",
-                          _vm._l(_vm.maasikPragatiReport.items, function(
-                            item,
-                            index
-                          ) {
-                            return _c("tr", { key: index }, [
-                              _c("td", [_vm._v(_vm._s(item.kriyakalap_code))]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(item.name))]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(item.kharcha_sirsak))]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(item.ikai))]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(_vm._s(item.baarsik_lakshya_pariman))
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(_vm._s(item.baarsik_lakshya_vaar))
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(_vm._s(item.baarsik_lakshya_budget))
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  _vm._s(
-                                    item.maasik_pragati.pariman
-                                      ? item.maasik_pragati.pariman
-                                      : ""
-                                  )
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  _vm._s(
-                                    item.maasik_pragati.vaarit
-                                      ? item.maasik_pragati.vaarit
-                                      : ""
-                                  )
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  _vm._s(
-                                    item.maasik_pragati.kharcha
-                                      ? item.maasik_pragati.kharcha
-                                      : ""
-                                  )
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  _vm._s(
-                                    item.total_till_now.pariman
-                                      ? item.total_till_now.pariman
-                                      : ""
-                                  )
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  _vm._s(
-                                    item.total_till_now.vaarit
-                                      ? item.total_till_now.vaarit
-                                      : ""
-                                  )
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  _vm._s(
-                                    item.total_till_now.kharcha
-                                      ? item.total_till_now.kharcha
-                                      : ""
-                                  )
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  _vm._s(
-                                    item.vautik_pragati
-                                      ? item.vautik_pragati
-                                      : ""
-                                  )
-                                )
-                              ])
-                            ])
-                          }),
-                          0
-                        )
-                      ]
-                    )
-                  ])
-                ])
-              ])
+              _c("v-col", [_c("maasik-print")], 1)
             ],
             1
           )
@@ -53362,7 +53960,7 @@ var render = function() {
             "v-col",
             { staticClass: "d-flex align-items-center", attrs: { cols: "3" } },
             [
-              _c("h5", [_vm._v("कृयाकलाप मासिक प्रगती")]),
+              _c("h5", [_vm._v("मासिक प्रगती")]),
               _vm._v(" "),
               _c("v-divider", {
                 staticClass: "ml-5",
@@ -53390,7 +53988,9 @@ var render = function() {
                   "item-text": "name",
                   "item-value": "id",
                   placeholder: "कार्यलय",
-                  disabled: true
+                  disabled: _vm.$store.getters.CHECK_PERMISSION(
+                    "maasik_pragati_form-select_kaaryalaya"
+                  )
                 },
                 on: { input: _vm.getDataFromApi },
                 model: {
@@ -53670,7 +54270,7 @@ var render = function() {
             "v-col",
             { staticClass: "d-flex align-items-center", attrs: { cols: "3" } },
             [
-              _c("h5", [_vm._v("कृयाकलाप त्रैमासिक प्रगती")]),
+              _c("h5", [_vm._v("त्रैमासिक प्रगती")]),
               _vm._v(" "),
               _c("v-divider", {
                 staticClass: "ml-5",
@@ -53790,263 +54390,7 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c("v-col", [
-                _c("div", { attrs: { id: "printableArea" } }, [
-                  _c("div", { staticStyle: { "text-align": "center" } }, [
-                    _c("p", [_c("strong", [_vm._v("नेपाल सरकार")])]),
-                    _vm._v(" "),
-                    _c("p", [
-                      _c("strong", [
-                        _vm._v("रास्ट्रपति चुरे-तराई मधेश संरक्षण विकास समिति")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("p", [_c("strong", [_vm._v("दोश्रो चौमासिक प्रगति")])]),
-                    _vm._v(" "),
-                    _c(
-                      "table",
-                      {
-                        staticStyle: { margin: "auto" },
-                        attrs: { border: "1", cellspacing: "0" }
-                      },
-                      [
-                        _c("thead", [
-                          _c("tr", [
-                            _c(
-                              "td",
-                              { attrs: { rowspan: "2", height: "49" } },
-                              [_c("strong", [_vm._v("क्र.सं.")])]
-                            ),
-                            _vm._v(" "),
-                            _c("td", { attrs: { rowspan: "2" } }, [
-                              _c("strong", [_vm._v("कार्यक्रम /क्रियाकलाप")])
-                            ]),
-                            _vm._v(" "),
-                            _c("td", { attrs: { rowspan: "2" } }, [
-                              _c("strong", [_vm._v("खर्च शीर्षक")])
-                            ]),
-                            _vm._v(" "),
-                            _c("td", { attrs: { rowspan: "2" } }, [
-                              _c("strong", [_vm._v("इकाई")])
-                            ]),
-                            _vm._v(" "),
-                            _c("td", { attrs: { colspan: "3" } }, [
-                              _c("strong", [_vm._v("बार्षिक लक्ष्य")])
-                            ]),
-                            _vm._v(" "),
-                            _c("td", { attrs: { colspan: "3" } }, [
-                              _c("strong", [
-                                _vm._v(
-                                  _vm._s(
-                                    _vm.traimaasikPragatiReport.trimester
-                                  ) + "को लक्ष"
-                                )
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("td", { attrs: { colspan: "3" } }, [
-                              _c("strong", [
-                                _vm._v(
-                                  _vm._s(
-                                    _vm.traimaasikPragatiReport.trimester
-                                  ) + "को प्रगति"
-                                )
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("td", { attrs: { colspan: "3" } }, [
-                              _c("strong", [
-                                _vm._v("प्रतिवेदन अवधिसम्मको यस आ.व.को प्रगति")
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("td", { attrs: { colspan: "2" } }, [
-                              _c("strong", [_vm._v("भौतिक प्रगति")])
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("tr", [
-                            _c("td", [_c("strong", [_vm._v("परिमाण")])]),
-                            _vm._v(" "),
-                            _c("td", [_c("strong", [_vm._v("भार")])]),
-                            _vm._v(" "),
-                            _c("td", [_c("strong", [_vm._v("बजेट")])]),
-                            _vm._v(" "),
-                            _c("td", [_c("strong", [_vm._v("परिमाण")])]),
-                            _vm._v(" "),
-                            _c("td", [_c("strong", [_vm._v("भार")])]),
-                            _vm._v(" "),
-                            _c("td", [_c("strong", [_vm._v("बजेट")])]),
-                            _vm._v(" "),
-                            _c("td", [_c("strong", [_vm._v("परिमाण")])]),
-                            _vm._v(" "),
-                            _c("td", [_c("strong", [_vm._v("भारित")])]),
-                            _vm._v(" "),
-                            _c("td", [_c("strong", [_vm._v("खर्च")])]),
-                            _vm._v(" "),
-                            _c("td", [_c("strong", [_vm._v("परिमाण")])]),
-                            _vm._v(" "),
-                            _c("td", [_c("strong", [_vm._v("भारित")])]),
-                            _vm._v(" "),
-                            _c("td", [_c("strong", [_vm._v("खर्च")])]),
-                            _vm._v(" "),
-                            _c("td", [
-                              _c("strong", [
-                                _vm._v(
-                                  _vm._s(_vm.traimaasikPragatiReport.trimester)
-                                )
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [_c("strong", [_vm._v("हालसम्मको")])])
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "tbody",
-                          _vm._l(_vm.traimaasikPragatiReport.items, function(
-                            item,
-                            index
-                          ) {
-                            return _c("tr", { key: index }, [
-                              _c("td", [_vm._v(_vm._s(item.kriyakalap_code))]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(item.name))]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(item.kharcha_sirsak))]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(item.ikai))]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(_vm._s(item.baarsik_lakshya_pariman))
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(_vm._s(item.baarsik_lakshya_vaar))
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(_vm._s(item.baarsik_lakshya_budget))
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  _vm._s(
-                                    item[
-                                      _vm.traimaasikPragatiReport.initial +
-                                        "_traimasik_lakshya_pariman"
-                                    ]
-                                  )
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  _vm._s(
-                                    item[
-                                      _vm.traimaasikPragatiReport.initial +
-                                        "_traimasik_lakshya_vaar"
-                                    ]
-                                  )
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  _vm._s(
-                                    item[
-                                      _vm.traimaasikPragatiReport.initial +
-                                        "_traimasik_lakshya_budget"
-                                    ]
-                                  )
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  _vm._s(
-                                    item.traimaasik_pragati.pariman
-                                      ? item.traimaasik_pragati.pariman
-                                      : ""
-                                  )
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  _vm._s(
-                                    item.traimaasik_pragati.vaarit
-                                      ? item.traimaasik_pragati.vaarit
-                                      : ""
-                                  )
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  _vm._s(
-                                    item.traimaasik_pragati.kharcha
-                                      ? item.traimaasik_pragati.kharcha
-                                      : ""
-                                  )
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  _vm._s(
-                                    item.total_till_now.pariman
-                                      ? item.total_till_now.pariman
-                                      : ""
-                                  )
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  _vm._s(
-                                    item.total_till_now.vaarit
-                                      ? item.total_till_now.vaarit
-                                      : ""
-                                  )
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  _vm._s(
-                                    item.total_till_now.kharcha
-                                      ? item.total_till_now.kharcha
-                                      : ""
-                                  )
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  _vm._s(
-                                    item.vautik_pragati[
-                                      _vm.traimaasikPragatiReport.initial +
-                                        "_traimasik"
-                                    ]
-                                  )
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  _vm._s(item.vautik_pragati["total_till_now"])
-                                )
-                              ])
-                            ])
-                          }),
-                          0
-                        )
-                      ]
-                    )
-                  ])
-                ])
-              ])
+              _c("v-col", [_c("traimaasik-print")], 1)
             ],
             1
           )
@@ -54090,7 +54434,7 @@ var render = function() {
             "v-col",
             { staticClass: "d-flex align-items-center", attrs: { cols: "3" } },
             [
-              _c("h5", [_vm._v("कृयाकलाप त्रैमासिक प्रगती")]),
+              _c("h5", [_vm._v("त्रैमासिक प्रगती")]),
               _vm._v(" "),
               _c("v-divider", {
                 staticClass: "ml-5",
@@ -54118,7 +54462,9 @@ var render = function() {
                   "item-text": "name",
                   "item-value": "id",
                   placeholder: "कार्यलय",
-                  disabled: 1
+                  disabled: _vm.$store.getters.CHECK_PERMISSION(
+                    "traimaasik_pragati_form-select_kaaryalaya"
+                  )
                 },
                 on: { input: _vm.getDataFromApi },
                 model: {
@@ -54214,18 +54560,22 @@ var render = function() {
                     [_vm._v("Save")]
                   ),
                   _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "primary" },
-                      on: {
-                        click: function($event) {
-                          return _vm.saveTraimaasikPragatiTaalika(true)
-                        }
-                      }
-                    },
-                    [_vm._v("Submit")]
-                  ),
+                  _vm.$store.getters.CHECK_PERMISSION(
+                    "traimaasik_pragati_form-select_kaaryalaya"
+                  )
+                    ? _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "primary" },
+                          on: {
+                            click: function($event) {
+                              return _vm.saveTraimaasikPragatiTaalika(true)
+                            }
+                          }
+                        },
+                        [_vm._v("Submit")]
+                      )
+                    : _vm._e(),
                   _vm._v(" "),
                   _c(
                     "v-btn",
@@ -54365,6 +54715,209 @@ var render = function() {
         ],
         1
       )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=template&id=3f40a789&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=template&id=3f40a789&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-container",
+    { attrs: { fluid: "" } },
+    [
+      _c(
+        "v-row",
+        { staticClass: "d-flex justify-content-between" },
+        [
+          _c(
+            "v-col",
+            { staticClass: "d-flex align-items-center", attrs: { cols: "3" } },
+            [
+              _c("h5", [_vm._v("त्रैमासिक प्रगती")]),
+              _vm._v(" "),
+              _c("v-divider", {
+                staticClass: "ml-5",
+                attrs: { inset: "", vertical: "" }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-row",
+        [
+          _c(
+            "v-col",
+            { staticClass: "d-flex align-items-center", attrs: { cols: "9" } },
+            [
+              _c("v-select", {
+                staticClass: "mr-2",
+                attrs: {
+                  items: _vm.kaaryalaya,
+                  label: "कार्यलय",
+                  "item-text": "name",
+                  "item-value": "id",
+                  placeholder: "कार्यलय",
+                  disabled: true
+                },
+                model: {
+                  value: _vm.filterData.kaaryalaya,
+                  callback: function($$v) {
+                    _vm.$set(_vm.filterData, "kaaryalaya", $$v)
+                  },
+                  expression: "filterData.kaaryalaya"
+                }
+              }),
+              _vm._v(" "),
+              _c("v-autocomplete", {
+                staticClass: "mr-2",
+                attrs: {
+                  items: _vm.aarthikBarsa,
+                  label: "आर्थिक वर्ष",
+                  "item-text": "name",
+                  "item-value": "id",
+                  placeholder: "आर्थिक वर्ष",
+                  multiple: ""
+                },
+                on: { input: _vm.changeInArthikBarsa },
+                model: {
+                  value: _vm.filterData.aarthikBarsa,
+                  callback: function($$v) {
+                    _vm.$set(_vm.filterData, "aarthikBarsa", $$v)
+                  },
+                  expression: "filterData.aarthikBarsa"
+                }
+              }),
+              _vm._v(" "),
+              _c("v-autocomplete", {
+                staticClass: "mr-2",
+                attrs: {
+                  items: _vm.aayojana,
+                  label: "आयोजना",
+                  "item-text": "name",
+                  "item-value": "id",
+                  placeholder: "आयोजना",
+                  multiple: ""
+                },
+                on: { input: _vm.changeInAayojana },
+                model: {
+                  value: _vm.filterData.aayojana,
+                  callback: function($$v) {
+                    _vm.$set(_vm.filterData, "aayojana", $$v)
+                  },
+                  expression: "filterData.aayojana"
+                }
+              }),
+              _vm._v(" "),
+              _c("v-autocomplete", {
+                staticClass: "mr-2",
+                attrs: {
+                  items: ["चालु", "पूँजीगत"],
+                  label: "खर्च प्रकार",
+                  placeholder: "खर्च प्रकार",
+                  multiple: ""
+                },
+                on: {
+                  input: function($event) {
+                    _vm.filterData.traimaasik ? _vm.getDataFromApi() : ""
+                  }
+                },
+                model: {
+                  value: _vm.filterData.kharchaPrakar,
+                  callback: function($$v) {
+                    _vm.$set(_vm.filterData, "kharchaPrakar", $$v)
+                  },
+                  expression: "filterData.kharchaPrakar"
+                }
+              }),
+              _vm._v(" "),
+              _vm.filterData.aayojana
+                ? _c("v-select", {
+                    attrs: {
+                      items: _vm.traimaasik,
+                      label: "त्रैमासिक",
+                      "item-text": "name",
+                      "item-value": "id",
+                      placeholder: "त्रैमासिक"
+                    },
+                    on: { input: _vm.changeInTraimaasik },
+                    model: {
+                      value: _vm.filterData.traimaasik,
+                      callback: function($$v) {
+                        _vm.$set(_vm.filterData, "traimaasik", $$v)
+                      },
+                      expression: "filterData.traimaasik"
+                    }
+                  })
+                : _vm._e()
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _vm.filterData.traimaasik
+        ? _c(
+            "v-row",
+            [
+              _c(
+                "v-col",
+                { attrs: { cols: "12" } },
+                [
+                  _c(
+                    "v-btn",
+                    { attrs: { target: "_blank", href: "/traimaasik-print" } },
+                    [_vm._v("\n                Print\n            ")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                [
+                  _c("v-data-table", {
+                    staticClass: "elevation-1",
+                    attrs: {
+                      "group-by": "kharcha_prakar",
+                      "disable-pagination": "",
+                      "hide-default-footer": true,
+                      headers: _vm.headers,
+                      items: _vm.items
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e()
     ],
     1
   )
@@ -54729,10 +55282,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/maasik-print.vue?vue&type=template&id=76aade20&scoped=true&":
-/*!************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/maasik-print.vue?vue&type=template&id=76aade20&scoped=true& ***!
-  \************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/MaasikPrint.vue?vue&type=template&id=e369a6c6&scoped=true&":
+/*!***********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/MaasikPrint.vue?vue&type=template&id=e369a6c6&scoped=true& ***!
+  \***********************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -54747,31 +55300,49 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { attrs: { id: "printableArea" } }, [
+      _c(
+        "div",
+        { staticStyle: { position: "relative", "margin-bottom": "5px" } },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticStyle: { "text-align": "center" } }, [
+            _c("h5", [_vm._v("नेपाल सरकार")]),
+            _vm._v(" "),
+            _c("h5", [_vm._v("रास्ट्रपति चुरे-तराई मधेश संरक्षण विकास समिति")]),
+            _vm._v(" "),
+            _c("h4", [
+              _c("strong", [
+                _vm._v(
+                  _vm._s(_vm.maasikPragatiReport.month) + " महिनाको प्रगति"
+                )
+              ])
+            ])
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _vm._m(1),
+      _vm._v(" "),
       _c("div", { staticStyle: { "text-align": "center" } }, [
-        _c("p", [_vm._v("नेपाल सरकार")]),
-        _vm._v(" "),
-        _c("p", [_vm._v("रास्ट्रपति चुरे-तराई मधेश संरक्षण विकास समिति")]),
-        _vm._v(" "),
-        _c("p", [_vm._v("दोश्रो चौमासिक प्रगति")]),
-        _vm._v(" "),
         _c(
           "table",
           {
-            staticStyle: { margin: "auto" },
+            staticStyle: { margin: "auto", "text-align": "left" },
             attrs: { border: "1", cellspacing: "0" }
           },
           [
             _c("thead", [
               _c("tr", [
-                _vm._m(0),
-                _vm._v(" "),
-                _vm._m(1),
-                _vm._v(" "),
                 _vm._m(2),
                 _vm._v(" "),
                 _vm._m(3),
                 _vm._v(" "),
                 _vm._m(4),
+                _vm._v(" "),
+                _vm._m(5),
+                _vm._v(" "),
+                _vm._m(6),
                 _vm._v(" "),
                 _c("td", { attrs: { colspan: "3" } }, [
                   _c("strong", [
@@ -54781,115 +55352,584 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _vm._m(5),
+                _vm._m(7),
                 _vm._v(" "),
-                _vm._m(6)
+                _vm._m(8)
               ]),
               _vm._v(" "),
-              _vm._m(7)
+              _vm._m(9)
             ]),
             _vm._v(" "),
             _c(
               "tbody",
-              _vm._l(_vm.maasikPragatiReport.items, function(item, index) {
-                return _c("tr", { key: index }, [
-                  _c("td", [_vm._v(_vm._s(item.kriyakalap_code))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.name))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.kharcha_sirsak))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.ikai))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.baarsik_lakshya_pariman))]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(
-                        item.baarsik_lakshya_pariman +
-                          item.baarsik_lakshya_budget
+              [
+                _c(
+                  "tr",
+                  [
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("strong", [
+                        _vm._v(_vm._s(_vm.maasikPragatiReport.aayojana))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(12, function(i) {
+                      return _c("td")
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  [
+                    _c("td"),
+                    _vm._v(" "),
+                    _vm._m(10),
+                    _vm._v(" "),
+                    _vm._l(12, function(i) {
+                      return _c("td")
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _vm._l(_vm.maasikPragatiReport.items.punjigat.data, function(
+                  item,
+                  index
+                ) {
+                  return _c("tr", { key: index }, [
+                    _c("td", [_vm._v(_vm._s(item.kriyakalap_code))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.kharcha_sirsak))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.ikai))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.baarsik_lakshya_pariman))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.baarsik_lakshya_vaar))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.baarsik_lakshya_budget))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.maasik_pragati.pariman
+                            ? item.maasik_pragati.pariman
+                            : ""
+                        )
                       )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.baarsik_lakshya_budget))]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(
-                        item.maasik_pragati.pariman
-                          ? item.maasik_pragati.pariman
-                          : ""
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.maasik_pragati.vaarit
+                            ? item.maasik_pragati.vaarit
+                            : ""
+                        )
                       )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(
-                        item.maasik_pragati.vaarit
-                          ? item.maasik_pragati.vaarit
-                          : ""
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.maasik_pragati.kharcha
+                            ? item.maasik_pragati.kharcha
+                            : ""
+                        )
                       )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(
-                        item.maasik_pragati.kharcha
-                          ? item.maasik_pragati.kharcha
-                          : ""
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.total_till_now.pariman
+                            ? item.total_till_now.pariman
+                            : ""
+                        )
                       )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(
-                        item.total_till_now.pariman
-                          ? item.total_till_now.pariman
-                          : ""
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.total_till_now.vaarit
+                            ? item.total_till_now.vaarit
+                            : ""
+                        )
                       )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(
-                        item.total_till_now.vaarit
-                          ? item.total_till_now.vaarit
-                          : ""
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.total_till_now.kharcha
+                            ? item.total_till_now.kharcha
+                            : ""
+                        )
                       )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(
-                        item.total_till_now.kharcha
-                          ? item.total_till_now.kharcha
-                          : ""
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.vautik_pragati < 100
+                            ? item.vautik_pragati
+                              ? item.vautik_pragati
+                              : ""
+                            : 100
+                        )
                       )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(item.vautik_pragati ? item.vautik_pragati : "")
-                    )
+                    ])
                   ])
-                ])
-              }),
-              0
+                }),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  [
+                    _c("td"),
+                    _vm._v(" "),
+                    _vm._m(11),
+                    _vm._v(" "),
+                    _vm._l(3, function(i) {
+                      return _c("td")
+                    }),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.maasikPragatiReport.items.punjigat.totals
+                            .baarsik_lakshya_vaar
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.maasikPragatiReport.items.punjigat.totals
+                            .baarsik_lakshya_budget
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.maasikPragatiReport.items.punjigat.totals
+                            .maasik_pragati_vaarit
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.maasikPragatiReport.items.punjigat.totals
+                            .maasik_pragati_kharcha
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.maasikPragatiReport.items.punjigat.totals
+                            .total_till_now_vaarit
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.maasikPragatiReport.items.punjigat.totals
+                            .total_till_now_kharcha
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td")
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  [
+                    _c("td"),
+                    _vm._v(" "),
+                    _vm._m(12),
+                    _vm._v(" "),
+                    _vm._l(12, function(i) {
+                      return _c("td")
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _vm._l(_vm.maasikPragatiReport.items.chalu.data, function(
+                  item,
+                  index
+                ) {
+                  return _c("tr", { key: index }, [
+                    _c("td", [_vm._v(_vm._s(item.kriyakalap_code))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.kharcha_sirsak))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.ikai))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.baarsik_lakshya_pariman))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.baarsik_lakshya_vaar))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.baarsik_lakshya_budget))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.maasik_pragati.pariman
+                            ? item.maasik_pragati.pariman
+                            : ""
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.maasik_pragati.vaarit
+                            ? item.maasik_pragati.vaarit
+                            : ""
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.maasik_pragati.kharcha
+                            ? item.maasik_pragati.kharcha
+                            : ""
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.total_till_now.pariman
+                            ? item.total_till_now.pariman
+                            : ""
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.total_till_now.vaarit
+                            ? item.total_till_now.vaarit
+                            : ""
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.total_till_now.kharcha
+                            ? item.total_till_now.kharcha
+                            : ""
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.vautik_pragati < 100
+                            ? item.vautik_pragati
+                              ? item.vautik_pragati
+                              : ""
+                            : 100
+                        )
+                      )
+                    ])
+                  ])
+                }),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  [
+                    _c("td"),
+                    _vm._v(" "),
+                    _vm._m(13),
+                    _vm._v(" "),
+                    _vm._l(3, function(i) {
+                      return _c("td")
+                    }),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.maasikPragatiReport.items.chalu.totals
+                            .baarsik_lakshya_vaar
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.maasikPragatiReport.items.chalu.totals
+                            .baarsik_lakshya_budget
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.maasikPragatiReport.items.chalu.totals
+                            .maasik_pragati_vaarit
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.maasikPragatiReport.items.chalu.totals
+                            .maasik_pragati_kharcha
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.maasikPragatiReport.items.chalu.totals
+                            .total_till_now_vaarit
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.maasikPragatiReport.items.chalu.totals
+                            .total_till_now_kharcha
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td")
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  [
+                    _c("td"),
+                    _vm._v(" "),
+                    _vm._m(14),
+                    _vm._v(" "),
+                    _vm._l(3, function(i) {
+                      return _c("td")
+                    }),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.maasikPragatiReport.items.totals
+                            .baarsik_lakshya_vaar
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.maasikPragatiReport.items.totals
+                            .baarsik_lakshya_budget
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.maasikPragatiReport.items.totals
+                            .maasik_pragati_vaarit
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.maasikPragatiReport.items.totals
+                            .maasik_pragati_kharcha
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.maasikPragatiReport.items.totals
+                            .total_till_now_vaarit
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.maasikPragatiReport.items.totals
+                            .total_till_now_kharcha
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td")
+                  ],
+                  2
+                )
+              ],
+              2
             )
           ]
         )
-      ])
+      ]),
+      _vm._v(" "),
+      _vm._m(15)
     ])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticStyle: { position: "absolute", right: "0", "text-align": "right" }
+      },
+      [
+        _c("p", [_vm._v("बजेट फा.नं. ......")]),
+        _vm._v(" "),
+        _c("p", [_vm._v("रा.यो.आ. .....")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticStyle: {
+          display: "flex",
+          "margin-bottom": "5px",
+          "justify-content": "space-between"
+        }
+      },
+      [
+        _c("div", [
+          _c("p", [_vm._v("१. आ.व. : २०७७/०७८")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("२. बजेट उपशीर्षक नं. : ३२९००१०४")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("३. मन्त्रालय : वन तथा वातावरण मन्त्रालय ")]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "४. कार्यक्रम / आयोजनाको नाम : चुरे संरक्षण कार्यक्रम (५ वटा कार्यक्रम कार्यान्वयन इकाइहरु)"
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [_vm._v("५. आयोजना / कार्यालय प्रमुखको नाम : ")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("६. यस अवधिको बजेट रू. 8468.8६")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("क) आन्तरिक १) नेपाल सरकार :")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("२) संस्था :")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("३) जनसहभागिता :")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("ख) बैदेशिक १) ऋण :")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("२) अनुदान :")])
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c("p", [_vm._v("७. यस अवधिको खर्च रकम र प्रतिशत ")]),
+          _vm._v(" "),
+          _c("p", [_vm._v(" क) आन्तरिक १) नेपाल सरकार :")]),
+          _vm._v(" "),
+          _c("p", [_vm._v(" २) संस्था :")]),
+          _vm._v(" "),
+          _c("p", [_vm._v(" ३) जनसहभागिता :")]),
+          _vm._v(" "),
+          _c("p", [_vm._v(" ख) बैदेशिक १) ऋण :")]),
+          _vm._v(" "),
+          _c("p", [_vm._v(" २) अनुदान :")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("८. चालु आ.व.को हालसम्मको खर्च रकम र प्रतिशत :")]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "९. कूल लागत मध्ये शुरूदेखि यस अवधिसम्मको कूल खर्च रकम र प्रतिशत: "
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "१०. आयोजनाको शुरूदेखि यस अवधि सम्मको भौतिक प्रगति र प्रतिशत :"
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v("११. आयोजनाको कूल अवधि मध्ये वितेको सममय प्रतिशतमा :")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c("p", [_vm._v("१२. सोधभर्ना स्थिति ")]),
+          _vm._v(" "),
+          _c("p", [_vm._v(" क) माग गर्नु पर्ने रकम")]),
+          _vm._v(" "),
+          _c("p", [_vm._v(" ख) माग गरेको रकम")]),
+          _vm._v(" "),
+          _c("p", [_vm._v(" ग) प्राप्त हुन बाँकि रकम")])
+        ])
+      ]
+    )
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -54969,6 +56009,76 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("td", [_c("strong", [_vm._v("खर्च")])])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("strong", [_vm._v("अ) पूँजीगत खर्च अन्तर्गतका कार्यक्रमहरु")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("strong", [_vm._v("क) पूँजीगत खर्च कार्यक्रमको जम्मा:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("strong", [_vm._v("आ) चालु खर्च अन्तर्गतका कार्यक्रमहरु")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v("ख) चालु खर्च कार्यक्रमको जम्मा:")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v("कुल जम्मा खर्च (जिल्लागत)")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticStyle: {
+          display: "flex",
+          "justify-content": "space-between",
+          "margin-top": "15px"
+        }
+      },
+      [
+        _c("div", [
+          _c("p", [_c("strong", [_vm._v("तयार गर्ने")])]),
+          _vm._v(" "),
+          _c("p", [_vm._v("स.व.अ.")])
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c("p", [_c("strong", [_vm._v("आ.प्र.शाखा")])]),
+          _vm._v(" "),
+          _c("p", [_vm._v("ले.अ.")])
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c("p", [_c("strong", [_vm._v("प्रमाणित गर्ने")])]),
+          _vm._v(" "),
+          _c("p", [_vm._v("सदस्य-सचिव")])
+        ])
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -54977,10 +56087,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/traimaasik-print.vue?vue&type=template&id=3d1f0546&scoped=true&":
-/*!****************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/traimaasik-print.vue?vue&type=template&id=3d1f0546&scoped=true& ***!
-  \****************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=template&id=5ce398b7&scoped=true&":
+/*!***************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=template&id=5ce398b7&scoped=true& ***!
+  \***************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -54993,33 +56103,155 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
+  return _c("v-container", [
     _c("div", { attrs: { id: "printableArea" } }, [
+      _c(
+        "div",
+        { staticStyle: { position: "relative", "margin-bottom": "5px" } },
+        [
+          _c(
+            "div",
+            {
+              staticStyle: {
+                position: "absolute",
+                right: "0",
+                "text-align": "right"
+              }
+            },
+            [
+              _c("p", [_vm._v("बजेट फा.नं. ......")]),
+              _vm._v(" "),
+              _c("p", [_vm._v("रा.यो.आ. .....")])
+            ]
+          ),
+          _vm._v(" "),
+          _c("div", { staticStyle: { "text-align": "center" } }, [
+            _c("h5", [_vm._v("नेपाल सरकार")]),
+            _vm._v(" "),
+            _c("h5", [_vm._v("रास्ट्रपति चुरे-तराई मधेश संरक्षण विकास समिति")]),
+            _vm._v(" "),
+            _c("h4", [
+              _c("strong", [
+                _vm._v(
+                  _vm._s(_vm.traimaasikPragatiReport.trimester) + " प्रगति"
+                )
+              ])
+            ])
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticStyle: {
+            display: "flex",
+            "margin-bottom": "5px",
+            "justify-content": "space-between"
+          }
+        },
+        [
+          _c("div", [
+            _c("p", [_vm._v("१. आ.व. : २०७७/०७८")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("२. बजेट उपशीर्षक नं. : ३२९००१०४")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("३. मन्त्रालय : वन तथा वातावरण मन्त्रालय ")]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "४. कार्यक्रम / आयोजनाको नाम : चुरे संरक्षण कार्यक्रम (५ वटा कार्यक्रम कार्यान्वयन इकाइहरु)"
+              )
+            ]),
+            _vm._v(" "),
+            _c("p", [_vm._v("५. आयोजना / कार्यालय प्रमुखको नाम : ")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("६. यस अवधिको बजेट रू. 8468.8६")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("क) आन्तरिक १) नेपाल सरकार :")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("२) संस्था :")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("३) जनसहभागिता :")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("ख) बैदेशिक १) ऋण :")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("२) अनुदान :")])
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c("p", [_vm._v("७. यस अवधिको खर्च रकम र प्रतिशत ")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(" क) आन्तरिक १) नेपाल सरकार :")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(" २) संस्था :")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(" ३) जनसहभागिता :")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(" ख) बैदेशिक १) ऋण :")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(" २) अनुदान :")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("८. चालु आ.व.को हालसम्मको खर्च रकम र प्रतिशत :")]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "९. कूल लागत मध्ये शुरूदेखि यस अवधिसम्मको कूल खर्च रकम र प्रतिशत: "
+              )
+            ]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "१०. आयोजनाको शुरूदेखि यस अवधि सम्मको भौतिक प्रगति र प्रतिशत :"
+              )
+            ]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v("११. आयोजनाको कूल अवधि मध्ये वितेको सममय प्रतिशतमा :")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c("p", [_vm._v("१२. सोधभर्ना स्थिति ")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(" क) माग गर्नु पर्ने रकम")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(" ख) माग गरेको रकम")]),
+            _vm._v(" "),
+            _c("p", [_vm._v(" ग) प्राप्त हुन बाँकि रकम")])
+          ])
+        ]
+      ),
+      _vm._v(" "),
       _c("div", { staticStyle: { "text-align": "center" } }, [
-        _c("p", [_vm._v("नेपाल सरकार")]),
-        _vm._v(" "),
-        _c("p", [_vm._v("रास्ट्रपति चुरे-तराई मधेश संरक्षण विकास समिति")]),
-        _vm._v(" "),
-        _c("p", [_vm._v("दोश्रो चौमासिक प्रगति")]),
-        _vm._v(" "),
         _c(
           "table",
           {
-            staticStyle: { margin: "auto" },
-            attrs: { border: "1", cellspacing: "0" }
+            staticStyle: { margin: "auto", "text-align": "left" },
+            attrs: { border: "1" }
           },
           [
             _c("thead", [
               _c("tr", [
-                _vm._m(0),
+                _c("td", { attrs: { rowspan: "2", height: "49" } }, [
+                  _c("strong", [_vm._v("क्र.सं.")])
+                ]),
                 _vm._v(" "),
-                _vm._m(1),
+                _c("td", { attrs: { rowspan: "2" } }, [
+                  _c("strong", [_vm._v("कार्यक्रम /क्रियाकलाप")])
+                ]),
                 _vm._v(" "),
-                _vm._m(2),
+                _c("td", { attrs: { rowspan: "2" } }, [
+                  _c("strong", [_vm._v("खर्च शीर्षक")])
+                ]),
                 _vm._v(" "),
-                _vm._m(3),
+                _c("td", { attrs: { rowspan: "2" } }, [
+                  _c("strong", [_vm._v("इकाई")])
+                ]),
                 _vm._v(" "),
-                _vm._m(4),
+                _c("td", { attrs: { colspan: "3" } }, [
+                  _c("strong", [_vm._v("बार्षिक लक्ष्य")])
+                ]),
                 _vm._v(" "),
                 _c("td", { attrs: { colspan: "3" } }, [
                   _c("strong", [
@@ -55038,35 +56270,41 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _vm._m(5),
+                _c("td", { attrs: { colspan: "3" } }, [
+                  _c("strong", [
+                    _vm._v("प्रतिवेदन अवधिसम्मको यस आ.व.को प्रगति")
+                  ])
+                ]),
                 _vm._v(" "),
-                _vm._m(6)
+                _c("td", { attrs: { colspan: "2" } }, [
+                  _c("strong", [_vm._v("भौतिक प्रगति")])
+                ])
               ]),
               _vm._v(" "),
               _c("tr", [
-                _vm._m(7),
+                _c("td", [_c("strong", [_vm._v("परिमाण")])]),
                 _vm._v(" "),
-                _vm._m(8),
+                _c("td", [_c("strong", [_vm._v("भार")])]),
                 _vm._v(" "),
-                _vm._m(9),
+                _c("td", [_c("strong", [_vm._v("बजेट")])]),
                 _vm._v(" "),
-                _vm._m(10),
+                _c("td", [_c("strong", [_vm._v("परिमाण")])]),
                 _vm._v(" "),
-                _vm._m(11),
+                _c("td", [_c("strong", [_vm._v("भार")])]),
                 _vm._v(" "),
-                _vm._m(12),
+                _c("td", [_c("strong", [_vm._v("बजेट")])]),
                 _vm._v(" "),
-                _vm._m(13),
+                _c("td", [_c("strong", [_vm._v("परिमाण")])]),
                 _vm._v(" "),
-                _vm._m(14),
+                _c("td", [_c("strong", [_vm._v("भारित")])]),
                 _vm._v(" "),
-                _vm._m(15),
+                _c("td", [_c("strong", [_vm._v("खर्च")])]),
                 _vm._v(" "),
-                _vm._m(16),
+                _c("td", [_c("strong", [_vm._v("परिमाण")])]),
                 _vm._v(" "),
-                _vm._m(17),
+                _c("td", [_c("strong", [_vm._v("भारित")])]),
                 _vm._v(" "),
-                _vm._m(18),
+                _c("td", [_c("strong", [_vm._v("खर्च")])]),
                 _vm._v(" "),
                 _c("td", [
                   _c("strong", [
@@ -55074,280 +56312,800 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _vm._m(19)
+                _c("td", [_c("strong", [_vm._v("हालसम्मको")])])
               ])
             ]),
             _vm._v(" "),
             _c(
               "tbody",
-              _vm._l(_vm.traimaasikPragatiReport.items, function(item, index) {
-                return _c("tr", { key: index }, [
-                  _c("td", [_vm._v(_vm._s(item.kriyakalap_code))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.name))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.kharcha_sirsak))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.ikai))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.baarsik_lakshya_pariman))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.baarsik_lakshya_vaar))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.baarsik_lakshya_budget))]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(
-                        item[
-                          _vm.traimaasikPragatiReport.initial +
-                            "_traimasik_lakshya_pariman"
-                        ]
+              [
+                _c(
+                  "tr",
+                  [
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("strong", [
+                        _vm._v(_vm._s(_vm.traimaasikPragatiReport.aayojana))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(16, function(i) {
+                      return _c("td")
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  [
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("strong", [
+                        _vm._v("अ) पूँजीगत खर्च अन्तर्गतका कार्यक्रमहरु")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(16, function(i) {
+                      return _c("td")
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _vm._l(
+                  _vm.traimaasikPragatiReport.items.punjigat.data,
+                  function(item, index) {
+                    return _c("tr", { key: index }, [
+                      _c("td", [_vm._v(_vm._s(item.kriyakalap_code))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.name))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.kharcha_sirsak))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.ikai))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.baarsik_lakshya_pariman))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.baarsik_lakshya_vaar))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.baarsik_lakshya_budget))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            item[
+                              _vm.traimaasikPragatiReport.initial +
+                                "_traimasik_lakshya_pariman"
+                            ]
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            item[
+                              _vm.traimaasikPragatiReport.initial +
+                                "_traimasik_lakshya_vaar"
+                            ]
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            item[
+                              _vm.traimaasikPragatiReport.initial +
+                                "_traimasik_lakshya_budget"
+                            ]
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            item.traimaasik_pragati.pariman
+                              ? item.traimaasik_pragati.pariman
+                              : ""
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            item.traimaasik_pragati.vaarit
+                              ? item.traimaasik_pragati.vaarit
+                              : ""
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            item.traimaasik_pragati.kharcha
+                              ? item.traimaasik_pragati.kharcha
+                              : ""
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            item.total_till_now.pariman
+                              ? item.total_till_now.pariman
+                              : ""
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            item.total_till_now.vaarit
+                              ? item.total_till_now.vaarit
+                              : ""
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            item.total_till_now.kharcha
+                              ? item.total_till_now.kharcha
+                              : ""
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            item.vautik_pragati[
+                              _vm.traimaasikPragatiReport.initial + "_traimasik"
+                            ]
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(_vm._s(item.vautik_pragati["total_till_now"]))
+                      ])
+                    ])
+                  }
+                ),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  [
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("strong", [
+                        _vm._v("क) पूँजीगत खर्च कार्यक्रमको जम्मा:")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(3, function(i) {
+                      return _c("td")
+                    }),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.punjigat.totals
+                            .baarsik_lakshya_vaar
+                        )
                       )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(
-                        item[
-                          _vm.traimaasikPragatiReport.initial +
-                            "_traimasik_lakshya_vaar"
-                        ]
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.punjigat.totals
+                            .baarsik_lakshya_budget
+                        )
                       )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(
-                        item[
-                          _vm.traimaasikPragatiReport.initial +
-                            "_traimasik_lakshya_budget"
-                        ]
+                    ]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.punjigat.totals[
+                            _vm.traimaasikPragatiReport.initial +
+                              "_traimasik_lakshya_vaar"
+                          ]
+                        )
                       )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(
-                        item.traimaasik_pragati.pariman
-                          ? item.traimaasik_pragati.pariman
-                          : ""
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.punjigat.totals[
+                            _vm.traimaasikPragatiReport.initial +
+                              "_traimasik_lakshya_budget"
+                          ]
+                        )
                       )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(
-                        item.traimaasik_pragati.vaarit
-                          ? item.traimaasik_pragati.vaarit
-                          : ""
+                    ]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.punjigat.totals[
+                            _vm.traimaasikPragatiReport.initial +
+                              "_traimasik_pragati_vaarit"
+                          ]
+                        )
                       )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(
-                        item.traimaasik_pragati.kharcha
-                          ? item.traimaasik_pragati.kharcha
-                          : ""
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.punjigat.totals[
+                            _vm.traimaasikPragatiReport.initial +
+                              "_traimasik_pragati_kharcha"
+                          ]
+                        )
                       )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(
-                        item.total_till_now.pariman
-                          ? item.total_till_now.pariman
-                          : ""
+                    ]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.punjigat.totals
+                            .total_till_now_vaarit
+                        )
                       )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(
-                        item.total_till_now.vaarit
-                          ? item.total_till_now.vaarit
-                          : ""
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.punjigat.totals
+                            .total_till_now_kharcha
+                        )
                       )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(
-                        item.total_till_now.kharcha
-                          ? item.total_till_now.kharcha
-                          : ""
+                    ]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td")
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  [
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("strong", [
+                        _vm._v("आ) चालु खर्च अन्तर्गतका कार्यक्रमहरु")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(16, function(i) {
+                      return _c("td")
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _vm._l(_vm.traimaasikPragatiReport.items.chalu.data, function(
+                  item,
+                  index
+                ) {
+                  return _c("tr", { key: index }, [
+                    _c("td", [_vm._v(_vm._s(item.kriyakalap_code))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.kharcha_sirsak))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.ikai))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.baarsik_lakshya_pariman))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.baarsik_lakshya_vaar))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.baarsik_lakshya_budget))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item[
+                            _vm.traimaasikPragatiReport.initial +
+                              "_traimasik_lakshya_pariman"
+                          ]
+                        )
                       )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(
-                        item.vautik_pragati[
-                          _vm.traimaasikPragatiReport.initial + "_traimasik"
-                        ]
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item[
+                            _vm.traimaasikPragatiReport.initial +
+                              "_traimasik_lakshya_vaar"
+                          ]
+                        )
                       )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(_vm._s(item.vautik_pragati["total_till_now"]))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item[
+                            _vm.traimaasikPragatiReport.initial +
+                              "_traimasik_lakshya_budget"
+                          ]
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.traimaasik_pragati.pariman
+                            ? item.traimaasik_pragati.pariman
+                            : ""
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.traimaasik_pragati.vaarit
+                            ? item.traimaasik_pragati.vaarit
+                            : ""
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.traimaasik_pragati.kharcha
+                            ? item.traimaasik_pragati.kharcha
+                            : ""
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.total_till_now.pariman
+                            ? item.total_till_now.pariman
+                            : ""
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.total_till_now.vaarit
+                            ? item.total_till_now.vaarit
+                            : ""
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.total_till_now.kharcha
+                            ? item.total_till_now.kharcha
+                            : ""
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          item.vautik_pragati[
+                            _vm.traimaasikPragatiReport.initial + "_traimasik"
+                          ]
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(_vm._s(item.vautik_pragati["total_till_now"]))
+                    ])
                   ])
+                }),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  [
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("strong", [_vm._v("ख) चालु खर्च कार्यक्रमको जम्मा:")])
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(3, function(i) {
+                      return _c("td")
+                    }),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.chalu.totals
+                            .baarsik_lakshya_vaar
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.chalu.totals
+                            .baarsik_lakshya_budget
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.chalu.totals[
+                            _vm.traimaasikPragatiReport.initial +
+                              "_traimasik_lakshya_vaar"
+                          ]
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.chalu.totals[
+                            _vm.traimaasikPragatiReport.initial +
+                              "_traimasik_lakshya_budget"
+                          ]
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.chalu.totals[
+                            _vm.traimaasikPragatiReport.initial +
+                              "_traimasik_pragati_vaarit"
+                          ]
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.chalu.totals[
+                            _vm.traimaasikPragatiReport.initial +
+                              "_traimasik_pragati_kharcha"
+                          ]
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.chalu.totals
+                            .total_till_now_vaarit
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.chalu.totals
+                            .total_till_now_kharcha
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td")
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  [
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("strong", [_vm._v("कुल जम्मा खर्च (जिल्लागत)")])
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(3, function(i) {
+                      return _c("td")
+                    }),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.totals
+                            .baarsik_lakshya_vaar
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.totals
+                            .baarsik_lakshya_budget
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.totals[
+                            _vm.traimaasikPragatiReport.initial +
+                              "_traimasik_lakshya_vaar"
+                          ]
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.totals[
+                            _vm.traimaasikPragatiReport.initial +
+                              "_traimasik_lakshya_budget"
+                          ]
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.totals[
+                            _vm.traimaasikPragatiReport.initial +
+                              "_traimasik_pragati_vaarit"
+                          ]
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.totals[
+                            _vm.traimaasikPragatiReport.initial +
+                              "_traimasik_pragati_kharcha"
+                          ]
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.totals
+                            .total_till_now_vaarit
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.traimaasikPragatiReport.items.totals
+                            .total_till_now_kharcha
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td")
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c("tr", [
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td", [_vm._v("प्रतिवेदन अवधिको प्रगति")]),
+                  _vm._v(" "),
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td", [_vm._v("भारित")]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      _vm._s(
+                        _vm.traimaasikPragatiReport.items
+                          .prdatibedan_awadi_ko_pragati.vaarit
+                      )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v("प्रतिशत")]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v("भौतिक")]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      _vm._s(
+                        _vm.traimaasikPragatiReport.items
+                          .prdatibedan_awadi_ko_pragati.vautik
+                      )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v("प्रतिशत")]),
+                  _vm._v(" "),
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td")
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td", [_vm._v("प्रतिवेदन अवधिको खर्च")]),
+                  _vm._v(" "),
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td", [_vm._v("पुँजिगत रु.")]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      _vm._s(
+                        _vm.traimaasikPragatiReport.items
+                          .pratibedan_awadi_ko_kharcha.punjigat
+                      )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v("चालु रू.")]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      _vm._s(
+                        _vm.traimaasikPragatiReport.items
+                          .pratibedan_awadi_ko_kharcha.chalu
+                      )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v("जम्मा रू.")]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      _vm._s(
+                        _vm.traimaasikPragatiReport.items
+                          .pratibedan_awadi_ko_kharcha.total
+                      )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v("प्रतिशत")]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      _vm._s(
+                        _vm.traimaasikPragatiReport.items
+                          .pratibedan_awadi_ko_kharcha.total_percent
+                      )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td")
                 ])
-              }),
-              0
+              ],
+              2
             )
           ]
         )
-      ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticStyle: {
+            display: "flex",
+            "justify-content": "space-between",
+            "margin-top": "15px"
+          }
+        },
+        [
+          _c("div", [
+            _c("p", [_c("strong", [_vm._v("तयार गर्ने")])]),
+            _vm._v(" "),
+            _c("p", [_vm._v("स.व.अ.")])
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c("p", [_c("strong", [_vm._v("आ.प्र.शाखा")])]),
+            _vm._v(" "),
+            _c("p", [_vm._v("ले.अ.")])
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c("p", [_c("strong", [_vm._v("प्रमाणित गर्ने")])]),
+            _vm._v(" "),
+            _c("p", [_vm._v("सदस्य-सचिव")])
+          ])
+        ]
+      )
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { attrs: { rowspan: "2", height: "49" } }, [
-      _c("strong", [_vm._v("क्र.सं.")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { attrs: { rowspan: "2" } }, [
-      _c("strong", [_vm._v("कार्यक्रम /क्रियाकलाप")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { attrs: { rowspan: "2" } }, [
-      _c("strong", [_vm._v("खर्च शीर्षक")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { attrs: { rowspan: "2" } }, [
-      _c("strong", [_vm._v("इकाई")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "3" } }, [
-      _c("strong", [_vm._v("बार्षिक लक्ष्य")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "3" } }, [
-      _c("strong", [_vm._v("प्रतिवेदन अवधिसम्मको यस आ.व.को प्रगति")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "2" } }, [
-      _c("strong", [_vm._v("भौतिक प्रगति")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("strong", [_vm._v("परिमाण")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("strong", [_vm._v("भार")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("strong", [_vm._v("बजेट")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("strong", [_vm._v("परिमाण")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("strong", [_vm._v("भार")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("strong", [_vm._v("बजेट")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("strong", [_vm._v("परिमाण")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("strong", [_vm._v("भारित")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("strong", [_vm._v("खर्च")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("strong", [_vm._v("परिमाण")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("strong", [_vm._v("भारित")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("strong", [_vm._v("खर्च")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("strong", [_vm._v("हालसम्मको")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -55771,7 +57529,7 @@ var render = function() {
                 [
                   _c("span", [
                     _vm._v(
-                      "सामुदायिक वन विवरण फारममा तपाइहरुलाइ स्वागत छ । कृपया तलकाे फारम\n          मार्फत आफ्नाे विवरण सूचना प्रणालीमा सुनिश्चित गर्नुहाेस् ।"
+                      "सामुदायिक वन विवरण फारममा तपाइहरुलाइ स्वागत छ । कृपया तलकाे फारम\n                मार्फत आफ्नाे विवरण सूचना प्रणालीमा सुनिश्चित गर्नुहाेस् ।"
                     )
                   ]),
                   _vm._v(" "),
@@ -55808,22 +57566,96 @@ var render = function() {
                   _c("v-divider"),
                   _vm._v(" "),
                   _c(
-                    "v-layout",
-                    { attrs: { "mx-1": "", row: "", wrap: "" } },
-                    _vm._l(_vm.permissions, function(item, index) {
-                      return _c("v-checkbox", {
-                        key: index,
-                        attrs: { label: item.name, value: item, multiple: "" },
-                        model: {
-                          value: _vm.roleData.permissions,
-                          callback: function($$v) {
-                            _vm.$set(_vm.roleData, "permissions", $$v)
-                          },
-                          expression: "roleData.permissions"
-                        }
-                      })
+                    "div",
+                    { staticClass: "item" },
+                    _vm._l(_vm.formattedPermissions, function(
+                      titleValue,
+                      titleKey,
+                      titleIndex
+                    ) {
+                      return _c(
+                        "div",
+                        { key: titleIndex, staticClass: "sub-item" },
+                        [
+                          _c(
+                            "v-card",
+                            { attrs: { "max-width": "400", outlined: "" } },
+                            [
+                              _c(
+                                "v-card-text",
+                                [
+                                  _c("p", { staticClass: "permissionTitle" }, [
+                                    _vm._v(
+                                      _vm._s(titleKey.split("_").join(" "))
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._l(titleValue, function(item, index) {
+                                    return _c(
+                                      "div",
+                                      { key: index },
+                                      [
+                                        _c("v-checkbox", {
+                                          staticClass: "ma-0",
+                                          attrs: { value: item, multiple: "" },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "label",
+                                                fn: function() {
+                                                  return [
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
+                                                          "checkboxLabel"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            item.name
+                                                              .split("-")[1]
+                                                              .split("_")
+                                                              .join(" ")
+                                                          )
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                },
+                                                proxy: true
+                                              }
+                                            ],
+                                            null,
+                                            true
+                                          ),
+                                          model: {
+                                            value: _vm.roleData.permissions,
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.roleData,
+                                                "permissions",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "roleData.permissions"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    )
+                                  })
+                                ],
+                                2
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
                     }),
-                    1
+                    0
                   )
                 ],
                 1
@@ -56040,7 +57872,18 @@ var render = function() {
                             ? _c("v-chip", { key: k }, [
                                 _vm._v(
                                   "\n            " +
-                                    _vm._s(permission.name) +
+                                    _vm._s(
+                                      "can " +
+                                        permission.name
+                                          .split("-")[1]
+                                          .split("_")
+                                          .join(" ") +
+                                        " in " +
+                                        permission.name
+                                          .split("-")[0]
+                                          .split("_")
+                                          .join(" ")
+                                    ) +
                                     "\n          "
                                 )
                               ])
@@ -56106,7 +57949,18 @@ var render = function() {
                                         return k != 0
                                           ? _c("span", { key: k }, [
                                               _vm._v(
-                                                _vm._s(tooltipPermission.name)
+                                                _vm._s(
+                                                  "can " +
+                                                    tooltipPermission.name
+                                                      .split("-")[1]
+                                                      .split("_")
+                                                      .join(" ") +
+                                                    " in " +
+                                                    tooltipPermission.name
+                                                      .split("-")[0]
+                                                      .split("_")
+                                                      .join(" ")
+                                                )
                                               )
                                             ])
                                           : _vm._e()
@@ -56254,10 +58108,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/users/edit.vue?vue&type=template&id=42646527&":
-/*!****************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/users/edit.vue?vue&type=template&id=42646527& ***!
-  \****************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/users/edit.vue?vue&type=template&id=42646527&scoped=true&":
+/*!****************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/pages/users/edit.vue?vue&type=template&id=42646527&scoped=true& ***!
+  \****************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -56336,7 +58190,7 @@ var render = function() {
                 [
                   _c("span", [
                     _vm._v(
-                      "सामुदायिक वन विवरण फारममा तपाइहरुलाइ स्वागत छ । कृपया तलकाे फारम\n          मार्फत आफ्नाे विवरण सूचना प्रणालीमा सुनिश्चित गर्नुहाेस् ।"
+                      "सामुदायिक वन विवरण फारममा तपाइहरुलाइ स्वागत छ । कृपया तलकाे फारम\n        मार्फत आफ्नाे विवरण सूचना प्रणालीमा सुनिश्चित गर्नुहाेस् ।"
                     )
                   ]),
                   _vm._v(" "),
@@ -56516,53 +58370,266 @@ var render = function() {
                   _c(
                     "v-row",
                     [
-                      _c(
-                        "v-col",
-                        _vm._l(_vm.rolePermissions, function(
-                          item,
-                          rolePermissionIndex
-                        ) {
-                          return _c("v-checkbox", {
-                            key: rolePermissionIndex,
-                            attrs: {
-                              disabled: "",
-                              label: item.name,
-                              value: item
-                            },
-                            model: {
-                              value: _vm.rolePermissions,
-                              callback: function($$v) {
-                                _vm.rolePermissions = $$v
-                              },
-                              expression: "rolePermissions"
-                            }
-                          })
-                        }),
-                        1
-                      ),
+                      _vm.rolePermissions
+                        ? _c(
+                            "v-col",
+                            [
+                              _c("h5", [_vm._v("Permissions")]),
+                              _vm._v(" "),
+                              _c("v-divider"),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "item" },
+                                _vm._l(_vm.formattedRolePermissions, function(
+                                  titleValue,
+                                  titleKey,
+                                  titleIndex
+                                ) {
+                                  return _c(
+                                    "div",
+                                    {
+                                      key: titleIndex,
+                                      staticClass: "sub-item",
+                                      attrs: { cols: "6" }
+                                    },
+                                    [
+                                      _c(
+                                        "v-card",
+                                        {
+                                          attrs: {
+                                            "max-width": "400",
+                                            outlined: ""
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-card-text",
+                                            [
+                                              _c(
+                                                "p",
+                                                {
+                                                  staticClass: "permissionTitle"
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      titleKey
+                                                        .split("_")
+                                                        .join(" ")
+                                                    )
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _vm._l(titleValue, function(
+                                                item,
+                                                index
+                                              ) {
+                                                return _c(
+                                                  "div",
+                                                  { key: index },
+                                                  [
+                                                    _c("v-checkbox", {
+                                                      staticClass: "ma-0",
+                                                      attrs: {
+                                                        value: item,
+                                                        multiple: "",
+                                                        disabled: ""
+                                                      },
+                                                      scopedSlots: _vm._u(
+                                                        [
+                                                          {
+                                                            key: "label",
+                                                            fn: function() {
+                                                              return [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "checkboxLabel"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      _vm._s(
+                                                                        item.name
+                                                                          .split(
+                                                                            "-"
+                                                                          )[1]
+                                                                          .split(
+                                                                            "_"
+                                                                          )
+                                                                          .join(
+                                                                            " "
+                                                                          )
+                                                                      )
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            },
+                                                            proxy: true
+                                                          }
+                                                        ],
+                                                        null,
+                                                        true
+                                                      ),
+                                                      model: {
+                                                        value:
+                                                          _vm.rolePermissions,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.rolePermissions = $$v
+                                                        },
+                                                        expression:
+                                                          "rolePermissions"
+                                                      }
+                                                    })
+                                                  ],
+                                                  1
+                                                )
+                                              })
+                                            ],
+                                            2
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                }),
+                                0
+                              )
+                            ],
+                            1
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
                       _c(
                         "v-col",
-                        _vm._l(_vm.additionalPermissions, function(
-                          item,
-                          index
-                        ) {
-                          return _c("v-checkbox", {
-                            key: index,
-                            attrs: {
-                              label: item.name,
-                              value: item,
-                              multiple: ""
-                            },
-                            model: {
-                              value: _vm.userData.permissions,
-                              callback: function($$v) {
-                                _vm.$set(_vm.userData, "permissions", $$v)
-                              },
-                              expression: "userData.permissions"
-                            }
-                          })
-                        }),
+                        [
+                          _c("h5", [_vm._v("Additional Permissions")]),
+                          _vm._v(" "),
+                          _c("v-divider"),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "item" },
+                            _vm._l(_vm.additionalPermissions, function(
+                              titleValue,
+                              titleKey,
+                              titleIndex
+                            ) {
+                              return _c(
+                                "div",
+                                { key: titleIndex, staticClass: "sub-item" },
+                                [
+                                  _c(
+                                    "v-card",
+                                    {
+                                      attrs: {
+                                        "max-width": "400",
+                                        outlined: ""
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "v-card-text",
+                                        [
+                                          _c(
+                                            "p",
+                                            { staticClass: "permissionTitle" },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  titleKey.split("_").join(" ")
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm._l(titleValue, function(
+                                            item,
+                                            index
+                                          ) {
+                                            return _c(
+                                              "div",
+                                              { key: index },
+                                              [
+                                                _c("v-checkbox", {
+                                                  staticClass: "ma-0",
+                                                  attrs: {
+                                                    value: item,
+                                                    multiple: ""
+                                                  },
+                                                  scopedSlots: _vm._u(
+                                                    [
+                                                      {
+                                                        key: "label",
+                                                        fn: function() {
+                                                          return [
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "checkboxLabel"
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  _vm._s(
+                                                                    item.name
+                                                                      .split(
+                                                                        "-"
+                                                                      )[1]
+                                                                      .split(
+                                                                        "_"
+                                                                      )
+                                                                      .join(" ")
+                                                                  )
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        },
+                                                        proxy: true
+                                                      }
+                                                    ],
+                                                    null,
+                                                    true
+                                                  ),
+                                                  model: {
+                                                    value:
+                                                      _vm.userData.permissions,
+                                                    callback: function($$v) {
+                                                      _vm.$set(
+                                                        _vm.userData,
+                                                        "permissions",
+                                                        $$v
+                                                      )
+                                                    },
+                                                    expression:
+                                                      "userData.permissions"
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            )
+                                          })
+                                        ],
+                                        2
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            }),
+                            0
+                          )
+                        ],
                         1
                       )
                     ],
@@ -72174,7 +74241,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _NavigationDrawer_vue_vue_type_template_id_4d756cd6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NavigationDrawer.vue?vue&type=template&id=4d756cd6&scoped=true& */ "./resources/js/components/layouts/NavigationDrawer.vue?vue&type=template&id=4d756cd6&scoped=true&");
 /* harmony import */ var _NavigationDrawer_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NavigationDrawer.vue?vue&type=script&lang=js& */ "./resources/js/components/layouts/NavigationDrawer.vue?vue&type=script&lang=js&");
-/* harmony import */ var _NavigationDrawer_vue_vue_type_style_index_0_id_4d756cd6_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&scoped=true&lang=css& */ "./resources/js/components/layouts/NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&scoped=true&lang=css&");
+/* harmony import */ var _NavigationDrawer_vue_vue_type_style_index_0_id_4d756cd6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&lang=scss&scoped=true& */ "./resources/js/components/layouts/NavigationDrawer.vue?vue&type=style&index=0&id=4d756cd6&lang=scss&scoped=true&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/vuetify-loader/lib/runtime/installComponents.js */ "./node_modules/vuetify-loader/lib/runtime/installComponents.js");
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4__);
@@ -73226,6 +75293,70 @@ component.options.__file = "resources/js/components/pages/kriyakalap-traimaasik-
 
 /***/ }),
 
+/***/ "./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue ***!
+  \********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _browse_vue_vue_type_template_id_3f40a789_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./browse.vue?vue&type=template&id=3f40a789&scoped=true& */ "./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=template&id=3f40a789&scoped=true&");
+/* harmony import */ var _browse_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./browse.vue?vue&type=script&lang=js& */ "./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=script&lang=js&");
+/* harmony import */ var _browse_vue_vue_type_style_index_0_id_3f40a789_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./browse.vue?vue&type=style&index=0&id=3f40a789&scoped=true&lang=css& */ "./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue?vue&type=style&index=0&id=3f40a789&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../../node_modules/vuetify-loader/lib/runtime/installComponents.js */ "./node_modules/vuetify-loader/lib/runtime/installComponents.js");
+/* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VAutocomplete */ "./node_modules/vuetify/lib/components/VAutocomplete/VAutocomplete.js");
+/* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/VBtn.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VCol.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VContainer.js");
+/* harmony import */ var vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VDataTable */ "./node_modules/vuetify/lib/components/VDataTable/VDataTable.js");
+/* harmony import */ var vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VDivider */ "./node_modules/vuetify/lib/components/VDivider/VDivider.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
+/* harmony import */ var vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VSelect */ "./node_modules/vuetify/lib/components/VSelect/VSelect.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
+  _browse_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _browse_vue_vue_type_template_id_3f40a789_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _browse_vue_vue_type_template_id_3f40a789_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "3f40a789",
+  null
+  
+)
+
+/* vuetify-loader */
+;
+
+
+
+
+
+
+
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VAutocomplete: vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_5__.default,VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_6__.default,VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__.default,VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__.default,VDataTable: vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_9__.default,VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_10__.default,VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_11__.default,VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_12__.default})
+
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/pages/permissions/browse.vue":
 /*!**************************************************************!*\
   !*** ./resources/js/components/pages/permissions/browse.vue ***!
@@ -73360,10 +75491,10 @@ component.options.__file = "resources/js/components/pages/permissions/edit.vue"
 
 /***/ }),
 
-/***/ "./resources/js/components/pages/print/maasik-print.vue":
-/*!**************************************************************!*\
-  !*** ./resources/js/components/pages/print/maasik-print.vue ***!
-  \**************************************************************/
+/***/ "./resources/js/components/pages/print/MaasikPrint.vue":
+/*!*************************************************************!*\
+  !*** ./resources/js/components/pages/print/MaasikPrint.vue ***!
+  \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -73371,38 +75502,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _maasik_print_vue_vue_type_template_id_76aade20_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./maasik-print.vue?vue&type=template&id=76aade20&scoped=true& */ "./resources/js/components/pages/print/maasik-print.vue?vue&type=template&id=76aade20&scoped=true&");
-/* harmony import */ var _maasik_print_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./maasik-print.vue?vue&type=script&lang=js& */ "./resources/js/components/pages/print/maasik-print.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _MaasikPrint_vue_vue_type_template_id_e369a6c6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MaasikPrint.vue?vue&type=template&id=e369a6c6&scoped=true& */ "./resources/js/components/pages/print/MaasikPrint.vue?vue&type=template&id=e369a6c6&scoped=true&");
+/* harmony import */ var _MaasikPrint_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MaasikPrint.vue?vue&type=script&lang=js& */ "./resources/js/components/pages/print/MaasikPrint.vue?vue&type=script&lang=js&");
+/* harmony import */ var _MaasikPrint_vue_vue_type_style_index_0_id_e369a6c6_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MaasikPrint.vue?vue&type=style&index=0&id=e369a6c6&scoped=true&lang=css& */ "./resources/js/components/pages/print/MaasikPrint.vue?vue&type=style&index=0&id=e369a6c6&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
-  _maasik_print_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _maasik_print_vue_vue_type_template_id_76aade20_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
-  _maasik_print_vue_vue_type_template_id_76aade20_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
+  _MaasikPrint_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _MaasikPrint_vue_vue_type_template_id_e369a6c6_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _MaasikPrint_vue_vue_type_template_id_e369a6c6_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  "76aade20",
+  "e369a6c6",
   null
   
 )
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/pages/print/maasik-print.vue"
+component.options.__file = "resources/js/components/pages/print/MaasikPrint.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/pages/print/traimaasik-print.vue":
-/*!******************************************************************!*\
-  !*** ./resources/js/components/pages/print/traimaasik-print.vue ***!
-  \******************************************************************/
+/***/ "./resources/js/components/pages/print/TraimaasikPrint.vue":
+/*!*****************************************************************!*\
+  !*** ./resources/js/components/pages/print/TraimaasikPrint.vue ***!
+  \*****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -73410,30 +75543,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _traimaasik_print_vue_vue_type_template_id_3d1f0546_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./traimaasik-print.vue?vue&type=template&id=3d1f0546&scoped=true& */ "./resources/js/components/pages/print/traimaasik-print.vue?vue&type=template&id=3d1f0546&scoped=true&");
-/* harmony import */ var _traimaasik_print_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./traimaasik-print.vue?vue&type=script&lang=js& */ "./resources/js/components/pages/print/traimaasik-print.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _TraimaasikPrint_vue_vue_type_template_id_5ce398b7_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TraimaasikPrint.vue?vue&type=template&id=5ce398b7&scoped=true& */ "./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=template&id=5ce398b7&scoped=true&");
+/* harmony import */ var _TraimaasikPrint_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TraimaasikPrint.vue?vue&type=script&lang=js& */ "./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=script&lang=js&");
+/* harmony import */ var _TraimaasikPrint_vue_vue_type_style_index_0_id_5ce398b7_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TraimaasikPrint.vue?vue&type=style&index=0&id=5ce398b7&scoped=true&lang=css& */ "./resources/js/components/pages/print/TraimaasikPrint.vue?vue&type=style&index=0&id=5ce398b7&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../../node_modules/vuetify-loader/lib/runtime/installComponents.js */ "./node_modules/vuetify-loader/lib/runtime/installComponents.js");
+/* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VContainer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
-  _traimaasik_print_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _traimaasik_print_vue_vue_type_template_id_3d1f0546_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
-  _traimaasik_print_vue_vue_type_template_id_3d1f0546_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
+  _TraimaasikPrint_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _TraimaasikPrint_vue_vue_type_template_id_5ce398b7_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _TraimaasikPrint_vue_vue_type_template_id_5ce398b7_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  "3d1f0546",
+  "5ce398b7",
   null
   
 )
 
+/* vuetify-loader */
+;
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_5__.default})
+
+
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/pages/print/traimaasik-print.vue"
+component.options.__file = "resources/js/components/pages/print/TraimaasikPrint.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
@@ -73586,11 +75730,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VDivider */ "./node_modules/vuetify/lib/components/VDivider/VDivider.js");
 /* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
 /* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VLayout.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VSpacer.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
-/* harmony import */ var vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuetify/lib/components/VToolbar */ "./node_modules/vuetify/lib/components/VToolbar/VToolbar.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VSpacer.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
+/* harmony import */ var vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VToolbar */ "./node_modules/vuetify/lib/components/VToolbar/VToolbar.js");
 
 
 
@@ -73625,8 +75768,7 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__.default,VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.default,VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardText,VCheckbox: vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_8__.default,VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_9__.default,VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_10__.default,VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_11__.default,VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_12__.default,VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_13__.default,VLayout: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_14__.default,VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_15__.default,VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_16__.default,VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_17__.default,VToolbar: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_18__.default})
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__.default,VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.default,VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardText,VCheckbox: vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_8__.default,VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_9__.default,VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_10__.default,VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_11__.default,VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_12__.default,VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_13__.default,VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_14__.default,VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_15__.default,VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_16__.default,VToolbar: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_17__.default})
 
 
 /* hot reload */
@@ -73717,40 +75859,42 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _edit_vue_vue_type_template_id_42646527___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./edit.vue?vue&type=template&id=42646527& */ "./resources/js/components/pages/users/edit.vue?vue&type=template&id=42646527&");
+/* harmony import */ var _edit_vue_vue_type_template_id_42646527_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./edit.vue?vue&type=template&id=42646527&scoped=true& */ "./resources/js/components/pages/users/edit.vue?vue&type=template&id=42646527&scoped=true&");
 /* harmony import */ var _edit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit.vue?vue&type=script&lang=js& */ "./resources/js/components/pages/users/edit.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-/* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vuetify-loader/lib/runtime/installComponents.js */ "./node_modules/vuetify-loader/lib/runtime/installComponents.js");
-/* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuetify/lib/components/VAutocomplete */ "./node_modules/vuetify/lib/components/VAutocomplete/VAutocomplete.js");
-/* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/VBtn.js");
-/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/VCard.js");
-/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
-/* harmony import */ var vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VCheckbox */ "./node_modules/vuetify/lib/components/VCheckbox/VCheckbox.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VCol.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VContainer.js");
-/* harmony import */ var vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VDivider */ "./node_modules/vuetify/lib/components/VDivider/VDivider.js");
-/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
-/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
-/* harmony import */ var vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VSelect */ "./node_modules/vuetify/lib/components/VSelect/VSelect.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VSpacer.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
-/* harmony import */ var vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuetify/lib/components/VToolbar */ "./node_modules/vuetify/lib/components/VToolbar/VToolbar.js");
+/* harmony import */ var _edit_vue_vue_type_style_index_0_id_42646527_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit.vue?vue&type=style&index=0&id=42646527&scoped=true&lang=css& */ "./resources/js/components/pages/users/edit.vue?vue&type=style&index=0&id=42646527&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../../node_modules/vuetify-loader/lib/runtime/installComponents.js */ "./node_modules/vuetify-loader/lib/runtime/installComponents.js");
+/* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VAutocomplete */ "./node_modules/vuetify/lib/components/VAutocomplete/VAutocomplete.js");
+/* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/VBtn.js");
+/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/VCard.js");
+/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
+/* harmony import */ var vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VCheckbox */ "./node_modules/vuetify/lib/components/VCheckbox/VCheckbox.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VCol.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VContainer.js");
+/* harmony import */ var vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VDivider */ "./node_modules/vuetify/lib/components/VDivider/VDivider.js");
+/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
+/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
+/* harmony import */ var vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VSelect */ "./node_modules/vuetify/lib/components/VSelect/VSelect.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VSpacer.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
+/* harmony import */ var vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vuetify/lib/components/VToolbar */ "./node_modules/vuetify/lib/components/VToolbar/VToolbar.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
   _edit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _edit_vue_vue_type_template_id_42646527___WEBPACK_IMPORTED_MODULE_0__.render,
-  _edit_vue_vue_type_template_id_42646527___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _edit_vue_vue_type_template_id_42646527_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _edit_vue_vue_type_template_id_42646527_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  null,
+  "42646527",
   null
   
 )
@@ -73772,7 +75916,7 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAutocomplete: vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_4__.default,VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__.default,VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.default,VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardText,VCheckbox: vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_8__.default,VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_9__.default,VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_10__.default,VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_11__.default,VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_12__.default,VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_13__.default,VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_14__.default,VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_15__.default,VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_16__.default,VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_17__.default,VToolbar: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_18__.default})
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VAutocomplete: vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_5__.default,VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_6__.default,VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.default,VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__.VCardText,VCheckbox: vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_9__.default,VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_10__.default,VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_11__.default,VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_12__.default,VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_13__.default,VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_14__.default,VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_15__.default,VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_16__.default,VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_17__.default,VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_18__.default,VToolbar: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_19__.default})
 
 
 /* hot reload */
@@ -75596,11 +77740,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _src_components_VCheckbox_VSimpleCheckbox_sass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../src/components/VCheckbox/VSimpleCheckbox.sass */ "./node_modules/vuetify/src/components/VCheckbox/VSimpleCheckbox.sass");
-/* harmony import */ var _directives_ripple__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../directives/ripple */ "./node_modules/vuetify/lib/directives/ripple/index.js");
+/* harmony import */ var _directives_ripple__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../directives/ripple */ "./node_modules/vuetify/lib/directives/ripple/index.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 /* harmony import */ var _VIcon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
-/* harmony import */ var _mixins_colorable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../mixins/colorable */ "./node_modules/vuetify/lib/mixins/colorable/index.js");
-/* harmony import */ var _mixins_themeable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixins/themeable */ "./node_modules/vuetify/lib/mixins/themeable/index.js");
+/* harmony import */ var _mixins_colorable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../mixins/colorable */ "./node_modules/vuetify/lib/mixins/colorable/index.js");
+/* harmony import */ var _mixins_themeable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../mixins/themeable */ "./node_modules/vuetify/lib/mixins/themeable/index.js");
 /* harmony import */ var _util_mergeData__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../util/mergeData */ "./node_modules/vuetify/lib/util/mergeData.js");
 /* harmony import */ var _util_helpers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../util/helpers */ "./node_modules/vuetify/lib/util/helpers.js");
 
@@ -75617,10 +77761,10 @@ __webpack_require__.r(__webpack_exports__);
   name: 'v-simple-checkbox',
   functional: true,
   directives: {
-    ripple: _directives_ripple__WEBPACK_IMPORTED_MODULE_3__.default
+    ripple: _directives_ripple__WEBPACK_IMPORTED_MODULE_2__.default
   },
-  props: { ..._mixins_colorable__WEBPACK_IMPORTED_MODULE_4__.default.options.props,
-    ..._mixins_themeable__WEBPACK_IMPORTED_MODULE_2__.default.options.props,
+  props: { ..._mixins_colorable__WEBPACK_IMPORTED_MODULE_3__.default.options.props,
+    ..._mixins_themeable__WEBPACK_IMPORTED_MODULE_4__.default.options.props,
     disabled: Boolean,
     ripple: {
       type: Boolean,
@@ -75650,7 +77794,7 @@ __webpack_require__.r(__webpack_exports__);
     const children = [];
     let icon = props.offIcon;
     if (props.indeterminate) icon = props.indeterminateIcon;else if (props.value) icon = props.onIcon;
-    children.push(h(_VIcon__WEBPACK_IMPORTED_MODULE_5__.default, _mixins_colorable__WEBPACK_IMPORTED_MODULE_4__.default.options.methods.setTextColor(props.value && props.color, {
+    children.push(h(_VIcon__WEBPACK_IMPORTED_MODULE_5__.default, _mixins_colorable__WEBPACK_IMPORTED_MODULE_3__.default.options.methods.setTextColor(props.value && props.color, {
       props: {
         disabled: props.disabled,
         dark: props.dark,
@@ -75659,7 +77803,7 @@ __webpack_require__.r(__webpack_exports__);
     }), icon));
 
     if (props.ripple && !props.disabled) {
-      const ripple = h('div', _mixins_colorable__WEBPACK_IMPORTED_MODULE_4__.default.options.methods.setTextColor(props.color, {
+      const ripple = h('div', _mixins_colorable__WEBPACK_IMPORTED_MODULE_3__.default.options.methods.setTextColor(props.color, {
         staticClass: 'v-input--selection-controls__ripple',
         directives: [{
           name: 'ripple',
@@ -79380,26 +81524,6 @@ __webpack_require__.r(__webpack_exports__);
 
 }));
 //# sourceMappingURL=VContainer.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/components/VGrid/VLayout.js":
-/*!**************************************************************!*\
-  !*** ./node_modules/vuetify/lib/components/VGrid/VLayout.js ***!
-  \**************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _src_components_VGrid_grid_sass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../src/components/VGrid/_grid.sass */ "./node_modules/vuetify/src/components/VGrid/_grid.sass");
-/* harmony import */ var _grid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./grid */ "./node_modules/vuetify/lib/components/VGrid/grid.js");
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_grid__WEBPACK_IMPORTED_MODULE_1__.default)('layout'));
-//# sourceMappingURL=VLayout.js.map
 
 /***/ }),
 
@@ -84230,18 +86354,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _VCheckbox_VSimpleCheckbox__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../VCheckbox/VSimpleCheckbox */ "./node_modules/vuetify/lib/components/VCheckbox/VSimpleCheckbox.js");
-/* harmony import */ var _VDivider__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../VDivider */ "./node_modules/vuetify/lib/components/VDivider/index.js");
-/* harmony import */ var _VSubheader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../VSubheader */ "./node_modules/vuetify/lib/components/VSubheader/index.js");
-/* harmony import */ var _VList__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../VList */ "./node_modules/vuetify/lib/components/VList/VListItem.js");
-/* harmony import */ var _VList__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../VList */ "./node_modules/vuetify/lib/components/VList/VListItemAction.js");
+/* harmony import */ var _VCheckbox_VSimpleCheckbox__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../VCheckbox/VSimpleCheckbox */ "./node_modules/vuetify/lib/components/VCheckbox/VSimpleCheckbox.js");
+/* harmony import */ var _VDivider__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../VDivider */ "./node_modules/vuetify/lib/components/VDivider/index.js");
+/* harmony import */ var _VSubheader__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../VSubheader */ "./node_modules/vuetify/lib/components/VSubheader/index.js");
+/* harmony import */ var _VList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../VList */ "./node_modules/vuetify/lib/components/VList/VListItem.js");
+/* harmony import */ var _VList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../VList */ "./node_modules/vuetify/lib/components/VList/VListItemAction.js");
 /* harmony import */ var _VList__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../VList */ "./node_modules/vuetify/lib/components/VList/index.js");
 /* harmony import */ var _VList__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../VList */ "./node_modules/vuetify/lib/components/VList/VList.js");
-/* harmony import */ var _directives_ripple__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../directives/ripple */ "./node_modules/vuetify/lib/directives/ripple/index.js");
-/* harmony import */ var _mixins_colorable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../mixins/colorable */ "./node_modules/vuetify/lib/mixins/colorable/index.js");
+/* harmony import */ var _directives_ripple__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../directives/ripple */ "./node_modules/vuetify/lib/directives/ripple/index.js");
+/* harmony import */ var _mixins_colorable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixins/colorable */ "./node_modules/vuetify/lib/mixins/colorable/index.js");
 /* harmony import */ var _mixins_themeable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixins/themeable */ "./node_modules/vuetify/lib/mixins/themeable/index.js");
-/* harmony import */ var _util_helpers__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../util/helpers */ "./node_modules/vuetify/lib/util/helpers.js");
-/* harmony import */ var _util_mixins__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/mixins */ "./node_modules/vuetify/lib/util/mixins.js");
+/* harmony import */ var _util_helpers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../util/helpers */ "./node_modules/vuetify/lib/util/helpers.js");
+/* harmony import */ var _util_mixins__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util/mixins */ "./node_modules/vuetify/lib/util/mixins.js");
 // Components
 
 
@@ -84258,11 +86382,11 @@ __webpack_require__.r(__webpack_exports__);
 
 /* @vue/component */
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_util_mixins__WEBPACK_IMPORTED_MODULE_3__.default)(_mixins_colorable__WEBPACK_IMPORTED_MODULE_4__.default, _mixins_themeable__WEBPACK_IMPORTED_MODULE_2__.default).extend({
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_util_mixins__WEBPACK_IMPORTED_MODULE_0__.default)(_mixins_colorable__WEBPACK_IMPORTED_MODULE_1__.default, _mixins_themeable__WEBPACK_IMPORTED_MODULE_2__.default).extend({
   name: 'v-select-list',
   // https://github.com/vuejs/vue/issues/6872
   directives: {
-    ripple: _directives_ripple__WEBPACK_IMPORTED_MODULE_5__.default
+    ripple: _directives_ripple__WEBPACK_IMPORTED_MODULE_3__.default
   },
   props: {
     action: Boolean,
@@ -84310,13 +86434,13 @@ __webpack_require__.r(__webpack_exports__);
           mousedown: e => e.preventDefault()
         }
       };
-      return this.$createElement(_VList__WEBPACK_IMPORTED_MODULE_6__.default, tile, [this.genTileContent(this.noDataText)]);
+      return this.$createElement(_VList__WEBPACK_IMPORTED_MODULE_4__.default, tile, [this.genTileContent(this.noDataText)]);
     }
 
   },
   methods: {
     genAction(item, inputValue) {
-      return this.$createElement(_VList__WEBPACK_IMPORTED_MODULE_7__.default, [this.$createElement(_VCheckbox_VSimpleCheckbox__WEBPACK_IMPORTED_MODULE_0__.default, {
+      return this.$createElement(_VList__WEBPACK_IMPORTED_MODULE_5__.default, [this.$createElement(_VCheckbox_VSimpleCheckbox__WEBPACK_IMPORTED_MODULE_6__.default, {
         props: {
           color: this.color,
           value: inputValue,
@@ -84329,30 +86453,30 @@ __webpack_require__.r(__webpack_exports__);
     },
 
     genDivider(props) {
-      return this.$createElement(_VDivider__WEBPACK_IMPORTED_MODULE_8__.default, {
+      return this.$createElement(_VDivider__WEBPACK_IMPORTED_MODULE_7__.default, {
         props
       });
     },
 
     genFilteredText(text) {
       text = text || '';
-      if (!this.searchInput || this.noFilter) return (0,_util_helpers__WEBPACK_IMPORTED_MODULE_9__.escapeHTML)(text);
+      if (!this.searchInput || this.noFilter) return (0,_util_helpers__WEBPACK_IMPORTED_MODULE_8__.escapeHTML)(text);
       const {
         start,
         middle,
         end
       } = this.getMaskedCharacters(text);
-      return `${(0,_util_helpers__WEBPACK_IMPORTED_MODULE_9__.escapeHTML)(start)}${this.genHighlight(middle)}${(0,_util_helpers__WEBPACK_IMPORTED_MODULE_9__.escapeHTML)(end)}`;
+      return `${(0,_util_helpers__WEBPACK_IMPORTED_MODULE_8__.escapeHTML)(start)}${this.genHighlight(middle)}${(0,_util_helpers__WEBPACK_IMPORTED_MODULE_8__.escapeHTML)(end)}`;
     },
 
     genHeader(props) {
-      return this.$createElement(_VSubheader__WEBPACK_IMPORTED_MODULE_1__.default, {
+      return this.$createElement(_VSubheader__WEBPACK_IMPORTED_MODULE_9__.default, {
         props
       }, props.header);
     },
 
     genHighlight(text) {
-      return `<span class="v-list-item__mask">${(0,_util_helpers__WEBPACK_IMPORTED_MODULE_9__.escapeHTML)(text)}</span>`;
+      return `<span class="v-list-item__mask">${(0,_util_helpers__WEBPACK_IMPORTED_MODULE_8__.escapeHTML)(text)}</span>`;
     },
 
     getMaskedCharacters(text) {
@@ -84409,7 +86533,7 @@ __webpack_require__.r(__webpack_exports__);
       };
 
       if (!this.$scopedSlots.item) {
-        return this.$createElement(_VList__WEBPACK_IMPORTED_MODULE_6__.default, tile, [this.action && !this.hideSelected && this.items.length > 0 ? this.genAction(item, value) : null, this.genTileContent(item, index)]);
+        return this.$createElement(_VList__WEBPACK_IMPORTED_MODULE_4__.default, tile, [this.action && !this.hideSelected && this.items.length > 0 ? this.genAction(item, value) : null, this.genTileContent(item, index)]);
       }
 
       const parent = this;
@@ -84421,7 +86545,7 @@ __webpack_require__.r(__webpack_exports__);
         },
         on: tile.on
       });
-      return this.needsTile(scopedSlot) ? this.$createElement(_VList__WEBPACK_IMPORTED_MODULE_6__.default, tile, scopedSlot) : scopedSlot;
+      return this.needsTile(scopedSlot) ? this.$createElement(_VList__WEBPACK_IMPORTED_MODULE_4__.default, tile, scopedSlot) : scopedSlot;
     },
 
     genTileContent(item, index = 0) {
@@ -84442,15 +86566,15 @@ __webpack_require__.r(__webpack_exports__);
     },
 
     getDisabled(item) {
-      return Boolean((0,_util_helpers__WEBPACK_IMPORTED_MODULE_9__.getPropertyFromItem)(item, this.itemDisabled, false));
+      return Boolean((0,_util_helpers__WEBPACK_IMPORTED_MODULE_8__.getPropertyFromItem)(item, this.itemDisabled, false));
     },
 
     getText(item) {
-      return String((0,_util_helpers__WEBPACK_IMPORTED_MODULE_9__.getPropertyFromItem)(item, this.itemText, item));
+      return String((0,_util_helpers__WEBPACK_IMPORTED_MODULE_8__.getPropertyFromItem)(item, this.itemText, item));
     },
 
     getValue(item) {
-      return (0,_util_helpers__WEBPACK_IMPORTED_MODULE_9__.getPropertyFromItem)(item, this.itemValue, this.getText(item));
+      return (0,_util_helpers__WEBPACK_IMPORTED_MODULE_8__.getPropertyFromItem)(item, this.itemValue, this.getText(item));
     }
 
   },
@@ -86003,41 +88127,6 @@ const ClickOutside = {
 
 /***/ }),
 
-/***/ "./node_modules/vuetify/lib/directives/index.js":
-/*!******************************************************!*\
-  !*** ./node_modules/vuetify/lib/directives/index.js ***!
-  \******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ClickOutside": () => (/* reexport safe */ _click_outside__WEBPACK_IMPORTED_MODULE_0__.ClickOutside),
-/* harmony export */   "Intersect": () => (/* reexport safe */ _intersect__WEBPACK_IMPORTED_MODULE_1__.Intersect),
-/* harmony export */   "Mutate": () => (/* reexport safe */ _mutate__WEBPACK_IMPORTED_MODULE_2__.Mutate),
-/* harmony export */   "Resize": () => (/* reexport safe */ _resize__WEBPACK_IMPORTED_MODULE_3__.Resize),
-/* harmony export */   "Ripple": () => (/* reexport safe */ _ripple__WEBPACK_IMPORTED_MODULE_4__.Ripple),
-/* harmony export */   "Scroll": () => (/* reexport safe */ _scroll__WEBPACK_IMPORTED_MODULE_5__.Scroll),
-/* harmony export */   "Touch": () => (/* reexport safe */ _touch__WEBPACK_IMPORTED_MODULE_6__.Touch)
-/* harmony export */ });
-/* harmony import */ var _click_outside__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./click-outside */ "./node_modules/vuetify/lib/directives/click-outside/index.js");
-/* harmony import */ var _intersect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./intersect */ "./node_modules/vuetify/lib/directives/intersect/index.js");
-/* harmony import */ var _mutate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mutate */ "./node_modules/vuetify/lib/directives/mutate/index.js");
-/* harmony import */ var _resize__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./resize */ "./node_modules/vuetify/lib/directives/resize/index.js");
-/* harmony import */ var _ripple__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ripple */ "./node_modules/vuetify/lib/directives/ripple/index.js");
-/* harmony import */ var _scroll__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./scroll */ "./node_modules/vuetify/lib/directives/scroll/index.js");
-/* harmony import */ var _touch__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./touch */ "./node_modules/vuetify/lib/directives/touch/index.js");
-
-
-
-
-
-
-
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
 /***/ "./node_modules/vuetify/lib/directives/intersect/index.js":
 /*!****************************************************************!*\
   !*** ./node_modules/vuetify/lib/directives/intersect/index.js ***!
@@ -86097,73 +88186,6 @@ const Intersect = {
   unbind
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Intersect);
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/directives/mutate/index.js":
-/*!*************************************************************!*\
-  !*** ./node_modules/vuetify/lib/directives/mutate/index.js ***!
-  \*************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Mutate": () => (/* binding */ Mutate),
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-function inserted(el, binding) {
-  const modifiers = binding.modifiers || {};
-  const value = binding.value;
-  const callback = typeof value === 'object' ? value.handler : value;
-  const {
-    once,
-    ...modifierKeys
-  } = modifiers;
-  const hasModifiers = Object.keys(modifierKeys).length > 0; // Options take top priority
-
-  const options = typeof value === 'object' && value.options ? value.options : hasModifiers // If we have modifiers, use only those provided
-  ? {
-    attributes: modifierKeys.attr,
-    childList: modifierKeys.child,
-    subtree: modifierKeys.sub,
-    characterData: modifierKeys.char // Defaults to everything on
-
-  } : {
-    attributes: true,
-    childList: true,
-    subtree: true,
-    characterData: true
-  };
-  const observer = new MutationObserver((mutationsList, observer) => {
-    /* istanbul ignore if */
-    if (!el._mutate) return; // Just in case, should never fire
-
-    callback(mutationsList, observer); // If has the once modifier, unbind
-
-    once && unbind(el);
-  });
-  observer.observe(el, options);
-  el._mutate = {
-    observer
-  };
-}
-
-function unbind(el) {
-  /* istanbul ignore if */
-  if (!el._mutate) return;
-
-  el._mutate.observer.disconnect();
-
-  delete el._mutate;
-}
-
-const Mutate = {
-  inserted,
-  unbind
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Mutate);
 //# sourceMappingURL=index.js.map
 
 /***/ }),
@@ -86749,8 +88771,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Vuetify)
 /* harmony export */ });
-/* harmony import */ var _install__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./install */ "./node_modules/vuetify/lib/install.js");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./services */ "./node_modules/vuetify/lib/services/index.js");
+/* harmony import */ var _install__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./install */ "./node_modules/vuetify/lib/install.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./services */ "./node_modules/vuetify/lib/services/presets/index.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./services */ "./node_modules/vuetify/lib/services/application/index.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./services */ "./node_modules/vuetify/lib/services/breakpoint/index.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./services */ "./node_modules/vuetify/lib/services/goto/index.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./services */ "./node_modules/vuetify/lib/services/icons/index.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./services */ "./node_modules/vuetify/lib/services/lang/index.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./services */ "./node_modules/vuetify/lib/services/theme/index.js");
  // Services
 
 
@@ -86763,13 +88791,13 @@ class Vuetify {
     this.preset = {};
     this.userPreset = {};
     this.userPreset = userPreset;
-    this.use(_services__WEBPACK_IMPORTED_MODULE_1__.Presets);
+    this.use(_services__WEBPACK_IMPORTED_MODULE_0__.Presets);
     this.use(_services__WEBPACK_IMPORTED_MODULE_1__.Application);
-    this.use(_services__WEBPACK_IMPORTED_MODULE_1__.Breakpoint);
-    this.use(_services__WEBPACK_IMPORTED_MODULE_1__.Goto);
-    this.use(_services__WEBPACK_IMPORTED_MODULE_1__.Icons);
-    this.use(_services__WEBPACK_IMPORTED_MODULE_1__.Lang);
-    this.use(_services__WEBPACK_IMPORTED_MODULE_1__.Theme);
+    this.use(_services__WEBPACK_IMPORTED_MODULE_2__.Breakpoint);
+    this.use(_services__WEBPACK_IMPORTED_MODULE_3__.Goto);
+    this.use(_services__WEBPACK_IMPORTED_MODULE_4__.Icons);
+    this.use(_services__WEBPACK_IMPORTED_MODULE_5__.Lang);
+    this.use(_services__WEBPACK_IMPORTED_MODULE_6__.Theme);
   } // Called on the new vuetify instance
   // bootstrap in install beforeCreate
   // Exposes ssrContext if available
@@ -86797,7 +88825,7 @@ class Vuetify {
   }
 
 }
-Vuetify.install = _install__WEBPACK_IMPORTED_MODULE_0__.install;
+Vuetify.install = _install__WEBPACK_IMPORTED_MODULE_7__.install;
 Vuetify.installed = false;
 Vuetify.version = "2.4.7";
 Vuetify.config = {
@@ -86900,762 +88928,6 @@ If you're seeing "$attrs is readonly", it's caused by this`);
 
 /***/ }),
 
-/***/ "./node_modules/vuetify/lib/locale/af.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/af.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'badge',
-  close: 'Close',
-  dataIterator: {
-    noResultsText: 'Geen ooreenstemmende resultate is gevind nie',
-    loadingText: 'Loading item...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Rye per bladsy:',
-    ariaLabel: {
-      sortDescending: 'Sorted descending.',
-      sortAscending: 'Sorted ascending..',
-      sortNone: 'Not sorted.',
-      activateNone: 'Activate to remove sorting.',
-      activateDescending: 'Activate to sort descending.',
-      activateAscending: 'Activate to sort ascending.'
-    },
-    sortBy: 'Sort by'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Aantal per bladsy:',
-    itemsPerPageAll: 'Alles',
-    nextPage: 'Volgende bladsy',
-    prevPage: 'Vorige bladsy',
-    firstPage: 'Eerste bladsy',
-    lastPage: 'Laaste bladsy',
-    pageText: '{0}-{1} van {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} gekies',
-    nextMonthAriaLabel: 'Volgende maand',
-    nextYearAriaLabel: 'Volgende jaar',
-    prevMonthAriaLabel: 'Vorige maand',
-    prevYearAriaLabel: 'Vorige jaar'
-  },
-  noDataText: 'Geen data is beskikbaar nie',
-  carousel: {
-    prev: 'Vorige visuele',
-    next: 'Volgende visuele',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} meer'
-  },
-  fileInput: {
-    counter: '{0} files',
-    counterSize: '{0} files ({1} in total)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Paginasie-navigasie',
-      next: 'Volgende bladsy',
-      previous: 'Vorige bladsy',
-      page: 'Gaan na bladsy {0}',
-      currentPage: 'Huidige bladsy, Bladsy {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=af.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/ar.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/ar.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'شارة',
-  close: 'إغلاق',
-  dataIterator: {
-    noResultsText: 'لا توجد سجلات مطابقة',
-    loadingText: 'تحميل العنصر...'
-  },
-  dataTable: {
-    itemsPerPageText: 'الصفوف لكل صفحة:',
-    ariaLabel: {
-      sortDescending: 'مفروز تنازلي. تنشيط لإزالة الفرز.',
-      sortAscending: 'مفروز تصاعدي. تنشيط للفرز التنازلي.',
-      sortNone: 'غير مفروزة. تفعيل لفرز تصاعدي.',
-      activateNone: 'Activate to remove sorting.',
-      activateDescending: 'Activate to sort descending.',
-      activateAscending: 'Activate to sort ascending.'
-    },
-    sortBy: 'مفروزة حسب'
-  },
-  dataFooter: {
-    itemsPerPageText: 'العناصر لكل صفحة:',
-    itemsPerPageAll: 'الكل',
-    nextPage: 'الصفحة التالية',
-    prevPage: 'الصفحة السابقة',
-    firstPage: 'الصفحة الأولى',
-    lastPage: 'الصفحة الأخيرة',
-    pageText: '{0}-{1} من {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} مختارة',
-    nextMonthAriaLabel: 'الشهر القادم',
-    nextYearAriaLabel: 'العام القادم',
-    prevMonthAriaLabel: 'الشهر الماضى',
-    prevYearAriaLabel: 'السنة الماضية'
-  },
-  noDataText: 'لا توجد بيانات متاحة',
-  carousel: {
-    prev: 'البصري السابق',
-    next: 'البصري التالي',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} أكثر'
-  },
-  fileInput: {
-    counter: '{0} ملفات',
-    counterSize: '{0} ملفات ({1} في المجموع)'
-  },
-  timePicker: {
-    am: 'صباحاً',
-    pm: 'مساءً'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'ترقيم الصفحات الملاحة',
-      next: 'الصفحة التالية',
-      previous: 'الصفحة السابقة',
-      page: '{0} انتقل إلى صفحة',
-      currentPage: '{0} الصفحة الحالية ، الصفحة'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=ar.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/az.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/az.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'nişan',
-  close: 'Bağla',
-  dataIterator: {
-    noResultsText: 'Uyğun məlumat tapılmadı',
-    loadingText: 'Yüklənir... Zəhmət olmasa, gözləyin.'
-  },
-  dataTable: {
-    itemsPerPageText: 'Səhifə başı sətir sayı:',
-    ariaLabel: {
-      sortDescending: 'Azalan sıra ilə düzülmüş.',
-      sortAscending: 'Artan sıra ilə düzülmüş.',
-      sortNone: 'Sıralanmamışdır. ',
-      activateNone: 'Sıralamanı yığışdır.',
-      activateDescending: 'Azalan sıra ilə düz.',
-      activateAscending: 'Artan sıra ilə düz.'
-    },
-    sortBy: 'Sırala'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Səhifə başı sətir sayı:',
-    itemsPerPageAll: 'Hamısı',
-    nextPage: 'Növbəti səhifə',
-    prevPage: 'Əvvəlki səhifə',
-    firstPage: 'İlk səhifə',
-    lastPage: 'Son səhifə',
-    pageText: '{0} - {1} arası, Cəmi: {2} qeydiyyat'
-  },
-  datePicker: {
-    itemsSelected: '{0} element seçildi',
-    nextMonthAriaLabel: 'Növbəti ay',
-    nextYearAriaLabel: 'Növbəti yıl',
-    prevMonthAriaLabel: 'Keçən ay',
-    prevYearAriaLabel: 'Keçən yıl'
-  },
-  noDataText: 'Bu görüntüdə məlumat yoxdur.',
-  carousel: {
-    prev: 'Əvvəlki görüntü',
-    next: 'Növbəti görüntü',
-    ariaLabel: {
-      delimiter: 'Galereya səhifə {0} / {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} ədad daha'
-  },
-  fileInput: {
-    counter: '{0} fayl',
-    counterSize: '{0} fayl (cəmi {1})'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Səhifələmə Naviqasiyası',
-      next: 'Növbəti səhifə',
-      previous: 'Əvəvlki səhifə',
-      page: 'Səhifəyə get {0}',
-      currentPage: 'Cari səhifə, Səhifə {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=az.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/bg.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/bg.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Значка',
-  close: 'Затвори',
-  dataIterator: {
-    noResultsText: 'Не са намерени записи',
-    loadingText: 'Зареждане на елементи...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Редове на страница:',
-    ariaLabel: {
-      sortDescending: 'Подреди в намаляващ ред.',
-      sortAscending: 'Подреди в нарастващ ред.',
-      sortNone: 'Без подредба.',
-      activateNone: 'Активирай за премахване на подредбата.',
-      activateDescending: 'Активирай за подредба в намаляващ ред.',
-      activateAscending: 'Активирай за подредба в нарастващ ред.'
-    },
-    sortBy: 'Сортирай по'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Елементи на страница:',
-    itemsPerPageAll: 'Всички',
-    nextPage: 'Следваща страница',
-    prevPage: 'Предишна страница',
-    firstPage: 'Първа страница',
-    lastPage: 'Последна страница',
-    pageText: '{0}-{1} от {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} избрани',
-    nextMonthAriaLabel: 'Следващ месец',
-    nextYearAriaLabel: 'Следващата година',
-    prevMonthAriaLabel: 'Предишен месец',
-    prevYearAriaLabel: 'Предишна година'
-  },
-  noDataText: 'Няма налични данни',
-  carousel: {
-    prev: 'Предишна визуализация',
-    next: 'Следваща визуализация',
-    ariaLabel: {
-      delimiter: 'Кадър {0} от {1} на въртележката'
-    }
-  },
-  calendar: {
-    moreEvents: 'Още {0}'
-  },
-  fileInput: {
-    counter: '{0} файла',
-    counterSize: '{0} файла ({1} общо)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Странициране',
-      next: 'Следваща страница',
-      previous: 'Предишна страница',
-      page: 'Отиди на страница {0}',
-      currentPage: 'Текуща страница, Страница {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=bg.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/ca.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/ca.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Insígnia',
-  close: 'Tancar',
-  dataIterator: {
-    noResultsText: 'Sense dades per mostrar',
-    loadingText: 'Carregant...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Files per pàgina:',
-    ariaLabel: {
-      sortDescending: 'Ordre descendent. Premi per treure la ordenació.',
-      sortAscending: 'Ordre ascendent. Premi per ordenar descendent.',
-      sortNone: 'Sense ordenar. Premi per ordenar ascendent.',
-      activateNone: 'Activate to remove sorting.',
-      activateDescending: 'Activate to sort descending.',
-      activateAscending: 'Activate to sort ascending.'
-    },
-    sortBy: 'Ordenat per'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Elements per pàgina:',
-    itemsPerPageAll: 'Tot',
-    nextPage: 'Pàgina següent',
-    prevPage: 'Pàgina anterior',
-    firstPage: 'Primera pàgina',
-    lastPage: 'Última pàgina',
-    pageText: '{0}-{1} de {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} seleccionats',
-    nextMonthAriaLabel: 'El mes que ve',
-    nextYearAriaLabel: `L'any que ve`,
-    prevMonthAriaLabel: 'Mes anterior',
-    prevYearAriaLabel: 'Any anterior'
-  },
-  noDataText: 'Sense dades',
-  carousel: {
-    prev: 'Visualització prèvia',
-    next: 'Visualització següent',
-    ariaLabel: {
-      delimiter: 'Diapositiva {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} més'
-  },
-  fileInput: {
-    counter: '{0} fitxers',
-    counterSize: '{0} fitxers ({1} en total)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Navegació de la pàgina',
-      next: 'Pàgina següent',
-      previous: 'Pàgina anterior',
-      page: 'Ves a la pàgina {0}',
-      currentPage: 'Pàgina actual, pàgina {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=ca.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/ckb.js":
-/*!************************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/ckb.js ***!
-  \************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'باج',
-  close: 'داخستن',
-  dataIterator: {
-    noResultsText: 'هیچ تۆمارێکی هاوتا نەدۆزرایەوە',
-    loadingText: 'بارکردنی ئایتمەکان...'
-  },
-  dataTable: {
-    itemsPerPageText: 'ڕیزەکان بۆ هەر پەڕەیەک:',
-    ariaLabel: {
-      sortDescending: '.سەر بەرەو خوار ڕیزکراوە',
-      sortAscending: '.سەر بەرەو ژوور ڕیزکراوە',
-      sortNone: 'ڕیزنەکراوە.',
-      activateNone: 'چالاککردن بۆ لابردنی ڕیزکردن.',
-      activateDescending: 'چالاککردن بۆ ڕیزکردنی سەربەرەوخوار.',
-      activateAscending: 'چالاککردن بۆ ڕیزکردنی سەر بەرەو ژوور.'
-    },
-    sortBy: 'ڕیزکردن بەپێی'
-  },
-  dataFooter: {
-    itemsPerPageText: 'ئایتمەکان بۆ هەر پەڕەیەک:',
-    itemsPerPageAll: 'هەمووی',
-    nextPage: 'پەڕەی دواتر',
-    prevPage: 'پەڕەی پێشوو',
-    firstPage: 'پەڕەی یەکەم',
-    lastPage: 'پەڕەی کۆتایی',
-    pageText: '{0}-{1} لە {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} دەسنیشانکراوە',
-    nextMonthAriaLabel: 'مانگی داهاتوو',
-    nextYearAriaLabel: 'ساڵی داهاتوو',
-    prevMonthAriaLabel: 'مانگی پێشوو',
-    prevYearAriaLabel: 'ساڵی پێشوو'
-  },
-  noDataText: 'هیچ داتایەک بەردەست نیە',
-  carousel: {
-    prev: 'بینراوی پێشوو',
-    next: 'بینراوی داهاتوو',
-    ariaLabel: {
-      delimiter: 'سلایدی کارۆسێل {0} لە {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} زیاتر'
-  },
-  fileInput: {
-    counter: '{0} فایل',
-    counterSize: '{0} فایل ({1} لە کۆی گشتی)'
-  },
-  timePicker: {
-    am: 'پێش نیوەڕۆژ',
-    pm: 'دوای نیوەڕۆژ'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'ڕێنیشاندەری پەڕەگۆڕکێ',
-      next: 'پەڕەی دواتر',
-      previous: 'پەڕەی پێشوو',
-      page: 'بڕۆ بۆ پەڕەی {0}',
-      currentPage: 'پەڕەی ئێستا، پەڕە{0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=ckb.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/cs.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/cs.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Odznak',
-  close: 'Zavřít',
-  dataIterator: {
-    noResultsText: 'Nenalezeny žádné záznamy',
-    loadingText: 'Načítám položky...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Řádků na stránku:',
-    ariaLabel: {
-      sortDescending: 'Řazeno sestupně.',
-      sortAscending: 'Řazeno vzestupně.',
-      sortNone: 'Neseřazeno.',
-      activateNone: 'Aktivováním vypnete řazení.',
-      activateDescending: 'Aktivováním se bude řadit sestupně.',
-      activateAscending: 'Aktivováním se bude řadit vzestupně.'
-    },
-    sortBy: 'Řadit dle'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Položek na stránku:',
-    itemsPerPageAll: 'Vše',
-    nextPage: 'Další strana',
-    prevPage: 'Předchozí strana',
-    firstPage: 'První strana',
-    lastPage: 'Poslední strana',
-    pageText: '{0}-{1} z {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} vybráno',
-    nextMonthAriaLabel: 'Příští měsíc',
-    nextYearAriaLabel: 'Příští rok',
-    prevMonthAriaLabel: 'Předchozí měsíc',
-    prevYearAriaLabel: 'Předchozí rok'
-  },
-  noDataText: 'Nejsou dostupná žádná data',
-  carousel: {
-    prev: 'Předchozí obrázek',
-    next: 'Další obrázek',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} dalších'
-  },
-  fileInput: {
-    counter: '{0} souborů',
-    counterSize: '{0} souborů ({1} celkem)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Navigace stránkování',
-      next: 'Další strana',
-      previous: 'Předchozí strana',
-      page: 'Přejít na stránku {0}',
-      currentPage: 'Aktuální stránka, stránka {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=cs.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/de.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/de.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Abzeichen',
-  close: 'Schließen',
-  dataIterator: {
-    noResultsText: 'Keine Elemente gefunden',
-    loadingText: 'Lade Elemente...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Zeilen pro Seite:',
-    ariaLabel: {
-      sortDescending: 'Absteigend sortiert.',
-      sortAscending: 'Aufsteigend sortiert.',
-      sortNone: 'Nicht sortiert.',
-      activateNone: 'Aktivieren um Sortierung zu entfernen.',
-      activateDescending: 'Aktivieren um absteigend zu sortieren.',
-      activateAscending: 'Aktivieren um aufsteigend zu sortieren.'
-    },
-    sortBy: 'Sortiere nach'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Elemente pro Seite:',
-    itemsPerPageAll: 'Alle',
-    nextPage: 'Nächste Seite',
-    prevPage: 'Vorherige Seite',
-    firstPage: 'Erste Seite',
-    lastPage: 'Letzte Seite',
-    pageText: '{0}-{1} von {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} ausgewählt',
-    nextMonthAriaLabel: 'Nächsten Monat',
-    nextYearAriaLabel: 'Nächstes Jahr',
-    prevMonthAriaLabel: 'Vorheriger Monat',
-    prevYearAriaLabel: 'Vorheriges Jahr'
-  },
-  noDataText: 'Keine Daten vorhanden',
-  carousel: {
-    prev: 'Vorheriges Bild',
-    next: 'Nächstes Bild',
-    ariaLabel: {
-      delimiter: 'Element {0} von {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} mehr'
-  },
-  fileInput: {
-    counter: '{0} Dateien',
-    counterSize: '{0} Dateien ({1} gesamt)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Seitennavigation',
-      next: 'Nächste Seite',
-      previous: 'Vorherige Seite',
-      page: 'Gehe zu Seite {0}',
-      currentPage: 'Aktuelle Seite, Seite {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=de.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/el.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/el.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Σήμα',
-  close: 'Close',
-  dataIterator: {
-    noResultsText: 'Δε βρέθηκαν αποτελέσματα',
-    loadingText: 'Loading item...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Γραμμές ανά σελίδα:',
-    ariaLabel: {
-      sortDescending: 'Sorted descending.',
-      sortAscending: 'Sorted ascending.',
-      sortNone: 'Not sorted.',
-      activateNone: 'Activate to remove sorting.',
-      activateDescending: 'Activate to sort descending.',
-      activateAscending: 'Activate to sort ascending.'
-    },
-    sortBy: 'Sort by'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Αντικείμενα ανά σελίδα:',
-    itemsPerPageAll: 'Όλα',
-    nextPage: 'Επόμενη σελίδα',
-    prevPage: 'Προηγούμενη σελίδα',
-    firstPage: 'Πρώτη σελίδα',
-    lastPage: 'Τελευταία σελίδα',
-    pageText: '{0}-{1} από {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} επιλεγμένα',
-    nextMonthAriaLabel: 'Τον επόμενο μήνα',
-    nextYearAriaLabel: 'Του χρόνου',
-    prevMonthAriaLabel: 'Προηγούμενος μήνας',
-    prevYearAriaLabel: 'Προηγούμενο έτος'
-  },
-  noDataText: 'Χωρίς δεδομένα',
-  carousel: {
-    prev: 'הקודם חזותי',
-    next: 'הבא חזותי',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} ακόμη'
-  },
-  fileInput: {
-    counter: '{0} files',
-    counterSize: '{0} files ({1} in total)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Πλοήγηση με προορισμούς',
-      next: 'Επόμενη σελίδα',
-      previous: 'Προηγούμενη σελίδα',
-      page: 'Πήγαινε στην σελίδα {0}',
-      currentPage: 'Τρέχουσα σελίδα, σελίδα {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=el.js.map
-
-/***/ }),
-
 /***/ "./node_modules/vuetify/lib/locale/en.js":
 /*!***********************************************!*\
   !*** ./node_modules/vuetify/lib/locale/en.js ***!
@@ -87737,2573 +89009,6 @@ __webpack_require__.r(__webpack_exports__);
   }
 });
 //# sourceMappingURL=en.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/es.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/es.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Placa',
-  close: 'Cerrar',
-  dataIterator: {
-    noResultsText: 'Ningún elemento coincide con la búsqueda',
-    loadingText: 'Cargando...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Filas por página:',
-    ariaLabel: {
-      sortDescending: 'Orden descendente.',
-      sortAscending: 'Orden ascendente.',
-      sortNone: 'Sin ordenar.',
-      activateNone: 'Pulse para quitar orden.',
-      activateDescending: 'Pulse para ordenar descendente.',
-      activateAscending: 'Pulse para ordenar ascendente.'
-    },
-    sortBy: 'Ordenado por'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Elementos por página:',
-    itemsPerPageAll: 'Todos',
-    nextPage: 'Página siguiente',
-    prevPage: 'Página anterior',
-    firstPage: 'Primer página',
-    lastPage: 'Última página',
-    pageText: '{0}-{1} de {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} seleccionados',
-    nextMonthAriaLabel: 'Próximo mes',
-    nextYearAriaLabel: 'Próximo año',
-    prevMonthAriaLabel: 'Mes anterior',
-    prevYearAriaLabel: 'Año anterior'
-  },
-  noDataText: 'No hay datos disponibles',
-  carousel: {
-    prev: 'Visual anterior',
-    next: 'Visual siguiente',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} más'
-  },
-  fileInput: {
-    counter: '{0} archivos',
-    counterSize: '{0} archivos ({1} en total)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Navegación de paginación',
-      next: 'Página siguiente',
-      previous: 'Página anterior',
-      page: 'Ir a la página {0}',
-      currentPage: 'Página actual, página {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=es.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/et.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/et.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Märk',
-  close: 'Sulge',
-  dataIterator: {
-    noResultsText: 'Vastavaid kirjeid ei leitud',
-    loadingText: 'Andmeid laaditakse...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Ridu leheküljel:',
-    ariaLabel: {
-      sortDescending: 'Kahanevalt sorteeritud.',
-      sortAscending: 'Kasvavalt sorteeritud.',
-      sortNone: 'Ei ole sorteeritud.',
-      activateNone: 'Vajuta uuesti sorteerimise eemaldamiseks.',
-      activateDescending: 'Vajuta uuesti, et sorteerida kahanevalt.',
-      activateAscending: 'Vajuta kasvavalt sorteerimiseks.'
-    },
-    sortBy: 'Sorteerimise alus'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Kirjeid leheküljel:',
-    itemsPerPageAll: 'Kõik',
-    nextPage: 'Järgmine lehekülg',
-    prevPage: 'Eelmine lehekülg',
-    firstPage: 'Esimene lehekülg',
-    lastPage: 'Viimane lehekülg',
-    pageText: '{0}-{1} {2}st'
-  },
-  datePicker: {
-    itemsSelected: '{0} valitud',
-    nextMonthAriaLabel: 'Järgmine kuu',
-    nextYearAriaLabel: 'Järgmine aasta',
-    prevMonthAriaLabel: 'Eelmine kuu',
-    prevYearAriaLabel: 'Eelmine aasta'
-  },
-  noDataText: 'Andmed puuduvad',
-  carousel: {
-    prev: 'Eelmine visuaalne',
-    next: 'Järgmine visuaalne',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} veel'
-  },
-  fileInput: {
-    counter: '{0} faili',
-    counterSize: '{0} faili (kokku {1})'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Pagination Navigation',
-      next: 'Järgmine lehekülg',
-      previous: 'Eelmine lehekülg',
-      page: 'Mine lehele {0}',
-      currentPage: 'Praegune leht, leht {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=et.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/fa.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/fa.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'نشان',
-  close: 'بستن',
-  dataIterator: {
-    noResultsText: 'نتیجه‌ای یافت نشد',
-    loadingText: 'در حال بارگذاری...'
-  },
-  dataTable: {
-    itemsPerPageText: 'ردیف در صفحه:',
-    ariaLabel: {
-      sortDescending: 'مرتب‌سازی نزولی',
-      sortAscending: 'مرتب‌سازی صعودی',
-      sortNone: 'بدون مرتب‌سازی',
-      activateNone: 'غیرفعال‌سازی مرتب‌سازی',
-      activateDescending: 'غیرفعال‌سازی مرتب‌سازی نزولی',
-      activateAscending: 'غیرفعال‌سازی مرتب‌سازی صعودی'
-    },
-    sortBy: 'مرتب‌سازی براساس'
-  },
-  dataFooter: {
-    itemsPerPageText: 'ردیف در صفحه:',
-    itemsPerPageAll: 'همه',
-    nextPage: 'صفحه‌ی بعد',
-    prevPage: 'صفحه‌ی قبل',
-    firstPage: 'صفحه‌ی یکم',
-    lastPage: 'صفحه‌ی آخر',
-    pageText: '{0} تا {1} از {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} انتخاب شده',
-    nextMonthAriaLabel: 'ماه بعد',
-    nextYearAriaLabel: 'سال بعد',
-    prevMonthAriaLabel: 'ماه قبل',
-    prevYearAriaLabel: 'سال قبل'
-  },
-  noDataText: 'داده‌ای موجود نیست',
-  carousel: {
-    prev: 'اسلاید قبلی',
-    next: 'اسلاید بعدی',
-    ariaLabel: {
-      delimiter: 'اسلاید {0} از {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{بیشتر {0'
-  },
-  fileInput: {
-    counter: '{0} پرونده',
-    counterSize: '{0} پرونده ({1} در کل)'
-  },
-  timePicker: {
-    am: 'قبل از ظهر',
-    pm: 'بعد از ظهر'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'جهت یابی صفحه',
-      next: 'صفحه بعد',
-      previous: 'صفحه قبلی',
-      page: 'برو صفحه {0}',
-      currentPage: '{0} صفحه فعلی ، صفحه'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=fa.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/fi.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/fi.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Infopiste',
-  close: 'Sulje',
-  dataIterator: {
-    noResultsText: 'Ei osumia',
-    loadingText: 'Ladataan kohteita...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Rivejä sivulla:',
-    ariaLabel: {
-      sortDescending: ': Järjestetty laskevasti. Poista järjestäminen aktivoimalla.',
-      sortAscending: ': Järjestetty nousevasti. Järjestä laskevasti aktivoimalla.',
-      sortNone: ': Ei järjestetty. Järjestä nousevasti aktivoimalla.',
-      activateNone: 'Aktivoi lajittelun poistamiseksi.',
-      activateDescending: 'Aktivoi laskevien laskevien lajittelemiseksi.',
-      activateAscending: 'Aktivoi lajitella nouseva.'
-    },
-    sortBy: 'Järjestä'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Kohteita sivulla:',
-    itemsPerPageAll: 'Kaikki',
-    nextPage: 'Seuraava sivu',
-    prevPage: 'Edellinen sivu',
-    firstPage: 'Ensimmäinen sivu',
-    lastPage: 'Viimeinen sivu',
-    pageText: '{0}-{1} ({2})'
-  },
-  datePicker: {
-    itemsSelected: '{0} valittu',
-    nextMonthAriaLabel: 'Seuraava kuukausi',
-    nextYearAriaLabel: 'Ensi vuosi',
-    prevMonthAriaLabel: 'Edellinen kuukausi',
-    prevYearAriaLabel: 'Edellinen vuosi'
-  },
-  noDataText: 'Ei dataa',
-  carousel: {
-    prev: 'Edellinen kuva',
-    next: 'Seuraava kuva',
-    ariaLabel: {
-      delimiter: 'Karusellin kuva {0}/{1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} lisää'
-  },
-  fileInput: {
-    counter: '{0} tiedostoa',
-    counterSize: '{0} tiedostoa ({1} yhteensä)'
-  },
-  timePicker: {
-    am: 'ap.',
-    pm: 'ip.'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Pagination Navigation',
-      next: 'Next page',
-      previous: 'Previous page',
-      page: 'Goto Page {0}',
-      currentPage: 'Current Page, Page {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=fi.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/fr.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/fr.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Badge',
-  close: 'Fermer',
-  dataIterator: {
-    noResultsText: 'Aucun enregistrement correspondant trouvé',
-    loadingText: `Chargement de l'élément...`
-  },
-  dataTable: {
-    itemsPerPageText: 'Lignes par page :',
-    ariaLabel: {
-      sortDescending: 'Tri décroissant.',
-      sortAscending: 'Tri croissant.',
-      sortNone: 'Non trié.',
-      activateNone: 'Activer pour supprimer le tri.',
-      activateDescending: 'Activer pour trier par ordre décroissant.',
-      activateAscending: 'Activer pour trier par ordre croissant.'
-    },
-    sortBy: 'Trier par'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Élements par page :',
-    itemsPerPageAll: 'Tous',
-    nextPage: 'Page suivante',
-    prevPage: 'Page précédente',
-    firstPage: 'Première page',
-    lastPage: 'Dernière page',
-    pageText: '{0}-{1} de {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} sélectionné(s)',
-    nextMonthAriaLabel: 'Le mois prochain',
-    nextYearAriaLabel: `L'année prochaine`,
-    prevMonthAriaLabel: 'Le mois précédent',
-    prevYearAriaLabel: 'Année précédente'
-  },
-  noDataText: 'Aucune donnée disponible',
-  carousel: {
-    prev: 'Visuel précédent',
-    next: 'Visuel suivant',
-    ariaLabel: {
-      delimiter: 'Diapositive {0} de {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} de plus'
-  },
-  fileInput: {
-    counter: '{0} fichier(s)',
-    counterSize: '{0} fichier(s) ({1} au total)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Navigation de pagination',
-      next: 'Page suivante',
-      previous: 'Page précédente',
-      page: 'Aller à la page {0}',
-      currentPage: 'Page actuelle, Page {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=fr.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/he.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/he.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'תג',
-  close: 'סגור',
-  dataIterator: {
-    noResultsText: 'לא נמצאו תוצאות מתאימות',
-    loadingText: 'טוען פריט...'
-  },
-  dataTable: {
-    itemsPerPageText: 'שורות לעמוד:',
-    ariaLabel: {
-      sortDescending: 'ממוין לפי סדר עולה. לחץ להספקת המיון.',
-      sortAscending: 'ממוין לפי סדר יורד. לחץ למיון לפי סדר עולה.',
-      sortNone: 'לא ממוין. לחץ למיון לפי סדר עולה.',
-      activateNone: 'הפעל להסרת המיון.',
-      activateDescending: 'הפעל למיון יורד.',
-      activateAscending: 'הפעל למיון עולה.'
-    },
-    sortBy: 'סדר לפי'
-  },
-  dataFooter: {
-    itemsPerPageText: 'פריטים לדף:',
-    itemsPerPageAll: 'הכל',
-    nextPage: 'עמוד הבא',
-    prevPage: 'עמוד הקודם',
-    firstPage: 'עמוד ראשון',
-    lastPage: 'עמוד אחרון',
-    pageText: '{0}-{1} מתוך {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} נבחרו',
-    nextMonthAriaLabel: 'חודש הבא',
-    nextYearAriaLabel: 'שנה הבאה',
-    prevMonthAriaLabel: 'חודש שעבר',
-    prevYearAriaLabel: 'שנה שעברה'
-  },
-  noDataText: 'אין נתונים זמינים',
-  carousel: {
-    prev: 'מצג קודם',
-    next: 'מצג הבא',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} נוספים'
-  },
-  fileInput: {
-    counter: '{0} קבצים',
-    counterSize: '{0} קבצים ({1} בסך הכל)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'ניווט עימוד',
-      next: 'עמוד הבא',
-      previous: 'עמוד הקודם',
-      page: '{0} לך לעמוד',
-      currentPage: '{0} עמוד נוכחי, עמוד'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=he.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/hr.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/hr.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Bedž',
-  close: 'Zatvori',
-  dataIterator: {
-    noResultsText: 'Nisu pronađene odgovarajuće stavke',
-    loadingText: 'Učitavanje...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Redaka po stranici:',
-    ariaLabel: {
-      sortDescending: 'Sortirano silazno.',
-      sortAscending: 'Sortirano uzlazno.',
-      sortNone: 'Nije sortirano.',
-      activateNone: 'Odaberite za uklanjanje sortiranja.',
-      activateDescending: 'Odaberite za silazno sortiranje.',
-      activateAscending: 'Odaberite za uzlazno sortiranje.'
-    },
-    sortBy: 'Sortirajte po'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Stavki po stranici:',
-    itemsPerPageAll: 'Sve',
-    nextPage: 'Sljedeća stranica',
-    prevPage: 'Prethodna stranica',
-    firstPage: 'Prva stranica',
-    lastPage: 'Posljednja stranica',
-    pageText: '{0}-{1} od {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} odabrano',
-    nextMonthAriaLabel: 'Sljedeći mjesec',
-    nextYearAriaLabel: 'Slijedeće godine',
-    prevMonthAriaLabel: 'Prethodni mjesec',
-    prevYearAriaLabel: 'Prošla godina'
-  },
-  noDataText: 'Nema dostupnih podataka',
-  carousel: {
-    prev: 'Prethodno',
-    next: 'Sljedeće',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: 'Još {0}'
-  },
-  fileInput: {
-    counter: 'Odabranih datoteka: {0}',
-    counterSize: 'Odabranih datoteka: {0} ({1} ukupno)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Navigacija stranicama',
-      next: 'Sljedeća stranica',
-      previous: 'Prethodna stranica',
-      page: 'Idi na stranicu {0}',
-      currentPage: 'Trenutna stranica, stranica {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=hr.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/hu.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/hu.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Jelvény',
-  close: 'Bezárás',
-  dataIterator: {
-    noResultsText: 'Nincs egyező találat',
-    loadingText: 'Betöltés...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Elem oldalanként:',
-    ariaLabel: {
-      sortDescending: 'Csökkenő sorrendbe rendezve.',
-      sortAscending: 'Növekvő sorrendbe rendezve.',
-      sortNone: 'Rendezetlen.',
-      activateNone: 'Rendezés törlése.',
-      activateDescending: 'Aktiváld a csökkenő rendezésért.',
-      activateAscending: 'Aktiváld a növekvő rendezésért.'
-    },
-    sortBy: 'Rendezés'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Elem oldalanként:',
-    itemsPerPageAll: 'Mind',
-    nextPage: 'Következő oldal',
-    prevPage: 'Előző oldal',
-    firstPage: 'Első oldal',
-    lastPage: 'Utolsó oldal',
-    pageText: '{0}-{1} / {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} kiválasztva',
-    nextMonthAriaLabel: 'Következő hónap',
-    nextYearAriaLabel: 'Következő év',
-    prevMonthAriaLabel: 'Előző hónap',
-    prevYearAriaLabel: 'Előző év'
-  },
-  noDataText: 'Nincs elérhető adat',
-  carousel: {
-    prev: 'Előző',
-    next: 'Következő',
-    ariaLabel: {
-      delimiter: 'Dia {0}/{1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} további'
-  },
-  fileInput: {
-    counter: '{0} fájl',
-    counterSize: '{0} fájl ({1} összesen)'
-  },
-  timePicker: {
-    am: 'de',
-    pm: 'du'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Oldal navigáció',
-      next: 'Következő oldal',
-      previous: 'Előző oldal',
-      page: 'Menj a(z) {0}. oldalra',
-      currentPage: 'Aktuális oldal: {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=hu.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/id.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/id.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Lencana',
-  close: 'Tutup',
-  dataIterator: {
-    noResultsText: 'Tidak ditemukan catatan yang cocok',
-    loadingText: 'Memuat data...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Baris per halaman:',
-    ariaLabel: {
-      sortDescending: 'Diurutkan kebawah.',
-      sortAscending: 'Diurutkan keatas.',
-      sortNone: 'Tidak diurutkan.',
-      activateNone: 'Aktifkan untuk menghapus penyortiran.',
-      activateDescending: 'Aktifkan untuk mengurutkan kebawah.',
-      activateAscending: 'Aktifkan untuk mengurutkan keatas.'
-    },
-    sortBy: 'Urutkan berdasar'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Item per halaman:',
-    itemsPerPageAll: 'Semua',
-    nextPage: 'Halaman selanjutnya',
-    prevPage: 'Halaman sebelumnya',
-    firstPage: 'Halaman pertama',
-    lastPage: 'Halaman terakhir',
-    pageText: '{0}-{1} dari {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} dipilih',
-    nextMonthAriaLabel: 'Bulan depan',
-    nextYearAriaLabel: 'Tahun depan',
-    prevMonthAriaLabel: 'Bulan sebelumnya',
-    prevYearAriaLabel: 'Tahun sebelumnya'
-  },
-  noDataText: 'Tidak ada data tersedia',
-  carousel: {
-    prev: 'Visual sebelumnya',
-    next: 'Visual selanjutnya',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} lagi'
-  },
-  fileInput: {
-    counter: '{0} berkas',
-    counterSize: '{0} berkas (dari total {1})'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Navigasi Pagination',
-      next: 'Halaman selanjutnya',
-      previous: 'Halaman sebelumnya',
-      page: 'Buka halaman {0}',
-      currentPage: 'Halaman Saat Ini, Halaman {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=id.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/index.js":
-/*!**************************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/index.js ***!
-  \**************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "af": () => (/* reexport safe */ _af__WEBPACK_IMPORTED_MODULE_0__.default),
-/* harmony export */   "ar": () => (/* reexport safe */ _ar__WEBPACK_IMPORTED_MODULE_1__.default),
-/* harmony export */   "bg": () => (/* reexport safe */ _bg__WEBPACK_IMPORTED_MODULE_2__.default),
-/* harmony export */   "ca": () => (/* reexport safe */ _ca__WEBPACK_IMPORTED_MODULE_3__.default),
-/* harmony export */   "ckb": () => (/* reexport safe */ _ckb__WEBPACK_IMPORTED_MODULE_4__.default),
-/* harmony export */   "cs": () => (/* reexport safe */ _cs__WEBPACK_IMPORTED_MODULE_5__.default),
-/* harmony export */   "de": () => (/* reexport safe */ _de__WEBPACK_IMPORTED_MODULE_6__.default),
-/* harmony export */   "el": () => (/* reexport safe */ _el__WEBPACK_IMPORTED_MODULE_7__.default),
-/* harmony export */   "en": () => (/* reexport safe */ _en__WEBPACK_IMPORTED_MODULE_8__.default),
-/* harmony export */   "es": () => (/* reexport safe */ _es__WEBPACK_IMPORTED_MODULE_9__.default),
-/* harmony export */   "et": () => (/* reexport safe */ _et__WEBPACK_IMPORTED_MODULE_10__.default),
-/* harmony export */   "fa": () => (/* reexport safe */ _fa__WEBPACK_IMPORTED_MODULE_11__.default),
-/* harmony export */   "fi": () => (/* reexport safe */ _fi__WEBPACK_IMPORTED_MODULE_12__.default),
-/* harmony export */   "fr": () => (/* reexport safe */ _fr__WEBPACK_IMPORTED_MODULE_13__.default),
-/* harmony export */   "hr": () => (/* reexport safe */ _hr__WEBPACK_IMPORTED_MODULE_14__.default),
-/* harmony export */   "hu": () => (/* reexport safe */ _hu__WEBPACK_IMPORTED_MODULE_15__.default),
-/* harmony export */   "he": () => (/* reexport safe */ _he__WEBPACK_IMPORTED_MODULE_16__.default),
-/* harmony export */   "id": () => (/* reexport safe */ _id__WEBPACK_IMPORTED_MODULE_17__.default),
-/* harmony export */   "it": () => (/* reexport safe */ _it__WEBPACK_IMPORTED_MODULE_18__.default),
-/* harmony export */   "ja": () => (/* reexport safe */ _ja__WEBPACK_IMPORTED_MODULE_19__.default),
-/* harmony export */   "ko": () => (/* reexport safe */ _ko__WEBPACK_IMPORTED_MODULE_20__.default),
-/* harmony export */   "lv": () => (/* reexport safe */ _lv__WEBPACK_IMPORTED_MODULE_21__.default),
-/* harmony export */   "lt": () => (/* reexport safe */ _lt__WEBPACK_IMPORTED_MODULE_22__.default),
-/* harmony export */   "nl": () => (/* reexport safe */ _nl__WEBPACK_IMPORTED_MODULE_23__.default),
-/* harmony export */   "no": () => (/* reexport safe */ _no__WEBPACK_IMPORTED_MODULE_24__.default),
-/* harmony export */   "pl": () => (/* reexport safe */ _pl__WEBPACK_IMPORTED_MODULE_25__.default),
-/* harmony export */   "pt": () => (/* reexport safe */ _pt__WEBPACK_IMPORTED_MODULE_26__.default),
-/* harmony export */   "ro": () => (/* reexport safe */ _ro__WEBPACK_IMPORTED_MODULE_27__.default),
-/* harmony export */   "ru": () => (/* reexport safe */ _ru__WEBPACK_IMPORTED_MODULE_28__.default),
-/* harmony export */   "sk": () => (/* reexport safe */ _sk__WEBPACK_IMPORTED_MODULE_29__.default),
-/* harmony export */   "sl": () => (/* reexport safe */ _sl__WEBPACK_IMPORTED_MODULE_30__.default),
-/* harmony export */   "srCyrl": () => (/* reexport safe */ _sr_Cyrl__WEBPACK_IMPORTED_MODULE_31__.default),
-/* harmony export */   "sv": () => (/* reexport safe */ _sv__WEBPACK_IMPORTED_MODULE_32__.default),
-/* harmony export */   "th": () => (/* reexport safe */ _th__WEBPACK_IMPORTED_MODULE_33__.default),
-/* harmony export */   "tr": () => (/* reexport safe */ _tr__WEBPACK_IMPORTED_MODULE_34__.default),
-/* harmony export */   "az": () => (/* reexport safe */ _az__WEBPACK_IMPORTED_MODULE_35__.default),
-/* harmony export */   "uk": () => (/* reexport safe */ _uk__WEBPACK_IMPORTED_MODULE_36__.default),
-/* harmony export */   "zhHans": () => (/* reexport safe */ _zh_Hans__WEBPACK_IMPORTED_MODULE_37__.default),
-/* harmony export */   "zhHant": () => (/* reexport safe */ _zh_Hant__WEBPACK_IMPORTED_MODULE_38__.default)
-/* harmony export */ });
-/* harmony import */ var _af__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./af */ "./node_modules/vuetify/lib/locale/af.js");
-/* harmony import */ var _ar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ar */ "./node_modules/vuetify/lib/locale/ar.js");
-/* harmony import */ var _bg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./bg */ "./node_modules/vuetify/lib/locale/bg.js");
-/* harmony import */ var _ca__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ca */ "./node_modules/vuetify/lib/locale/ca.js");
-/* harmony import */ var _ckb__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ckb */ "./node_modules/vuetify/lib/locale/ckb.js");
-/* harmony import */ var _cs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./cs */ "./node_modules/vuetify/lib/locale/cs.js");
-/* harmony import */ var _de__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./de */ "./node_modules/vuetify/lib/locale/de.js");
-/* harmony import */ var _el__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./el */ "./node_modules/vuetify/lib/locale/el.js");
-/* harmony import */ var _en__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./en */ "./node_modules/vuetify/lib/locale/en.js");
-/* harmony import */ var _es__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./es */ "./node_modules/vuetify/lib/locale/es.js");
-/* harmony import */ var _et__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./et */ "./node_modules/vuetify/lib/locale/et.js");
-/* harmony import */ var _fa__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./fa */ "./node_modules/vuetify/lib/locale/fa.js");
-/* harmony import */ var _fi__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./fi */ "./node_modules/vuetify/lib/locale/fi.js");
-/* harmony import */ var _fr__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./fr */ "./node_modules/vuetify/lib/locale/fr.js");
-/* harmony import */ var _hr__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./hr */ "./node_modules/vuetify/lib/locale/hr.js");
-/* harmony import */ var _hu__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./hu */ "./node_modules/vuetify/lib/locale/hu.js");
-/* harmony import */ var _he__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./he */ "./node_modules/vuetify/lib/locale/he.js");
-/* harmony import */ var _id__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./id */ "./node_modules/vuetify/lib/locale/id.js");
-/* harmony import */ var _it__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./it */ "./node_modules/vuetify/lib/locale/it.js");
-/* harmony import */ var _ja__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./ja */ "./node_modules/vuetify/lib/locale/ja.js");
-/* harmony import */ var _ko__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./ko */ "./node_modules/vuetify/lib/locale/ko.js");
-/* harmony import */ var _lv__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./lv */ "./node_modules/vuetify/lib/locale/lv.js");
-/* harmony import */ var _lt__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./lt */ "./node_modules/vuetify/lib/locale/lt.js");
-/* harmony import */ var _nl__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./nl */ "./node_modules/vuetify/lib/locale/nl.js");
-/* harmony import */ var _no__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./no */ "./node_modules/vuetify/lib/locale/no.js");
-/* harmony import */ var _pl__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./pl */ "./node_modules/vuetify/lib/locale/pl.js");
-/* harmony import */ var _pt__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./pt */ "./node_modules/vuetify/lib/locale/pt.js");
-/* harmony import */ var _ro__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./ro */ "./node_modules/vuetify/lib/locale/ro.js");
-/* harmony import */ var _ru__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./ru */ "./node_modules/vuetify/lib/locale/ru.js");
-/* harmony import */ var _sk__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./sk */ "./node_modules/vuetify/lib/locale/sk.js");
-/* harmony import */ var _sl__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./sl */ "./node_modules/vuetify/lib/locale/sl.js");
-/* harmony import */ var _sr_Cyrl__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./sr-Cyrl */ "./node_modules/vuetify/lib/locale/sr-Cyrl.js");
-/* harmony import */ var _sv__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./sv */ "./node_modules/vuetify/lib/locale/sv.js");
-/* harmony import */ var _th__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./th */ "./node_modules/vuetify/lib/locale/th.js");
-/* harmony import */ var _tr__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./tr */ "./node_modules/vuetify/lib/locale/tr.js");
-/* harmony import */ var _az__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./az */ "./node_modules/vuetify/lib/locale/az.js");
-/* harmony import */ var _uk__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./uk */ "./node_modules/vuetify/lib/locale/uk.js");
-/* harmony import */ var _zh_Hans__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./zh-Hans */ "./node_modules/vuetify/lib/locale/zh-Hans.js");
-/* harmony import */ var _zh_Hant__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./zh-Hant */ "./node_modules/vuetify/lib/locale/zh-Hant.js");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/it.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/it.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Distintivo',
-  close: 'Chiudi',
-  dataIterator: {
-    noResultsText: 'Nessun risultato trovato',
-    loadingText: 'Caricamento in corso...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Righe per pagina:',
-    ariaLabel: {
-      sortDescending: 'Ordinati in ordine decrescente.',
-      sortAscending: 'Ordinati in ordine crescente.',
-      sortNone: 'Non ordinato.',
-      activateNone: `Attiva per rimuovere l'ordinamento.`,
-      activateDescending: 'Attiva per ordinare in ordine decrescente.',
-      activateAscending: 'Attiva per ordinare in ordine crescente.'
-    },
-    sortBy: 'Ordina per'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Elementi per pagina:',
-    itemsPerPageAll: 'Tutti',
-    nextPage: 'Pagina seguente',
-    prevPage: 'Pagina precedente',
-    firstPage: 'Pagina prima',
-    lastPage: 'Pagina ultima',
-    pageText: '{0}-{1} di {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} selezionati',
-    nextMonthAriaLabel: 'Il prossimo mese',
-    nextYearAriaLabel: `L'anno prossimo`,
-    prevMonthAriaLabel: 'Il mese scorso',
-    prevYearAriaLabel: `L'anno scorso`
-  },
-  noDataText: 'Nessun elemento disponibile',
-  carousel: {
-    prev: 'Vista precedente',
-    next: 'Prossima vista',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} di più'
-  },
-  fileInput: {
-    counter: '{0} files',
-    counterSize: '{0} files ({1} in totale)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Navigazione impaginazione',
-      next: 'Pagina seguente',
-      previous: 'Pagina precedente',
-      page: 'Vai alla pagina {0}',
-      currentPage: 'Pagina corrente, pagina {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=it.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/ja.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/ja.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'バッジ',
-  close: '閉じる',
-  dataIterator: {
-    noResultsText: '検索結果が見つかりません。',
-    loadingText: '項目をロード中です...'
-  },
-  dataTable: {
-    itemsPerPageText: '1ページあたりの行数：',
-    ariaLabel: {
-      sortDescending: '降順の並び替え。',
-      sortAscending: '昇順の並び替え。',
-      sortNone: 'ソートされていません。',
-      activateNone: 'ソートを削除するには有効にしてください。',
-      activateDescending: '降順の並び替えのためには有効にしてください。',
-      activateAscending: '昇順のソートのためには有効にしてください。'
-    },
-    sortBy: 'ソート方式'
-  },
-  dataFooter: {
-    itemsPerPageText: '1ページあたりの件数：',
-    itemsPerPageAll: 'すべて',
-    nextPage: '次のページ',
-    prevPage: '前のページ',
-    firstPage: '最初のページ',
-    lastPage: '最後のページ',
-    pageText: '{0}-{1} 件目 / {2}件'
-  },
-  datePicker: {
-    itemsSelected: '{0}日付選択',
-    nextMonthAriaLabel: '来月',
-    nextYearAriaLabel: '来年',
-    prevMonthAriaLabel: '前月',
-    prevYearAriaLabel: '前年'
-  },
-  noDataText: 'データはありません。',
-  carousel: {
-    prev: '前のビジュアル',
-    next: '次のビジュアル',
-    ariaLabel: {
-      delimiter: 'カルーセルのスライド {0}件目 / {1}件'
-    }
-  },
-  calendar: {
-    moreEvents: 'さらに{0}'
-  },
-  fileInput: {
-    counter: '{0} ファイル',
-    counterSize: '{0} ファイル (合計 {1})'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'ページネーションナビゲーション',
-      next: '次のページ',
-      previous: '前のページ',
-      page: '{0}ページ目に移動',
-      currentPage: '現在のページ、ページ {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=ja.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/ko.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/ko.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: '배지',
-  close: '닫기',
-  dataIterator: {
-    noResultsText: '일치하는 항목이 없습니다.',
-    loadingText: '불러오는 중...'
-  },
-  dataTable: {
-    itemsPerPageText: '페이지 당 행 수:',
-    ariaLabel: {
-      sortDescending: '내림차순 정렬.',
-      sortAscending: '오름차순 정렬.',
-      sortNone: '정렬하지 않음.',
-      activateNone: '정렬을 취소하려면 활성화하세요.',
-      activateDescending: '내림차순 정렬을 위해 활성화하세요.',
-      activateAscending: '오름차순 정렬을 위해 활성화하세요.'
-    },
-    sortBy: 'Sort by'
-  },
-  dataFooter: {
-    itemsPerPageText: '페이지 당 항목 수:',
-    itemsPerPageAll: '전체',
-    nextPage: '다음 페이지',
-    prevPage: '이전 페이지',
-    firstPage: '첫 페이지',
-    lastPage: '마지막 페이지',
-    pageText: '{2} 중 {0}-{1}'
-  },
-  datePicker: {
-    itemsSelected: '{0} 선택됨',
-    nextMonthAriaLabel: '다음 달',
-    nextYearAriaLabel: '내년',
-    prevMonthAriaLabel: '지난달',
-    prevYearAriaLabel: '전년도'
-  },
-  noDataText: '데이터가 없습니다.',
-  carousel: {
-    prev: '이전 화면',
-    next: '다음 화면',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} 더보기'
-  },
-  fileInput: {
-    counter: '{0} files',
-    counterSize: '{0} files ({1} in total)'
-  },
-  timePicker: {
-    am: '오전',
-    pm: '오후'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Pagination Navigation',
-      next: '다음 페이지',
-      previous: '이전 페이지',
-      page: '고토 페이지 {0}',
-      currentPage: '현재 페이지, 페이지 {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=ko.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/lt.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/lt.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Ženklelis',
-  close: 'Uždaryti',
-  dataIterator: {
-    noResultsText: 'Nerasta atitinkančių įrašų',
-    loadingText: 'Kraunama...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Eilutės per puslapį:',
-    ariaLabel: {
-      sortDescending: 'Išrikiuota mažėjimo tvarka.',
-      sortAscending: 'Išrikiuota didėjimo tvarka.',
-      sortNone: 'Nerikiuota.',
-      activateNone: 'Suaktyvinkite, jei norite rikiavimą pašalinti.',
-      activateDescending: 'Suaktyvinkite, jei norite rikiuoti mažėjimo tvarka.',
-      activateAscending: 'Suaktyvinkite, jei norite rikiuoti didėjimo tvarka.'
-    },
-    sortBy: 'Sort by'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Įrašai per puslapį:',
-    itemsPerPageAll: 'Visi',
-    nextPage: 'Kitas puslapis',
-    prevPage: 'Ankstesnis puslapis',
-    firstPage: 'Pirmas puslapis',
-    lastPage: 'Paskutinis puslapis',
-    pageText: '{0}-{1} iš {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} pasirinkta',
-    nextMonthAriaLabel: 'Kitą mėnesį',
-    nextYearAriaLabel: 'Kitais metais',
-    prevMonthAriaLabel: 'Praeita mėnesį',
-    prevYearAriaLabel: 'Praeiti metai'
-  },
-  noDataText: 'Nėra duomenų',
-  carousel: {
-    prev: 'Ankstesnioji skaidrė',
-    next: 'Kita skaidrė',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: 'Daugiau {0}'
-  },
-  fileInput: {
-    counter: '{0} failų',
-    counterSize: '{0} failų ({1} iš viso)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Puslapio naršymas',
-      next: 'Kitas puslapis',
-      previous: 'Ankstesnis puslapis',
-      page: 'Eiti į puslapį {0}',
-      currentPage: 'Dabartinis puslapis, puslapis {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=lt.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/lv.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/lv.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Žetons',
-  close: 'Aizvērt',
-  dataIterator: {
-    noResultsText: 'Nekas netika atrasts',
-    loadingText: 'Ielādē...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Rādīt lapā:',
-    ariaLabel: {
-      sortDescending: 'Sakārtots dilstošā secībā.',
-      sortAscending: 'Sakārtots augošā secībā.',
-      sortNone: 'Nav sakārtots.',
-      activateNone: 'Aktivizēt, lai noņemtu kārtošanu.',
-      activateDescending: 'Aktivizēt, lai sakārtotu dilstošā secībā.',
-      activateAscending: 'Aktivizēt, lai sakārtotu augošā secībā.'
-    },
-    sortBy: 'Sort by'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Rādīt lapā:',
-    itemsPerPageAll: 'Visu',
-    nextPage: 'Nākamā lapa',
-    prevPage: 'Iepriekšējā lapa',
-    firstPage: 'Pirmā lapa',
-    lastPage: 'Pēdējā lapa',
-    pageText: '{0}-{1} no {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} izvēlēts',
-    nextMonthAriaLabel: 'Nākammēnes',
-    nextYearAriaLabel: 'Nākamgad',
-    prevMonthAriaLabel: 'Iepriekšējais mēnesis',
-    prevYearAriaLabel: 'Iepriekšējais gads'
-  },
-  noDataText: 'Nav pieejamu datu',
-  carousel: {
-    prev: 'Iepriekšējais slaids',
-    next: 'Nākamais slaids',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: 'Vēl {0}'
-  },
-  fileInput: {
-    counter: '{0} files',
-    counterSize: '{0} files ({1} in total)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Navigācija paginationā',
-      next: 'Nākamā lapa',
-      previous: 'Iepriekšējā lapa',
-      page: 'Iet uz lapu {0}',
-      currentPage: 'Pašreizējā lapa, lapa {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=lv.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/nl.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/nl.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'insigne',
-  close: 'Sluiten',
-  dataIterator: {
-    noResultsText: 'Geen overeenkomende resultaten gevonden',
-    loadingText: 'Items aan het laden...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Rijen per pagina:',
-    ariaLabel: {
-      sortDescending: 'Aflopend gesorteerd.',
-      sortAscending: 'Oplopend gesorteerd.',
-      sortNone: 'Niet gesorteerd.',
-      activateNone: 'Activeer om de sortering te verwijderen.',
-      activateDescending: 'Activeer om aflopend te sorteren.',
-      activateAscending: 'Activeer om oplopend te sorteren.'
-    },
-    sortBy: 'Sorteer volgens'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Aantal per pagina:',
-    itemsPerPageAll: 'Alles',
-    nextPage: 'Volgende pagina',
-    prevPage: 'Vorige pagina',
-    firstPage: 'Eerste pagina',
-    lastPage: 'Laatste pagina',
-    pageText: '{0}-{1} van {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} geselecteerd',
-    nextMonthAriaLabel: 'Volgende maand',
-    nextYearAriaLabel: 'Volgend jaar',
-    prevMonthAriaLabel: 'Vorige maand',
-    prevYearAriaLabel: 'Vorig jaar'
-  },
-  noDataText: 'Geen gegevens beschikbaar',
-  carousel: {
-    prev: 'Vorig beeld',
-    next: 'Volgend beeld',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} meer'
-  },
-  fileInput: {
-    counter: '{0} bestanden',
-    counterSize: '{0} bestanden ({1} in totaal)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Paginanavigatie',
-      next: 'Volgende pagina',
-      previous: 'Vorige pagina',
-      page: 'Ga naar pagina {0}',
-      currentPage: 'Huidige pagina, pagina {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=nl.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/no.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/no.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Skilt',
-  close: 'Lukk',
-  dataIterator: {
-    noResultsText: 'Fant ingen matchende elementer.',
-    loadingText: 'Laster elementer...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Rader per side:',
-    ariaLabel: {
-      sortDescending: 'Sortert synkende.',
-      sortAscending: 'Sortert stigende.',
-      sortNone: 'Ikke sortert.',
-      activateNone: 'Aktiver for å fjerne sortering.',
-      activateDescending: 'Aktiver for å sortere synkende.',
-      activateAscending: 'Aktiver for å sortere stigende.'
-    },
-    sortBy: 'Sorter etter'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Elementer per side:',
-    itemsPerPageAll: 'Alle',
-    nextPage: 'Neste side',
-    prevPage: 'Forrige side',
-    firstPage: 'Første side',
-    lastPage: 'Siste side',
-    pageText: '{0}-{1} av {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} valgt',
-    nextMonthAriaLabel: 'Neste måned',
-    nextYearAriaLabel: 'Neste år',
-    prevMonthAriaLabel: 'Forrige måned',
-    prevYearAriaLabel: 'Forrige år'
-  },
-  noDataText: 'Ingen data er tilgjengelig',
-  carousel: {
-    prev: 'Forrige bilde',
-    next: 'Neste bilde',
-    ariaLabel: {
-      delimiter: 'Karusellbilde {0} av {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} flere'
-  },
-  fileInput: {
-    counter: '{0} filer',
-    counterSize: '{0} filer ({1} totalt)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Paginasjonsnavigasjon',
-      next: 'Neste side',
-      previous: 'Forrige side',
-      page: 'Gå til side {0}',
-      currentPage: 'Gjeldende side, side {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=no.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/pl.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/pl.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Odznaka',
-  close: 'Zamknij',
-  dataIterator: {
-    noResultsText: 'Nie znaleziono danych odpowiadających wyszukiwaniu',
-    loadingText: 'Wczytywanie danych...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Wierszy na stronie:',
-    ariaLabel: {
-      sortDescending: 'Sortowanie malejąco. Kliknij aby zmienić.',
-      sortAscending: 'Sortowanie rosnąco. Kliknij aby zmienić.',
-      sortNone: 'Bez sortowania. Kliknij aby posortować rosnąco.',
-      activateNone: 'Kliknij aby usunąć sortowanie.',
-      activateDescending: 'Kliknij aby posortować malejąco.',
-      activateAscending: 'Kliknij aby posortować rosnąco.'
-    },
-    sortBy: 'Sortuj według'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Pozycji na stronie:',
-    itemsPerPageAll: 'Wszystkie',
-    nextPage: 'Następna strona',
-    prevPage: 'Poprzednia strona',
-    firstPage: 'Pierwsza strona',
-    lastPage: 'Ostatnia strona',
-    pageText: '{0}-{1} z {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} dat(y)',
-    nextMonthAriaLabel: 'Następny miesiąc',
-    nextYearAriaLabel: 'Następny rok',
-    prevMonthAriaLabel: 'Poprzedni miesiąc',
-    prevYearAriaLabel: 'Poprzedni rok'
-  },
-  noDataText: 'Brak danych',
-  carousel: {
-    prev: 'Poprzedni obraz',
-    next: 'Następny obraz',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} więcej'
-  },
-  fileInput: {
-    counter: 'Liczba plików: {0}',
-    counterSize: 'Liczba plików: {0} (łącznie {1})'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Nawigacja paginacyjna',
-      next: 'Następna strona',
-      previous: 'Poprzednia strona',
-      page: 'Idź do strony {0}',
-      currentPage: 'Bieżąca strona, strona {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=pl.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/pt.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/pt.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Distintivo',
-  close: 'Fechar',
-  dataIterator: {
-    noResultsText: 'Nenhum dado encontrado',
-    loadingText: 'Carregando itens...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Linhas por página:',
-    ariaLabel: {
-      sortDescending: 'Ordenado decrescente.',
-      sortAscending: 'Ordenado crescente.',
-      sortNone: 'Não ordenado.',
-      activateNone: 'Ative para remover a ordenação.',
-      activateDescending: 'Ative para ordenar decrescente.',
-      activateAscending: 'Ative para ordenar crescente.'
-    },
-    sortBy: 'Ordenar por'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Itens por página:',
-    itemsPerPageAll: 'Todos',
-    nextPage: 'Próxima página',
-    prevPage: 'Página anterior',
-    firstPage: 'Primeira página',
-    lastPage: 'Última página',
-    pageText: '{0}-{1} de {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} selecionado(s)',
-    nextMonthAriaLabel: 'Próximo mês',
-    nextYearAriaLabel: 'Próximo ano',
-    prevMonthAriaLabel: 'Mês anterior',
-    prevYearAriaLabel: 'Ano anterior'
-  },
-  noDataText: 'Não há dados disponíveis',
-  carousel: {
-    prev: 'Visão anterior',
-    next: 'Próxima visão',
-    ariaLabel: {
-      delimiter: 'Slide {0} de {1} do carrossel'
-    }
-  },
-  calendar: {
-    moreEvents: 'Mais {0}'
-  },
-  fileInput: {
-    counter: '{0} arquivo(s)',
-    counterSize: '{0} arquivo(s) ({1} no total)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Navegação de paginação',
-      next: 'Próxima página',
-      previous: 'Página anterior',
-      page: 'Ir à página {0}',
-      currentPage: 'Página atual, página {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=pt.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/ro.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/ro.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Insignă',
-  close: 'Close',
-  dataIterator: {
-    noResultsText: 'Nu au fost găsite înregistrări care să se potrivească',
-    loadingText: 'Loading item...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Rânduri pe pagină:',
-    ariaLabel: {
-      sortDescending: 'Sorted descending.',
-      sortAscending: 'Sorted ascending.',
-      sortNone: 'Not sorted.',
-      activateNone: 'Activate to remove sorting.',
-      activateDescending: 'Activate to sort descending.',
-      activateAscending: 'Activate to sort ascending.'
-    },
-    sortBy: 'Sort by'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Articole pe pagină:',
-    itemsPerPageAll: 'Toate',
-    nextPage: 'Pagina următoare',
-    prevPage: 'Pagina anterioară',
-    firstPage: 'Pagina prima',
-    lastPage: 'Pagina ultima',
-    pageText: '{0}-{1} din {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} selectate',
-    nextMonthAriaLabel: 'Luna viitoare',
-    nextYearAriaLabel: 'Anul urmator',
-    prevMonthAriaLabel: 'Luna trecută',
-    prevYearAriaLabel: 'Anul precedent'
-  },
-  noDataText: 'Nu există date disponibile',
-  carousel: {
-    prev: 'Anterior vizual',
-    next: 'Următorul vizual',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} mai mult'
-  },
-  fileInput: {
-    counter: '{0} files',
-    counterSize: '{0} files ({1} in total)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Navigare prin paginare',
-      next: 'Pagina următoare',
-      previous: 'Pagina anterioară',
-      page: 'Mergi la pagina {0}',
-      currentPage: 'Pagina curentă, pagina {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=ro.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/ru.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/ru.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'знак',
-  close: 'Закрыть',
-  dataIterator: {
-    noResultsText: 'Не найдено подходящих записей',
-    loadingText: 'Запись загружается...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Строк на странице:',
-    ariaLabel: {
-      sortDescending: 'Упорядочено по убыванию.',
-      sortAscending: 'Упорядочено по возрастанию.',
-      sortNone: 'Не упорядочено.',
-      activateNone: 'Активируйте, чтобы убрать сортировку.',
-      activateDescending: 'Активируйте для упорядочивания убыванию.',
-      activateAscending: 'Активируйте для упорядочивания по возрастанию.'
-    },
-    sortBy: 'Сортировать по'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Записей на странице:',
-    itemsPerPageAll: 'Все',
-    nextPage: 'Следующая страница',
-    prevPage: 'Предыдущая страница',
-    firstPage: 'Первая страница',
-    lastPage: 'Последняя страница',
-    pageText: '{0}-{1} из {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} выбран',
-    nextMonthAriaLabel: 'Следующий месяц',
-    nextYearAriaLabel: 'Следующий год',
-    prevMonthAriaLabel: 'Прошлый месяц',
-    prevYearAriaLabel: 'Предыдущий год'
-  },
-  noDataText: 'Отсутствуют данные',
-  carousel: {
-    prev: 'Предыдущий слайд',
-    next: 'Следующий слайд',
-    ariaLabel: {
-      delimiter: 'Слайд {0} из {1}'
-    }
-  },
-  calendar: {
-    moreEvents: 'Еще {0}'
-  },
-  fileInput: {
-    counter: 'Файлов: {0}',
-    counterSize: 'Файлов: {0} (всего {1})'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Навигация по страницам',
-      next: 'Следующая страница',
-      previous: 'Предыдущая страница',
-      page: 'Перейти на страницу {0}',
-      currentPage: 'Текущая страница, Страница {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=ru.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/sk.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/sk.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Odznak',
-  close: 'Zavrieť',
-  dataIterator: {
-    noResultsText: 'Neboli nájdené žiadne záznamy',
-    loadingText: 'Načítavam položky...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Počet riadkov na stránku:',
-    ariaLabel: {
-      sortDescending: 'Zoradené zostupne.',
-      sortAscending: 'Zoradené vzostupne.',
-      sortNone: 'Nezoradené.',
-      activateNone: 'Aktivujte na zrušenie triedenia.',
-      activateDescending: 'Aktivujte na zoradenie zostupne.',
-      activateAscending: 'Aktivujte na zoradenie vzostupne.'
-    },
-    sortBy: 'Zoradiť podľa'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Počet položiek na stránku:',
-    itemsPerPageAll: 'Všetko',
-    nextPage: 'Ďalšia stránka',
-    prevPage: 'Predchádzajúca stránka',
-    firstPage: 'Prvá stránka',
-    lastPage: 'Posledná stránka',
-    pageText: '{0}–{1} z {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} vybrané',
-    nextMonthAriaLabel: 'Ďalší mesiac',
-    nextYearAriaLabel: 'Ďalší rok',
-    prevMonthAriaLabel: 'Predchádzajúci mesiac',
-    prevYearAriaLabel: 'Predchádzajúci rok'
-  },
-  noDataText: 'Nie sú dostupné žiadne dáta',
-  carousel: {
-    prev: 'Predchádzajúci obrázok',
-    next: 'Další obrázok',
-    ariaLabel: {
-      delimiter: 'Snímka {0} z {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} ďalších'
-  },
-  fileInput: {
-    counter: '{0} súborov',
-    counterSize: '{0} súborov ({1} celkom)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Navigácia stránkovania',
-      next: 'Ďalšia stránka',
-      previous: 'Predchádzajúca stránka',
-      page: 'Ísť na stránku {0}',
-      currentPage: 'Aktuálna stránka, stránka {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Hodnotenie {0} z {1}'
-    }
-  }
-});
-//# sourceMappingURL=sk.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/sl.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/sl.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Značka',
-  close: 'Zapri',
-  dataIterator: {
-    noResultsText: 'Ni iskanega zapisa',
-    loadingText: 'Nalaganje...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Vrstic na stran:',
-    ariaLabel: {
-      sortDescending: 'Razvrščeno padajoče.',
-      sortAscending: 'Razvrščeno naraščajoče.',
-      sortNone: 'Ni razvrščeno.',
-      activateNone: 'Aktivirajte za odstranitev razvrščanja.',
-      activateDescending: 'Aktivirajte za padajoče razvrščanje.',
-      activateAscending: 'Aktivirajte za naraščajoče razvrščanje.'
-    },
-    sortBy: 'Razvrsti po'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Predmetov na stran:',
-    itemsPerPageAll: 'Vse',
-    nextPage: 'Naslednja stran',
-    prevPage: 'Prejšnja stran',
-    firstPage: 'Prva stran',
-    lastPage: 'Zadnja stran',
-    pageText: '{0}-{1} od {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} izbrano/-ih',
-    nextMonthAriaLabel: 'Naslednji mesec',
-    nextYearAriaLabel: 'Naslednje leto',
-    prevMonthAriaLabel: 'Prejšnji mesec',
-    prevYearAriaLabel: 'Prejšnje leto'
-  },
-  noDataText: 'Ni podatkov',
-  carousel: {
-    prev: 'Prejšnji prikaz',
-    next: 'Naslednji prikaz',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: 'Še {0}'
-  },
-  fileInput: {
-    counter: '{0} datotek',
-    counterSize: '{0} datotek ({1} skupno)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Navigacija po strani po strani',
-      next: 'Naslednja stran',
-      previous: 'Prejšnja stran',
-      page: 'Pojdi na stran {0}',
-      currentPage: 'Trenutna stran, stran {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=sl.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/sr-Cyrl.js":
-/*!****************************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/sr-Cyrl.js ***!
-  \****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Значка',
-  close: 'Close',
-  dataIterator: {
-    noResultsText: 'Ни један запис није пронађен',
-    loadingText: 'Loading item...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Редова по страници:',
-    ariaLabel: {
-      sortDescending: 'Sorted descending.',
-      sortAscending: 'Sorted ascending.',
-      sortNone: 'Not sorted.',
-      activateNone: 'Activate to remove sorting.',
-      activateDescending: 'Activate to sort descending.',
-      activateAscending: 'Activate to sort ascending.'
-    },
-    sortBy: 'Sort by'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Ставки по страници:',
-    itemsPerPageAll: 'Све',
-    nextPage: 'Следећа страница',
-    prevPage: 'Претходна страница',
-    firstPage: 'Прва страница',
-    lastPage: 'Последња страница',
-    pageText: '{0}-{1} од {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} одабрано',
-    nextMonthAriaLabel: 'Следећег месеца',
-    nextYearAriaLabel: 'Следеће године',
-    prevMonthAriaLabel: 'Претходни мјесец',
-    prevYearAriaLabel: 'Претходна година'
-  },
-  noDataText: 'Нема доступних података',
-  carousel: {
-    prev: 'Превиоус висуал',
-    next: 'Нект висуал',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} море'
-  },
-  fileInput: {
-    counter: '{0} files',
-    counterSize: '{0} files ({1} in total)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Навигација страницама',
-      next: 'Следећа страница',
-      previous: 'Претходна страница',
-      page: 'Иди на страну {0}',
-      currentPage: 'Тренутна страница, страница {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=sr-Cyrl.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/sv.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/sv.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Bricka',
-  close: 'Stäng',
-  dataIterator: {
-    noResultsText: 'Inga poster funna',
-    loadingText: 'Laddar data...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Rader per sida:',
-    ariaLabel: {
-      sortDescending: 'Sorterat fallande.',
-      sortAscending: 'Sorterat stigande.',
-      sortNone: 'Osorterat.',
-      activateNone: 'Aktivera för att ta bort sortering.',
-      activateDescending: 'Aktivera för sortering fallande.',
-      activateAscending: 'Aktivera för sortering stigande.'
-    },
-    sortBy: 'Sortera efter'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Objekt per sida:',
-    itemsPerPageAll: 'Alla',
-    nextPage: 'Nästa sida',
-    prevPage: 'Föregående sida',
-    firstPage: 'Första sidan',
-    lastPage: 'Sista sidan',
-    pageText: '{0}-{1} av {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} markerade',
-    nextMonthAriaLabel: 'Nästa månad',
-    nextYearAriaLabel: 'Nästa år',
-    prevMonthAriaLabel: 'Förra månaden',
-    prevYearAriaLabel: 'Förra året'
-  },
-  noDataText: 'Ingen data tillgänglig',
-  carousel: {
-    prev: 'Föregående vy',
-    next: 'Nästa vy',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} fler'
-  },
-  fileInput: {
-    counter: '{0} filer',
-    counterSize: '{0} filer (av {1} totalt)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Pagination Navigation',
-      next: 'Nästa sida',
-      previous: 'Föregående sida',
-      page: 'Gå till sidan {0}',
-      currentPage: 'Aktuell sida, sida {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=sv.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/th.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/th.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'สัญลักษณ์',
-  close: 'ปิด',
-  dataIterator: {
-    noResultsText: 'ไม่พบข้อมูลที่ค้นหา',
-    loadingText: 'กำลังโหลดข้อมูล...'
-  },
-  dataTable: {
-    itemsPerPageText: 'แถวต่อหน้า:',
-    ariaLabel: {
-      sortDescending: 'เรียงจากมากไปน้อยอยู่',
-      sortAscending: 'เรียงจากน้อยไปมากอยู่',
-      sortNone: 'ไม่ได้เรียงลำดับ',
-      activateNone: 'กดเพื่อปิดการเรียงลำดับ',
-      activateDescending: 'กดเพื่อเรียงจากมากไปน้อย',
-      activateAscending: 'กดเพื่อเรียงจากน้อยไปมาก'
-    },
-    sortBy: 'เรียงตาม'
-  },
-  dataFooter: {
-    itemsPerPageText: 'รายการต่อหน้า:',
-    itemsPerPageAll: 'ทั้งหมด',
-    nextPage: 'หน้าต่อไป',
-    prevPage: 'หน้าที่แล้ว',
-    firstPage: 'หน้าแรก',
-    lastPage: 'หน้าสุดท้าย',
-    pageText: '{0}-{1} จาก {2}'
-  },
-  datePicker: {
-    itemsSelected: 'เลือก {0} วัน',
-    nextMonthAriaLabel: 'เดือนถัดไป',
-    nextYearAriaLabel: 'ปีถัดไป',
-    prevMonthAriaLabel: 'เดือนก่อนหน้า',
-    prevYearAriaLabel: 'ปีก่อนหน้า'
-  },
-  noDataText: 'ไม่มีข้อมูล',
-  carousel: {
-    prev: 'ภาพก่อนหน้า',
-    next: 'ภาพถัดไป',
-    ariaLabel: {
-      delimiter: 'ภาพสไลด์ที่ {0} จาก {1}'
-    }
-  },
-  calendar: {
-    moreEvents: 'มีอีก {0}'
-  },
-  fileInput: {
-    counter: '{0} ไฟล์',
-    counterSize: '{0} ไฟล์ (รวม {1})'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'การนำทางไปยังหน้า',
-      next: 'หน้าต่อไป',
-      previous: 'หน้าที่แล้ว',
-      page: 'ไปที่หน้า {0}',
-      currentPage: 'หน้าปัจจุบัน (หน้า {0})'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=th.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/tr.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/tr.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'rozet',
-  close: 'Kapat',
-  dataIterator: {
-    noResultsText: 'Eşleşen veri bulunamadı',
-    loadingText: 'Yükleniyor... Lütfen bekleyin.'
-  },
-  dataTable: {
-    itemsPerPageText: 'Sayfa başına satır:',
-    ariaLabel: {
-      sortDescending: 'Z den A ya sıralı.',
-      sortAscending: 'A dan Z ye sıralı.',
-      sortNone: 'Sıralı değil. ',
-      activateNone: 'Sıralamayı kaldırmak için etkinleştir.',
-      activateDescending: 'Z den A ya sıralamak için etkinleştir.',
-      activateAscending: 'A dan Z ye sıralamak için etkinleştir.'
-    },
-    sortBy: 'Sırala'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Sayfa başına satır:',
-    itemsPerPageAll: 'Hepsi',
-    nextPage: 'Sonraki sayfa',
-    prevPage: 'Önceki sayfa',
-    firstPage: 'İlk sayfa',
-    lastPage: 'Son sayfa',
-    pageText: '{0} - {1} arası, Toplam: {2} kayıt'
-  },
-  datePicker: {
-    itemsSelected: '{0} öge seçildi',
-    nextMonthAriaLabel: 'Gelecek ay',
-    nextYearAriaLabel: 'Gelecek yıl',
-    prevMonthAriaLabel: 'Geçtiğimiz ay',
-    prevYearAriaLabel: 'Geçen yıl'
-  },
-  noDataText: 'Bu görünümde veri yok.',
-  carousel: {
-    prev: 'Önceki görsel',
-    next: 'Sonraki görsel',
-    ariaLabel: {
-      delimiter: 'Galeri sayfa {0} / {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '{0} tane daha'
-  },
-  fileInput: {
-    counter: '{0} dosya',
-    counterSize: '{0} dosya (toplamda {1})'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Sayfalandırma Navigasyonu',
-      next: 'Sonraki sayfa',
-      previous: 'Önceki sayfa',
-      page: 'Sayfaya git {0}',
-      currentPage: 'Geçerli Sayfa, Sayfa {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=tr.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/uk.js":
-/*!***********************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/uk.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: 'Знак',
-  close: 'Закрити',
-  dataIterator: {
-    noResultsText: 'В результаті пошуку нічого не знайдено',
-    loadingText: 'Завантаження...'
-  },
-  dataTable: {
-    itemsPerPageText: 'Рядків на сторінці:',
-    ariaLabel: {
-      sortDescending: 'Відсортовано за спаданням.',
-      sortAscending: 'Відсортовано за зростанням.',
-      sortNone: 'Не відсортовано.',
-      activateNone: 'Активувати, щоб видалити сортування.',
-      activateDescending: 'Активувати, щоб відсортувати за спаданням.',
-      activateAscending: 'Активувати, щоб відсортувати за зростанням.'
-    },
-    sortBy: 'Відсортувати за'
-  },
-  dataFooter: {
-    itemsPerPageText: 'Елементів на сторінці:',
-    itemsPerPageAll: 'Всі',
-    nextPage: 'Наступна сторінка',
-    prevPage: 'Попередня сторінка',
-    firstPage: 'Перша сторінка',
-    lastPage: 'Остання сторінка',
-    pageText: '{0}-{1} з {2}'
-  },
-  datePicker: {
-    itemsSelected: '{0} вибрано',
-    nextMonthAriaLabel: 'Наступного місяця',
-    nextYearAriaLabel: 'Наступного року',
-    prevMonthAriaLabel: 'Попередній місяць',
-    prevYearAriaLabel: 'Попередній рік'
-  },
-  noDataText: 'Немає даних для відображення',
-  carousel: {
-    prev: 'Попередній слайд',
-    next: 'Наступий слайд',
-    ariaLabel: {
-      delimiter: 'Слайд {0} з {1}'
-    }
-  },
-  calendar: {
-    moreEvents: 'Ще {0}'
-  },
-  fileInput: {
-    counter: '{0} файлів',
-    counterSize: '{0} файлів ({1} загалом)'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: 'Навігація по сторінках',
-      next: 'Наступна сторінка',
-      previous: 'Попередня сторінка',
-      page: 'Перейти на сторінку {0}',
-      currentPage: 'Поточна сторінка, Сторінка {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=uk.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/zh-Hans.js":
-/*!****************************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/zh-Hans.js ***!
-  \****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: '徽章',
-  close: '关闭',
-  dataIterator: {
-    noResultsText: '没有符合条件的结果',
-    loadingText: '加载中……'
-  },
-  dataTable: {
-    itemsPerPageText: '每页数目：',
-    ariaLabel: {
-      sortDescending: '：降序排列。',
-      sortAscending: '：升序排列。',
-      sortNone: '：未排序。',
-      activateNone: '点击以移除排序。',
-      activateDescending: '点击以降序排列。',
-      activateAscending: '点击以升序排列。'
-    },
-    sortBy: '排序方式'
-  },
-  dataFooter: {
-    itemsPerPageText: '每页数目：',
-    itemsPerPageAll: '全部',
-    nextPage: '下一页',
-    prevPage: '上一页',
-    firstPage: '首页',
-    lastPage: '尾页',
-    pageText: '{0}-{1} 共 {2}'
-  },
-  datePicker: {
-    itemsSelected: '已选择 {0}',
-    nextMonthAriaLabel: '下个月',
-    nextYearAriaLabel: '明年',
-    prevMonthAriaLabel: '前一个月',
-    prevYearAriaLabel: '前一年'
-  },
-  noDataText: '没有数据',
-  carousel: {
-    prev: '上一张',
-    next: '下一张',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '还有 {0} 项'
-  },
-  fileInput: {
-    counter: '{0} 个文件',
-    counterSize: '{0} 个文件（共 {1}）'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: '分页导航',
-      next: '下一页',
-      previous: '上一页',
-      page: '转到页面 {0}',
-      currentPage: '当前页 {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=zh-Hans.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/locale/zh-Hant.js":
-/*!****************************************************!*\
-  !*** ./node_modules/vuetify/lib/locale/zh-Hant.js ***!
-  \****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  badge: '徽章',
-  close: '關閉',
-  dataIterator: {
-    noResultsText: '沒有符合條件的結果',
-    loadingText: '讀取中...'
-  },
-  dataTable: {
-    itemsPerPageText: '每頁列數：',
-    ariaLabel: {
-      sortDescending: '：降序排列。',
-      sortAscending: '：升序排列。',
-      sortNone: '無排序方式。點擊以升序排列。',
-      activateNone: '點擊以移除排序方式。',
-      activateDescending: '點擊以降序排列。',
-      activateAscending: '點擊以移除排序方式。'
-    },
-    sortBy: '排序方式'
-  },
-  dataFooter: {
-    itemsPerPageText: '每頁項目：',
-    itemsPerPageAll: '全部',
-    nextPage: '下一頁',
-    prevPage: '上一頁',
-    firstPage: '第一頁',
-    lastPage: '最後頁',
-    pageText: '{2} 條中的 {0}~{1} 條'
-  },
-  datePicker: {
-    itemsSelected: '已選擇 {0}',
-    nextMonthAriaLabel: '下個月',
-    nextYearAriaLabel: '明年',
-    prevMonthAriaLabel: '前一個月',
-    prevYearAriaLabel: '前一年'
-  },
-  noDataText: '沒有資料',
-  carousel: {
-    prev: '上一張',
-    next: '下一張',
-    ariaLabel: {
-      delimiter: 'Carousel slide {0} of {1}'
-    }
-  },
-  calendar: {
-    moreEvents: '還有其他 {0} 項'
-  },
-  fileInput: {
-    counter: '{0} 個檔案',
-    counterSize: '{0} 個檔案（共 {1}）'
-  },
-  timePicker: {
-    am: 'AM',
-    pm: 'PM'
-  },
-  pagination: {
-    ariaLabel: {
-      wrapper: '分頁導航',
-      next: '下一頁',
-      previous: '上一頁',
-      page: '轉到頁面 {0}',
-      currentPage: '當前頁 {0}'
-    }
-  },
-  rating: {
-    ariaLabel: {
-      icon: 'Rating {0} of {1}'
-    }
-  }
-});
-//# sourceMappingURL=zh-Hant.js.map
 
 /***/ }),
 
@@ -92596,9 +91301,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _directives__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../directives */ "./node_modules/vuetify/lib/directives/index.js");
+/* harmony import */ var _directives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../directives */ "./node_modules/vuetify/lib/directives/scroll/index.js");
 /* harmony import */ var _util_console__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/console */ "./node_modules/vuetify/lib/util/console.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 // Directives
  // Utilities
 
@@ -92616,10 +91321,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* @vue/component */
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (vue__WEBPACK_IMPORTED_MODULE_1__.default.extend({
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (vue__WEBPACK_IMPORTED_MODULE_0__.default.extend({
   name: 'scrollable',
   directives: {
-    Scroll: _directives__WEBPACK_IMPORTED_MODULE_0__.Scroll
+    Scroll: _directives__WEBPACK_IMPORTED_MODULE_1__.Scroll
   },
   props: {
     scrollTarget: String,
@@ -93528,7 +92233,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "preset": () => (/* binding */ preset)
 /* harmony export */ });
 /* harmony import */ var _src_styles_main_sass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../src/styles/main.sass */ "./node_modules/vuetify/src/styles/main.sass");
-/* harmony import */ var _locale__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../locale */ "./node_modules/vuetify/lib/locale/index.js");
+/* harmony import */ var _locale__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../locale */ "./node_modules/vuetify/lib/locale/en.js");
 // Styles
  // Locale
 
@@ -93553,7 +92258,7 @@ const preset = {
   lang: {
     current: 'en',
     locales: {
-      en: _locale__WEBPACK_IMPORTED_MODULE_1__.en
+      en: _locale__WEBPACK_IMPORTED_MODULE_1__.default
     },
     // Default translator exists in lang service
     t: undefined
@@ -94377,41 +93082,6 @@ const icons = {
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (icons);
 //# sourceMappingURL=mdi.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/services/index.js":
-/*!****************************************************!*\
-  !*** ./node_modules/vuetify/lib/services/index.js ***!
-  \****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Application": () => (/* reexport safe */ _application__WEBPACK_IMPORTED_MODULE_0__.Application),
-/* harmony export */   "Breakpoint": () => (/* reexport safe */ _breakpoint__WEBPACK_IMPORTED_MODULE_1__.Breakpoint),
-/* harmony export */   "Goto": () => (/* reexport safe */ _goto__WEBPACK_IMPORTED_MODULE_2__.Goto),
-/* harmony export */   "Icons": () => (/* reexport safe */ _icons__WEBPACK_IMPORTED_MODULE_3__.Icons),
-/* harmony export */   "Lang": () => (/* reexport safe */ _lang__WEBPACK_IMPORTED_MODULE_4__.Lang),
-/* harmony export */   "Presets": () => (/* reexport safe */ _presets__WEBPACK_IMPORTED_MODULE_5__.Presets),
-/* harmony export */   "Theme": () => (/* reexport safe */ _theme__WEBPACK_IMPORTED_MODULE_6__.Theme)
-/* harmony export */ });
-/* harmony import */ var _application__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./application */ "./node_modules/vuetify/lib/services/application/index.js");
-/* harmony import */ var _breakpoint__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./breakpoint */ "./node_modules/vuetify/lib/services/breakpoint/index.js");
-/* harmony import */ var _goto__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./goto */ "./node_modules/vuetify/lib/services/goto/index.js");
-/* harmony import */ var _icons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./icons */ "./node_modules/vuetify/lib/services/icons/index.js");
-/* harmony import */ var _lang__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./lang */ "./node_modules/vuetify/lib/services/lang/index.js");
-/* harmony import */ var _presets__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./presets */ "./node_modules/vuetify/lib/services/presets/index.js");
-/* harmony import */ var _theme__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./theme */ "./node_modules/vuetify/lib/services/theme/index.js");
-
-
-
-
-
-
-
-//# sourceMappingURL=index.js.map
 
 /***/ }),
 
@@ -97889,10 +96559,11 @@ var map = {
 	"./components/pages/kriyakalap-maasik-pragati/browse.vue": "./resources/js/components/pages/kriyakalap-maasik-pragati/browse.vue",
 	"./components/pages/kriyakalap-traimaasik-pragati-report/browse.vue": "./resources/js/components/pages/kriyakalap-traimaasik-pragati-report/browse.vue",
 	"./components/pages/kriyakalap-traimaasik-pragati/browse.vue": "./resources/js/components/pages/kriyakalap-traimaasik-pragati/browse.vue",
+	"./components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue": "./resources/js/components/pages/kriyakalap-traimaasik-pragrati-filterable/browse.vue",
 	"./components/pages/permissions/browse.vue": "./resources/js/components/pages/permissions/browse.vue",
 	"./components/pages/permissions/edit.vue": "./resources/js/components/pages/permissions/edit.vue",
-	"./components/pages/print/maasik-print.vue": "./resources/js/components/pages/print/maasik-print.vue",
-	"./components/pages/print/traimaasik-print.vue": "./resources/js/components/pages/print/traimaasik-print.vue",
+	"./components/pages/print/MaasikPrint.vue": "./resources/js/components/pages/print/MaasikPrint.vue",
+	"./components/pages/print/TraimaasikPrint.vue": "./resources/js/components/pages/print/TraimaasikPrint.vue",
 	"./components/pages/requests/browse.vue": "./resources/js/components/pages/requests/browse.vue",
 	"./components/pages/roles/browse.vue": "./resources/js/components/pages/roles/browse.vue",
 	"./components/pages/roles/edit.vue": "./resources/js/components/pages/roles/edit.vue",

@@ -10,9 +10,9 @@ var webpackConfig={
 
 mix.webpackConfig(webpackConfig);
 
-mix.browserSync({
-    proxy: 'pcwprs.gov.np'
-});
+// mix.browserSync({
+//     proxy: 'pcwprs.gov.np'
+// });
 
 
 mix.disableSuccessNotifications();

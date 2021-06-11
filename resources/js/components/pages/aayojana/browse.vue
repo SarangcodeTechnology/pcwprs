@@ -89,7 +89,6 @@ export default {
       totalCfData: 0,
       numberOfPages: 0,
       cfData: [],
-      loading: true,
       options: {},
       totalItems: 20,
       headers: [

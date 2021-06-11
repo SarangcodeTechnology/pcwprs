@@ -6,8 +6,6 @@
                 <h5>मासिक प्रगती</h5>
                 <v-divider class="ml-5" inset vertical></v-divider>
             </v-col>
-
-
         </v-row>
         <v-row>
             <v-col cols="9" class="d-flex align-items-center">
