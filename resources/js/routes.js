@@ -38,6 +38,8 @@ const KriyakalapTraimaasikPragati = () => import("./components/pages/kriyakalap-
 
 const KriyakalapMaasikPragatiReport = () => import("./components/pages/kriyakalap-maasik-pragati-report/browse");
 const KriyakalapTraimaasikPragatiReport = () => import("./components/pages/kriyakalap-traimaasik-pragati-report/browse");
+const KriyakalapTraimaasikPragatiFilterable = () => import("./components/pages/kriyakalap-traimaasik-pragrati-filterable/browse");
+
 
 const MaasikPrint = () => import("./components/pages/print/MaasikPrint");
 const TraimaasikPrint = () => import("./components/pages/print/TraimaasikPrint");
@@ -412,6 +414,24 @@ const opts = {
                         breadcrumb: {
                             text: "त्रैमासिक प्रगती प्रतिवेदन",
                             link: "/kriyakalap-traimaasik-pragati-report"
+                        }
+                    },
+                },
+                {
+                    path: "/kriyakalap-traimaasik-pragati-filterable",
+                    component: KriyakalapTraimaasikPragatiFilterable,
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('traimaasik_pragati_report-browse')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
+                    name: 'kriyakalap-traimaasik-pragati-filterable',
+                    meta: {
+                        breadcrumb: {
+                            text: "त्रैमासिक प्रगती प्रतिवेदन",
+                            link: "/kriyakalap-traimaasik-pragati-filterable"
                         }
                     },
                 },
