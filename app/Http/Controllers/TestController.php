@@ -58,164 +58,17 @@ class TestController extends Controller
 
     public function trial(Request $request)
     {
-        return $request->user();
-        return Auth::user();
-//        return view('test');
-
-        $aayojanaID= 1;
-        $traimaasikID = 1;
-        $karyalayaID = 1;
-
-        $traimaasikPragati= KriyakalapLakshya::where('aayojana_id', $aayojanaID)
-            ->where('kaaryalaya_id',$karyalayaID)
-//                ->select('id', 'name', 'kriyakalap_code')
-            ->with(['traimaasikPragati'=>function($query) use ($traimaasikID){
-                return $query->where('traimaasik_id',$traimaasikID);
-            }])
-            ->with(['traimaasikPragatis'=>function($query) use ($traimaasikID){
-
-                return $query->where('traimaasik_id','<=',$traimaasikID);
-            }])
-            ->get();
-         $totalBaarsikLakshyaBudget = $traimaasikPragati->sum('baarsik_lakshya_budget');
-
-        $traimaasikPragati = json_decode(json_encode($traimaasikPragati),true);
-        return $this->getSpecificData($traimaasikPragati,$totalBaarsikLakshyaBudget);
-
-        // share data to view
-        $path = public_path() . '/pdf';
-        view()->share('data', $data);
-        $pdf = PDF::loadView('pdf_view', $data);
-        $pdf->save($path . '/my_pdf_name.pdf', 'utf8mb4_unicode_ci');
-        return response()->download($path . '/my_pdf_name.pdf');
-
-
-        $traimaasik = Traimaasik::find(1);
-        $mahina = $traimaasik->mahina->pluck('id');
-        $kaaryalaya_id = 1;
-        $items = KriyakalapMaasikPragati::whereIn('mahina_id', $mahina)->where('kaaryalaya_id', $kaaryalaya_id)->orderBy('kriyakalap_lakshya_id')->get();
-        $data = [];
-        $kriyakalap_lakshya_id = 0;
-        $nextCount = -1;
-        foreach ($items as $item) {
-            if ($item->kriyakalap_lakshya_id != $kriyakalap_lakshya_id) {
-                $kriyakalap_lakshya_id = $item->kriyakalap_lakshya_id;
-                $nextCount++;
-                $data[$nextCount]['id'] = $kriyakalap_lakshya_id;
-                $data[$nextCount]['traimaasik_pragati']['pariman'] = 0;
-                $data[$nextCount]['traimaasik_pragati']['kharcha'] = 0;
-                $data[$nextCount]['traimaasik_pragati']['kaaryalaya_id'] = $kaaryalaya_id;
-                $data[$nextCount]['traimaasik_pragati']['kriyakalap_lakshya_id'] = $kriyakalap_lakshya_id;
-
+        //basic tasks
+            $chalu =  collect(KriyakalapLakshya::where('kharcha_prakar', 'पूँजीगत')->get());
+            $component_id_in_chalu = $chalu->pluck('component_id')->unique()->values();
+            foreach($component_id_in_chalu as $component_id){
+                $component =  $chalu->where('component_id',$component_id);
+                $myChalu[$component_id]['name'] = $component->first()->component;
+                $myChalu[$component_id]['items'] = $component->values();
             }
-            $data[$nextCount]['traimaasik_pragati']['pariman'] += $item->pariman;
-            $data[$nextCount]['traimaasik_pragati']['kharcha'] += $item->kharcha;
-        }
-        return $data;
-        return User::first()->kriyakalapMaasikPragati;
-        $inital = "pahilo";
-        $mahina = 1;
-        $mahinaModel = Mahina::find($mahina);
-        return $data = KriyakalapLakshya::where('aayojana_id', 4)
-            ->where(function ($query) use ($inital) {
-                return $query->where($inital . '_traimasik_lakshya_pariman', '>', 0)->orWhere($inital . '_traimasik_lakshya_budget', '>', 0);
-            })
-            ->select('id', 'name', 'kriyakalap_code', $inital . '_traimasik_lakshya_pariman', $inital . '_traimasik_lakshya_budget')->with(['maasikPragati' => function ($query) use ($mahina) {
-                $query->where('mahina_id', $mahina);
-            }])
-            ->take(5)
-            ->get();
-        return $header = [
-            0 => [
-                'name' => 'कृयाकलाप कोड',
-                'value' => 'name_with_kriyakalap_code'
-            ],
-            1 => [
-                'name' => $mahinaModel->traimaasik->name . ' परिमाण',
-                'value' => $mahinaModel->traimaasik->initial . '_traimasik_lakshya_pariman'
-            ],
-            2 => [
-                'name' => $mahinaModel->traimaasik->name . ' बजेट',
-                'value' => $mahinaModel->traimaasik->initial . '_traimasik_lakshya_budget'
-            ],
-            3 => [
-                'name' => 'मासिक प्रगती परिमाण',
-                'value' => 'maasik_pragati.pariman'
-            ],
-            4 => [
-                'name' => 'मासिक प्रगती खर्च',
-                'value' => 'maasik_pragati.kharcha'
-            ]
-        ];
-        $array = [
-            0 => [
-                'month' => 'बैशाख',
-                'trimester' => 4,
-            ],
-            1 => [
-                'month' => 'जेठ',
-                'trimester' => 4,
-            ],
-            2 => [
-                'month' => 'असार',
-                'trimester' => 4,
-            ],
-            3 => [
-                'month' => 'श्रावण',
-                'trimester' => 1,
-            ],
-            4 => [
-                'month' => 'भदौ',
-                'trimester' => 1,
-            ],
-            5 => [
-                'month' => 'आश्विन',
-                'trimester' => 1,
-            ],
-            6 => [
-                'month' => 'कार्तिक',
-                'trimester' => 2,
-            ],
-            7 => [
-                'month' => 'मंसिर',
-                'trimester' => 2,
-            ],
-            8 => [
-                'month' => 'पुष',
-                'trimester' => 2,
-            ],
-            9 => [
-                'month' => 'माघ',
-                'trimester' => 3,
-            ],
-            10 => [
-                'month' => 'फाल्गुन',
-                'trimester' => 3,
-            ],
-            11 => [
-                'month' => 'चैत्र',
-                'trimester' => 3,
-            ],
+            return collect($myChalu)->values();
 
-        ];
-        foreach ($array as $item) {
-            $mahina = new Mahina();
-            $mahina->name = $item['month'];
-            $mahina->traimaasik_id = $item['trimester'];
-            $mahina->save();
-        }
-        $traimasik = [
-            'पहिलो त्रैमासिक',
-            'दोश्रो त्रैमासिक',
-            'तेश्रो त्रैमासिक',
-            'चौधो त्रैमासिक',
-        ];
-        foreach ($traimasik as $item) {
-            $traima = new Traimaasik();
-            $traima->name = $item;
-            $traima->save();
-        }
-        return done;
+        // traimaasik pragrati report
 
     }
 

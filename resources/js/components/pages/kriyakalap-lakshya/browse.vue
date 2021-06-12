@@ -263,6 +263,9 @@
                         <v-text-field v-model="item.kaifiyat" class="my-text-field">
                         </v-text-field>
                     </template>
+                    <template v-slot:item.milestone="{item}">
+                        <span v-if="item.milestone"><strong>माईलस्टोन</strong></span>
+                    </template>
                 </v-data-table>
             </v-col>
         </v-row>
@@ -325,6 +328,8 @@ export default {
                 {text: "खर्च शिर्षक", value: "kharcha_sirsak"},
                 {text: "खर्च प्रकार", value: "kharcha_prakar"},
                 {text: "कम्पोनेन्ट", value: "component"},
+                {text: "कम्पोनेन्ट आईडी", value: "component_id"},
+                {text: "माईलस्टोन", value: "milestone"},
                 {text: "इकाई", value: "ikai"},
                 {
                     text: "आयोजना कुल कृयाकलाप परिमान",

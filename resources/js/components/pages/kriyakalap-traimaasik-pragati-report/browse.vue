@@ -1,17 +1,13 @@
 <template>
     <v-container fluid>
         <v-row class="d-flex justify-content-between">
-
             <v-col cols="3" class="d-flex align-items-center">
                 <h5>त्रैमासिक प्रगती</h5>
                 <v-divider class="ml-5" inset vertical></v-divider>
             </v-col>
-
-
         </v-row>
         <v-row>
             <v-col cols="9" class="d-flex align-items-center">
-
                 <v-select
                     v-model="filterData.kaaryalaya"
                     :items="kaaryalaya"

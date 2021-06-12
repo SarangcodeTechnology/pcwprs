@@ -28,7 +28,7 @@ class MaasikPragatiTaalikaController extends Controller
                     return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->orWhere($initial . '_traimasik_lakshya_budget', '>', 0);
                 })
                 ->where('kaaryalaya_id',$karyalayaID)
-                ->select('id', 'name', 'kriyakalap_code', $initial . '_traimasik_lakshya_pariman', $initial . '_traimasik_lakshya_budget')
+                ->select('id','ikai','component','component_id','milestone','kharcha_sirsak', 'name', 'kriyakalap_code', $initial . '_traimasik_lakshya_pariman', $initial . '_traimasik_lakshya_budget')
                 ->with(['maasikPragati' => function ($query) use ($mahinaID,$karyalayaID) {
                     $query->where('mahina_id', $mahinaID)->where('kaaryalaya_id',$karyalayaID);
                 }])
@@ -41,25 +41,45 @@ class MaasikPragatiTaalikaController extends Controller
             $requested = Submission::where('kaaryalaya_id',$karyalayaID)->where('aayojana_id',$aayojanaID)->where('mahina_id',$mahinaID)->where('submitted',1)->where('requested',1)->first() ? true : false;
 
             $headers = [
-                0 => [
+                [
                     'text' => 'कृयाकलाप कोड',
                     'value' => 'name_with_kriyakalap_code'
                 ],
-                1 => [
+                [
+                    'text' => 'खर्च शिर्षक',
+                    'value' => 'kharcha_sirsak'
+                ],
+                [
+                    'text' => 'इकाई',
+                    'value' => 'ikai'
+                ],
+                [
                     'text' => $mahina->traimaasik->name . ' परिमाण',
                     'value' => $mahina->traimaasik->initial . '_traimasik_lakshya_pariman'
                 ],
-                2 => [
+                [
                     'text' => $mahina->traimaasik->name . ' बजेट',
                     'value' => $mahina->traimaasik->initial . '_traimasik_lakshya_budget'
                 ],
-                3 => [
+                [
                     'text' => 'मासिक प्रगती परिमाण',
                     'value' => 'maasik_pragati.pariman'
                 ],
-                4 => [
+                [
                     'text' => 'मासिक प्रगती खर्च',
                     'value' => 'maasik_pragati.kharcha'
+                ],
+                [
+                    'text' => 'कम्पोनेन्ट',
+                    'value' => 'component'
+                ],
+                [
+                    'text' => 'कम्पोनेन्ट आईडी',
+                    'value' => 'component_id'
+                ],
+                [
+                    'text'=> 'माईलस्टोन',
+                    'value'=> 'milestone'
                 ]
             ];
             return response(
@@ -182,6 +202,134 @@ class MaasikPragatiTaalikaController extends Controller
                     'data' => compact('maasikPragatiReport')
                 ]
             );
+        } catch (Exception $e) {
+            return response([
+                'status' => $e->getCode(),
+                'type' => 'error',
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function filterableReport(Request $request)
+    {
+        try {
+            $filterData = json_decode($request->filterData);
+            $aayojanaID = $filterData->aayojana;
+            $traimaasikID = $filterData->traimaasik;
+            $traimaasik = Traimaasik::find($traimaasikID);
+            $initial = $traimaasik->initial;
+            $karyalayaID = $filterData->kaaryalaya;
+            $traimaasikPragati = KriyakalapLakshya::
+            when(!empty($aayojanaID), function ($query) use ($aayojanaID) {
+                $query->whereIn('aayojana_id', $aayojanaID);
+            })
+                ->when(!empty($filterData->kharchaPrakar),function($query) use ($filterData){
+                    return $query->whereIn('kharcha_prakar',$filterData->kharchaPrakar);
+                })
+                ->where('kaaryalaya_id', $karyalayaID)
+                ->where(function ($query) use ($initial) {
+                    return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->where($initial . '_traimasik_lakshya_budget', '>', 0);
+                })
+                ->with(['aayojana' => function($query){ return $query->with('aarthikBarsa'); },'traimaasikPragati' => function ($query) use ($traimaasikID) {
+                    return $query->where('traimaasik_id', $traimaasikID);
+                },'traimaasikPragatis' => function ($query) use ($traimaasikID) {
+
+                    return $query->where('traimaasik_id', '<=', $traimaasikID);
+                }])
+                ->get();
+            $totalBaarsikLakshyaBudget = $traimaasikPragati->sum('baarsik_lakshya_budget');
+            $traimaasikPragati = json_decode(json_encode($traimaasikPragati), true);
+            $headers = [
+                [
+                    'text' => 'कृयाकलाप कोड',
+                    'value' => 'name_with_kriyakalap_code'
+                ],
+                [
+                    'text' => 'आर्थिक वर्ष',
+                    'value'=> 'aayojana.aarthik_barsa.name'
+                ],
+                [
+                    'text' => 'आयोजना',
+                    'value' => 'aayojana.name'
+                ],
+                [
+                    'text'=>'खर्च शिर्षक',
+                    'value'=>'kharcha_sirsak'
+                ],
+                [
+                    'text' => 'इकाई',
+                    'value' => 'ikai'
+                ],
+                [
+                    'text'=>'बार्षिक लक्ष परिमाण',
+                    'value'=> 'baarsik_lakshya_pariman'
+                ],
+                [
+                    'text'=>'बार्षिक लक्ष भार',
+                    'value'=> 'baarsik_lakshya_vaar'
+                ],
+                [
+                    'text'=>'बार्षिक लक्ष बजेट',
+                    'value'=> 'baarsik_lakshya_budget'
+                ],
+
+                [
+                    'text' => $traimaasik->name . ' लक्षको परिमाण',
+                    'value' => $traimaasik->initial . '_traimasik_lakshya_pariman'
+                ],
+                [
+                    'text' => $traimaasik->name . ' लक्षको भार',
+                    'value' => $traimaasik->initial . '_traimasik_lakshya_vaar'
+                ],
+                [
+                    'text' => $traimaasik->name . ' लक्षको बजेट',
+                    'value' => $traimaasik->initial . '_traimasik_lakshya_budget'
+                ],
+                [
+                    'text' => $traimaasik->name . ' प्रगती परिमाण',
+                    'value' => 'traimaasik_pragati.pariman'
+                ],
+                [
+                    'text' => $traimaasik->name . ' प्रगती भारित',
+                    'value' => 'traimaasik_pragati.vaarit'
+                ],
+                [
+                    'text' => $traimaasik->name . ' प्रगती खर्च',
+                    'value' => 'traimaasik_pragati.kharcha'
+                ],
+                [
+                    'text' => 'प्रतिवेदन अवधिसम्मको यस आ.व.को प्रगति परिमान',
+                    'value' => 'total_till_now.pariman'
+                ],
+                [
+                    'text' => 'प्रतिवेदन अवधिसम्मको यस आ.व.को प्रगति भारित',
+                    'value' => 'total_till_now.vaarit'
+                ],
+                [
+                    'text' => 'प्रतिवेदन अवधिसम्मको यस आ.व.को प्रगति खर्च',
+                    'value' => 'total_till_now.kharcha'
+                ],
+                [
+                    'text' => 'खर्च प्रकार',
+                    'value' => 'kharcha_prakar'
+                ],
+
+            ];
+            $traimaasikPragatiReport = [
+                'headers' => $headers,
+                'initial' => $initial,
+                'items' => $this->getSpecificDataFilterable($traimaasikPragati, $totalBaarsikLakshyaBudget, $initial),
+            ];
+            return response(
+                [
+                    'status' => 200,
+                    'type' => 'success',
+                    'message' => 'Aayojana loaded successfully',
+                    'data' => compact('traimaasikPragatiReport')
+                ]
+            );
+
         } catch (Exception $e) {
             return response([
                 'status' => $e->getCode(),

@@ -96,6 +96,9 @@
                         <v-text-field :disabled="submitted && !editable" type="number" v-model="item.maasik_pragati.kharcha" @input="addEditedMaasikPragatiTaalikaID(item.id)" class="my-text-field">
                         </v-text-field>
                     </template>
+                    <template v-slot:item.milestone="{item}">
+                        <span v-if="item.milestone"><strong>माईलस्टोन</strong></span>
+                    </template>
                 </v-data-table>
             </v-col>
         </v-row>

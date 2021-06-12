@@ -73,12 +73,34 @@
         </v-row>
         <v-row v-if="filterData.traimaasik">
             <v-col cols="12">
-                <v-btn target="_blank" href="/traimaasik-print">
+                <v-btn target="_blank" href="/traimaasik-print-filterable">
                     Print
                 </v-btn>
             </v-col>
             <v-col>
-                <v-data-table group-by="kharcha_prakar" disable-pagination :hide-default-footer="true" class="elevation-1" :headers="headers" :items="items"></v-data-table>
+                <v-data-table  disable-pagination :hide-default-footer="true" class="elevation-1" :headers="traimaasikPragatiReportFilterable.headers" :items="traimaasikPragatiReportFilterable.items">
+                    <template v-slot:body.append>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>जम्मा</th>
+                            <th>{{sumField(traimaasikPragatiReportFilterable.headers[5].value)}}</th>
+                            <th>{{sumField(traimaasikPragatiReportFilterable.headers[6].value)}}</th>
+                            <th>{{sumField(traimaasikPragatiReportFilterable.headers[7].value)}}</th>
+                            <th>{{sumField(traimaasikPragatiReportFilterable.headers[8].value)}}</th>
+                            <th>{{sumField(traimaasikPragatiReportFilterable.headers[9].value)}}</th>
+                            <th>{{sumField(traimaasikPragatiReportFilterable.headers[10].value)}}</th>
+                            <th>{{traimaasikPragatiReportFilterable.sum['traimaasik_pragati_pariman']}}</th>
+                            <th>{{traimaasikPragatiReportFilterable.sum['traimaasik_pragati_vaarit']}}</th>
+                            <th>{{traimaasikPragatiReportFilterable.sum['traimaasik_pragati_kharcha']}}</th>
+                            <th>{{traimaasikPragatiReportFilterable.sum['total_till_now_pariman']}}</th>
+                            <th>{{traimaasikPragatiReportFilterable.sum['total_till_now_vaarit']}}</th>
+                            <th>{{traimaasikPragatiReportFilterable.sum['total_till_now_kharcha']}}</th>
+                        </tr>
+                    </template>
+                </v-data-table>
             </v-col>
         </v-row>
     </v-container>
@@ -98,9 +120,8 @@ export default {
                 traimaasik: 0,
                 kharchaPrakar: []
             },
-            headers: [],
-            items: [],
-            aayojana: []
+            aayojana: [],
+            sum:[]
         };
     },
     mounted() {
@@ -113,12 +134,16 @@ export default {
             aarthikBarsa: (state) => state.webservice.resources.aarthik_barsa,
             kaaryalaya: (state) => state.webservice.resources.kaaryalaya,
             user: (state) => state.auth.user,
-            traimaasikPragatiReport: (state) => state.webservice.traimaasikPragatiReport,
+            traimaasikPragatiReportFilterable: (state) => state.webservice.traimaasikPragatiReportFilterable,
         }),
 
 
     },
     methods: {
+        sumField(key) {
+            // sum data in give key (property)
+            return Math.round((this.traimaasikPragatiReportFilterable.items.reduce((a, b) => a + (b[key] || 0), 0)  + Number.EPSILON) * 100) / 100;
+        },
         changeInAayojana() {
             if (this.filterData.traimaasik) {
                 this.getDataFromApi();
@@ -152,8 +177,6 @@ export default {
                     filterData: this.filterData,
                 })
                 .then(function (response) {
-                    tempthis.items = response.traimaasikPragatiReport.items;
-                    tempthis.headers = response.traimaasikPragatiReport.headers;
                 });
         },
 

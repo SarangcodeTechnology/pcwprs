@@ -63,8 +63,9 @@ Route::middleware('auth:api')->post('upload-kriyakalap-lakshya',[KriyakalapLaksh
 Route::middleware('auth:api')->get('maasik-pragati-taalika', [MaasikPragatiTaalikaController::class,'index']);
 Route::middleware('auth:api')->get('maasik-pragati-taalika-report', [MaasikPragatiTaalikaController::class,'report']);
 Route::middleware('auth:api')->post('save-maasik-pragati-taalika',[MaasikPragatiTaalikaController::class,'saveMaasikPragatiTaalika']);
+Route::middleware('auth:api')->get('maasik-pragati-report-filterable', [MaasikPragatiTaalikaController::class,'filterableReport']);
 
-// maasik pragati talika
+// traimaasik pragati talika
 Route::middleware('auth:api')->get('traimaasik-pragati-taalika', [TraimaasikPragatiTaalikaController::class,'index']);
 Route::middleware('auth:api')->get('import-from-maasik-pragati', [TraimaasikPragatiTaalikaController::class,'importFromMaasikPragati']);
 Route::middleware('auth:api')->post('save-traimaasik-pragati-taalika',[TraimaasikPragatiTaalikaController::class,'saveTraimaasikPragatiTaalika']);

@@ -35,14 +35,15 @@ const AayojanaEdit = () => import("./components/pages/aayojana/edit");
 const KriyakalapLakshya = () => import("./components/pages/kriyakalap-lakshya/browse");
 const KriyakalapMaasikPragati = () => import("./components/pages/kriyakalap-maasik-pragati/browse");
 const KriyakalapTraimaasikPragati = () => import("./components/pages/kriyakalap-traimaasik-pragati/browse");
+const KriyakalapMaasikPragatiFilterable = () => import("./components/pages/kriyakalap-maasik-pragrati-filterable/browse");
+const MaasikPrint = () => import("./components/pages/print/MaasikPrint");
+const MaasikPrintFilterable = () => import("./components/pages/print/MaasikPrintFilterable");
 
 const KriyakalapMaasikPragatiReport = () => import("./components/pages/kriyakalap-maasik-pragati-report/browse");
 const KriyakalapTraimaasikPragatiReport = () => import("./components/pages/kriyakalap-traimaasik-pragati-report/browse");
 const KriyakalapTraimaasikPragatiFilterable = () => import("./components/pages/kriyakalap-traimaasik-pragrati-filterable/browse");
-
-
-const MaasikPrint = () => import("./components/pages/print/MaasikPrint");
 const TraimaasikPrint = () => import("./components/pages/print/TraimaasikPrint");
+const TraimaasikPrintFilterable = () => import("./components/pages/print/TraimaasikPrintFilterable");
 
 const NotAuthenticated = () => import("./components/pages/NotAuthenticated");
 const EditRequests = () => import("./components/pages/requests/browse");
@@ -435,6 +436,24 @@ const opts = {
                         }
                     },
                 },
+                {
+                    path: "/kriyakalap-maasik-pragati-filterable",
+                    component: KriyakalapMaasikPragatiFilterable,
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('traimaasik_pragati_report-browse')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
+                    name: 'kriyakalap-maasik-pragati-filterable',
+                    meta: {
+                        breadcrumb: {
+                            text: "मासिक प्रगती प्रतिवेदन",
+                            link: "/kriyakalap-maasik-pragati-filterable"
+                        }
+                    },
+                },
 
                 {
                     path: "/kriyakalap-traimaasik-pragati",
@@ -470,6 +489,16 @@ const opts = {
                     next();
                 }
             },
+        },
+        {
+            path: "/maasik-print-filterable",
+            component: MaasikPrintFilterable,
+            name: 'Maasik Print Filterable',
+        },
+        {
+            path: "/traimaasik-print-filterable",
+            component: TraimaasikPrintFilterable,
+            name: 'Traimaasik Print Filterable',
         },
         {
             path: "/maasik-print",
