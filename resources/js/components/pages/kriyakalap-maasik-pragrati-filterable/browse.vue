@@ -3,7 +3,7 @@
         <v-row class="d-flex justify-content-between">
 
             <v-col cols="3" class="d-flex align-items-center">
-                <h5>त्रैमासिक प्रगती</h5>
+                <h5>मासिक प्रगती</h5>
                 <v-divider class="ml-5" inset vertical></v-divider>
             </v-col>
 
@@ -53,14 +53,14 @@
                     label="खर्च प्रकार"
                     placeholder="खर्च प्रकार"
                     class="mr-2"
-                    @input="filterData.traimaasik ? getDataFromApi() : ''"
+                    @input="filterData.maasik ? getDataFromApi() : ''"
                     multiple
                 >
                 </v-autocomplete>
                 <v-select
                     v-if="filterData.aayojana"
-                    v-model="filterData.traimaasik"
-                    :items="traimaasik"
+                    v-model="filterData.maasik"
+                    :items="maasik"
                     label="त्रैमासिक"
                     item-text="name"
                     item-value="id"
@@ -71,14 +71,14 @@
                 </v-select>
             </v-col>
         </v-row>
-        <v-row v-if="filterData.traimaasik">
+        <v-row v-if="filterData.maasik">
             <v-col cols="12">
-                <v-btn target="_blank" href="/traimaasik-print-filterable">
+                <v-btn target="_blank" href="/maasik-print-filterable">
                     Print
                 </v-btn>
             </v-col>
             <v-col>
-                <v-data-table  disable-pagination :hide-default-footer="true" class="elevation-1" :headers="traimaasikPragatiReportFilterable.headers" :items="traimaasikPragatiReportFilterable.items">
+                <v-data-table  disable-pagination :hide-default-footer="true" class="elevation-1" :headers="maasikPragatiReportFilterable.headers" :items="maasikPragatiReportFilterable.items">
                     <template v-slot:body.append>
                         <tr>
                             <th></th>
@@ -86,18 +86,18 @@
                             <th></th>
                             <th></th>
                             <th>जम्मा</th>
-                            <th>{{sumField(traimaasikPragatiReportFilterable.headers[5].value)}}</th>
-                            <th>{{sumField(traimaasikPragatiReportFilterable.headers[6].value)}}</th>
-                            <th>{{sumField(traimaasikPragatiReportFilterable.headers[7].value)}}</th>
-                            <th>{{sumField(traimaasikPragatiReportFilterable.headers[8].value)}}</th>
-                            <th>{{sumField(traimaasikPragatiReportFilterable.headers[9].value)}}</th>
-                            <th>{{sumField(traimaasikPragatiReportFilterable.headers[10].value)}}</th>
-                            <th>{{traimaasikPragatiReportFilterable.sum['traimaasik_pragati_pariman']}}</th>
-                            <th>{{traimaasikPragatiReportFilterable.sum['traimaasik_pragati_vaarit']}}</th>
-                            <th>{{traimaasikPragatiReportFilterable.sum['traimaasik_pragati_kharcha']}}</th>
-                            <th>{{traimaasikPragatiReportFilterable.sum['total_till_now_pariman']}}</th>
-                            <th>{{traimaasikPragatiReportFilterable.sum['total_till_now_vaarit']}}</th>
-                            <th>{{traimaasikPragatiReportFilterable.sum['total_till_now_kharcha']}}</th>
+                            <th>{{sumField(maasikPragatiReportFilterable.headers[5].value)}}</th>
+                            <th>{{sumField(maasikPragatiReportFilterable.headers[6].value)}}</th>
+                            <th>{{sumField(maasikPragatiReportFilterable.headers[7].value)}}</th>
+                            <th>{{sumField(maasikPragatiReportFilterable.headers[8].value)}}</th>
+                            <th>{{sumField(maasikPragatiReportFilterable.headers[9].value)}}</th>
+                            <th>{{sumField(maasikPragatiReportFilterable.headers[10].value)}}</th>
+                            <th>{{maasikPragatiReportFilterable.sum['maasik_pragati_pariman']}}</th>
+                            <th>{{maasikPragatiReportFilterable.sum['maasik_pragati_vaarit']}}</th>
+                            <th>{{maasikPragatiReportFilterable.sum['maasik_pragati_kharcha']}}</th>
+                            <th>{{maasikPragatiReportFilterable.sum['total_till_now_pariman']}}</th>
+                            <th>{{maasikPragatiReportFilterable.sum['total_till_now_vaarit']}}</th>
+                            <th>{{maasikPragatiReportFilterable.sum['total_till_now_kharcha']}}</th>
                         </tr>
                     </template>
                 </v-data-table>
@@ -117,7 +117,7 @@ export default {
                 user: 0,
                 aarthikBarsa: [],
                 aayojana: 0,
-                traimaasik: 0,
+                maasik: 0,
                 kharchaPrakar: []
             },
             aayojana: [],
@@ -130,11 +130,11 @@ export default {
     },
     computed: {
         ...mapState({
-            traimaasik: (state) => state.webservice.resources.traimaasik,
+            maasik: (state) => state.webservice.resources.maasik,
             aarthikBarsa: (state) => state.webservice.resources.aarthik_barsa,
             kaaryalaya: (state) => state.webservice.resources.kaaryalaya,
             user: (state) => state.auth.user,
-            traimaasikPragatiReportFilterable: (state) => state.webservice.traimaasikPragatiReportFilterable,
+            maasikPragatiReportFilterable: (state) => state.webservice.maasikPragatiReportFilterable,
         }),
 
 
@@ -142,10 +142,10 @@ export default {
     methods: {
         sumField(key) {
             // sum data in give key (property)
-            return Math.round((this.traimaasikPragatiReportFilterable.items.reduce((a, b) => a + (b[key] || 0), 0)  + Number.EPSILON) * 100) / 100;
+            return Math.round((this.maasikPragatiReportFilterable.items.reduce((a, b) => a + (b[key] || 0), 0)  + Number.EPSILON) * 100) / 100;
         },
         changeInAayojana() {
-            if (this.filterData.traimaasik) {
+            if (this.filterData.maasik) {
                 this.getDataFromApi();
             }
         },
@@ -173,7 +173,7 @@ export default {
         getDataFromApi() {
             const tempthis = this;
             this.$store
-                .dispatch("getTraimaasikPragatiReportFilterable", {
+                .dispatch("getMaasikPragatiReportFilterable", {
                     filterData: this.filterData,
                 })
                 .then(function (response) {
