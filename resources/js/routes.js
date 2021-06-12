@@ -50,6 +50,7 @@ const EditRequests = () => import("./components/pages/requests/browse");
 const opts = {
     mode: "history",
     routes: [
+
         {
             path: "/",
             component: App,
