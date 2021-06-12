@@ -1,19 +1,32 @@
 <template>
   <v-app>
     <v-navigation-drawer app right v-model="dialog" class="nonPrintableArea">
-        <v-container>
-            <h4><strong>प्रिन्ट विवरण लेख्नुहोस्</strong></h4>
-      <v-text-field label="तयार गर्ने" outlined v-model="tayarGarneNaam"></v-text-field>
-      <v-text-field label="आ.प्र.शाखा" outlined v-model="apraNaam"></v-text-field>
-      <v-text-field label="प्रमाणित गर्ने" outlined v-model="pramaditNaam"></v-text-field>
-        <v-btn depressed color="primary" @click="print()" ><v-icon>mdi-printer</v-icon><span>Ready to Print</span></v-btn>
-        </v-container>
-
-    </v-navigation-drawer>
-    <v-main app class="printableArea" >
       <v-container>
-
-        <v-row class="pa-2 nonPrintableArea" >
+        <h4><strong>प्रिन्ट विवरण लेख्नुहोस्</strong></h4>
+        <v-text-field
+          label="तयार गर्ने"
+          outlined
+          v-model="tayarGarneNaam"
+        ></v-text-field>
+        <v-text-field
+          label="आ.प्र.शाखा"
+          outlined
+          v-model="apraNaam"
+        ></v-text-field>
+        <v-text-field
+          label="प्रमाणित गर्ने"
+          outlined
+          v-model="pramaditNaam"
+        ></v-text-field>
+        <v-btn depressed color="primary" @click="print()"
+          ><v-icon>mdi-printer</v-icon><span>Ready to Print</span></v-btn
+        >
+      </v-container>
+    </v-navigation-drawer>
+    
+    <v-main app class="printableArea">
+      <v-container>
+        <v-row class="pa-2 nonPrintableArea">
           <v-spacer></v-spacer>
           <v-btn color="success" dark @click="dialog = !dialog" depressed>
             <v-icon>mdi-printer</v-icon>
@@ -411,17 +424,17 @@
             >
               <div>
                 <p><strong>तयार गर्ने</strong></p>
-                <p>नाम: {{tayarGarneNaam}}</p>
+                <p>नाम: {{ tayarGarneNaam }}</p>
                 <p>स.व.अ.</p>
               </div>
               <div>
                 <p><strong>आ.प्र.शाखा</strong></p>
-                <p>नाम: {{apraNaam}}</p>
+                <p>नाम: {{ apraNaam }}</p>
                 <p>ले.अ.</p>
               </div>
               <div>
                 <p><strong>प्रमाणित गर्ने</strong></p>
-                <p>नाम: {{pramaditNaam}}</p>
+                <p>नाम: {{ pramaditNaam }}</p>
                 <p>सदस्य-सचिव</p>
               </div>
             </div>
@@ -441,10 +454,9 @@ export default {
     return {
       dialog: false,
 
-      tayarGarneNaam:"",
-      apraNaam:"",
-      pramaditNaam:"",
-
+      tayarGarneNaam: "",
+      apraNaam: "",
+      pramaditNaam: "",
     };
   },
   computed: {
@@ -453,20 +465,18 @@ export default {
     }),
   },
   methods: {
-      print(){
-          window.print();
-
-      }
+    print() {
+      window.print();
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
-@media print{
-    .nonPrintableArea{
-        display:none;
-
-    }
+@media print {
+  .nonPrintableArea {
+    display: none;
+  }
 }
 h5 {
   font-size: 15px;
