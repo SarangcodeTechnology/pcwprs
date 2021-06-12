@@ -12,7 +12,6 @@
     </v-navigation-drawer>
     <v-main app class="printableArea" >
       <v-container>
-
         <v-row class="pa-2 nonPrintableArea" >
           <v-spacer></v-spacer>
           <v-btn color="success" dark @click="dialog = !dialog" depressed>
@@ -21,7 +20,7 @@
           </v-btn>
         </v-row>
 
-        <v-row>
+        <v-row class="pa-4">
           <div id="printableArea">
             <div style="position: relative; margin-bottom: 5px">
               <div style="position: absolute; right: 0; text-align: right">
