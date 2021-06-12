@@ -70,6 +70,7 @@
         <!--        <v-footer app>-->
         <!--        </v-footer>-->
         <notification-list/>
+        <confirm-dialog ref="confirm"/>
     </v-app>
 </template>
 
@@ -97,6 +98,9 @@ export default {
         breadcrumbs: function () {
             return this.$route.matched;
         }
+    },
+    mounted() {
+        this.$root.confirm = this.$refs.confirm.open;
     }
 
 }

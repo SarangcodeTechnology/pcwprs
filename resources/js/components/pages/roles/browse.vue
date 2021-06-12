@@ -56,7 +56,7 @@
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
 
-              <v-btn color="red" icon x-small @click="deletePopup(item)">
+              <v-btn color="red" icon x-small @click="confrim(item)">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </div>
@@ -97,6 +97,23 @@ export default {
     ...mapState({ roles: (state) => state.webservice.roles }),
   },
   methods: {
+      confirm(item) {
+          const tempthis = this;
+          this.$root.confirm('मेट्ने पुष्टि गर्नुहोस्', 'के तपाईं ' + item.name + ' मेट्न निश्चित हुनुहुन्छ ?', {color: 'red'}).then((confirm) => {
+              tempthis.deleteData(item);
+          }).catch((error) => {
+              console.log(error);
+          });
+      },
+      deleteData(item) {
+          let tempthis = this;
+          this.$store.dispatch('makePostRequest', {
+              data: {items: item, model: "Role"},
+              route: 'delete-data'
+          }).then(function (response) {
+              tempthis.getDataFromApi();
+          });
+      },
     getDataFromApi() {
       const tempthis = this;
       this.loading = true;
