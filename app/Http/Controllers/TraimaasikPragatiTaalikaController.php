@@ -153,6 +153,7 @@ class TraimaasikPragatiTaalikaController extends Controller
                 foreach($component_id_in_chalu as $component_id){
                     $component =  $items['chalu']['data']->where('component_id',$component_id);
                     $items['chalu']['components'][$component_id]['name'] = $component->first()['component'];
+                    $items['chalu']['components'][$component_id]['id'] = $component->first()['component_id'];
                     // component items
                     $items['chalu']['components'][$component_id]['items'] = $component->values();
 
@@ -190,6 +191,7 @@ class TraimaasikPragatiTaalikaController extends Controller
             foreach($component_id_in_punjigat as $component_id){
                 $component =  $items['punjigat']['data']->where('component_id',$component_id);
                 $items['punjigat']['components'][$component_id]['name'] = $component->first()['component'];
+                $items['punjigat']['components'][$component_id]['id'] = $component->first()['component_id'];
                 // component items
                 $items['punjigat']['components'][$component_id]['items'] = $component->values();
 
