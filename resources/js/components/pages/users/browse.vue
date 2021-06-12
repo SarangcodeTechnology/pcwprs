@@ -127,6 +127,10 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
+        search: "",
+        page: 1,
+        numberOfPages: 0,
+        options: {},
       loading: true,
       headers: [
         { text: "कार्यहरु", value: "actions" },
@@ -140,7 +144,6 @@ export default {
   },
   mounted() {
     this.getDataFromApi();
-    console.log(this.users);
   },
   computed: {
     ...mapState({ users: (state) => state.webservice.users }),

@@ -73,6 +73,10 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
+        search: "",
+        page: 1,
+        numberOfPages: 0,
+        options: {},
       headers: [
         { text: "कार्यहरु", value: "actions" },
         { text: "नाम", value: "name" },
