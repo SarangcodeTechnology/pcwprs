@@ -133,13 +133,34 @@ class MaasikPragatiTaalikaController extends Controller
             $myData[] = $item;
         }
         // chalu data
-        $items['chalu']['data']= collect($myData)->where('kharcha_prakar','चालु');
+        $items['chalu']['data']= collect($myData)->where('kharcha_prakar','चालु')->values();
         $items['chalu']['totals']['baarsik_lakshya_vaar'] = round($items['chalu']['data']->sum('baarsik_lakshya_vaar'),3);
         $items['chalu']['totals']['baarsik_lakshya_budget'] = round($items['chalu']['data']->sum('baarsik_lakshya_budget'),3);
         $items['chalu']['totals']['maasik_pragati_vaarit'] = round($items['chalu']['data']->sum('maasik_pragati.vaarit'),3);
         $items['chalu']['totals']['maasik_pragati_kharcha'] = round($items['chalu']['data']->sum('maasik_pragati.kharcha'),3);
         $items['chalu']['totals']['total_till_now_vaarit'] = round($items['chalu']['data']->sum('total_till_now.vaarit'),3);
         $items['chalu']['totals']['total_till_now_kharcha'] = round($items['chalu']['data']->sum('total_till_now.kharcha'),3);
+                //for component sub category
+                //getting component id of specific chalu data.
+                $component_id_in_chalu = collect($items['chalu']['data'])->pluck('component_id')->unique()->values();
+                foreach($component_id_in_chalu as $component_id){
+                    $component =  $items['chalu']['data']->where('component_id',$component_id);
+                    $items['chalu']['components'][$component_id]['name'] = $component->first()['component'];
+                    $items['chalu']['components'][$component_id]['id'] = $component->first()['component_id'];
+                    // component items
+                    $items['chalu']['components'][$component_id]['items'] = $component->values();
+
+                    // component totals
+                    $items['chalu']['components'][$component_id]['totals']['baarsik_lakshya_vaar'] = round($items['chalu']['components'][$component_id]['items']->sum('baarsik_lakshya_vaar'),3);
+                    $items['chalu']['components'][$component_id]['totals']['baarsik_lakshya_budget'] = round($items['chalu']['components'][$component_id]['items']->sum('baarsik_lakshya_budget'),3);
+                    $items['chalu']['components'][$component_id]['totals']['maasik_pragati_vaarit'] = round($items['chalu']['components'][$component_id]['items']->sum('maasik_pragati.vaarit'),3);
+                    $items['chalu']['components'][$component_id]['totals']['maasik_pragati_kharcha'] = round($items['chalu']['components'][$component_id]['items']->sum('maasik_pragati.kharcha'),3);
+                    $items['chalu']['components'][$component_id]['totals']['total_till_now_vaarit'] = round($items['chalu']['components'][$component_id]['items']->sum('total_till_now.vaarit'),3);
+                    $items['chalu']['components'][$component_id]['totals']['total_till_now_kharcha'] = round($items['chalu']['components'][$component_id]['items']->sum('total_till_now.kharcha'),3);
+                }
+                //converting object to array of component
+                $items['chalu']['components'] = collect($items['chalu']['components'])->values();
+
         // punjigat data
         $items['punjigat']['data'] = collect($myData)->where('kharcha_prakar','पूँजीगत');
         $items['punjigat']['totals']['baarsik_lakshya_vaar'] = round($items['punjigat']['data']->sum('baarsik_lakshya_vaar'),3);
@@ -149,6 +170,29 @@ class MaasikPragatiTaalikaController extends Controller
         $items['punjigat']['totals']['total_till_now_vaarit'] = round($items['punjigat']['data']->sum('total_till_now.vaarit'),3);
         $items['punjigat']['totals']['total_till_now_kharcha'] = round($items['punjigat']['data']->sum('total_till_now.kharcha'),3);
 
+            //for component sub category
+            //getting component id of specific punjigat data.
+            $component_id_in_punjigat = collect($items['punjigat']['data'])->pluck('component_id')->unique()->values();
+            foreach($component_id_in_punjigat as $component_id){
+                $component =  $items['punjigat']['data']->where('component_id',$component_id);
+                $items['punjigat']['components'][$component_id]['name'] = $component->first()['component'];
+                $items['punjigat']['components'][$component_id]['id'] = $component->first()['component_id'];
+                // component items
+                $items['punjigat']['components'][$component_id]['items'] = $component->values();
+
+                // component totals
+                $items['punjigat']['components'][$component_id]['totals']['baarsik_lakshya_vaar'] = round($items['punjigat']['components'][$component_id]['items']->sum('baarsik_lakshya_vaar'),3);
+                $items['punjigat']['components'][$component_id]['totals']['baarsik_lakshya_budget'] = round($items['punjigat']['components'][$component_id]['items']->sum('baarsik_lakshya_budget'),3);
+                $items['punjigat']['components'][$component_id]['totals']['maasik_pragati_vaarit'] = round($items['punjigat']['components'][$component_id]['items']->sum('maasik_pragati.vaarit'),3);
+                $items['punjigat']['components'][$component_id]['totals']['maasik_pragati_kharcha'] = round($items['punjigat']['components'][$component_id]['items']->sum('maasik_pragati.kharcha'),3);
+                $items['punjigat']['components'][$component_id]['totals']['total_till_now_vaarit'] = round($items['punjigat']['components'][$component_id]['items']->sum('total_till_now.vaarit'),3);
+                $items['punjigat']['components'][$component_id]['totals']['total_till_now_kharcha'] = round($items['punjigat']['components'][$component_id]['items']->sum('total_till_now.kharcha'),3);
+            }
+            //converting object to array of component
+            $items['punjigat']['components'] = collect($items['punjigat']['components'])->values();
+
+
+            //totals of Data;
         $items['totals']['baarsik_lakshya_vaar'] = round(collect($myData)->sum('baarsik_lakshya_vaar'),3);
         $items['totals']['baarsik_lakshya_budget'] = round(collect($myData)->sum('baarsik_lakshya_budget'),3);
         $items['totals']['maasik_pragati_vaarit'] = round(collect($myData)->sum('maasik_pragati.vaarit'),3);
