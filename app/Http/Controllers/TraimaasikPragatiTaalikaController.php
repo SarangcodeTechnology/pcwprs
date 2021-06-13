@@ -107,7 +107,7 @@ class TraimaasikPragatiTaalikaController extends Controller
     }
 
 
-    private function getSpecificData($traimaasikPragati, $totalBaarsikLakshyaBudget, $initial)
+    private function getSpecificData($traimaasikPragati, $totalBaarsikLakshyaBudget, $initial,$baarsik)
     {
         foreach ($traimaasikPragati as $item) {
             $item['total_till_now']['pariman'] = 0;
@@ -132,6 +132,11 @@ class TraimaasikPragatiTaalikaController extends Controller
             $item['total_till_now']['vaarit'] = round(($item['baarsik_lakshya_vaar'] / $item['baarsik_lakshya_pariman']) * $item['total_till_now']['pariman'], 3);
             $item['total_till_now']['pariman'] = round($item['total_till_now']['pariman'], 3);
             $item['total_till_now']['kharcha'] = round($item['total_till_now']['kharcha'], 3);
+            if($baarsik){
+                $item['traimaasik_pragati']['vaarit'] = $item['total_till_now']['vaarit'];
+                $item['traimaasik_pragati']['pariman'] = $item['total_till_now']['pariman'];
+                $item['traimaasik_pragati']['kharcha'] = $item['total_till_now']['kharcha'];
+            }
             $item['vautik_pragati'][$initial . '_traimasik'] = round(($item['traimaasik_pragati']['vaarit'] / $item[$initial . '_traimasik_lakshya_vaar']) * 100, 2) < 100 ? round(($item['traimaasik_pragati']['vaarit'] / $item[$initial . '_traimasik_lakshya_vaar']) * 100, 2) : 100;
             $item['vautik_pragati']['total_till_now'] = round(($item['total_till_now']['pariman'] / $item['baarsik_lakshya_pariman']) * 100, 2) < 100 ? round(($item['total_till_now']['pariman'] / $item['baarsik_lakshya_pariman']) * 100, 2) : 100;
 
@@ -236,7 +241,7 @@ class TraimaasikPragatiTaalikaController extends Controller
 
             //checking baarsik or not if baarsik set traimaasik to 4 as total_till_now will be baarsik
             $baarsik = 0;
-            if($traimaasikID==5){ $baarsik=1; $tramaasikID=4; }
+            if($traimaasikID==5){ $baarsik=1; $traimaasikID=4; }
             $traimaasik = Traimaasik::find($traimaasikID);
             $initial = $traimaasik->initial;
             $karyalayaIDs = $filterData->kaaryalaya;
@@ -263,11 +268,12 @@ class TraimaasikPragatiTaalikaController extends Controller
                 $traimaasikPragati = json_decode(json_encode($traimaasikPragati), true);
                 $traimaasikPragatiReports[] =
                     [
+                        'baarsik' => $baarsik,
                         'kaaryalaya' => Kaaryalaya::find($karyalayaID),
                         'aayojana' => Aayojana::find($aayojanaID)->name,
-                        'trimester' => Traimaasik::find($traimaasikID)->name,
+                        'trimester' => $baarsik ? 'वार्षिक' : Traimaasik::find($traimaasikID)->name,
                         'initial' => $initial,
-                        'items' => $this->getSpecificData($traimaasikPragati, $totalBaarsikLakshyaBudget, $initial)
+                        'items' => $this->getSpecificData($traimaasikPragati, $totalBaarsikLakshyaBudget, $initial,$baarsik)
                     ];
             }
 

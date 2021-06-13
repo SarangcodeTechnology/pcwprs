@@ -172,7 +172,7 @@
                                             </tr>
                                             <tr
                                                 v-for="(item, componentItemPunjigatIndex) in componentItem.items"
-                                                :key="componentItemPunjigatIndex"
+                                                :key="'A'+componentItemPunjigatIndex"
                                             >
                                                 <td>{{ item.kriyakalap_code }}</td>
                                                 <td>{{ item.name }}</td>
@@ -343,7 +343,7 @@
                                             </tr>
                                             <tr
                                                 v-for="(item, componentItemChaluIndex) in componentItem.items"
-                                                :key="componentItemChaluIndex"
+                                                :key="'D'+componentItemChaluIndex"
                                             >
                                                 <td>{{ item.kriyakalap_code }}</td>
                                                 <td>{{ item.name }}</td>
@@ -764,7 +764,7 @@
                             </tr>
                             <tr
                                 v-for="(item, componentItemPunjigatIndex) in componentItem.items"
-                                :key="componentItemPunjigatIndex"
+                                :key="'B'+componentItemPunjigatIndex"
                             >
                                 <td>{{ item.kriyakalap_code }}</td>
                                 <td>{{ item.name }}</td>
@@ -935,7 +935,7 @@
                             </tr>
                             <tr
                                 v-for="(item, componentItemChaluIndex) in componentItem.items"
-                                :key="componentItemChaluIndex"
+                                :key="'C'+componentItemChaluIndex"
                             >
                                 <td>{{ item.kriyakalap_code }}</td>
                                 <td>{{ item.name }}</td>
