@@ -62,7 +62,7 @@
                 </v-btn>
             </v-col>
             <v-col>
-                <traimaasik-print></traimaasik-print>
+                <traimaasik-print :passedFillable="false"></traimaasik-print>
             </v-col>
         </v-row>
     </v-container>

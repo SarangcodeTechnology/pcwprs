@@ -56,7 +56,7 @@
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
 
-              <v-btn color="red" icon x-small @click="confrim(item)">
+              <v-btn color="red" icon x-small @click="confirm(item)">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </div>

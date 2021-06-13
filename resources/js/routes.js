@@ -155,11 +155,11 @@ const opts = {
                             next({name:"not-authenticated"});
                         }
                     },
-                    name: 'users',
+                    name: 'Edit Requests',
                     meta: {
                         breadcrumb: {
-                            text: "प्रयोगकर्ताहरु",
-                            link: "/users"
+                            text: "इडिट निवेदनहरु",
+                            link: "/Edit Requests"
                         }
                     },
                 },
@@ -178,7 +178,7 @@ const opts = {
                     meta: {
                         breadcrumb: {
                             text: "प्रयोगकर्ताहरु",
-                            link: "/users"
+                            link: "/Users"
                         }
                     },
                 },
@@ -504,12 +504,12 @@ const opts = {
         {
             path: "/maasik-print",
             component: MaasikPrint,
-            name: 'Print',
+            name: 'Maasik Print',
         },
         {
             path: "/traimaasik-print",
             component: TraimaasikPrint,
-            name: 'Print',
+            name: 'Traimasik Print',
         },
         {
             path: "/register",
