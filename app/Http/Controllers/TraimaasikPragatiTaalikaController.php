@@ -172,9 +172,6 @@ class TraimaasikPragatiTaalikaController extends Controller
                 $items['chalu']['components'] = collect($items['chalu']['components'])->values();
 
 
-
-
-
         // punjigat data
         $items['punjigat']['data'] = collect($myData)->where('kharcha_prakar', 'पूँजीगत')->values();
         $items['punjigat']['totals']['baarsik_lakshya_vaar'] = round($items['punjigat']['data']->sum('baarsik_lakshya_vaar'), 3);
@@ -236,6 +233,10 @@ class TraimaasikPragatiTaalikaController extends Controller
             $filterData = json_decode($request->filterData);
             $aayojanaID = $filterData->aayojana;
             $traimaasikID = $filterData->traimaasik;
+
+            //checking baarsik or not if baarsik set traimaasik to 4 as total_till_now will be baarsik
+            $baarsik = 0;
+            if($traimaasikID==5){ $baarsik=1; $tramaasikID=4; }
             $traimaasik = Traimaasik::find($traimaasikID);
             $initial = $traimaasik->initial;
             $karyalayaIDs = $filterData->kaaryalaya;

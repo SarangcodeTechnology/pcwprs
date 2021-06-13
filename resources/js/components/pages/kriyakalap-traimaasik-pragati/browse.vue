@@ -142,11 +142,6 @@ export default {
         this.filterData.user = this.user.id;
 
     },
-    created(){
-        this.traimaasik.push({id:5,
-            initial:"chautho",
-            name:"वार्षिक"})
-    },
     computed: {
         ...mapState({
             traimaasik: (state) => state.webservice.resources.traimaasik,
