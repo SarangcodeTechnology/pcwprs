@@ -17,9 +17,27 @@
                     item-value="id"
                     placeholder="कार्यलय"
                     class="mr-2"
-                    multiple
+                    multiple chips
                     :disabled="!$store.getters.CHECK_PERMISSION('maasik_pragati_report-select_kaaryalaya')"
                 >
+                    <template v-slot:prepend-item>
+                        <v-list-item
+                            ripple
+                            @click="toggle"
+                        >
+                            <v-list-item-action>
+                                <v-icon :color="filterData.kaaryalaya.length > 0 ? 'green darken-4' : ''">
+                                    {{ icon }}
+                                </v-icon>
+                            </v-list-item-action>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    Select All
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-divider class="mt-2"></v-divider>
+                    </template>
                 </v-select>
                 <v-select
                     v-model="filterData.aarthikBarsa"
@@ -92,6 +110,17 @@ export default {
         this.filterData.user = this.user.id;
     },
     computed: {
+        icon() {
+            if (this.selectsAllKaryalaya) return 'mdi-close-box'
+            if (this.selectsSomeKaryalaya) return 'mdi-minus-box'
+            return 'mdi-checkbox-blank-outline'
+        },
+        selectsAllKaryalaya() {
+            return this.filterData.kaaryalaya.length === this.kaaryalaya.length
+        },
+        selectsSomeKaryalaya() {
+            return this.filterData.kaaryalaya.length > 0 && !this.selectsAllKaryalaya
+        },
         ...mapState({
             mahina: (state) => state.webservice.resources.mahina,
             aarthikBarsa: (state) => state.webservice.resources.aarthik_barsa,
@@ -115,6 +144,17 @@ export default {
 
     },
     methods: {
+        toggle() {
+            this.$nextTick(() => {
+                if (this.selectsAllKaryalaya) {
+                    this.filterData.kaaryalaya = []
+                } else {
+                    this.filterData.kaaryalaya = this.kaaryalaya.slice().map(function (val) {
+                        return val.id;
+                    })
+                }
+            })
+        },
         printDiv(divName) {
             var printContents = document.getElementById(divName).innerHTML;
             var originalContents = document.body.innerHTML;

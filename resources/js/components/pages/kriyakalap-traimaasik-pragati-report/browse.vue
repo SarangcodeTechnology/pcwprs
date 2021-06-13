@@ -16,9 +16,27 @@
                     item-value="id"
                     placeholder="कार्यलय"
                     class="mr-2"
-                    multiple
+                    multiple chips
                     :disabled="!$store.getters.CHECK_PERMISSION('traimaasik_pragati_report-select_kaaryalaya')"
                 >
+                    <template v-slot:prepend-item>
+                        <v-list-item
+                            ripple
+                            @click="toggle"
+                        >
+                            <v-list-item-action>
+                                <v-icon :color="filterData.kaaryalaya.length > 0 ? 'green darken-4' : ''">
+                                    {{ icon }}
+                                </v-icon>
+                            </v-list-item-action>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    Select All
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-divider class="mt-2"></v-divider>
+                    </template>
                 </v-select>
                 <v-select
                     v-model="filterData.aarthikBarsa"
@@ -95,6 +113,17 @@ export default {
             user: (state) => state.auth.user,
             traimaasikPragatiReports: (state) => state.webservice.traimaasikPragatiReports,
         }),
+        icon() {
+            if (this.selectsAllKaryalaya) return 'mdi-close-box'
+            if (this.selectsSomeKaryalaya) return 'mdi-minus-box'
+            return 'mdi-checkbox-blank-outline'
+        },
+        selectsAllKaryalaya() {
+            return this.filterData.kaaryalaya.length === this.kaaryalaya.length
+        },
+        selectsSomeKaryalaya() {
+            return this.filterData.kaaryalaya.length > 0 && !this.selectsAllKaryalaya
+        },
         aayojana: function () {
             const tempthis = this;
             var data = "";
@@ -111,13 +140,25 @@ export default {
 
     },
     methods: {
-        changeInAayojana(){
+        toggle() {
+            this.$nextTick(() => {
+                if (this.selectsAllKaryalaya) {
+                    this.filterData.kaaryalaya = []
+                } else {
+                    this.filterData.kaaryalaya = this.kaaryalaya.slice().map(function (val) {
+                        return val.id;
+                    })
+                }
+            })
+        },
+
+        changeInAayojana() {
             this.filterData.traimaasik = 0;
         },
         changeInArthikBarsa() {
             this.filterData.aayojana = 0;
         },
-        changeInTraimaasik(){
+        changeInTraimaasik() {
             this.getDataFromApi();
         },
         getDataFromApi() {
@@ -135,13 +176,14 @@ export default {
 };
 </script>
 <style scoped>
-table td{
+table td {
     padding: 0px 3px 0px 3px;
 }
 
-p{
+p {
     margin: 0;
 }
+
 .my-text-field {
     width: 150px;
 }
