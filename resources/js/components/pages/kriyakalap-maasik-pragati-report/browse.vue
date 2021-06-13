@@ -63,7 +63,7 @@
                 </v-btn>
             </v-col>
             <v-col>
-                <maasik-print></maasik-print>
+                <maasik-print :passedFillable=false></maasik-print>
             </v-col>
         </v-row>
     </v-container>
