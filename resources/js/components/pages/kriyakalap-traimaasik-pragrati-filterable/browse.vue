@@ -32,7 +32,7 @@
                     placeholder="आर्थिक वर्ष"
                     @input="changeInArthikBarsa"
                     class="mr-2"
-                    multiple
+                    multiple chips
                 >
                 </v-autocomplete>
                 <v-autocomplete
@@ -44,7 +44,7 @@
                     placeholder="आयोजना"
                     @input="changeInAayojana"
                     class="mr-2"
-                    multiple
+                    multiple chips
                 >
                 </v-autocomplete>
                 <v-autocomplete
@@ -54,7 +54,7 @@
                     placeholder="खर्च प्रकार"
                     class="mr-2"
                     @input="filterData.traimaasik ? getDataFromApi() : ''"
-                    multiple
+                    multiple chips
                 >
                 </v-autocomplete>
                 <v-select
