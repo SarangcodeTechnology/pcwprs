@@ -32,7 +32,7 @@
                                     item-value="id"
                                     placeholder="कार्यलय"
                                     @input="getDataFromApi"
-                                    :disabled="editAllData || 1"
+                                    :disabled="!$store.getters.CHECK_PERMISSION('kriyakalap_lakshya-select_kaaryalaya')"
                                 >
                                 </v-select>
                                 <v-select

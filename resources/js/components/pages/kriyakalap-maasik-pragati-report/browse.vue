@@ -1,13 +1,10 @@
 <template>
     <v-container fluid>
         <v-row class="d-flex justify-content-between">
-
             <v-col cols="3" class="d-flex align-items-center">
                 <h5>मासिक प्रगती</h5>
                 <v-divider class="ml-5" inset vertical></v-divider>
             </v-col>
-
-
         </v-row>
         <v-row>
             <v-col cols="9" class="d-flex align-items-center">
@@ -20,7 +17,8 @@
                     item-value="id"
                     placeholder="कार्यलय"
                     class="mr-2"
-                    :disabled="true"
+                    multiple
+                    :disabled="!$store.getters.CHECK_PERMISSION('maasik_pragati_report-select_kaaryalaya')"
                 >
                 </v-select>
                 <v-select
@@ -78,7 +76,7 @@ export default {
     data() {
         return {
             filterData: {
-                kaaryalaya: 0,
+                kaaryalaya: [],
                 user: 0,
                 aarthikBarsa: "",
                 aayojana: 0,
@@ -90,7 +88,7 @@ export default {
         };
     },
     mounted() {
-        this.filterData.kaaryalaya = this.user.kaaryalaya_id;
+        this.filterData.kaaryalaya.push(this.user.kaaryalaya_id);
         this.filterData.user = this.user.id;
     },
     computed: {
@@ -99,7 +97,7 @@ export default {
             aarthikBarsa: (state) => state.webservice.resources.aarthik_barsa,
             kaaryalaya: (state) => state.webservice.resources.kaaryalaya,
             user: (state) => state.auth.user,
-            maasikPragatiReport: (state) => state.webservice.maasikPragatiReport,
+            maasikPragatiReports: (state) => state.webservice.maasikPragatiReports,
         }),
         aayojana: function () {
             const tempthis = this;

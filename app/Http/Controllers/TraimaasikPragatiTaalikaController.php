@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aayojana;
+use App\Models\Kaaryalaya;
 use App\Models\KriyakalapLakshya;
 use App\Models\KriyakalapMaasikPragati;
 use App\Models\KriyakalapTraimaasikPragati;
@@ -222,9 +223,9 @@ class TraimaasikPragatiTaalikaController extends Controller
         $items['prdatibedan_awadi_ko_pragati']['vautik'] = round((collect($myData)->sum('vautik_pragati.' . $initial . '_traimasik')) / (collect($myData)->count('vautik_pragati.' . $initial . '_traimasik')), 3);
 
 
-        $items['pratibedan_awadi_ko_kharcha']['punjigat'] = $items['punjigat']['totals'][$initial . '_traimasik_pragati_kharcha'];
-        $items['pratibedan_awadi_ko_kharcha']['chalu'] = $items['chalu']['totals'][$initial . '_traimasik_pragati_kharcha'];
-        $items['pratibedan_awadi_ko_kharcha']['total'] = $items['pratibedan_awadi_ko_kharcha']['punjigat'] + $items['pratibedan_awadi_ko_kharcha']['chalu'];
+        $items['pratibedan_awadi_ko_kharcha']['punjigat'] = round($items['punjigat']['totals'][$initial . '_traimasik_pragati_kharcha'],3);
+        $items['pratibedan_awadi_ko_kharcha']['chalu'] = round($items['chalu']['totals'][$initial . '_traimasik_pragati_kharcha'],3);
+        $items['pratibedan_awadi_ko_kharcha']['total'] = round($items['pratibedan_awadi_ko_kharcha']['punjigat'] + $items['pratibedan_awadi_ko_kharcha']['chalu'],3);
         $items['pratibedan_awadi_ko_kharcha']['total_percent'] = round(($items['pratibedan_awadi_ko_kharcha']['total'] / $items['totals'][$initial . '_traimasik_lakshya_budget']) * 100, 3);
         return $items;
     }
@@ -237,40 +238,46 @@ class TraimaasikPragatiTaalikaController extends Controller
             $traimaasikID = $filterData->traimaasik;
             $traimaasik = Traimaasik::find($traimaasikID);
             $initial = $traimaasik->initial;
-            $karyalayaID = $filterData->kaaryalaya;
+            $karyalayaIDs = $filterData->kaaryalaya;
+            foreach($karyalayaIDs as $karyalayaID){
+                $traimaasikPragati = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
+                    ->where('kaaryalaya_id', $karyalayaID)
+                    ->where(function ($query) use ($initial) {
+                        return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->where($initial . '_traimasik_lakshya_budget', '>', 0);
+                    })
+                    ->with(['traimaasikPragati' => function ($query) use ($traimaasikID) {
+                        return $query->where('traimaasik_id', $traimaasikID);
+                    }])
+                    ->with(['traimaasikPragatis' => function ($query) use ($traimaasikID) {
 
-            $traimaasikPragati = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
-                ->where('kaaryalaya_id', $karyalayaID)
-                ->where(function ($query) use ($initial) {
-                    return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->where($initial . '_traimasik_lakshya_budget', '>', 0);
-                })
-                ->with(['traimaasikPragati' => function ($query) use ($traimaasikID) {
-                    return $query->where('traimaasik_id', $traimaasikID);
-                }])
-                ->with(['traimaasikPragatis' => function ($query) use ($traimaasikID) {
+                        return $query->where('traimaasik_id', '<=', $traimaasikID);
+                    }])
+                    ->get();
+                //for sum
+                $traimaasikPragatiUnfiltered = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
+                    ->where('kaaryalaya_id', $karyalayaID)
+                    ->get();
+                $totalBaarsikLakshyaBudget = $traimaasikPragatiUnfiltered->sum('baarsik_lakshya_budget');
 
-                    return $query->where('traimaasik_id', '<=', $traimaasikID);
-                }])
-                ->get();
-            //for sum
-            $traimaasikPragatiUnfiltered = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
-                ->where('kaaryalaya_id', $karyalayaID)
-                ->get();
-            $totalBaarsikLakshyaBudget = $traimaasikPragatiUnfiltered->sum('baarsik_lakshya_budget');
+                $traimaasikPragati = json_decode(json_encode($traimaasikPragati), true);
+                $traimaasikPragatiReports[] =
+                    [
+                        'kaaryalaya' => Kaaryalaya::find($karyalayaID),
+                        'aayojana' => Aayojana::find($aayojanaID)->name,
+                        'trimester' => Traimaasik::find($traimaasikID)->name,
+                        'initial' => $initial,
+                        'items' => $this->getSpecificData($traimaasikPragati, $totalBaarsikLakshyaBudget, $initial)
+                    ];
+            }
 
-            $traimaasikPragati = json_decode(json_encode($traimaasikPragati), true);
-            $traimaasikPragatiReport =
-                [
-                    'aayojana' => Aayojana::find($aayojanaID)->name,
-                    'trimester' => Traimaasik::find($traimaasikID)->name,
-                    'initial' => $initial,
-                    'items' => $this->getSpecificData($traimaasikPragati, $totalBaarsikLakshyaBudget, $initial)];
+
+
             return response(
                 [
                     'status' => 200,
                     'type' => 'success',
                     'message' => 'Aayojana loaded successfully',
-                    'data' => compact('traimaasikPragatiReport')
+                    'data' => compact('traimaasikPragatiReports')
                 ]
             );
         } catch (Exception $e) {

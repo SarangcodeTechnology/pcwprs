@@ -14,7 +14,7 @@ class AddComponentIdInKriyakalapLakshyaTable extends Migration
     public function up()
     {
         Schema::connection('pcwprs_data')->table('kriyakalap_lakshya', function (Blueprint $table) {
-            $table->string('component_id');
+            $table->string('component_id')->nullable();
         });
     }
 

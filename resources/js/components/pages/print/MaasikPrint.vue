@@ -46,7 +46,7 @@
                 <h5>रास्ट्रपति चुरे-तराई मधेश संरक्षण विकास समिति</h5>
                 <h4>
                   <strong
-                    >{{ maasikPragatiReport.month }} महिनाको प्रगति</strong
+                    >{{ maasikPragatiReports[0].month }} महिनाको प्रगति</strong
                   >
                 </h4>
               </div>
@@ -113,7 +113,7 @@
                     <td colspan="3"><strong>बार्षिक लक्ष्य</strong></td>
                     <td colspan="3">
                       <strong
-                        >{{ maasikPragatiReport.month }} महिनाको प्रगति</strong
+                        >{{ maasikPragatiReports[0].month }} महिनाको प्रगति</strong
                       >
                     </td>
                     <td colspan="3">
@@ -136,6 +136,14 @@
                   </tr>
                 </thead>
                 <tbody>
+                <template v-for="maasikPragatiReport in maasikPragatiReports">
+
+                    <tr>
+                        <td style="background: #b5ffa7;"></td>
+                        <td colspan="17" style="background: #b5ffa7;">
+                            {{ maasikPragatiReport.kaaryalaya.name }}
+                        </td>
+                    </tr>
                   <tr>
                     <td></td>
                     <td>
@@ -160,8 +168,8 @@
                               </td>
                           </tr>
                         <tr
-                            v-for="(item, index) in componentItem.items"
-                            :key="index"
+                            v-for="(item, componentItemPunjigatIndex) in componentItem.items"
+                            :key="componentItemPunjigatIndex"
                           >
                             <td>{{ item.kriyakalap_code }}</td>
                             <td>{{ item.name }}</td>
@@ -331,8 +339,8 @@
                           </td>
                       </tr>
                       <tr
-                          v-for="(item, index) in componentItem.items"
-                          :key="index"
+                          v-for="(item, componentItemChaluIndex) in componentItem.items"
+                          :key="componentItemChaluIndex"
                       >
                           <td>{{ item.kriyakalap_code }}</td>
                           <td>{{ item.name }}</td>
@@ -524,6 +532,70 @@
                     </td>
                     <td></td>
                   </tr>
+
+                  <tr>
+                      <td></td>
+                      <td>प्रतिवेदन अवधिको प्रगति</td>
+                      <td></td>
+                      <td>भारित</td>
+                      <td>
+                          {{
+                              maasikPragatiReport.items.prdatibedan_awadi_ko_pragati
+                                  .vaarit
+                          }}
+                      </td>
+                      <td>प्रतिशत</td>
+                      <td>भौतिक</td>
+                      <td>
+                          {{
+                              maasikPragatiReport.items.prdatibedan_awadi_ko_pragati
+                                  .vautik
+                          }}
+                      </td>
+                      <td>प्रतिशत</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                  </tr>
+                  <tr>
+                      <td></td>
+                      <td>प्रतिवेदन अवधिको खर्च</td>
+                      <td></td>
+                      <td>पुँजिगत रु.</td>
+                      <td>
+                          {{
+                              maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
+                                  .punjigat
+                          }}
+                      </td>
+                      <td>चालु रू.</td>
+                      <td>
+                          {{
+                              maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
+                                  .chalu
+                          }}
+                      </td>
+                      <td>जम्मा रू.</td>
+                      <td>
+                          {{
+                              maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
+                                  .total
+                          }}
+                      </td>
+                      <td>प्रतिशत</td>
+                      <td>
+                          {{
+                              maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
+                                  .total_percent
+                          }}
+                      </td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                  </tr>
+                </template>
                 </tbody>
               </table>
             </div>
@@ -573,7 +645,7 @@ export default {
   },
   computed: {
     ...mapState({
-      maasikPragatiReport: (state) => state.webservice.maasikPragatiReport,
+      maasikPragatiReports: (state) => state.webservice.maasikPragatiReports,
     }),
   },
   methods: {

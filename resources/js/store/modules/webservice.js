@@ -41,8 +41,8 @@ const state = {
         baarsik_budget: ""
     },
     maasikPragatiTaalika: {},
-    maasikPragatiReport:[],
-    traimaasikPragatiReport:[],
+    maasikPragatiReports:[],
+    traimaasikPragatiReports:[],
     traimaasikPragatiReportFilterable:[],
     maasikPragatiReportFilterable:[],
 };
@@ -100,10 +100,10 @@ const mutations = {
     },
 
     SET_MAASIK_PRAGATI_REPORT(state,payload){
-        state.maasikPragatiReport = payload;
+        state.maasikPragatiReports = payload;
     },
     SET_TRAIMAASIK_PRAGATI_REPORT(state,payload){
-        state.traimaasikPragatiReport = payload;
+        state.traimaasikPragatiReports = payload;
     },
 
     SET_TRAIMAASIK_PRAGATI_REPORT_FILTERABLE(state,payload){
@@ -787,7 +787,7 @@ const actions = {
         ).then(
             function (response) {
                 if (response.data.status == 200) {
-                    state.commit("SET_MAASIK_PRAGATI_REPORT", response.data.data.maasikPragatiReport);
+                    state.commit("SET_MAASIK_PRAGATI_REPORT", response.data.data.maasikPragatiReports);
                     // resolve(response.data.data);
 
                 } else {
@@ -923,7 +923,7 @@ const actions = {
         ).then(
             function (response) {
                 if (response.data.status == 200) {
-                    state.commit("SET_TRAIMAASIK_PRAGATI_REPORT", response.data.data.traimaasikPragatiReport);
+                    state.commit("SET_TRAIMAASIK_PRAGATI_REPORT", response.data.data.traimaasikPragatiReports);
                     // resolve(response.data.data);
 
                 } else {

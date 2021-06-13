@@ -19,7 +19,7 @@
                     placeholder="कार्यलय"
                     @input="getDataFromApi"
                     class="mr-2"
-                    :disabled="$store.getters.CHECK_PERMISSION('maasik_pragati_form-select_kaaryalaya')"
+                    :disabled="!$store.getters.CHECK_PERMISSION('maasik_pragati_form-select_kaaryalaya')"
                 >
                 </v-select>
                 <v-select

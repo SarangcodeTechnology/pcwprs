@@ -59,6 +59,22 @@ class TestController extends Controller
     public function trial(Request $request)
     {
         //basic tasks
+            /**
+            $components =  KriyakalapLakshya::all()->pluck('component')->unique()->values();
+            foreach(KriyakalapLakshya::all() as $item){
+                $id = 3900;
+                foreach($components as $component){
+                    if($item->component == $component){
+                        $item->component_id = $id;
+                        $item->update();
+                    }
+                    $id++;
+                }
+            }
+            return 'done';
+             //for component ids
+             **/
+
             $chalu =  collect(KriyakalapLakshya::where('kharcha_prakar', 'पूँजीगत')->get());
             $component_id_in_chalu = $chalu->pluck('component_id')->unique()->values();
             foreach($component_id_in_chalu as $component_id){

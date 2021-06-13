@@ -16,7 +16,8 @@
                     item-value="id"
                     placeholder="कार्यलय"
                     class="mr-2"
-                    :disabled="true"
+                    multiple
+                    :disabled="!$store.getters.CHECK_PERMISSION('traimaasik_pragati_report-select_kaaryalaya')"
                 >
                 </v-select>
                 <v-select
@@ -74,7 +75,7 @@ export default {
     data() {
         return {
             filterData: {
-                kaaryalaya: 0,
+                kaaryalaya: [],
                 user: 0,
                 aarthikBarsa: "",
                 aayojana: 0,
@@ -83,7 +84,7 @@ export default {
         };
     },
     mounted() {
-        this.filterData.kaaryalaya = this.user.kaaryalaya_id;
+        this.filterData.kaaryalaya.push(this.user.kaaryalaya_id);
         this.filterData.user = this.user.id;
     },
     computed: {
@@ -92,7 +93,7 @@ export default {
             aarthikBarsa: (state) => state.webservice.resources.aarthik_barsa,
             kaaryalaya: (state) => state.webservice.resources.kaaryalaya,
             user: (state) => state.auth.user,
-            traimaasikPragatiReport: (state) => state.webservice.traimaasikPragatiReport,
+            traimaasikPragatiReports: (state) => state.webservice.traimaasikPragatiReports,
         }),
         aayojana: function () {
             const tempthis = this;
