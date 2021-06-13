@@ -90,6 +90,7 @@ export default {
     mounted() {
         this.filterData.kaaryalaya.push(this.user.kaaryalaya_id);
         this.filterData.user = this.user.id;
+        this.mahina.push('')
     },
     computed: {
         ...mapState({

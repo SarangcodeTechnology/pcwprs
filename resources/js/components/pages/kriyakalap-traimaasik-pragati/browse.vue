@@ -140,6 +140,12 @@ export default {
     mounted() {
         this.filterData.kaaryalaya = this.user.kaaryalaya_id;
         this.filterData.user = this.user.id;
+
+    },
+    created(){
+        this.traimaasik.push({id:5,
+            initial:"chautho",
+            name:"वार्षिक"})
     },
     computed: {
         ...mapState({
