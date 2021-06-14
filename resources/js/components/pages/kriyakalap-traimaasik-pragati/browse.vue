@@ -78,10 +78,11 @@
                 </v-alert>
                 <v-alert
                     dense
-                    type="info"
+                    type="warning"
+
                     v-if="locked"
                 >
-                    तपाईको लक भएको छ
+                    तपाईको फारम लक गरिएको छ। कृपया सम्बन्धित निकायमा सम्पर्क गर्नुहोस्।
                 </v-alert>
             </v-col>
         </v-row>
