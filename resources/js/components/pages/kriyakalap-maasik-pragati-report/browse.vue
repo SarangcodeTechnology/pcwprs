@@ -8,7 +8,6 @@
         </v-row>
         <v-row>
             <v-col cols="9" class="d-flex align-items-center">
-
                 <v-select
                     v-model="filterData.kaaryalaya"
                     :items="kaaryalaya"

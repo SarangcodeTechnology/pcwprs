@@ -324,13 +324,13 @@ export default {
             totalItems: 20,
             headers: [
                 {text: "आयोजना", value: "aayojana.name"},
+                {text: "कम्पोनेन्ट आईडी", value: "component_id"},
+                {text: "कम्पोनेन्ट", value: "component"},
+                {text: "माईलस्टोन", value: "milestone"},
                 {text: "कृयाकलाप कोड", value: "kriyakalap_code"},
                 {text: "नाम", value: "name"},
                 {text: "खर्च शिर्षक", value: "kharcha_sirsak"},
                 {text: "खर्च प्रकार", value: "kharcha_prakar"},
-                {text: "कम्पोनेन्ट", value: "component"},
-                {text: "कम्पोनेन्ट आईडी", value: "component_id"},
-                {text: "माईलस्टोन", value: "milestone"},
                 {text: "इकाई", value: "ikai"},
                 {
                     text: "आयोजना कुल कृयाकलाप परिमान",

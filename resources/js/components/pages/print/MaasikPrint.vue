@@ -5,20 +5,56 @@
                 <v-container>
                     <h4><strong>प्रिन्ट विवरण लेख्नुहोस्</strong></h4>
                     <v-text-field
-                        label="तयार गर्ने"
+                        label="मिति"
+                        outlined
+                        v-model="miti"
+                    ></v-text-field>
+                    <h5>१.तयार गर्ने</h5>
+                    <v-text-field
+                        label="नाम"
                         outlined
                         v-model="tayarGarneNaam"
                     ></v-text-field>
                     <v-text-field
-                        label="आ.प्र.शाखा"
+                        label="पद"
+                        outlined
+                        v-model="tayarGarnePad"
+                    ></v-text-field>
+                    <h5>२.आ.प्र.शाखा</h5>
+                    <v-text-field
+                        label="नाम"
                         outlined
                         v-model="apraNaam"
                     ></v-text-field>
                     <v-text-field
-                        label="प्रमाणित गर्ने"
+                        label="पद"
+                        outlined
+                        v-model="apraPad"
+                    ></v-text-field>
+                    <h5>३.चेक गर्ने</h5>
+                    <v-text-field
+                        label="नाम"
+                        outlined
+                        v-model="checkNaam"
+                    ></v-text-field>
+                    <v-text-field
+                        label="पद"
+                        outlined
+                        v-model="checkPad"
+                    ></v-text-field>
+
+                    <h5>४.प्रमाणित गर्ने</h5>
+                    <v-text-field
+                        label="नाम"
                         outlined
                         v-model="pramaditNaam"
                     ></v-text-field>
+                    <v-text-field
+                        label="पद"
+                        outlined
+                        v-model="pramaditPad"
+                    ></v-text-field>
+
                     <v-btn depressed color="primary" @click="print()"
                     >
                         <v-icon>mdi-printer</v-icon>
@@ -46,7 +82,7 @@
                                 </div>
                                 <div style="text-align: center">
                                     <h5>नेपाल सरकार</h5>
-                                    <h5>रास्ट्रपति चुरे-तराई मधेश संरक्षण विकास समिति</h5>
+                                    <h5>राष्ट्रपति चुरे-तराई मधेश संरक्षण विकास समिति</h5> <h6>खुमालटार, ललितपुर</h6>
                                     <h4>
                                         <strong
                                         >{{ maasikPragatiReports[0].month }}</strong
@@ -62,15 +98,14 @@
               "
                             >
                                 <div>
-                                    <p>१. आ.व. : २०७७/०७८</p>
-                                    <p>२. बजेट उपशीर्षक नं. : ३२९००१०४</p>
-                                    <p>३. मन्त्रालय : वन तथा वातावरण मन्त्रालय&nbsp;</p>
+                                    <p>१. आ.व. : </p>
+                                    <p>२. बजेट उपशीर्षक नं. : </p>
+                                    <p>३. मन्त्रालय : </p>
                                     <p>
-                                        ४. कार्यक्रम / आयोजनाको नाम : चुरे संरक्षण कार्यक्रम (५ वटा
-                                        कार्यक्रम कार्यान्वयन इकाइहरु)
+                                        ४. कार्यक्रम / आयोजनाको नाम :
                                     </p>
                                     <p>५. आयोजना / कार्यालय प्रमुखको नाम :&nbsp;</p>
-                                    <p>६. यस अवधिको बजेट रू. 8468.8६</p>
+                                    <p>६. यस अवधिको बजेट रू. </p>
                                     <p>क) आन्तरिक १) नेपाल सरकार :</p>
                                     <p>२) संस्था :</p>
                                     <p>३) जनसहभागिता :</p>
@@ -967,18 +1002,27 @@
                             >
                                 <div>
                                     <p><strong>तयार गर्ने</strong></p>
-                                    <p>नाम: {{ tayarGarneNaam }}</p>
-                                    <p>स.व.अ.</p>
+                                    <p>नाम: {{ tayarGarneNaam }} </p>
+                                    <p>पद: {{ tayarGarnePad }}</p>
+                                    <p>मिति: {{ miti }}</p>
                                 </div>
                                 <div>
                                     <p><strong>आ.प्र.शाखा</strong></p>
-                                    <p>नाम: {{ apraNaam }}</p>
-                                    <p>ले.अ.</p>
+                                    <p>नाम: {{ apraNaam }} </p>
+                                    <p>पद: {{ apraPad }}</p>
+                                    <p>मिति: {{ miti }}</p>
+                                </div>
+                                <div>
+                                    <p><strong>चेक गर्ने</strong></p>
+                                    <p>नाम: {{ checkNaam }} </p>
+                                    <p>पद: {{ checkPad }}</p>
+                                    <p>मिति: {{ miti }}</p>
                                 </div>
                                 <div>
                                     <p><strong>प्रमाणित गर्ने</strong></p>
-                                    <p>नाम: {{ pramaditNaam }}</p>
-                                    <p>सदस्य-सचिव</p>
+                                    <p>नाम: {{ pramaditNaam }} </p>
+                                    <p>पद: {{ pramaditPad }}</p>
+                                    <p>मिति: {{ miti }}</p>
                                 </div>
                             </div>
                         </div>
@@ -994,7 +1038,7 @@
                 </div>
                 <div style="text-align: center">
                     <h5>नेपाल सरकार</h5>
-                    <h5>रास्ट्रपति चुरे-तराई मधेश संरक्षण विकास समिति</h5>
+                    <h5>राष्ट्रपति चुरे-तराई मधेश संरक्षण विकास समिति</h5> <h6>खुमालटार, ललितपुर</h6>
                     <h4>
                         <strong
                         >{{ maasikPragatiReports[0].month }}</strong
@@ -1010,15 +1054,14 @@
               "
             >
                 <div>
-                    <p>१. आ.व. : २०७७/०७८</p>
-                    <p>२. बजेट उपशीर्षक नं. : ३२९००१०४</p>
-                    <p>३. मन्त्रालय : वन तथा वातावरण मन्त्रालय&nbsp;</p>
+                    <p>१. आ.व. : </p>
+                    <p>२. बजेट उपशीर्षक नं. : </p>
+                    <p>३. मन्त्रालय : </p>
                     <p>
-                        ४. कार्यक्रम / आयोजनाको नाम : चुरे संरक्षण कार्यक्रम (५ वटा
-                        कार्यक्रम कार्यान्वयन इकाइहरु)
+                        ४. कार्यक्रम / आयोजनाको नाम :
                     </p>
                     <p>५. आयोजना / कार्यालय प्रमुखको नाम :&nbsp;</p>
-                    <p>६. यस अवधिको बजेट रू. 8468.8६</p>
+                    <p>६. यस अवधिको बजेट रू. </p>
                     <p>क) आन्तरिक १) नेपाल सरकार :</p>
                     <p>२) संस्था :</p>
                     <p>३) जनसहभागिता :</p>
@@ -1914,17 +1957,26 @@
                 <div>
                     <p><strong>तयार गर्ने</strong></p>
                     <p>नाम: </p>
-                    <p>स.व.अ.</p>
+                    <p>पद:</p>
+                    <p>मिति:</p>
                 </div>
                 <div>
                     <p><strong>आ.प्र.शाखा</strong></p>
                     <p>नाम: </p>
-                    <p>ले.अ.</p>
+                    <p>पद:</p>
+                    <p>मिति:</p>
+                </div>
+                <div>
+                    <p><strong>चेक गर्ने</strong></p>
+                    <p>नाम: </p>
+                    <p>पद:</p>
+                    <p>मिति:</p>
                 </div>
                 <div>
                     <p><strong>प्रमाणित गर्ने</strong></p>
                     <p>नाम: </p>
-                    <p>सदस्य-सचिव</p>
+                    <p>पद:</p>
+                    <p>मिति:</p>
                 </div>
             </div>
         </div>
@@ -1943,8 +1995,14 @@ export default {
             fillable: false,
             dialog: false,
             tayarGarneNaam: "",
+            tayarGarnePad: "",
+            miti: "",
+            apraPad: "",
+            pramaditPad: "",
             apraNaam: "",
             pramaditNaam: "",
+            checkNaam: "",
+            checkPad: "",
         };
     },
     computed: {
