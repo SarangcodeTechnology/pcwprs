@@ -35,14 +35,15 @@ const AayojanaEdit = () => import("./components/pages/aayojana/edit");
 const KriyakalapLakshya = () => import("./components/pages/kriyakalap-lakshya/browse");
 const KriyakalapMaasikPragati = () => import("./components/pages/kriyakalap-maasik-pragati/browse");
 const KriyakalapTraimaasikPragati = () => import("./components/pages/kriyakalap-traimaasik-pragati/browse");
+const KriyakalapMaasikPragatiFilterable = () => import("./components/pages/kriyakalap-maasik-pragrati-filterable/browse");
+const MaasikPrint = () => import("./components/pages/print/MaasikPrint");
+const MaasikPrintFilterable = () => import("./components/pages/print/MaasikPrintFilterable");
 
 const KriyakalapMaasikPragatiReport = () => import("./components/pages/kriyakalap-maasik-pragati-report/browse");
 const KriyakalapTraimaasikPragatiReport = () => import("./components/pages/kriyakalap-traimaasik-pragati-report/browse");
 const KriyakalapTraimaasikPragatiFilterable = () => import("./components/pages/kriyakalap-traimaasik-pragrati-filterable/browse");
-
-
-const MaasikPrint = () => import("./components/pages/print/MaasikPrint");
 const TraimaasikPrint = () => import("./components/pages/print/TraimaasikPrint");
+const TraimaasikPrintFilterable = () => import("./components/pages/print/TraimaasikPrintFilterable");
 
 const NotAuthenticated = () => import("./components/pages/NotAuthenticated");
 const EditRequests = () => import("./components/pages/requests/browse");
@@ -154,11 +155,11 @@ const opts = {
                             next({name:"not-authenticated"});
                         }
                     },
-                    name: 'users',
+                    name: 'Edit Requests',
                     meta: {
                         breadcrumb: {
-                            text: "प्रयोगकर्ताहरु",
-                            link: "/users"
+                            text: "इडिट निवेदनहरु",
+                            link: "/Edit Requests"
                         }
                     },
                 },
@@ -177,7 +178,7 @@ const opts = {
                     meta: {
                         breadcrumb: {
                             text: "प्रयोगकर्ताहरु",
-                            link: "/users"
+                            link: "/Users"
                         }
                     },
                 },
@@ -436,6 +437,24 @@ const opts = {
                         }
                     },
                 },
+                {
+                    path: "/kriyakalap-maasik-pragati-filterable",
+                    component: KriyakalapMaasikPragatiFilterable,
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('traimaasik_pragati_report-browse')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
+                    name: 'kriyakalap-maasik-pragati-filterable',
+                    meta: {
+                        breadcrumb: {
+                            text: "मासिक प्रगती प्रतिवेदन",
+                            link: "/kriyakalap-maasik-pragati-filterable"
+                        }
+                    },
+                },
 
                 {
                     path: "/kriyakalap-traimaasik-pragati",
@@ -473,14 +492,24 @@ const opts = {
             },
         },
         {
+            path: "/maasik-print-filterable",
+            component: MaasikPrintFilterable,
+            name: 'Maasik Print Filterable',
+        },
+        {
+            path: "/traimaasik-print-filterable",
+            component: TraimaasikPrintFilterable,
+            name: 'Traimaasik Print Filterable',
+        },
+        {
             path: "/maasik-print",
             component: MaasikPrint,
-            name: 'Print',
+            name: 'Maasik Print',
         },
         {
             path: "/traimaasik-print",
             component: TraimaasikPrint,
-            name: 'Print',
+            name: 'Traimasik Print',
         },
         {
             path: "/register",

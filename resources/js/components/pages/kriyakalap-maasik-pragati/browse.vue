@@ -19,7 +19,7 @@
                     placeholder="कार्यलय"
                     @input="getDataFromApi"
                     class="mr-2"
-                    :disabled="$store.getters.CHECK_PERMISSION('maasik_pragati_form-select_kaaryalaya')"
+                    :disabled="!$store.getters.CHECK_PERMISSION('maasik_pragati_form-select_kaaryalaya')"
                 >
                 </v-select>
                 <v-select
@@ -95,6 +95,9 @@
                     <template v-slot:item.maasik_pragati.kharcha="{ item }">
                         <v-text-field :disabled="submitted && !editable" type="number" v-model="item.maasik_pragati.kharcha" @input="addEditedMaasikPragatiTaalikaID(item.id)" class="my-text-field">
                         </v-text-field>
+                    </template>
+                    <template v-slot:item.milestone="{item}">
+                        <span v-if="item.milestone"><strong>माईलस्टोन</strong></span>
                     </template>
                 </v-data-table>
             </v-col>

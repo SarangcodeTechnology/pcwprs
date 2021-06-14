@@ -3,6 +3,7 @@
 use App\Http\Controllers\AarthikBarsaController;
 use App\Http\Controllers\AayojanaController;
 use App\Http\Controllers\api\v1\DataController;
+use App\Http\Controllers\api\v1\DeleteController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KaaryalayaController;
 use App\Http\Controllers\KriyakalapLakshyaController;
@@ -63,8 +64,9 @@ Route::middleware('auth:api')->post('upload-kriyakalap-lakshya',[KriyakalapLaksh
 Route::middleware('auth:api')->get('maasik-pragati-taalika', [MaasikPragatiTaalikaController::class,'index']);
 Route::middleware('auth:api')->get('maasik-pragati-taalika-report', [MaasikPragatiTaalikaController::class,'report']);
 Route::middleware('auth:api')->post('save-maasik-pragati-taalika',[MaasikPragatiTaalikaController::class,'saveMaasikPragatiTaalika']);
+Route::middleware('auth:api')->get('maasik-pragati-report-filterable', [MaasikPragatiTaalikaController::class,'filterableReport']);
 
-// maasik pragati talika
+// traimaasik pragati talika
 Route::middleware('auth:api')->get('traimaasik-pragati-taalika', [TraimaasikPragatiTaalikaController::class,'index']);
 Route::middleware('auth:api')->get('import-from-maasik-pragati', [TraimaasikPragatiTaalikaController::class,'importFromMaasikPragati']);
 Route::middleware('auth:api')->post('save-traimaasik-pragati-taalika',[TraimaasikPragatiTaalikaController::class,'saveTraimaasikPragatiTaalika']);
@@ -75,3 +77,6 @@ Route::middleware('auth:api')->get('traimaasik-pragati-report-filterable', [Trai
 Route::middleware('auth:api')->post('edit-request',[RequestController::class,'editRequest']);
 Route::middleware('auth:api')->get('edit-requests',[RequestController::class,'index']);
 Route::middleware('auth:api')->post('approve-request',[RequestController::class,'approveRequest']);
+
+//Delete Data from single controller
+Route::middleware('auth:api')->post('delete-data',[DeleteController::class,'delete']);

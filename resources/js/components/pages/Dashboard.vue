@@ -1,7 +1,7 @@
 <template>
     <v-container class="pa-5" fluid>
         <v-row>
-            <v-col v-for="(item,k) in dashboardResources"  :key="k" cols="3">
+            <v-col v-for="(item,k) in dashboardResources" :key="k" cols="3">
                 <v-card
                     class="mt-4 mx-auto"
                     color="#EEEEEE"
@@ -45,11 +45,10 @@ import {mapState} from "vuex";
 export default {
     data() {
         return {}
-    }, computed: {
+    },
+    computed: {
         ...mapState({
-            dashboardResources: (state) => {
-                return state.webservice.resources.dashboard_items;
-            },
+            dashboardResources: (state) => state.webservice.resources.dashboard_items,
         })
     }
 }

@@ -21,7 +21,7 @@
                     placeholder="कार्यलय"
                     @input="getDataFromApi"
                     class="mr-2"
-                    :disabled="$store.getters.CHECK_PERMISSION('traimaasik_pragati_form-select_kaaryalaya')"
+                    :disabled="!$store.getters.CHECK_PERMISSION('traimaasik_pragati_form-select_kaaryalaya')"
                 >
                 </v-select>
                 <v-select
@@ -98,6 +98,9 @@
                         <v-text-field :disabled="submitted && !editable"  type="number" v-model="item.traimaasik_pragati.kharcha" @input="addEditedTraimaasikPragatiTaalikaID(item.id)" class="my-text-field">
                         </v-text-field>
                     </template>
+                    <template v-slot:item.milestone="{item}">
+                        <span v-if="item.milestone"><strong>माईलस्टोन</strong></span>
+                    </template>
                 </v-data-table>
             </v-col>
         </v-row>
@@ -137,6 +140,7 @@ export default {
     mounted() {
         this.filterData.kaaryalaya = this.user.kaaryalaya_id;
         this.filterData.user = this.user.id;
+
     },
     computed: {
         ...mapState({

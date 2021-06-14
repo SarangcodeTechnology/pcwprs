@@ -1,17 +1,13 @@
 <template>
     <v-container fluid>
         <v-row class="d-flex justify-content-between">
-
             <v-col cols="3" class="d-flex align-items-center">
                 <h5>त्रैमासिक प्रगती</h5>
                 <v-divider class="ml-5" inset vertical></v-divider>
             </v-col>
-
-
         </v-row>
         <v-row>
             <v-col cols="9" class="d-flex align-items-center">
-
                 <v-select
                     v-model="filterData.kaaryalaya"
                     :items="kaaryalaya"
@@ -20,8 +16,27 @@
                     item-value="id"
                     placeholder="कार्यलय"
                     class="mr-2"
-                    :disabled="true"
+                    multiple chips
+                    :disabled="!$store.getters.CHECK_PERMISSION('traimaasik_pragati_report-select_kaaryalaya')"
                 >
+                    <template v-slot:prepend-item>
+                        <v-list-item
+                            ripple
+                            @click="toggle"
+                        >
+                            <v-list-item-action>
+                                <v-icon :color="filterData.kaaryalaya.length > 0 ? 'green darken-4' : ''">
+                                    {{ icon }}
+                                </v-icon>
+                            </v-list-item-action>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    Select All
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-divider class="mt-2"></v-divider>
+                    </template>
                 </v-select>
                 <v-select
                     v-model="filterData.aarthikBarsa"
@@ -65,7 +80,7 @@
                 </v-btn>
             </v-col>
             <v-col>
-                <traimaasik-print></traimaasik-print>
+                <traimaasik-print :passedFillable="false"></traimaasik-print>
             </v-col>
         </v-row>
     </v-container>
@@ -78,26 +93,43 @@ export default {
     data() {
         return {
             filterData: {
-                kaaryalaya: 0,
+                kaaryalaya: [],
                 user: 0,
                 aarthikBarsa: "",
                 aayojana: 0,
                 traimaasik: 0
             },
+            traimaasik:[]
         };
     },
     mounted() {
-        this.filterData.kaaryalaya = this.user.kaaryalaya_id;
+        this.filterData.kaaryalaya.push(this.user.kaaryalaya_id);
         this.filterData.user = this.user.id;
+    },
+    created(){
+        this.traimaasik = JSON.parse(JSON.stringify(this.stateTraimaasik));
+        this.traimaasik.push({id:5,initial:"chautho",name:"वार्षिक"});
+        this.traimaasik.push({id:6,initial:"dosro",name:"अर्द वार्षिक"});
     },
     computed: {
         ...mapState({
-            traimaasik: (state) => state.webservice.resources.traimaasik,
+            stateTraimaasik: (state) => state.webservice.resources.traimaasik,
             aarthikBarsa: (state) => state.webservice.resources.aarthik_barsa,
             kaaryalaya: (state) => state.webservice.resources.kaaryalaya,
             user: (state) => state.auth.user,
-            traimaasikPragatiReport: (state) => state.webservice.traimaasikPragatiReport,
+            traimaasikPragatiReports: (state) => state.webservice.traimaasikPragatiReports,
         }),
+        icon() {
+            if (this.selectsAllKaryalaya) return 'mdi-close-box'
+            if (this.selectsSomeKaryalaya) return 'mdi-minus-box'
+            return 'mdi-checkbox-blank-outline'
+        },
+        selectsAllKaryalaya() {
+            return this.filterData.kaaryalaya.length === this.kaaryalaya.length
+        },
+        selectsSomeKaryalaya() {
+            return this.filterData.kaaryalaya.length > 0 && !this.selectsAllKaryalaya
+        },
         aayojana: function () {
             const tempthis = this;
             var data = "";
@@ -114,13 +146,25 @@ export default {
 
     },
     methods: {
-        changeInAayojana(){
+        toggle() {
+            this.$nextTick(() => {
+                if (this.selectsAllKaryalaya) {
+                    this.filterData.kaaryalaya = []
+                } else {
+                    this.filterData.kaaryalaya = this.kaaryalaya.slice().map(function (val) {
+                        return val.id;
+                    })
+                }
+            })
+        },
+
+        changeInAayojana() {
             this.filterData.traimaasik = 0;
         },
         changeInArthikBarsa() {
             this.filterData.aayojana = 0;
         },
-        changeInTraimaasik(){
+        changeInTraimaasik() {
             this.getDataFromApi();
         },
         getDataFromApi() {
@@ -138,13 +182,14 @@ export default {
 };
 </script>
 <style scoped>
-table td{
+table td {
     padding: 0px 3px 0px 3px;
 }
 
-p{
+p {
     margin: 0;
 }
+
 .my-text-field {
     width: 150px;
 }

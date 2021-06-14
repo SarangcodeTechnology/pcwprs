@@ -1,17 +1,13 @@
 <template>
     <v-container fluid>
         <v-row class="d-flex justify-content-between">
-
             <v-col cols="3" class="d-flex align-items-center">
                 <h5>मासिक प्रगती</h5>
                 <v-divider class="ml-5" inset vertical></v-divider>
             </v-col>
-
-
         </v-row>
         <v-row>
             <v-col cols="9" class="d-flex align-items-center">
-
                 <v-select
                     v-model="filterData.kaaryalaya"
                     :items="kaaryalaya"
@@ -20,8 +16,27 @@
                     item-value="id"
                     placeholder="कार्यलय"
                     class="mr-2"
-                    :disabled="true"
+                    multiple chips
+                    :disabled="!$store.getters.CHECK_PERMISSION('maasik_pragati_report-select_kaaryalaya')"
                 >
+                    <template v-slot:prepend-item>
+                        <v-list-item
+                            ripple
+                            @click="toggle"
+                        >
+                            <v-list-item-action>
+                                <v-icon :color="filterData.kaaryalaya.length > 0 ? 'green darken-4' : ''">
+                                    {{ icon }}
+                                </v-icon>
+                            </v-list-item-action>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    Select All
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-divider class="mt-2"></v-divider>
+                    </template>
                 </v-select>
                 <v-select
                     v-model="filterData.aarthikBarsa"
@@ -65,7 +80,7 @@
                 </v-btn>
             </v-col>
             <v-col>
-                <maasik-print></maasik-print>
+                <maasik-print :passedFillable=false></maasik-print>
             </v-col>
         </v-row>
     </v-container>
@@ -78,28 +93,44 @@ export default {
     data() {
         return {
             filterData: {
-                kaaryalaya: 0,
+                kaaryalaya: [],
                 user: 0,
                 aarthikBarsa: "",
                 aayojana: 0,
                 mahina: 0
             },
-
+            mahina:[],
             maasikPragatiTaalika: [],
 
         };
     },
     mounted() {
-        this.filterData.kaaryalaya = this.user.kaaryalaya_id;
+        this.filterData.kaaryalaya.push(this.user.kaaryalaya_id);
         this.filterData.user = this.user.id;
     },
+    created() {
+        this.mahina = JSON.parse(JSON.stringify(this.stateMahina));
+        this.mahina.push({id:13,name:"वार्षिक"});
+        this.mahina.push({id:14,name:"अर्द वार्षिक"});
+    },
     computed: {
+        icon() {
+            if (this.selectsAllKaryalaya) return 'mdi-close-box'
+            if (this.selectsSomeKaryalaya) return 'mdi-minus-box'
+            return 'mdi-checkbox-blank-outline'
+        },
+        selectsAllKaryalaya() {
+            return this.filterData.kaaryalaya.length === this.kaaryalaya.length
+        },
+        selectsSomeKaryalaya() {
+            return this.filterData.kaaryalaya.length > 0 && !this.selectsAllKaryalaya
+        },
         ...mapState({
-            mahina: (state) => state.webservice.resources.mahina,
+            stateMahina: (state) => state.webservice.resources.mahina,
             aarthikBarsa: (state) => state.webservice.resources.aarthik_barsa,
             kaaryalaya: (state) => state.webservice.resources.kaaryalaya,
             user: (state) => state.auth.user,
-            maasikPragatiReport: (state) => state.webservice.maasikPragatiReport,
+            maasikPragatiReports: (state) => state.webservice.maasikPragatiReports,
         }),
         aayojana: function () {
             const tempthis = this;
@@ -117,6 +148,17 @@ export default {
 
     },
     methods: {
+        toggle() {
+            this.$nextTick(() => {
+                if (this.selectsAllKaryalaya) {
+                    this.filterData.kaaryalaya = []
+                } else {
+                    this.filterData.kaaryalaya = this.kaaryalaya.slice().map(function (val) {
+                        return val.id;
+                    })
+                }
+            })
+        },
         printDiv(divName) {
             var printContents = document.getElementById(divName).innerHTML;
             var originalContents = document.body.innerHTML;

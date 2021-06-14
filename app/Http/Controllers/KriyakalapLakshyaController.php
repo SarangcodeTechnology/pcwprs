@@ -73,7 +73,7 @@ class KriyakalapLakshyaController extends Controller
         try {
 //            KriyakalapLakshya::whereIn('id', $request->data['deletedItems'])->delete();
             if($request->replace){
-                KriyakalapLakshya::where('aayojana_id',$request->aayojana)->delete();
+                KriyakalapLakshya::where('aayojana_id',$request->aayojana)->where('kaaryalaya_id',$request->kaaryalaya)->delete();
             }
             $items = $this->convertCSV($request->file('csvData'));
             $aayojana_id = $request->aayojana;
@@ -111,6 +111,7 @@ class KriyakalapLakshyaController extends Controller
             "kharcha_sirsak",
             "kharcha_prakar",
             "component",
+            "component_id",
             "milestone",
             "ikai",
             "aayojana_kul_kriyakalap_pariman",

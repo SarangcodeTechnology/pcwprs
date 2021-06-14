@@ -55,7 +55,7 @@
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
 
-            <v-btn color="red" icon x-small @click="deletePopup(item)">
+            <v-btn color="red" icon x-small @click="confirm(item)">
               <v-icon>mdi-delete</v-icon>
             </v-btn>
           </template>
@@ -127,8 +127,10 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      deleteItem: "",
-      deleteDialog: false,
+        search: "",
+        page: 1,
+        numberOfPages: 0,
+        options: {},
       loading: true,
       headers: [
         { text: "कार्यहरु", value: "actions" },
@@ -140,18 +142,8 @@ export default {
       ],
     };
   },
-  watch: {
-    //this one will populate new data set when user changes current page.
-    options: {
-      handler() {
-        this.getDataFromApi();
-      },
-      deep: true,
-    },
-  },
   mounted() {
     this.getDataFromApi();
-    console.log(this.users);
   },
   computed: {
     ...mapState({ users: (state) => state.webservice.users }),
@@ -166,33 +158,26 @@ export default {
     },
   },
   methods: {
-    deletePopup(item) {
-      this.deleteItem = item;
-      this.deleteDialog = true;
-    },
+      confirm(item) {
+          const tempthis = this;
+          this.$root.confirm('मेट्ने पुष्टि गर्नुहोस्', 'के तपाईं ' + item.name + ' मेट्न निश्चित हुनुहुन्छ ?', {color: 'red'}).then((confirm) => {
+              tempthis.deleteData(item);
+          }).catch((error) => {
+              console.log(error);
+          });
+      },
+      deleteData(item) {
+          let tempthis = this;
+          this.$store.dispatch('makePostRequest', {
+              data: {items: item, model: "User"},
+              route: 'delete-data'
+          }).then(function (response) {
+              tempthis.getDataFromApi();
+          });
+      },
     editData(item) {
       this.$store.commit("SET_IS_USER_EDIT", true);
       this.$store.dispatch("setUserEditData", item);
-    },
-    deleteData() {
-      let tempthis = this;
-      let deleteItem = this.deleteItem;
-      let index = this.cfData.indexOf(this.deleteItem);
-      this.$store
-        .dispatch("deleteCfData", { index: index, id: deleteItem.id })
-        .then(function (response) {
-          if (response.data.status === 200) {
-            tempthis.cfData.splice(index, 1);
-            tempthis.deleteDialog = false;
-            // popup close
-          }
-        })
-        .catch(function (error) {
-          this.$store.dispatch("addNotification", {
-            type: "error",
-            message: error,
-          });
-        });
     },
     goToEditPage() {
       this.$store.commit("SET_IS_USER_EDIT", false);
