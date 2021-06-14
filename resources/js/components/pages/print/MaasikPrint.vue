@@ -49,7 +49,7 @@
                                     <h5>रास्ट्रपति चुरे-तराई मधेश संरक्षण विकास समिति</h5>
                                     <h4>
                                         <strong
-                                        >{{ maasikPragatiReports[0].month }} महिनाको प्रगति</strong
+                                        >{{ maasikPragatiReports[0].month }}</strong
                                         >
                                     </h4>
                                 </div>
@@ -116,13 +116,14 @@
                                         <td colspan="3"><strong>बार्षिक लक्ष्य</strong></td>
                                         <td colspan="3">
                                             <strong
-                                            >{{ maasikPragatiReports[0].month }} महिनाको प्रगति</strong
+                                            >{{ maasikPragatiReports[0].month }}</strong
                                             >
                                         </td>
-                                        <td colspan="3">
+                                        <td v-if="!maasikPragatiReports[0].baarsik && !maasikPragatiReports[0].ardaBaarsik"
+                                            colspan="3">
                                             <strong>प्रतिवेदन अवधिसम्मको यस आ.व.को प्रगति</strong>
                                         </td>
-                                        <td colspan="2" rowspan="2">
+                                        <td rowspan="2">
                                             <strong>भौतिक प्रगति</strong>
                                         </td>
                                     </tr>
@@ -133,471 +134,826 @@
                                         <td><strong>परिमाण</strong></td>
                                         <td><strong>भारित</strong></td>
                                         <td><strong>खर्च</strong></td>
-                                        <td><strong>परिमाण</strong></td>
-                                        <td><strong>भारित</strong></td>
-                                        <td><strong>खर्च</strong></td>
+                                        <td v-if="!maasikPragatiReports[0].baarsik && !maasikPragatiReports[0].ardaBaarsik">
+                                            <strong>परिमाण</strong></td>
+                                        <td v-if="!maasikPragatiReports[0].baarsik && !maasikPragatiReports[0].ardaBaarsik">
+                                            <strong>भारित</strong></td>
+                                        <td v-if="!maasikPragatiReports[0].baarsik && !maasikPragatiReports[0].ardaBaarsik">
+                                            <strong>खर्च</strong></td>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <template v-for="maasikPragatiReport in maasikPragatiReports">
+                                    <template
+                                        v-if="!maasikPragatiReports[0].baarsik && !maasikPragatiReports[0].ardaBaarsik">
+                                        <template v-for="maasikPragatiReport in maasikPragatiReports">
 
-                                        <tr>
-                                            <td style="background: #b5ffa7;"></td>
-                                            <td colspan="17" style="background: #b5ffa7;">
-                                                {{ maasikPragatiReport.kaaryalaya.name }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>
-                                                <strong>{{ maasikPragatiReport.aayojana }}</strong>
-                                            </td>
-                                            <td v-for="i in 12"></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>
-                                                <strong>अ) पूँजीगत खर्च अन्तर्गतका कार्यक्रमहरु</strong>
-                                            </td>
-                                            <td v-for="i in 12"></td>
-                                        </tr>
-                                        <template
-                                            v-for="(componentItem) in maasikPragatiReport.items.punjigat.components"
-                                        >
                                             <tr>
-                                                <td style="background: #dddddd;">{{ componentItem.id }}</td>
-                                                <td colspan="17" style="background: #dddddd;">
-                                                    {{ componentItem.name }}
+                                                <td style="background: #b5ffa7;"></td>
+                                                <td colspan="17" style="background: #b5ffa7;">
+                                                    {{ maasikPragatiReport.kaaryalaya.name }}
                                                 </td>
                                             </tr>
-                                            <tr
-                                                v-for="(item, componentItemPunjigatIndex) in componentItem.items"
-                                                :key="'A'+componentItemPunjigatIndex"
-                                            >
-                                                <td>{{ item.kriyakalap_code }}</td>
-                                                <td>{{ item.name }}</td>
-                                                <td>{{ item.kharcha_sirsak }}</td>
-                                                <td>{{ item.ikai }}</td>
-                                                <td>{{ item.baarsik_lakshya_pariman }}</td>
-                                                <td>{{ item.baarsik_lakshya_vaar }}</td>
-                                                <td>{{ item.baarsik_lakshya_budget }}</td>
-                                                <td>
-                                                    {{
-                                                        item.maasik_pragati.pariman
-                                                            ? item.maasik_pragati.pariman
-                                                            : ""
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    {{
-                                                        item.maasik_pragati.vaarit
-                                                            ? item.maasik_pragati.vaarit
-                                                            : ""
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    {{
-                                                        item.maasik_pragati.kharcha
-                                                            ? item.maasik_pragati.kharcha
-                                                            : ""
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    {{
-                                                        item.total_till_now.pariman
-                                                            ? item.total_till_now.pariman
-                                                            : ""
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    {{
-                                                        item.total_till_now.vaarit
-                                                            ? item.total_till_now.vaarit
-                                                            : ""
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    {{
-                                                        item.total_till_now.kharcha
-                                                            ? item.total_till_now.kharcha
-                                                            : ""
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    {{
-                                                        item.vautik_pragati < 100
-                                                            ? item.vautik_pragati
-                                                            ? item.vautik_pragati
-                                                            : ""
-                                                            : 100
-                                                    }}
-                                                </td>
-                                            </tr>
-                                            <!-- individual component sum -->
                                             <tr>
                                                 <td></td>
-                                                <td style="background: #f3f3f3">{{ componentItem.name }} जम्मा:</td>
+                                                <td>
+                                                    <strong>{{ maasikPragatiReport.aayojana }}</strong>
+                                                </td>
+                                                <td v-for="i in 12"></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <strong>अ) पूँजीगत खर्च अन्तर्गतका कार्यक्रमहरु</strong>
+                                                </td>
+                                                <td v-for="i in 12"></td>
+                                            </tr>
+                                            <template
+                                                v-for="(componentItem) in maasikPragatiReport.items.punjigat.components"
+                                            >
+                                                <tr>
+                                                    <td style="background: #dddddd;">{{ componentItem.id }}</td>
+                                                    <td colspan="17" style="background: #dddddd;">
+                                                        {{ componentItem.name }}
+                                                    </td>
+                                                </tr>
+                                                <tr
+                                                    v-for="(item) in componentItem.items"
+                                                >
+                                                    <td>{{ item.kriyakalap_code }}</td>
+                                                    <td>{{ item.name }}</td>
+                                                    <td>{{ item.kharcha_sirsak }}</td>
+                                                    <td>{{ item.ikai }}</td>
+                                                    <td>{{ item.baarsik_lakshya_pariman }}</td>
+                                                    <td>{{ item.baarsik_lakshya_vaar }}</td>
+                                                    <td>{{ item.baarsik_lakshya_budget }}</td>
+                                                    <td>
+                                                        {{
+                                                            item.maasik_pragati.pariman
+                                                                ? item.maasik_pragati.pariman
+                                                                : ""
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            item.maasik_pragati.vaarit
+                                                                ? item.maasik_pragati.vaarit
+                                                                : ""
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            item.maasik_pragati.kharcha
+                                                                ? item.maasik_pragati.kharcha
+                                                                : ""
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            item.total_till_now.pariman
+                                                                ? item.total_till_now.pariman
+                                                                : ""
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            item.total_till_now.vaarit
+                                                                ? item.total_till_now.vaarit
+                                                                : ""
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            item.total_till_now.kharcha
+                                                                ? item.total_till_now.kharcha
+                                                                : ""
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            item.vautik_pragati < 100
+                                                                ? item.vautik_pragati
+                                                                ? item.vautik_pragati
+                                                                : ""
+                                                                : 100
+                                                        }}
+                                                    </td>
+                                                </tr>
+                                                <!-- individual component sum -->
+                                                <tr>
+                                                    <td></td>
+                                                    <td style="background: #f3f3f3">{{ componentItem.name }} जम्मा:</td>
+                                                    <td v-for="i in 3"></td>
+                                                    <td>
+                                                        {{
+                                                            componentItem.totals
+                                                                .baarsik_lakshya_vaar
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            componentItem.totals
+                                                                .baarsik_lakshya_budget
+                                                        }}
+                                                    </td>
+                                                    <td></td>
+                                                    <td>
+                                                        {{
+                                                            componentItem.totals
+                                                                .maasik_pragati_vaarit
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            componentItem.totals
+                                                                .maasik_pragati_kharcha
+                                                        }}
+                                                    </td>
+                                                    <td></td>
+                                                    <td>
+                                                        {{
+                                                            componentItem.totals
+                                                                .total_till_now_vaarit
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            componentItem.totals
+                                                                .total_till_now_kharcha
+                                                        }}
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                            </template>
+                                            <!-- punjigat total -->
+                                            <tr>
+                                                <td></td>
+                                                <td><strong>क) पूँजीगत खर्च कार्यक्रमको जम्मा:</strong></td>
                                                 <td v-for="i in 3"></td>
                                                 <td>
                                                     {{
-                                                        componentItem.totals
+                                                        maasikPragatiReport.items.punjigat.totals
                                                             .baarsik_lakshya_vaar
                                                     }}
                                                 </td>
                                                 <td>
                                                     {{
-                                                        componentItem.totals
+                                                        maasikPragatiReport.items.punjigat.totals
                                                             .baarsik_lakshya_budget
                                                     }}
                                                 </td>
                                                 <td></td>
                                                 <td>
                                                     {{
-                                                        componentItem.totals
+                                                        maasikPragatiReport.items.punjigat.totals
                                                             .maasik_pragati_vaarit
                                                     }}
                                                 </td>
                                                 <td>
                                                     {{
-                                                        componentItem.totals
+                                                        maasikPragatiReport.items.punjigat.totals
                                                             .maasik_pragati_kharcha
                                                     }}
                                                 </td>
                                                 <td></td>
                                                 <td>
                                                     {{
-                                                        componentItem.totals
+                                                        maasikPragatiReport.items.punjigat.totals
                                                             .total_till_now_vaarit
                                                     }}
                                                 </td>
                                                 <td>
                                                     {{
-                                                        componentItem.totals
+                                                        maasikPragatiReport.items.punjigat.totals
                                                             .total_till_now_kharcha
                                                     }}
                                                 </td>
                                                 <td></td>
                                             </tr>
-                                        </template>
-                                        <!-- punjigat total -->
-                                        <tr>
-                                            <td></td>
-                                            <td><strong>क) पूँजीगत खर्च कार्यक्रमको जम्मा:</strong></td>
-                                            <td v-for="i in 3"></td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.punjigat.totals
-                                                        .baarsik_lakshya_vaar
-                                                }}
-                                            </td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.punjigat.totals
-                                                        .baarsik_lakshya_budget
-                                                }}
-                                            </td>
-                                            <td></td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.punjigat.totals
-                                                        .maasik_pragati_vaarit
-                                                }}
-                                            </td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.punjigat.totals
-                                                        .maasik_pragati_kharcha
-                                                }}
-                                            </td>
-                                            <td></td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.punjigat.totals
-                                                        .total_till_now_vaarit
-                                                }}
-                                            </td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.punjigat.totals
-                                                        .total_till_now_kharcha
-                                                }}
-                                            </td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>
-                                                <strong>आ) चालु खर्च अन्तर्गतका कार्यक्रमहरु</strong>
-                                            </td>
-                                            <td v-for="i in 12"></td>
-                                        </tr>
-
-                                        <template
-                                            v-for="(componentItem) in maasikPragatiReport.items.chalu.components"
-                                        >
-                                            <tr>
-                                                <td style="background: #dddddd;">{{ componentItem.id }}</td>
-                                                <td colspan="17" style="background: #dddddd;">
-                                                    {{ componentItem.name }}
-                                                </td>
-                                            </tr>
-                                            <tr
-                                                v-for="(item, componentItemChaluIndex) in componentItem.items"
-                                                :key="'D'+componentItemChaluIndex"
-                                            >
-                                                <td>{{ item.kriyakalap_code }}</td>
-                                                <td>{{ item.name }}</td>
-                                                <td>{{ item.kharcha_sirsak }}</td>
-                                                <td>{{ item.ikai }}</td>
-                                                <td>{{ item.baarsik_lakshya_pariman }}</td>
-                                                <td>{{ item.baarsik_lakshya_vaar }}</td>
-                                                <td>{{ item.baarsik_lakshya_budget }}</td>
-                                                <td>
-                                                    {{
-                                                        item.maasik_pragati.pariman
-                                                            ? item.maasik_pragati.pariman
-                                                            : ""
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    {{
-                                                        item.maasik_pragati.vaarit
-                                                            ? item.maasik_pragati.vaarit
-                                                            : ""
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    {{
-                                                        item.maasik_pragati.kharcha
-                                                            ? item.maasik_pragati.kharcha
-                                                            : ""
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    {{
-                                                        item.total_till_now.pariman
-                                                            ? item.total_till_now.pariman
-                                                            : ""
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    {{
-                                                        item.total_till_now.vaarit
-                                                            ? item.total_till_now.vaarit
-                                                            : ""
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    {{
-                                                        item.total_till_now.kharcha
-                                                            ? item.total_till_now.kharcha
-                                                            : ""
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    {{
-                                                        item.vautik_pragati < 100
-                                                            ? item.vautik_pragati
-                                                            ? item.vautik_pragati
-                                                            : ""
-                                                            : 100
-                                                    }}
-                                                </td>
-                                            </tr>
-                                            <!-- individual component sum -->
                                             <tr>
                                                 <td></td>
-                                                <td style="background: #f3f3f3">{{ componentItem.name }} जम्मा:</td>
+                                                <td>
+                                                    <strong>आ) चालु खर्च अन्तर्गतका कार्यक्रमहरु</strong>
+                                                </td>
+                                                <td v-for="i in 12"></td>
+                                            </tr>
+
+                                            <template
+                                                v-for="(componentItem) in maasikPragatiReport.items.chalu.components"
+                                            >
+                                                <tr>
+                                                    <td style="background: #dddddd;">{{ componentItem.id }}</td>
+                                                    <td colspan="17" style="background: #dddddd;">
+                                                        {{ componentItem.name }}
+                                                    </td>
+                                                </tr>
+                                                <tr
+                                                    v-for="(item, componentItemChaluIndex) in componentItem.items"
+                                                    :key="'D'+componentItemChaluIndex"
+                                                >
+                                                    <td>{{ item.kriyakalap_code }}</td>
+                                                    <td>{{ item.name }}</td>
+                                                    <td>{{ item.kharcha_sirsak }}</td>
+                                                    <td>{{ item.ikai }}</td>
+                                                    <td>{{ item.baarsik_lakshya_pariman }}</td>
+                                                    <td>{{ item.baarsik_lakshya_vaar }}</td>
+                                                    <td>{{ item.baarsik_lakshya_budget }}</td>
+                                                    <td>
+                                                        {{
+                                                            item.maasik_pragati.pariman
+                                                                ? item.maasik_pragati.pariman
+                                                                : ""
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            item.maasik_pragati.vaarit
+                                                                ? item.maasik_pragati.vaarit
+                                                                : ""
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            item.maasik_pragati.kharcha
+                                                                ? item.maasik_pragati.kharcha
+                                                                : ""
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            item.total_till_now.pariman
+                                                                ? item.total_till_now.pariman
+                                                                : ""
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            item.total_till_now.vaarit
+                                                                ? item.total_till_now.vaarit
+                                                                : ""
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            item.total_till_now.kharcha
+                                                                ? item.total_till_now.kharcha
+                                                                : ""
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            item.vautik_pragati < 100
+                                                                ? item.vautik_pragati
+                                                                ? item.vautik_pragati
+                                                                : ""
+                                                                : 100
+                                                        }}
+                                                    </td>
+                                                </tr>
+                                                <!-- individual component sum -->
+                                                <tr>
+                                                    <td></td>
+                                                    <td style="background: #f3f3f3">{{ componentItem.name }} जम्मा:</td>
+                                                    <td v-for="i in 3"></td>
+                                                    <td>
+                                                        {{
+                                                            componentItem.totals
+                                                                .baarsik_lakshya_vaar
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            componentItem.totals
+                                                                .baarsik_lakshya_budget
+                                                        }}
+                                                    </td>
+                                                    <td></td>
+                                                    <td>
+                                                        {{
+                                                            componentItem.totals
+                                                                .maasik_pragati_vaarit
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            componentItem.totals
+                                                                .maasik_pragati_kharcha
+                                                        }}
+                                                    </td>
+                                                    <td></td>
+                                                    <td>
+                                                        {{
+                                                            componentItem.totals
+                                                                .total_till_now_vaarit
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            componentItem.totals
+                                                                .total_till_now_kharcha
+                                                        }}
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+
+                                            </template>
+
+
+                                            <tr>
+                                                <td></td>
+                                                <td><strong>ख) चालु खर्च कार्यक्रमको जम्मा:</strong></td>
                                                 <td v-for="i in 3"></td>
                                                 <td>
                                                     {{
-                                                        componentItem.totals
+                                                        maasikPragatiReport.items.chalu.totals
                                                             .baarsik_lakshya_vaar
                                                     }}
                                                 </td>
                                                 <td>
                                                     {{
-                                                        componentItem.totals
+                                                        maasikPragatiReport.items.chalu.totals
                                                             .baarsik_lakshya_budget
                                                     }}
                                                 </td>
                                                 <td></td>
                                                 <td>
                                                     {{
-                                                        componentItem.totals
+                                                        maasikPragatiReport.items.chalu.totals
                                                             .maasik_pragati_vaarit
                                                     }}
                                                 </td>
                                                 <td>
                                                     {{
-                                                        componentItem.totals
+                                                        maasikPragatiReport.items.chalu.totals
                                                             .maasik_pragati_kharcha
                                                     }}
                                                 </td>
                                                 <td></td>
                                                 <td>
                                                     {{
-                                                        componentItem.totals
+                                                        maasikPragatiReport.items.chalu.totals
                                                             .total_till_now_vaarit
                                                     }}
                                                 </td>
                                                 <td>
                                                     {{
-                                                        componentItem.totals
+                                                        maasikPragatiReport.items.chalu.totals
                                                             .total_till_now_kharcha
                                                     }}
                                                 </td>
                                                 <td></td>
                                             </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td><strong>कुल जम्मा खर्च (जिल्लागत)</strong></td>
+                                                <td v-for="i in 3"></td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.totals.baarsik_lakshya_vaar
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.totals.baarsik_lakshya_budget
+                                                    }}
+                                                </td>
+                                                <td></td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.totals.maasik_pragati_vaarit
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.totals.maasik_pragati_kharcha
+                                                    }}
+                                                </td>
+                                                <td></td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.totals.total_till_now_vaarit
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.totals.total_till_now_kharcha
+                                                    }}
+                                                </td>
+                                                <td></td>
+                                            </tr>
 
+                                            <tr>
+                                                <td></td>
+                                                <td>प्रतिवेदन अवधिको प्रगति</td>
+                                                <td></td>
+                                                <td>भारित</td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.prdatibedan_awadi_ko_pragati
+                                                            .vaarit
+                                                    }}
+                                                </td>
+                                                <td>प्रतिशत</td>
+                                                <td>भौतिक</td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.prdatibedan_awadi_ko_pragati
+                                                            .vautik
+                                                    }}
+                                                </td>
+                                                <td>प्रतिशत</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>प्रतिवेदन अवधिको खर्च</td>
+                                                <td></td>
+                                                <td>पुँजिगत रु.</td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
+                                                            .punjigat
+                                                    }}
+                                                </td>
+                                                <td>चालु रू.</td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
+                                                            .chalu
+                                                    }}
+                                                </td>
+                                                <td>जम्मा रू.</td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
+                                                            .total
+                                                    }}
+                                                </td>
+                                                <td>प्रतिशत</td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
+                                                            .total_percent
+                                                    }}
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
                                         </template>
+                                    </template>
+                                    <template v-else>
+                                        <template v-for="maasikPragatiReport in maasikPragatiReports">
+
+                                            <tr>
+                                                <td style="background: #b5ffa7;"></td>
+                                                <td colspan="10" style="background: #b5ffa7;">
+                                                    {{ maasikPragatiReport.kaaryalaya.name }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <strong>{{ maasikPragatiReport.aayojana }}</strong>
+                                                </td>
+                                                <td v-for="i in 9"></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <strong>अ) पूँजीगत खर्च अन्तर्गतका कार्यक्रमहरु</strong>
+                                                </td>
+                                                <td v-for="i in 9"></td>
+                                            </tr>
+                                            <template
+                                                v-for="(componentItem) in maasikPragatiReport.items.punjigat.components"
+                                            >
+                                                <tr>
+                                                    <td style="background: #dddddd;">{{ componentItem.id }}</td>
+                                                    <td colspan="10" style="background: #dddddd;">
+                                                        {{ componentItem.name }}
+                                                    </td>
+                                                </tr>
+                                                <tr
+                                                    v-for="(item) in componentItem.items"
+                                                >
+                                                    <td>{{ item.kriyakalap_code }}</td>
+                                                    <td>{{ item.name }}</td>
+                                                    <td>{{ item.kharcha_sirsak }}</td>
+                                                    <td>{{ item.ikai }}</td>
+                                                    <td>{{ item.baarsik_lakshya_pariman }}</td>
+                                                    <td>{{ item.baarsik_lakshya_vaar }}</td>
+                                                    <td>{{ item.baarsik_lakshya_budget }}</td>
+                                                    <td>
+                                                        {{
+                                                            item.maasik_pragati.pariman
+                                                                ? item.maasik_pragati.pariman
+                                                                : ""
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            item.maasik_pragati.vaarit
+                                                                ? item.maasik_pragati.vaarit
+                                                                : ""
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            item.maasik_pragati.kharcha
+                                                                ? item.maasik_pragati.kharcha
+                                                                : ""
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            item.vautik_pragati < 100
+                                                                ? item.vautik_pragati
+                                                                ? item.vautik_pragati
+                                                                : ""
+                                                                : 100
+                                                        }}
+                                                    </td>
+                                                </tr>
+                                                <!-- individual component sum -->
+                                                <tr>
+                                                    <td></td>
+                                                    <td style="background: #f3f3f3">{{ componentItem.name }} जम्मा:</td>
+                                                    <td v-for="i in 3"></td>
+                                                    <td>
+                                                        {{
+                                                            componentItem.totals
+                                                                .baarsik_lakshya_vaar
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            componentItem.totals
+                                                                .baarsik_lakshya_budget
+                                                        }}
+                                                    </td>
+                                                    <td></td>
+                                                    <td>
+                                                        {{
+                                                            componentItem.totals
+                                                                .maasik_pragati_vaarit
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            componentItem.totals
+                                                                .maasik_pragati_kharcha
+                                                        }}
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                            </template>
+                                            <!-- punjigat total -->
+                                            <tr>
+                                                <td></td>
+                                                <td><strong>क) पूँजीगत खर्च कार्यक्रमको जम्मा:</strong></td>
+                                                <td v-for="i in 3"></td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.punjigat.totals
+                                                            .baarsik_lakshya_vaar
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.punjigat.totals
+                                                            .baarsik_lakshya_budget
+                                                    }}
+                                                </td>
+                                                <td></td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.punjigat.totals
+                                                            .maasik_pragati_vaarit
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.punjigat.totals
+                                                            .maasik_pragati_kharcha
+                                                    }}
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <strong>आ) चालु खर्च अन्तर्गतका कार्यक्रमहरु</strong>
+                                                </td>
+                                                <td v-for="i in 9"></td>
+                                            </tr>
+
+                                            <template
+                                                v-for="(componentItem) in maasikPragatiReport.items.chalu.components"
+                                            >
+                                                <tr>
+                                                    <td style="background: #dddddd;">{{ componentItem.id }}</td>
+                                                    <td colspan="10" style="background: #dddddd;">
+                                                        {{ componentItem.name }}
+                                                    </td>
+                                                </tr>
+                                                <tr
+                                                    v-for="(item, componentItemChaluIndex) in componentItem.items"
+                                                    :key="'D'+componentItemChaluIndex"
+                                                >
+                                                    <td>{{ item.kriyakalap_code }}</td>
+                                                    <td>{{ item.name }}</td>
+                                                    <td>{{ item.kharcha_sirsak }}</td>
+                                                    <td>{{ item.ikai }}</td>
+                                                    <td>{{ item.baarsik_lakshya_pariman }}</td>
+                                                    <td>{{ item.baarsik_lakshya_vaar }}</td>
+                                                    <td>{{ item.baarsik_lakshya_budget }}</td>
+                                                    <td>
+                                                        {{
+                                                            item.maasik_pragati.pariman
+                                                                ? item.maasik_pragati.pariman
+                                                                : ""
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            item.maasik_pragati.vaarit
+                                                                ? item.maasik_pragati.vaarit
+                                                                : ""
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            item.maasik_pragati.kharcha
+                                                                ? item.maasik_pragati.kharcha
+                                                                : ""
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            item.vautik_pragati < 100
+                                                                ? item.vautik_pragati
+                                                                ? item.vautik_pragati
+                                                                : ""
+                                                                : 100
+                                                        }}
+                                                    </td>
+                                                </tr>
+                                                <!-- individual component sum -->
+                                                <tr>
+                                                    <td></td>
+                                                    <td style="background: #f3f3f3">{{ componentItem.name }} जम्मा:</td>
+                                                    <td v-for="i in 3"></td>
+                                                    <td>
+                                                        {{
+                                                            componentItem.totals
+                                                                .baarsik_lakshya_vaar
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            componentItem.totals
+                                                                .baarsik_lakshya_budget
+                                                        }}
+                                                    </td>
+                                                    <td></td>
+                                                    <td>
+                                                        {{
+                                                            componentItem.totals
+                                                                .maasik_pragati_vaarit
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            componentItem.totals
+                                                                .maasik_pragati_kharcha
+                                                        }}
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+
+                                            </template>
 
 
-                                        <tr>
-                                            <td></td>
-                                            <td><strong>ख) चालु खर्च कार्यक्रमको जम्मा:</strong></td>
-                                            <td v-for="i in 3"></td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.chalu.totals
-                                                        .baarsik_lakshya_vaar
-                                                }}
-                                            </td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.chalu.totals
-                                                        .baarsik_lakshya_budget
-                                                }}
-                                            </td>
-                                            <td></td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.chalu.totals
-                                                        .maasik_pragati_vaarit
-                                                }}
-                                            </td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.chalu.totals
-                                                        .maasik_pragati_kharcha
-                                                }}
-                                            </td>
-                                            <td></td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.chalu.totals
-                                                        .total_till_now_vaarit
-                                                }}
-                                            </td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.chalu.totals
-                                                        .total_till_now_kharcha
-                                                }}
-                                            </td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td><strong>कुल जम्मा खर्च (जिल्लागत)</strong></td>
-                                            <td v-for="i in 3"></td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.totals.baarsik_lakshya_vaar
-                                                }}
-                                            </td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.totals.baarsik_lakshya_budget
-                                                }}
-                                            </td>
-                                            <td></td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.totals.maasik_pragati_vaarit
-                                                }}
-                                            </td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.totals.maasik_pragati_kharcha
-                                                }}
-                                            </td>
-                                            <td></td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.totals.total_till_now_vaarit
-                                                }}
-                                            </td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.totals.total_till_now_kharcha
-                                                }}
-                                            </td>
-                                            <td></td>
-                                        </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td><strong>ख) चालु खर्च कार्यक्रमको जम्मा:</strong></td>
+                                                <td v-for="i in 3"></td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.chalu.totals
+                                                            .baarsik_lakshya_vaar
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.chalu.totals
+                                                            .baarsik_lakshya_budget
+                                                    }}
+                                                </td>
+                                                <td></td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.chalu.totals
+                                                            .maasik_pragati_vaarit
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.chalu.totals
+                                                            .maasik_pragati_kharcha
+                                                    }}
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td><strong>कुल जम्मा खर्च (जिल्लागत)</strong></td>
+                                                <td v-for="i in 3"></td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.totals.baarsik_lakshya_vaar
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.totals.baarsik_lakshya_budget
+                                                    }}
+                                                </td>
+                                                <td></td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.totals.maasik_pragati_vaarit
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.totals.maasik_pragati_kharcha
+                                                    }}
+                                                </td>
+                                                <td></td>
+                                            </tr>
 
-                                        <tr>
-                                            <td></td>
-                                            <td>प्रतिवेदन अवधिको प्रगति</td>
-                                            <td></td>
-                                            <td>भारित</td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.prdatibedan_awadi_ko_pragati
-                                                        .vaarit
-                                                }}
-                                            </td>
-                                            <td>प्रतिशत</td>
-                                            <td>भौतिक</td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.prdatibedan_awadi_ko_pragati
-                                                        .vautik
-                                                }}
-                                            </td>
-                                            <td>प्रतिशत</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>प्रतिवेदन अवधिको खर्च</td>
-                                            <td></td>
-                                            <td>पुँजिगत रु.</td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
-                                                        .punjigat
-                                                }}
-                                            </td>
-                                            <td>चालु रू.</td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
-                                                        .chalu
-                                                }}
-                                            </td>
-                                            <td>जम्मा रू.</td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
-                                                        .total
-                                                }}
-                                            </td>
-                                            <td>प्रतिशत</td>
-                                            <td>
-                                                {{
-                                                    maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
-                                                        .total_percent
-                                                }}
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>प्रतिवेदन अवधिको प्रगति</td>
+                                                <td></td>
+                                                <td>भारित</td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.prdatibedan_awadi_ko_pragati
+                                                            .vaarit
+                                                    }}
+                                                </td>
+                                                <td>प्रतिशत</td>
+                                                <td>भौतिक</td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.prdatibedan_awadi_ko_pragati
+                                                            .vautik
+                                                    }}
+                                                </td>
+                                                <td>प्रतिशत</td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>प्रतिवेदन अवधिको खर्च</td>
+                                                <td></td>
+                                                <td>पुँजिगत रु.</td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
+                                                            .punjigat
+                                                    }}
+                                                </td>
+                                                <td>चालु रू.</td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
+                                                            .chalu
+                                                    }}
+                                                </td>
+                                                <td>जम्मा रू.</td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
+                                                            .total
+                                                    }}
+                                                </td>
+                                                <td>प्रतिशत</td>
+                                                <td>
+                                                    {{
+                                                        maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
+                                                            .total_percent
+                                                    }}
+                                                </td>
+                                            </tr>
+                                        </template>
                                     </template>
                                     </tbody>
                                 </table>
@@ -641,7 +997,7 @@
                     <h5>रास्ट्रपति चुरे-तराई मधेश संरक्षण विकास समिति</h5>
                     <h4>
                         <strong
-                        >{{ maasikPragatiReports[0].month }} महिनाको प्रगति</strong
+                        >{{ maasikPragatiReports[0].month }}</strong
                         >
                     </h4>
                 </div>
@@ -708,13 +1064,13 @@
                         <td colspan="3"><strong>बार्षिक लक्ष्य</strong></td>
                         <td colspan="3">
                             <strong
-                            >{{ maasikPragatiReports[0].month }} महिनाको प्रगति</strong
+                            >{{ maasikPragatiReports[0].month }}</strong
                             >
                         </td>
-                        <td colspan="3">
+                        <td v-if="!maasikPragatiReports[0].baarsik && !maasikPragatiReports[0].ardaBaarsik" colspan="3">
                             <strong>प्रतिवेदन अवधिसम्मको यस आ.व.को प्रगति</strong>
                         </td>
-                        <td colspan="2" rowspan="2">
+                        <td rowspan="2">
                             <strong>भौतिक प्रगति</strong>
                         </td>
                     </tr>
@@ -725,471 +1081,825 @@
                         <td><strong>परिमाण</strong></td>
                         <td><strong>भारित</strong></td>
                         <td><strong>खर्च</strong></td>
-                        <td><strong>परिमाण</strong></td>
-                        <td><strong>भारित</strong></td>
-                        <td><strong>खर्च</strong></td>
+                        <td v-if="!maasikPragatiReports[0].baarsik && !maasikPragatiReports[0].ardaBaarsik"><strong>परिमाण</strong>
+                        </td>
+                        <td v-if="!maasikPragatiReports[0].baarsik && !maasikPragatiReports[0].ardaBaarsik"><strong>भारित</strong>
+                        </td>
+                        <td v-if="!maasikPragatiReports[0].baarsik && !maasikPragatiReports[0].ardaBaarsik">
+                            <strong>खर्च</strong></td>
                     </tr>
                     </thead>
                     <tbody>
-                    <template v-for="maasikPragatiReport in maasikPragatiReports">
+                    <template v-if="!maasikPragatiReports[0].baarsik && !maasikPragatiReports[0].ardaBaarsik">
+                        <template v-for="maasikPragatiReport in maasikPragatiReports">
 
-                        <tr>
-                            <td style="background: #b5ffa7;"></td>
-                            <td colspan="17" style="background: #b5ffa7;">
-                                {{ maasikPragatiReport.kaaryalaya.name }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <strong>{{ maasikPragatiReport.aayojana }}</strong>
-                            </td>
-                            <td v-for="i in 12"></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <strong>अ) पूँजीगत खर्च अन्तर्गतका कार्यक्रमहरु</strong>
-                            </td>
-                            <td v-for="i in 12"></td>
-                        </tr>
-                        <template
-                            v-for="(componentItem) in maasikPragatiReport.items.punjigat.components"
-                        >
                             <tr>
-                                <td style="background: #dddddd;">{{ componentItem.id }}</td>
-                                <td colspan="17" style="background: #dddddd;">
-                                    {{ componentItem.name }}
+                                <td style="background: #b5ffa7;"></td>
+                                <td colspan="17" style="background: #b5ffa7;">
+                                    {{ maasikPragatiReport.kaaryalaya.name }}
                                 </td>
                             </tr>
-                            <tr
-                                v-for="(item, componentItemPunjigatIndex) in componentItem.items"
-                                :key="'B'+componentItemPunjigatIndex"
-                            >
-                                <td>{{ item.kriyakalap_code }}</td>
-                                <td>{{ item.name }}</td>
-                                <td>{{ item.kharcha_sirsak }}</td>
-                                <td>{{ item.ikai }}</td>
-                                <td>{{ item.baarsik_lakshya_pariman }}</td>
-                                <td>{{ item.baarsik_lakshya_vaar }}</td>
-                                <td>{{ item.baarsik_lakshya_budget }}</td>
-                                <td>
-                                    {{
-                                        item.maasik_pragati.pariman
-                                            ? item.maasik_pragati.pariman
-                                            : ""
-                                    }}
-                                </td>
-                                <td>
-                                    {{
-                                        item.maasik_pragati.vaarit
-                                            ? item.maasik_pragati.vaarit
-                                            : ""
-                                    }}
-                                </td>
-                                <td>
-                                    {{
-                                        item.maasik_pragati.kharcha
-                                            ? item.maasik_pragati.kharcha
-                                            : ""
-                                    }}
-                                </td>
-                                <td>
-                                    {{
-                                        item.total_till_now.pariman
-                                            ? item.total_till_now.pariman
-                                            : ""
-                                    }}
-                                </td>
-                                <td>
-                                    {{
-                                        item.total_till_now.vaarit
-                                            ? item.total_till_now.vaarit
-                                            : ""
-                                    }}
-                                </td>
-                                <td>
-                                    {{
-                                        item.total_till_now.kharcha
-                                            ? item.total_till_now.kharcha
-                                            : ""
-                                    }}
-                                </td>
-                                <td>
-                                    {{
-                                        item.vautik_pragati < 100
-                                            ? item.vautik_pragati
-                                            ? item.vautik_pragati
-                                            : ""
-                                            : 100
-                                    }}
-                                </td>
-                            </tr>
-                            <!-- individual component sum -->
                             <tr>
                                 <td></td>
-                                <td style="background: #f3f3f3">{{ componentItem.name }} जम्मा:</td>
+                                <td>
+                                    <strong>{{ maasikPragatiReport.aayojana }}</strong>
+                                </td>
+                                <td v-for="i in 12"></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <strong>अ) पूँजीगत खर्च अन्तर्गतका कार्यक्रमहरु</strong>
+                                </td>
+                                <td v-for="i in 12"></td>
+                            </tr>
+                            <template
+                                v-for="(componentItem) in maasikPragatiReport.items.punjigat.components"
+                            >
+                                <tr>
+                                    <td style="background: #dddddd;">{{ componentItem.id }}</td>
+                                    <td colspan="17" style="background: #dddddd;">
+                                        {{ componentItem.name }}
+                                    </td>
+                                </tr>
+                                <tr
+                                    v-for="(item) in componentItem.items"
+                                >
+                                    <td>{{ item.kriyakalap_code }}</td>
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.kharcha_sirsak }}</td>
+                                    <td>{{ item.ikai }}</td>
+                                    <td>{{ item.baarsik_lakshya_pariman }}</td>
+                                    <td>{{ item.baarsik_lakshya_vaar }}</td>
+                                    <td>{{ item.baarsik_lakshya_budget }}</td>
+                                    <td>
+                                        {{
+                                            item.maasik_pragati.pariman
+                                                ? item.maasik_pragati.pariman
+                                                : ""
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            item.maasik_pragati.vaarit
+                                                ? item.maasik_pragati.vaarit
+                                                : ""
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            item.maasik_pragati.kharcha
+                                                ? item.maasik_pragati.kharcha
+                                                : ""
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            item.total_till_now.pariman
+                                                ? item.total_till_now.pariman
+                                                : ""
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            item.total_till_now.vaarit
+                                                ? item.total_till_now.vaarit
+                                                : ""
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            item.total_till_now.kharcha
+                                                ? item.total_till_now.kharcha
+                                                : ""
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            item.vautik_pragati < 100
+                                                ? item.vautik_pragati
+                                                ? item.vautik_pragati
+                                                : ""
+                                                : 100
+                                        }}
+                                    </td>
+                                </tr>
+                                <!-- individual component sum -->
+                                <tr>
+                                    <td></td>
+                                    <td style="background: #f3f3f3">{{ componentItem.name }} जम्मा:</td>
+                                    <td v-for="i in 3"></td>
+                                    <td>
+                                        {{
+                                            componentItem.totals
+                                                .baarsik_lakshya_vaar
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            componentItem.totals
+                                                .baarsik_lakshya_budget
+                                        }}
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        {{
+                                            componentItem.totals
+                                                .maasik_pragati_vaarit
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            componentItem.totals
+                                                .maasik_pragati_kharcha
+                                        }}
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        {{
+                                            componentItem.totals
+                                                .total_till_now_vaarit
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            componentItem.totals
+                                                .total_till_now_kharcha
+                                        }}
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </template>
+                            <!-- punjigat total -->
+                            <tr>
+                                <td></td>
+                                <td><strong>क) पूँजीगत खर्च कार्यक्रमको जम्मा:</strong></td>
                                 <td v-for="i in 3"></td>
                                 <td>
                                     {{
-                                        componentItem.totals
+                                        maasikPragatiReport.items.punjigat.totals
                                             .baarsik_lakshya_vaar
                                     }}
                                 </td>
                                 <td>
                                     {{
-                                        componentItem.totals
+                                        maasikPragatiReport.items.punjigat.totals
                                             .baarsik_lakshya_budget
                                     }}
                                 </td>
                                 <td></td>
                                 <td>
                                     {{
-                                        componentItem.totals
+                                        maasikPragatiReport.items.punjigat.totals
                                             .maasik_pragati_vaarit
                                     }}
                                 </td>
                                 <td>
                                     {{
-                                        componentItem.totals
+                                        maasikPragatiReport.items.punjigat.totals
                                             .maasik_pragati_kharcha
                                     }}
                                 </td>
                                 <td></td>
                                 <td>
                                     {{
-                                        componentItem.totals
+                                        maasikPragatiReport.items.punjigat.totals
                                             .total_till_now_vaarit
                                     }}
                                 </td>
                                 <td>
                                     {{
-                                        componentItem.totals
+                                        maasikPragatiReport.items.punjigat.totals
                                             .total_till_now_kharcha
                                     }}
                                 </td>
                                 <td></td>
                             </tr>
-                        </template>
-                        <!-- punjigat total -->
-                        <tr>
-                            <td></td>
-                            <td><strong>क) पूँजीगत खर्च कार्यक्रमको जम्मा:</strong></td>
-                            <td v-for="i in 3"></td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.punjigat.totals
-                                        .baarsik_lakshya_vaar
-                                }}
-                            </td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.punjigat.totals
-                                        .baarsik_lakshya_budget
-                                }}
-                            </td>
-                            <td></td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.punjigat.totals
-                                        .maasik_pragati_vaarit
-                                }}
-                            </td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.punjigat.totals
-                                        .maasik_pragati_kharcha
-                                }}
-                            </td>
-                            <td></td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.punjigat.totals
-                                        .total_till_now_vaarit
-                                }}
-                            </td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.punjigat.totals
-                                        .total_till_now_kharcha
-                                }}
-                            </td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <strong>आ) चालु खर्च अन्तर्गतका कार्यक्रमहरु</strong>
-                            </td>
-                            <td v-for="i in 12"></td>
-                        </tr>
-
-                        <template
-                            v-for="(componentItem) in maasikPragatiReport.items.chalu.components"
-                        >
-                            <tr>
-                                <td style="background: #dddddd;">{{ componentItem.id }}</td>
-                                <td colspan="17" style="background: #dddddd;">
-                                    {{ componentItem.name }}
-                                </td>
-                            </tr>
-                            <tr
-                                v-for="(item, componentItemChaluIndex) in componentItem.items"
-                                :key="'C'+componentItemChaluIndex"
-                            >
-                                <td>{{ item.kriyakalap_code }}</td>
-                                <td>{{ item.name }}</td>
-                                <td>{{ item.kharcha_sirsak }}</td>
-                                <td>{{ item.ikai }}</td>
-                                <td>{{ item.baarsik_lakshya_pariman }}</td>
-                                <td>{{ item.baarsik_lakshya_vaar }}</td>
-                                <td>{{ item.baarsik_lakshya_budget }}</td>
-                                <td>
-                                    {{
-                                        item.maasik_pragati.pariman
-                                            ? item.maasik_pragati.pariman
-                                            : ""
-                                    }}
-                                </td>
-                                <td>
-                                    {{
-                                        item.maasik_pragati.vaarit
-                                            ? item.maasik_pragati.vaarit
-                                            : ""
-                                    }}
-                                </td>
-                                <td>
-                                    {{
-                                        item.maasik_pragati.kharcha
-                                            ? item.maasik_pragati.kharcha
-                                            : ""
-                                    }}
-                                </td>
-                                <td>
-                                    {{
-                                        item.total_till_now.pariman
-                                            ? item.total_till_now.pariman
-                                            : ""
-                                    }}
-                                </td>
-                                <td>
-                                    {{
-                                        item.total_till_now.vaarit
-                                            ? item.total_till_now.vaarit
-                                            : ""
-                                    }}
-                                </td>
-                                <td>
-                                    {{
-                                        item.total_till_now.kharcha
-                                            ? item.total_till_now.kharcha
-                                            : ""
-                                    }}
-                                </td>
-                                <td>
-                                    {{
-                                        item.vautik_pragati < 100
-                                            ? item.vautik_pragati
-                                            ? item.vautik_pragati
-                                            : ""
-                                            : 100
-                                    }}
-                                </td>
-                            </tr>
-                            <!-- individual component sum -->
                             <tr>
                                 <td></td>
-                                <td style="background: #f3f3f3">{{ componentItem.name }} जम्मा:</td>
+                                <td>
+                                    <strong>आ) चालु खर्च अन्तर्गतका कार्यक्रमहरु</strong>
+                                </td>
+                                <td v-for="i in 12"></td>
+                            </tr>
+
+                            <template
+                                v-for="(componentItem) in maasikPragatiReport.items.chalu.components"
+                            >
+                                <tr>
+                                    <td style="background: #dddddd;">{{ componentItem.id }}</td>
+                                    <td colspan="17" style="background: #dddddd;">
+                                        {{ componentItem.name }}
+                                    </td>
+                                </tr>
+                                <tr
+                                    v-for="(item, componentItemChaluIndex) in componentItem.items"
+                                    :key="'D'+componentItemChaluIndex"
+                                >
+                                    <td>{{ item.kriyakalap_code }}</td>
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.kharcha_sirsak }}</td>
+                                    <td>{{ item.ikai }}</td>
+                                    <td>{{ item.baarsik_lakshya_pariman }}</td>
+                                    <td>{{ item.baarsik_lakshya_vaar }}</td>
+                                    <td>{{ item.baarsik_lakshya_budget }}</td>
+                                    <td>
+                                        {{
+                                            item.maasik_pragati.pariman
+                                                ? item.maasik_pragati.pariman
+                                                : ""
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            item.maasik_pragati.vaarit
+                                                ? item.maasik_pragati.vaarit
+                                                : ""
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            item.maasik_pragati.kharcha
+                                                ? item.maasik_pragati.kharcha
+                                                : ""
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            item.total_till_now.pariman
+                                                ? item.total_till_now.pariman
+                                                : ""
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            item.total_till_now.vaarit
+                                                ? item.total_till_now.vaarit
+                                                : ""
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            item.total_till_now.kharcha
+                                                ? item.total_till_now.kharcha
+                                                : ""
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            item.vautik_pragati < 100
+                                                ? item.vautik_pragati
+                                                ? item.vautik_pragati
+                                                : ""
+                                                : 100
+                                        }}
+                                    </td>
+                                </tr>
+                                <!-- individual component sum -->
+                                <tr>
+                                    <td></td>
+                                    <td style="background: #f3f3f3">{{ componentItem.name }} जम्मा:</td>
+                                    <td v-for="i in 3"></td>
+                                    <td>
+                                        {{
+                                            componentItem.totals
+                                                .baarsik_lakshya_vaar
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            componentItem.totals
+                                                .baarsik_lakshya_budget
+                                        }}
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        {{
+                                            componentItem.totals
+                                                .maasik_pragati_vaarit
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            componentItem.totals
+                                                .maasik_pragati_kharcha
+                                        }}
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        {{
+                                            componentItem.totals
+                                                .total_till_now_vaarit
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            componentItem.totals
+                                                .total_till_now_kharcha
+                                        }}
+                                    </td>
+                                    <td></td>
+                                </tr>
+
+                            </template>
+
+
+                            <tr>
+                                <td></td>
+                                <td><strong>ख) चालु खर्च कार्यक्रमको जम्मा:</strong></td>
                                 <td v-for="i in 3"></td>
                                 <td>
                                     {{
-                                        componentItem.totals
+                                        maasikPragatiReport.items.chalu.totals
                                             .baarsik_lakshya_vaar
                                     }}
                                 </td>
                                 <td>
                                     {{
-                                        componentItem.totals
+                                        maasikPragatiReport.items.chalu.totals
                                             .baarsik_lakshya_budget
                                     }}
                                 </td>
                                 <td></td>
                                 <td>
                                     {{
-                                        componentItem.totals
+                                        maasikPragatiReport.items.chalu.totals
                                             .maasik_pragati_vaarit
                                     }}
                                 </td>
                                 <td>
                                     {{
-                                        componentItem.totals
+                                        maasikPragatiReport.items.chalu.totals
                                             .maasik_pragati_kharcha
                                     }}
                                 </td>
                                 <td></td>
                                 <td>
                                     {{
-                                        componentItem.totals
+                                        maasikPragatiReport.items.chalu.totals
                                             .total_till_now_vaarit
                                     }}
                                 </td>
                                 <td>
                                     {{
-                                        componentItem.totals
+                                        maasikPragatiReport.items.chalu.totals
                                             .total_till_now_kharcha
                                     }}
                                 </td>
                                 <td></td>
                             </tr>
+                            <tr>
+                                <td></td>
+                                <td><strong>कुल जम्मा खर्च (जिल्लागत)</strong></td>
+                                <td v-for="i in 3"></td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.totals.baarsik_lakshya_vaar
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.totals.baarsik_lakshya_budget
+                                    }}
+                                </td>
+                                <td></td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.totals.maasik_pragati_vaarit
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.totals.maasik_pragati_kharcha
+                                    }}
+                                </td>
+                                <td></td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.totals.total_till_now_vaarit
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.totals.total_till_now_kharcha
+                                    }}
+                                </td>
+                                <td></td>
+                            </tr>
 
+                            <tr>
+                                <td></td>
+                                <td>प्रतिवेदन अवधिको प्रगति</td>
+                                <td></td>
+                                <td>भारित</td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.prdatibedan_awadi_ko_pragati
+                                            .vaarit
+                                    }}
+                                </td>
+                                <td>प्रतिशत</td>
+                                <td>भौतिक</td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.prdatibedan_awadi_ko_pragati
+                                            .vautik
+                                    }}
+                                </td>
+                                <td>प्रतिशत</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>प्रतिवेदन अवधिको खर्च</td>
+                                <td></td>
+                                <td>पुँजिगत रु.</td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
+                                            .punjigat
+                                    }}
+                                </td>
+                                <td>चालु रू.</td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
+                                            .chalu
+                                    }}
+                                </td>
+                                <td>जम्मा रू.</td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
+                                            .total
+                                    }}
+                                </td>
+                                <td>प्रतिशत</td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
+                                            .total_percent
+                                    }}
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                         </template>
+                    </template>
+                    <template v-else>
+                        <template v-for="maasikPragatiReport in maasikPragatiReports">
+
+                            <tr>
+                                <td style="background: #b5ffa7;"></td>
+                                <td colspan="10" style="background: #b5ffa7;">
+                                    {{ maasikPragatiReport.kaaryalaya.name }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <strong>{{ maasikPragatiReport.aayojana }}</strong>
+                                </td>
+                                <td v-for="i in 9"></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <strong>अ) पूँजीगत खर्च अन्तर्गतका कार्यक्रमहरु</strong>
+                                </td>
+                                <td v-for="i in 9"></td>
+                            </tr>
+                            <template
+                                v-for="(componentItem) in maasikPragatiReport.items.punjigat.components"
+                            >
+                                <tr>
+                                    <td style="background: #dddddd;">{{ componentItem.id }}</td>
+                                    <td colspan="10" style="background: #dddddd;">
+                                        {{ componentItem.name }}
+                                    </td>
+                                </tr>
+                                <tr
+                                    v-for="(item) in componentItem.items"
+                                >
+                                    <td>{{ item.kriyakalap_code }}</td>
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.kharcha_sirsak }}</td>
+                                    <td>{{ item.ikai }}</td>
+                                    <td>{{ item.baarsik_lakshya_pariman }}</td>
+                                    <td>{{ item.baarsik_lakshya_vaar }}</td>
+                                    <td>{{ item.baarsik_lakshya_budget }}</td>
+                                    <td>
+                                        {{
+                                            item.maasik_pragati.pariman
+                                                ? item.maasik_pragati.pariman
+                                                : ""
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            item.maasik_pragati.vaarit
+                                                ? item.maasik_pragati.vaarit
+                                                : ""
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            item.maasik_pragati.kharcha
+                                                ? item.maasik_pragati.kharcha
+                                                : ""
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            item.vautik_pragati < 100
+                                                ? item.vautik_pragati
+                                                ? item.vautik_pragati
+                                                : ""
+                                                : 100
+                                        }}
+                                    </td>
+                                </tr>
+                                <!-- individual component sum -->
+                                <tr>
+                                    <td></td>
+                                    <td style="background: #f3f3f3">{{ componentItem.name }} जम्मा:</td>
+                                    <td v-for="i in 3"></td>
+                                    <td>
+                                        {{
+                                            componentItem.totals
+                                                .baarsik_lakshya_vaar
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            componentItem.totals
+                                                .baarsik_lakshya_budget
+                                        }}
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        {{
+                                            componentItem.totals
+                                                .maasik_pragati_vaarit
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            componentItem.totals
+                                                .maasik_pragati_kharcha
+                                        }}
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </template>
+                            <!-- punjigat total -->
+                            <tr>
+                                <td></td>
+                                <td><strong>क) पूँजीगत खर्च कार्यक्रमको जम्मा:</strong></td>
+                                <td v-for="i in 3"></td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.punjigat.totals
+                                            .baarsik_lakshya_vaar
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.punjigat.totals
+                                            .baarsik_lakshya_budget
+                                    }}
+                                </td>
+                                <td></td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.punjigat.totals
+                                            .maasik_pragati_vaarit
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.punjigat.totals
+                                            .maasik_pragati_kharcha
+                                    }}
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <strong>आ) चालु खर्च अन्तर्गतका कार्यक्रमहरु</strong>
+                                </td>
+                                <td v-for="i in 9"></td>
+                            </tr>
+
+                            <template
+                                v-for="(componentItem) in maasikPragatiReport.items.chalu.components"
+                            >
+                                <tr>
+                                    <td style="background: #dddddd;">{{ componentItem.id }}</td>
+                                    <td colspan="10" style="background: #dddddd;">
+                                        {{ componentItem.name }}
+                                    </td>
+                                </tr>
+                                <tr
+                                    v-for="(item, componentItemChaluIndex) in componentItem.items"
+                                    :key="'D'+componentItemChaluIndex"
+                                >
+                                    <td>{{ item.kriyakalap_code }}</td>
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.kharcha_sirsak }}</td>
+                                    <td>{{ item.ikai }}</td>
+                                    <td>{{ item.baarsik_lakshya_pariman }}</td>
+                                    <td>{{ item.baarsik_lakshya_vaar }}</td>
+                                    <td>{{ item.baarsik_lakshya_budget }}</td>
+                                    <td>
+                                        {{
+                                            item.maasik_pragati.pariman
+                                                ? item.maasik_pragati.pariman
+                                                : ""
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            item.maasik_pragati.vaarit
+                                                ? item.maasik_pragati.vaarit
+                                                : ""
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            item.maasik_pragati.kharcha
+                                                ? item.maasik_pragati.kharcha
+                                                : ""
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            item.vautik_pragati < 100
+                                                ? item.vautik_pragati
+                                                ? item.vautik_pragati
+                                                : ""
+                                                : 100
+                                        }}
+                                    </td>
+                                </tr>
+                                <!-- individual component sum -->
+                                <tr>
+                                    <td></td>
+                                    <td style="background: #f3f3f3">{{ componentItem.name }} जम्मा:</td>
+                                    <td v-for="i in 3"></td>
+                                    <td>
+                                        {{
+                                            componentItem.totals
+                                                .baarsik_lakshya_vaar
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            componentItem.totals
+                                                .baarsik_lakshya_budget
+                                        }}
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        {{
+                                            componentItem.totals
+                                                .maasik_pragati_vaarit
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            componentItem.totals
+                                                .maasik_pragati_kharcha
+                                        }}
+                                    </td>
+                                    <td></td>
+                                </tr>
+
+                            </template>
 
 
-                        <tr>
-                            <td></td>
-                            <td><strong>ख) चालु खर्च कार्यक्रमको जम्मा:</strong></td>
-                            <td v-for="i in 3"></td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.chalu.totals
-                                        .baarsik_lakshya_vaar
-                                }}
-                            </td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.chalu.totals
-                                        .baarsik_lakshya_budget
-                                }}
-                            </td>
-                            <td></td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.chalu.totals
-                                        .maasik_pragati_vaarit
-                                }}
-                            </td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.chalu.totals
-                                        .maasik_pragati_kharcha
-                                }}
-                            </td>
-                            <td></td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.chalu.totals
-                                        .total_till_now_vaarit
-                                }}
-                            </td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.chalu.totals
-                                        .total_till_now_kharcha
-                                }}
-                            </td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td><strong>कुल जम्मा खर्च (जिल्लागत)</strong></td>
-                            <td v-for="i in 3"></td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.totals.baarsik_lakshya_vaar
-                                }}
-                            </td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.totals.baarsik_lakshya_budget
-                                }}
-                            </td>
-                            <td></td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.totals.maasik_pragati_vaarit
-                                }}
-                            </td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.totals.maasik_pragati_kharcha
-                                }}
-                            </td>
-                            <td></td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.totals.total_till_now_vaarit
-                                }}
-                            </td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.totals.total_till_now_kharcha
-                                }}
-                            </td>
-                            <td></td>
-                        </tr>
+                            <tr>
+                                <td></td>
+                                <td><strong>ख) चालु खर्च कार्यक्रमको जम्मा:</strong></td>
+                                <td v-for="i in 3"></td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.chalu.totals
+                                            .baarsik_lakshya_vaar
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.chalu.totals
+                                            .baarsik_lakshya_budget
+                                    }}
+                                </td>
+                                <td></td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.chalu.totals
+                                            .maasik_pragati_vaarit
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.chalu.totals
+                                            .maasik_pragati_kharcha
+                                    }}
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><strong>कुल जम्मा खर्च (जिल्लागत)</strong></td>
+                                <td v-for="i in 3"></td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.totals.baarsik_lakshya_vaar
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.totals.baarsik_lakshya_budget
+                                    }}
+                                </td>
+                                <td></td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.totals.maasik_pragati_vaarit
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.totals.maasik_pragati_kharcha
+                                    }}
+                                </td>
+                                <td></td>
+                            </tr>
 
-                        <tr>
-                            <td></td>
-                            <td>प्रतिवेदन अवधिको प्रगति</td>
-                            <td></td>
-                            <td>भारित</td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.prdatibedan_awadi_ko_pragati
-                                        .vaarit
-                                }}
-                            </td>
-                            <td>प्रतिशत</td>
-                            <td>भौतिक</td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.prdatibedan_awadi_ko_pragati
-                                        .vautik
-                                }}
-                            </td>
-                            <td>प्रतिशत</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>प्रतिवेदन अवधिको खर्च</td>
-                            <td></td>
-                            <td>पुँजिगत रु.</td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
-                                        .punjigat
-                                }}
-                            </td>
-                            <td>चालु रू.</td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
-                                        .chalu
-                                }}
-                            </td>
-                            <td>जम्मा रू.</td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
-                                        .total
-                                }}
-                            </td>
-                            <td>प्रतिशत</td>
-                            <td>
-                                {{
-                                    maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
-                                        .total_percent
-                                }}
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                            <tr>
+                                <td></td>
+                                <td>प्रतिवेदन अवधिको प्रगति</td>
+                                <td></td>
+                                <td>भारित</td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.prdatibedan_awadi_ko_pragati
+                                            .vaarit
+                                    }}
+                                </td>
+                                <td>प्रतिशत</td>
+                                <td>भौतिक</td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.prdatibedan_awadi_ko_pragati
+                                            .vautik
+                                    }}
+                                </td>
+                                <td>प्रतिशत</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>प्रतिवेदन अवधिको खर्च</td>
+                                <td></td>
+                                <td>पुँजिगत रु.</td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
+                                            .punjigat
+                                    }}
+                                </td>
+                                <td>चालु रू.</td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
+                                            .chalu
+                                    }}
+                                </td>
+                                <td>जम्मा रू.</td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
+                                            .total
+                                    }}
+                                </td>
+                                <td>प्रतिशत</td>
+                                <td>
+                                    {{
+                                        maasikPragatiReport.items.pratibedan_awadi_ko_kharcha
+                                            .total_percent
+                                    }}
+                                </td>
+                            </tr>
+                        </template>
                     </template>
                     </tbody>
                 </table>

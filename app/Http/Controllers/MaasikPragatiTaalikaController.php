@@ -101,25 +101,24 @@ class MaasikPragatiTaalikaController extends Controller
     }
 
     private function calculateVaar($budget,$totalSum){
+        if($totalSum==0) return 0;
         return ($budget/$totalSum)*100;
     }
 
-    private function getSpecificData($maasikPragati, $mahina, $totalBaarsikLakshyaBudget)
+    private function getSpecificData($maasikPragati, $mahina, $totalBaarsikLakshyaBudget,$baarsik,$ardaBaarsik)
     {
         foreach ($maasikPragati as $item) {
             $item['total_till_now']['pariman'] = 0;
             $item['total_till_now']['kharcha'] = 0;
             $item['baarsik_lakshya_vaar'] = round($this->calculateVaar($item['baarsik_lakshya_budget'] ,$totalBaarsikLakshyaBudget),3);
-
             // if maasik_pragati is not null then calculate vaar else set all to 0
             if ($item['maasik_pragati']) {
-                $item['maasik_pragati']['vaarit'] = round(($item['baarsik_lakshya_vaar']/$item['baarsik_lakshya_pariman'])*$item['maasik_pragati']['pariman'],3);
+                $item['maasik_pragati']['vaarit'] = $item['baarsik_lakshya_pariman'] ? 0 : round(($item['baarsik_lakshya_vaar']/$item['baarsik_lakshya_pariman'])*$item['maasik_pragati']['pariman'],3);
             } else {
                 $item['maasik_pragati']['pariman'] = 0;
                 $item['maasik_pragati']['kharcha'] = 0;
                 $item['maasik_pragati']['vaarit'] = 0;
             }
-
             // to calculate total till now datas
             foreach ($item['maasik_pragatis'] as $subitem) {
                 $item['total_till_now']['pariman'] += $subitem['pariman'];
@@ -128,7 +127,19 @@ class MaasikPragatiTaalikaController extends Controller
                 //$item['vautik_pragati']['this_month'] =
                 // unset($item['maasik_pragatis']);
             }
-            $item['total_till_now']['vaarit'] = round(($item['baarsik_lakshya_vaar']/$item['baarsik_lakshya_pariman'])*$item['total_till_now']['pariman'],3);
+
+            $item['total_till_now']['pariman'] = round($item['total_till_now']['pariman'],3);
+            $item['total_till_now']['kharcha'] = round($item['total_till_now']['kharcha'],3);
+            $item['total_till_now']['vaarit'] = $item['baarsik_lakshya_pariman']==0 ? 0 : round(($item['baarsik_lakshya_vaar']/$item['baarsik_lakshya_pariman'])*$item['total_till_now']['pariman'],3);
+
+            //round off pariman kharcha and vaarit
+
+            if($baarsik||$ardaBaarsik) {
+                $item['maasik_pragati']['pariman'] =  $item['total_till_now']['pariman'] ;
+                $item['maasik_pragati']['kharcha'] =  $item['total_till_now']['kharcha'] ;
+                $item['maasik_pragati']['vaarit'] =  $item['total_till_now']['vaarit'] ;
+            }
+
             $item['vautik_pragati'] = round(($item['total_till_now']['pariman'] / $item['baarsik_lakshya_pariman'])*100,2);
 
             $myData[] = $item;
@@ -209,7 +220,8 @@ class MaasikPragatiTaalikaController extends Controller
         $items['pratibedan_awadi_ko_kharcha']['punjigat'] = round($items['punjigat']['totals']['maasik_pragati_vaarit'],3);
         $items['pratibedan_awadi_ko_kharcha']['chalu'] = round($items['chalu']['totals']['maasik_pragati_vaarit'],3);
         $items['pratibedan_awadi_ko_kharcha']['total'] = round($items['pratibedan_awadi_ko_kharcha']['punjigat'] + $items['pratibedan_awadi_ko_kharcha']['chalu'],3);
-        $items['pratibedan_awadi_ko_kharcha']['total_percent'] = round(($items['pratibedan_awadi_ko_kharcha']['total'] / $items['totals']['maasik_pragati_vaarit']) * 100, 3);
+
+        $items['pratibedan_awadi_ko_kharcha']['total_percent'] = $items['totals']['maasik_pragati_vaarit']==0 ? 0 : round(($items['pratibedan_awadi_ko_kharcha']['total'] / $items['totals']['maasik_pragati_vaarit']) * 100, 3);
 
         return $items;
     }
@@ -219,15 +231,31 @@ class MaasikPragatiTaalikaController extends Controller
             $filterData = json_decode($request->filterData);
             $aayojanaID= $filterData->aayojana;
             $mahinaID = $filterData->mahina;
+            //barsa and arda barsa flag
+            $baarsik = 0;
+            $ardaBaarsik = 0;
+            //setting for baarsik and arda baarsik
+            if($mahinaID == 13){ $mahinaID = 12; $baarsik = 1; }
+            if($mahinaID == 14){ $mahinaID = 6; $ardaBaarsik = 1; }
             $mahina = Mahina::find($mahinaID);
             $initial = $mahina->traimaasik->initial;
             $traimaasik = $mahina->traimaasik->name;
             $karyalayaIDs = $filterData->kaaryalaya;
             foreach($karyalayaIDs as $karyalayaID) {
+                // if that kaaryalaya has no lakshya then don't go through this loop
+                if(!KriyakalapLakshya::where('aayojana_id', $aayojanaID)
+                    ->where('kaaryalaya_id', $karyalayaID)->first()) continue;
                 $maasikPragati = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
                     ->where('kaaryalaya_id', $karyalayaID)
-                    ->where(function ($query) use ($initial) {
-                        return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->orWhere($initial . '_traimasik_lakshya_budget', '>', 0);
+                    //ardabaarsik
+                    ->when($ardaBaarsik,function($query){
+                        return $query->where('pahilo_traimasik_lakshya_pariman','>',0)->orWhere('pahilo_traimasik_lakshya_budget','>',0)->orWhere('dosro_traimasik_lakshya_pariman','>',0)->orWhere('dosro_traimasik_lakshya_budget','>',0);
+                    })
+                    //baarsik or Arda Baarsik
+                    ->when((!$baarsik && !$ardaBaarsik),function($myQuery) use ($initial){
+                        return $myQuery->where(function ($query) use ($initial) {
+                            return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->orWhere($initial . '_traimasik_lakshya_budget', '>', 0);
+                        });
                     })
                     ->with(['maasikPragati' => function ($query) use ($mahinaID) {
                         return $query->where('mahina_id', $mahinaID);
@@ -237,7 +265,6 @@ class MaasikPragatiTaalikaController extends Controller
                         return $query->where('mahina_id', '<=', $mahinaID);
                     }])
                     ->get();
-
                 //for total baarsiklakshya budget we shouldn't filter
                 $maasikPragatiUnfiltered = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
                     ->where('kaaryalaya_id', $karyalayaID)
@@ -246,13 +273,16 @@ class MaasikPragatiTaalikaController extends Controller
 
                 $maasikPragati = json_decode(json_encode($maasikPragati), true);
                 $maasikPragatiReports[] = [
+                    'baarsik' => $baarsik,
+                    'ardaBaarsik' => $ardaBaarsik,
                     'kaaryalaya' => Kaaryalaya::find($karyalayaID),
                     'aayojana' => Aayojana::find($aayojanaID)->name,
-                    'month' => Mahina::find($mahinaID)->name,
-                    'items' => $this->getSpecificData($maasikPragati, $mahinaID, $totalBaarsikLakshyaBudget)
+                    'month' => $baarsik ? 'वार्षिक प्रगति' : ( $ardaBaarsik ? 'अर्द वार्षिक प्रगति' : Mahina::find($mahinaID)->name.' महिनाको प्रगति' ),
+                    'items' => $this->getSpecificData($maasikPragati, $mahinaID, $totalBaarsikLakshyaBudget,$baarsik,$ardaBaarsik)
                 ];
 
             }
+
             return response(
                 [
                     'status' => 200,
