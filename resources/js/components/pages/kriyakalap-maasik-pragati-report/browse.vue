@@ -100,7 +100,7 @@ export default {
                 aayojana: 0,
                 mahina: 0
             },
-
+            mahina:[],
             maasikPragatiTaalika: [],
 
         };
@@ -108,7 +108,11 @@ export default {
     mounted() {
         this.filterData.kaaryalaya.push(this.user.kaaryalaya_id);
         this.filterData.user = this.user.id;
-        this.mahina.push('')
+    },
+    created() {
+        this.mahina = JSON.parse(JSON.stringify(this.stateMahina));
+        this.mahina.push({id:13,name:"वार्षिक"});
+        this.mahina.push({id:14,name:"अर्द वार्षिक"});
     },
     computed: {
         icon() {
@@ -123,7 +127,7 @@ export default {
             return this.filterData.kaaryalaya.length > 0 && !this.selectsAllKaryalaya
         },
         ...mapState({
-            mahina: (state) => state.webservice.resources.mahina,
+            stateMahina: (state) => state.webservice.resources.mahina,
             aarthikBarsa: (state) => state.webservice.resources.aarthik_barsa,
             kaaryalaya: (state) => state.webservice.resources.kaaryalaya,
             user: (state) => state.auth.user,

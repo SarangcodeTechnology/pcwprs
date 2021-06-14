@@ -99,6 +99,7 @@ export default {
                 aayojana: 0,
                 traimaasik: 0
             },
+            traimaasik:[]
         };
     },
     mounted() {
@@ -106,13 +107,13 @@ export default {
         this.filterData.user = this.user.id;
     },
     created(){
-        this.traimaasik.push({id:5,
-            initial:"chautho",
-            name:"वार्षिक"})
+        this.traimaasik = JSON.parse(JSON.stringify(this.stateTraimaasik));
+        this.traimaasik.push({id:5,initial:"chautho",name:"वार्षिक"});
+        this.traimaasik.push({id:6,initial:"dosro",name:"अर्द वार्षिक"});
     },
     computed: {
         ...mapState({
-            traimaasik: (state) => state.webservice.resources.traimaasik,
+            stateTraimaasik: (state) => state.webservice.resources.traimaasik,
             aarthikBarsa: (state) => state.webservice.resources.aarthik_barsa,
             kaaryalaya: (state) => state.webservice.resources.kaaryalaya,
             user: (state) => state.auth.user,

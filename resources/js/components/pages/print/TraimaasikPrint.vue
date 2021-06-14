@@ -106,7 +106,7 @@
                                             <td rowspan="2"><strong>खर्च शीर्षक</strong></td>
                                             <td rowspan="2"><strong>इकाई</strong></td>
                                             <td colspan="3"><strong>बार्षिक लक्ष्य</strong></td>
-                                            <td v-if="!traimaasikPragatiReports[0].baarsik" colspan="3">
+                                            <td v-if="!traimaasikPragatiReports[0].baarsik && !traimaasikPragatiReports[0].ardaBaarsik" colspan="3">
                                                 <strong
                                                 >{{ traimaasikPragatiReports[0].trimester }}को लक्ष</strong
                                                 >
@@ -116,7 +116,7 @@
                                                 >{{ traimaasikPragatiReports[0].trimester }}को प्रगति</strong
                                                 >
                                             </td>
-                                            <td v-if="!traimaasikPragatiReports[0].baarsik" colspan="3">
+                                            <td v-if="!traimaasikPragatiReports[0].baarsik && !traimaasikPragatiReports[0].ardaBaarsik" colspan="3">
                                                 <strong>प्रतिवेदन अवधिसम्मको यस आ.व.को प्रगति</strong>
                                             </td>
                                             <td colspan="2"><strong>भौतिक प्रगति</strong></td>
@@ -125,23 +125,23 @@
                                             <td><strong>परिमाण</strong></td>
                                             <td><strong>भार</strong></td>
                                             <td><strong>बजेट</strong></td>
-                                            <td v-if="!traimaasikPragatiReports[0].baarsik"><strong>परिमाण</strong></td>
-                                            <td v-if="!traimaasikPragatiReports[0].baarsik"><strong>भार</strong></td>
-                                            <td v-if="!traimaasikPragatiReports[0].baarsik"><strong>बजेट</strong></td>
+                                            <td v-if="!traimaasikPragatiReports[0].baarsik && !traimaasikPragatiReports[0].ardaBaarsik"><strong>परिमाण</strong></td>
+                                            <td v-if="!traimaasikPragatiReports[0].baarsik && !traimaasikPragatiReports[0].ardaBaarsik"><strong>भार</strong></td>
+                                            <td v-if="!traimaasikPragatiReports[0].baarsik && !traimaasikPragatiReports[0].ardaBaarsik"><strong>बजेट</strong></td>
                                             <td><strong>परिमाण</strong></td>
                                             <td><strong>भारित</strong></td>
                                             <td><strong>खर्च</strong></td>
-                                            <td v-if="!traimaasikPragatiReports[0].baarsik"><strong>परिमाण</strong></td>
-                                            <td v-if="!traimaasikPragatiReports[0].baarsik"><strong>भारित</strong></td>
-                                            <td v-if="!traimaasikPragatiReports[0].baarsik"><strong>खर्च</strong></td>
-                                            <td>
+                                            <td v-if="!traimaasikPragatiReports[0].baarsik && !traimaasikPragatiReports[0].ardaBaarsik"><strong>परिमाण</strong></td>
+                                            <td v-if="!traimaasikPragatiReports[0].baarsik && !traimaasikPragatiReports[0].ardaBaarsik"><strong>भारित</strong></td>
+                                            <td v-if="!traimaasikPragatiReports[0].baarsik && !traimaasikPragatiReports[0].ardaBaarsik"><strong>खर्च</strong></td>
+                                            <td v-if="!traimaasikPragatiReports[0].baarsik && !traimaasikPragatiReports[0].ardaBaarsik">
                                                 <strong>{{ traimaasikPragatiReports[0].trimester }}</strong>
                                             </td>
                                             <td><strong>हालसम्मको</strong></td>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <template v-if="!traimaasikPragatiReports[0].baarsik">
+                                        <template v-if="!traimaasikPragatiReports[0].baarsik && !traimaasikPragatiReports[0].ardaBaarsik">
                                             <template v-for="traimaasikPragatiReport in traimaasikPragatiReports">
                                                 <tr>
                                                     <td style="background: #b5ffa7;"></td>
@@ -760,7 +760,7 @@
                                             <template v-for="traimaasikPragatiReport in traimaasikPragatiReports">
                                                 <tr>
                                                     <td style="background: #b5ffa7;"></td>
-                                                    <td colspan="11" style="background: #b5ffa7;">
+                                                    <td colspan="10" style="background: #b5ffa7;">
                                                         {{ traimaasikPragatiReport.kaaryalaya.name }}
                                                     </td>
                                                 </tr>
@@ -769,14 +769,14 @@
                                                     <td>
                                                         <strong>{{ traimaasikPragatiReport.aayojana }}</strong>
                                                     </td>
-                                                    <td v-for="i in 10"></td>
+                                                    <td v-for="i in 9"></td>
                                                 </tr>
                                                 <tr>
                                                     <td></td>
                                                     <td>
                                                         <strong>अ) पूँजीगत खर्च अन्तर्गतका कार्यक्रमहरु</strong>
                                                     </td>
-                                                    <td v-for="i in 10"></td>
+                                                    <td v-for="i in 9"></td>
                                                 </tr>
 
                                                 <template
@@ -784,7 +784,7 @@
                                                 >
                                                     <tr>
                                                         <td style="background: #dddddd;">{{ componentItem.id }}</td>
-                                                        <td colspan="11" style="background: #dddddd;">
+                                                        <td colspan="10" style="background: #dddddd;">
                                                             {{ componentItem.name }}
                                                         </td>
                                                     </tr>
@@ -815,13 +815,6 @@
                                                                 item.traimaasik_pragati.kharcha
                                                                     ? item.traimaasik_pragati.kharcha
                                                                     : ""
-                                                            }}
-                                                        </td>
-                                                        <td>
-                                                            {{
-                                                                item.vautik_pragati[
-                                                                traimaasikPragatiReport.initial + "_traimasik"
-                                                                    ]
                                                             }}
                                                         </td>
                                                         <td>{{ item.vautik_pragati["total_till_now"] }}</td>
@@ -861,7 +854,6 @@
                                                                     ]
                                                             }}
                                                         </td>
-                                                        <td></td>
                                                         <td></td>
                                                     </tr>
                                                 </template>
@@ -900,19 +892,18 @@
                                                         }}
                                                     </td>
                                                     <td></td>
-                                                    <td></td>
                                                 </tr>
                                                 <tr>
                                                     <td></td>
                                                     <td><strong>आ) चालु खर्च अन्तर्गतका कार्यक्रमहरु</strong></td>
-                                                    <td v-for="i in 10"></td>
+                                                    <td v-for="i in 9"></td>
                                                 </tr>
                                                 <template
                                                     v-for="(componentItem) in traimaasikPragatiReport.items.chalu.components"
                                                 >
                                                     <tr>
                                                         <td style="background: #dddddd;">{{ componentItem.id }}</td>
-                                                        <td colspan="11" style="background: #dddddd;">
+                                                        <td colspan="10" style="background: #dddddd;">
                                                             {{ componentItem.name }}
                                                         </td>
                                                     </tr>
@@ -943,13 +934,6 @@
                                                                 item.traimaasik_pragati.kharcha
                                                                     ? item.traimaasik_pragati.kharcha
                                                                     : ""
-                                                            }}
-                                                        </td>
-                                                        <td>
-                                                            {{
-                                                                item.vautik_pragati[
-                                                                traimaasikPragatiReport.initial + "_traimasik"
-                                                                    ]
                                                             }}
                                                         </td>
                                                         <td>{{ item.vautik_pragati["total_till_now"] }}</td>
@@ -990,7 +974,6 @@
                                                             }}
                                                         </td>
                                                         <td></td>
-                                                        <td></td>
                                                     </tr>
                                                 </template>
                                                 <!-- chalu total -->
@@ -1028,7 +1011,6 @@
                                                         }}
                                                     </td>
                                                     <td></td>
-                                                    <td></td>
                                                 </tr>
                                                 <tr>
                                                     <td></td>
@@ -1062,7 +1044,6 @@
                                                         }}
                                                     </td>
                                                     <td></td>
-                                                    <td></td>
                                                 </tr>
 
                                                 <tr>
@@ -1085,7 +1066,6 @@
                                                         }}
                                                     </td>
                                                     <td>प्रतिशत</td>
-                                                    <td></td>
                                                     <td></td>
                                                     <td></td>
                                                 </tr>
@@ -1121,7 +1101,6 @@
                                                                 .total_percent
                                                         }}
                                                     </td>
-                                                    <td></td>
 
                                                 </tr>
                                             </template>
@@ -1225,7 +1204,7 @@
                         <td rowspan="2"><strong>खर्च शीर्षक</strong></td>
                         <td rowspan="2"><strong>इकाई</strong></td>
                         <td colspan="3"><strong>बार्षिक लक्ष्य</strong></td>
-                        <td v-if="!traimaasikPragatiReports[0].baarsik" colspan="3">
+                        <td v-if="!traimaasikPragatiReports[0].baarsik && !traimaasikPragatiReports[0].ardaBaarsik" colspan="3">
                             <strong
                             >{{ traimaasikPragatiReports[0].trimester }}को लक्ष</strong
                             >
@@ -1235,7 +1214,7 @@
                             >{{ traimaasikPragatiReports[0].trimester }}को प्रगति</strong
                             >
                         </td>
-                        <td v-if="!traimaasikPragatiReports[0].baarsik" colspan="3">
+                        <td v-if="!traimaasikPragatiReports[0].baarsik && !traimaasikPragatiReports[0].ardaBaarsik" colspan="3">
                             <strong>प्रतिवेदन अवधिसम्मको यस आ.व.को प्रगति</strong>
                         </td>
                         <td colspan="2"><strong>भौतिक प्रगति</strong></td>
@@ -1244,23 +1223,23 @@
                         <td><strong>परिमाण</strong></td>
                         <td><strong>भार</strong></td>
                         <td><strong>बजेट</strong></td>
-                        <td v-if="!traimaasikPragatiReports[0].baarsik"><strong>परिमाण</strong></td>
-                        <td v-if="!traimaasikPragatiReports[0].baarsik"><strong>भार</strong></td>
-                        <td v-if="!traimaasikPragatiReports[0].baarsik"><strong>बजेट</strong></td>
+                        <td v-if="!traimaasikPragatiReports[0].baarsik && !traimaasikPragatiReports[0].ardaBaarsik"><strong>परिमाण</strong></td>
+                        <td v-if="!traimaasikPragatiReports[0].baarsik && !traimaasikPragatiReports[0].ardaBaarsik"><strong>भार</strong></td>
+                        <td v-if="!traimaasikPragatiReports[0].baarsik && !traimaasikPragatiReports[0].ardaBaarsik"><strong>बजेट</strong></td>
                         <td><strong>परिमाण</strong></td>
                         <td><strong>भारित</strong></td>
                         <td><strong>खर्च</strong></td>
-                        <td v-if="!traimaasikPragatiReports[0].baarsik"><strong>परिमाण</strong></td>
-                        <td v-if="!traimaasikPragatiReports[0].baarsik"><strong>भारित</strong></td>
-                        <td v-if="!traimaasikPragatiReports[0].baarsik"><strong>खर्च</strong></td>
-                        <td>
+                        <td v-if="!traimaasikPragatiReports[0].baarsik && !traimaasikPragatiReports[0].ardaBaarsik"><strong>परिमाण</strong></td>
+                        <td v-if="!traimaasikPragatiReports[0].baarsik && !traimaasikPragatiReports[0].ardaBaarsik"><strong>भारित</strong></td>
+                        <td v-if="!traimaasikPragatiReports[0].baarsik && !traimaasikPragatiReports[0].ardaBaarsik"><strong>खर्च</strong></td>
+                        <td v-if="!traimaasikPragatiReports[0].baarsik && !traimaasikPragatiReports[0].ardaBaarsik">
                             <strong>{{ traimaasikPragatiReports[0].trimester }}</strong>
                         </td>
                         <td><strong>हालसम्मको</strong></td>
                     </tr>
                     </thead>
                     <tbody>
-                    <template v-if="!traimaasikPragatiReports[0].baarsik">
+                    <template v-if="!traimaasikPragatiReports[0].baarsik && !traimaasikPragatiReports[0].ardaBaarsik">
                         <template v-for="traimaasikPragatiReport in traimaasikPragatiReports">
                             <tr>
                                 <td style="background: #b5ffa7;"></td>
@@ -1879,7 +1858,7 @@
                         <template v-for="traimaasikPragatiReport in traimaasikPragatiReports">
                             <tr>
                                 <td style="background: #b5ffa7;"></td>
-                                <td colspan="11" style="background: #b5ffa7;">
+                                <td colspan="10" style="background: #b5ffa7;">
                                     {{ traimaasikPragatiReport.kaaryalaya.name }}
                                 </td>
                             </tr>
@@ -1888,14 +1867,14 @@
                                 <td>
                                     <strong>{{ traimaasikPragatiReport.aayojana }}</strong>
                                 </td>
-                                <td v-for="i in 10"></td>
+                                <td v-for="i in 9"></td>
                             </tr>
                             <tr>
                                 <td></td>
                                 <td>
                                     <strong>अ) पूँजीगत खर्च अन्तर्गतका कार्यक्रमहरु</strong>
                                 </td>
-                                <td v-for="i in 10"></td>
+                                <td v-for="i in 9"></td>
                             </tr>
 
                             <template
@@ -1903,7 +1882,7 @@
                             >
                                 <tr>
                                     <td style="background: #dddddd;">{{ componentItem.id }}</td>
-                                    <td colspan="11" style="background: #dddddd;">
+                                    <td colspan="10" style="background: #dddddd;">
                                         {{ componentItem.name }}
                                     </td>
                                 </tr>
@@ -1934,13 +1913,6 @@
                                             item.traimaasik_pragati.kharcha
                                                 ? item.traimaasik_pragati.kharcha
                                                 : ""
-                                        }}
-                                    </td>
-                                    <td>
-                                        {{
-                                            item.vautik_pragati[
-                                            traimaasikPragatiReport.initial + "_traimasik"
-                                                ]
                                         }}
                                     </td>
                                     <td>{{ item.vautik_pragati["total_till_now"] }}</td>
@@ -1980,7 +1952,6 @@
                                                 ]
                                         }}
                                     </td>
-                                    <td></td>
                                     <td></td>
                                 </tr>
                             </template>
@@ -2019,19 +1990,18 @@
                                     }}
                                 </td>
                                 <td></td>
-                                <td></td>
                             </tr>
                             <tr>
                                 <td></td>
                                 <td><strong>आ) चालु खर्च अन्तर्गतका कार्यक्रमहरु</strong></td>
-                                <td v-for="i in 10"></td>
+                                <td v-for="i in 9"></td>
                             </tr>
                             <template
                                 v-for="(componentItem) in traimaasikPragatiReport.items.chalu.components"
                             >
                                 <tr>
                                     <td style="background: #dddddd;">{{ componentItem.id }}</td>
-                                    <td colspan="11" style="background: #dddddd;">
+                                    <td colspan="10" style="background: #dddddd;">
                                         {{ componentItem.name }}
                                     </td>
                                 </tr>
@@ -2062,13 +2032,6 @@
                                             item.traimaasik_pragati.kharcha
                                                 ? item.traimaasik_pragati.kharcha
                                                 : ""
-                                        }}
-                                    </td>
-                                    <td>
-                                        {{
-                                            item.vautik_pragati[
-                                            traimaasikPragatiReport.initial + "_traimasik"
-                                                ]
                                         }}
                                     </td>
                                     <td>{{ item.vautik_pragati["total_till_now"] }}</td>
@@ -2109,7 +2072,6 @@
                                         }}
                                     </td>
                                     <td></td>
-                                    <td></td>
                                 </tr>
                             </template>
                             <!-- chalu total -->
@@ -2147,7 +2109,6 @@
                                     }}
                                 </td>
                                 <td></td>
-                                <td></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -2181,7 +2142,6 @@
                                     }}
                                 </td>
                                 <td></td>
-                                <td></td>
                             </tr>
 
                             <tr>
@@ -2204,7 +2164,6 @@
                                     }}
                                 </td>
                                 <td>प्रतिशत</td>
-                                <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -2240,7 +2199,6 @@
                                             .total_percent
                                     }}
                                 </td>
-                                <td></td>
 
                             </tr>
                         </template>

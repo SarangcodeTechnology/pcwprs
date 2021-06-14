@@ -111,7 +111,7 @@ class KriyakalapLakshyaController extends Controller
             "kharcha_sirsak",
             "kharcha_prakar",
             "component",
-//            "component_id",
+            "component_id",
             "milestone",
             "ikai",
             "aayojana_kul_kriyakalap_pariman",
