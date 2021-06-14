@@ -4,6 +4,11 @@
             <v-navigation-drawer app right v-model="dialog" class="nonPrintableArea">
                 <v-container>
                     <h4><strong>प्रिन्ट विवरण लेख्नुहोस्</strong></h4>
+                    <v-text-field
+                        label="मिति"
+                        outlined
+                        v-model="miti"
+                    ></v-text-field>
                     <h5>१.तयार गर्ने</h5>
                     <v-text-field
                         label="नाम"
@@ -14,11 +19,6 @@
                         label="पद"
                         outlined
                         v-model="tayarGarnePad"
-                    ></v-text-field>
-                    <v-text-field
-                        label="मिति"
-                        outlined
-                        v-model="miti"
                     ></v-text-field>
 
 
@@ -33,11 +33,6 @@
                         outlined
                         v-model="apraPad"
                     ></v-text-field>
-                    <v-text-field
-                        label="मिति"
-                        outlined
-                        v-model="miti"
-                    ></v-text-field>
 
                     <h5>३.चेक गर्ने</h5>
                      <v-text-field
@@ -50,11 +45,6 @@
                         outlined
                         v-model="checkPad"
                     ></v-text-field>
-                    <v-text-field
-                        label="मिति"
-                        outlined
-                        v-model="miti"
-                    ></v-text-field>
 
                     <h5>४.प्रमाणित गर्ने</h5>
                     <v-text-field
@@ -66,11 +56,6 @@
                         label="पद"
                         outlined
                         v-model="pramaditPad"
-                    ></v-text-field>
-                    <v-text-field
-                        label="मिति"
-                        outlined
-                        v-model="miti"
                     ></v-text-field>
                     <v-text-field>
                         label=""
@@ -1179,27 +1164,27 @@
                             >
                                 <div>
                                     <p><strong>तयार गर्ने</strong></p>
-                                    <p>नाम:{{tayarGarneNaam}} </p>
-                                    <p>पद:{{tayarGarnePad}}</p>
-                                    <p>मिति:{{miti}}</p>
+                                    <p>नाम: {{tayarGarneNaam}} </p>
+                                    <p>पद: {{tayarGarnePad}}</p>
+                                    <p>मिति: {{miti}}</p>
                                 </div>
                                 <div>
                                     <p><strong>आ.प्र.शाखा</strong></p>
-                                    <p>नाम:{{apraNaam}} </p>
-                                    <p>पद:{{apraPad}}</p>
-                                    <p>मिति:{{miti}}</p>
+                                    <p>नाम: {{apraNaam}} </p>
+                                    <p>पद: {{apraPad}}</p>
+                                    <p>मिति: {{miti}}</p>
                                 </div>
                                 <div>
                                     <p><strong>चेक गर्ने</strong></p>
-                                    <p>नाम:{{checkNaam}} </p>
-                                    <p>पद:{{checkPad}}</p>
-                                    <p>मिति:{{miti}}</p>
+                                    <p>नाम: {{checkNaam}} </p>
+                                    <p>पद: {{checkPad}}</p>
+                                    <p>मिति: {{miti}}</p>
                                 </div>
                                 <div>
                                     <p><strong>प्रमाणित गर्ने</strong></p>
-                                    <p>नाम:{{pramaditNaam}} </p>
-                                    <p>पद:{{pramaditPad}}</p>
-                                    <p>मिति:{{miti}}</p>
+                                    <p>नाम: {{pramaditNaam}} </p>
+                                    <p>पद: {{pramaditPad}}</p>
+                                    <p>मिति: {{miti}}</p>
                                 </div>
                             </div>
                         </div>
