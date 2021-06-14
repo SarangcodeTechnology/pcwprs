@@ -47,6 +47,7 @@ const TraimaasikPrintFilterable = () => import("./components/pages/print/Traimaa
 
 const NotAuthenticated = () => import("./components/pages/NotAuthenticated");
 const EditRequests = () => import("./components/pages/requests/browse");
+const Locks = () => import("./components/pages/locks/browse");
 const opts = {
     mode: "history",
     routes: [
@@ -160,6 +161,25 @@ const opts = {
                         breadcrumb: {
                             text: "इडिट निवेदनहरु",
                             link: "/Edit Requests"
+                        }
+                    },
+                },
+                //locks
+                {
+                    path: "/locks",
+                    component: Locks,
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('kaaryalaya-browse')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
+                    name: 'Locks',
+                    meta: {
+                        breadcrumb: {
+                            text: "लकहरू",
+                            link: "/locks"
                         }
                     },
                 },

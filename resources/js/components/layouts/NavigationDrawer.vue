@@ -92,11 +92,10 @@ export default {
                     title: "संसाधनहरु", icon: "mdi-folder", subItems: [
                         {title: 'आर्थिक वर्ष', icon: 'mdi-calendar', route: '/aarthik-barsa',can:"aarthik_barsa-browse"},
                         {title: 'आयोजना', icon: 'mdi-folder', route: '/aayojana',can:"aayojana-browse"},
+                        {title: 'लकहरु', icon: 'mdi-folder', route: '/locks',can:"lock-browse"},
                         {title: 'कार्यलय', icon: 'mdi-folder', route: '/kaaryalaya', can: "kaaryalaya-browse"},
                     ]
                 },
-
-
             ],
         }
     },

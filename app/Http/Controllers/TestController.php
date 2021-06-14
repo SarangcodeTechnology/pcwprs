@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Aayojana;
 use App\Models\CfData;
 use App\Models\District;
+use App\Models\Kaaryalaya;
 use App\Models\KriyakalapLakshya;
 use App\Models\KriyakalapMaasikPragati;
 use App\Models\LocalLevel;
@@ -59,10 +60,10 @@ class TestController extends Controller
     public function trial(Request $request)
     {
         //basic tasks
-
+            // return Kaaryalaya::with('locked')->get();
             $components =  KriyakalapLakshya::all()->pluck('component')->unique()->values();
             foreach(KriyakalapLakshya::all() as $item){
-                $id = 3900;
+                $id = 4501;
                 foreach($components as $component){
                     if($item->component == $component){
                         $item->component_id = $id;

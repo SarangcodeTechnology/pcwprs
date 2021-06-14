@@ -37,6 +37,8 @@ class DataController extends Controller
             $mahina = Mahina::orderBy('traimaasik_id')->get();
             $kaaryalaya = Kaaryalaya::all();
             $userPermissions = $this->permissions();
+            $user  = Auth::user();
+            $locked  = $user->kaaryalaya->locked;
             $formattedPermissions = $this->formattedPermissions();
             $dashboard_items = [
                 1 => [
@@ -74,7 +76,7 @@ class DataController extends Controller
                 'status' => 200,
                 'type' => 'success',
                 'message' => 'Resources loaded successfully',
-                'data' => compact('formattedPermissions','dashboard_items','userPermissions','kaaryalaya','roles','permissions','aarthik_barsa','aayojana','mahina','traimaasik')
+                'data' => compact('locked','formattedPermissions','dashboard_items','userPermissions','kaaryalaya','roles','permissions','aarthik_barsa','aayojana','mahina','traimaasik')
             ]);
         } catch (Exception $e) {
             return response([

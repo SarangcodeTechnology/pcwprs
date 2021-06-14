@@ -13,5 +13,8 @@ class Kaaryalaya extends Model
     public function getDateAttribute(){
         return date("Y/m/d", strtotime($this->created_at));
     }
+    public function locked(){
+        return $this->hasOne(Lock::class,'kaaryalaya_id');
+    }
     protected $appends = ['date'];
 }

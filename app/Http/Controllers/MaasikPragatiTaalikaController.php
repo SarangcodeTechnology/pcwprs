@@ -113,7 +113,7 @@ class MaasikPragatiTaalikaController extends Controller
             $item['baarsik_lakshya_vaar'] = round($this->calculateVaar($item['baarsik_lakshya_budget'] ,$totalBaarsikLakshyaBudget),3);
             // if maasik_pragati is not null then calculate vaar else set all to 0
             if ($item['maasik_pragati']) {
-                $item['maasik_pragati']['vaarit'] = $item['baarsik_lakshya_pariman'] ? 0 : round(($item['baarsik_lakshya_vaar']/$item['baarsik_lakshya_pariman'])*$item['maasik_pragati']['pariman'],3);
+                $item['maasik_pragati']['vaarit'] = $item['baarsik_lakshya_pariman']==0 ? 0 : round(($item['baarsik_lakshya_vaar']/$item['baarsik_lakshya_pariman'])*$item['maasik_pragati']['pariman'],3);
             } else {
                 $item['maasik_pragati']['pariman'] = 0;
                 $item['maasik_pragati']['kharcha'] = 0;
@@ -241,6 +241,8 @@ class MaasikPragatiTaalikaController extends Controller
             $initial = $mahina->traimaasik->initial;
             $traimaasik = $mahina->traimaasik->name;
             $karyalayaIDs = $filterData->kaaryalaya;
+            //initializing
+            $maasikPragatiReports = [];
             foreach($karyalayaIDs as $karyalayaID) {
                 // if that kaaryalaya has no lakshya then don't go through this loop
                 if(!KriyakalapLakshya::where('aayojana_id', $aayojanaID)

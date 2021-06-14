@@ -16,6 +16,7 @@ class CreateLocksTable extends Migration
         Schema::create('locks', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->unsignedBigInteger('kaaryalaya_id');
         });
     }
 

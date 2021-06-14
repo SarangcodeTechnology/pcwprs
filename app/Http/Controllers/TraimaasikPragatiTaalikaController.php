@@ -255,6 +255,8 @@ class TraimaasikPragatiTaalikaController extends Controller
             $traimaasik = Traimaasik::find($traimaasikID);
             $initial = $traimaasik->initial;
             $karyalayaIDs = $filterData->kaaryalaya;
+
+            $traimaasikPragatiReports = [];
             foreach($karyalayaIDs as $karyalayaID){
                 // if that kaaryalaya has no lakshya then don't go through this loop
                 if(!KriyakalapLakshya::where('aayojana_id', $aayojanaID)

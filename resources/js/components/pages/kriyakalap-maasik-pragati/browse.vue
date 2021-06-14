@@ -58,20 +58,29 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col v-if="filterData.mahina && editable">
+            <v-col v-if="filterData.mahina && editable && !locked">
                 <v-btn color="primary" @click="saveMaasikPragatiTaalika(false)">Save</v-btn>
                 <v-btn color="primary" @click="saveMaasikPragatiTaalika(true)"><span v-if="submitted">Re-</span>Submit</v-btn>
             </v-col>
-            <v-col v-if="filterData.mahina && !requested && !editable">
+            <v-col v-if="filterData.mahina && !requested && !editable  && submitted && !locked">
                 <v-btn color="primary" @click="editRequest">सम्पादन अनुरोध</v-btn>
             </v-col>
             <v-col>
                 <v-alert
                     dense
                     type="info"
-                    v-if="filterData.mahina && submitted && requested"
+                    v-if="filterData.mahina && submitted && requested && !locked"
                 >
                     तपाईले आफ्नो <strong>सम्पादन अनुरोध</strong> पठाउनु भईसकेको छ।कृपया धैर्य गर्नुहोस्! हामी यसमा काम गर्दैछौं।
+                </v-alert>
+                <v-alert
+                    dense
+                    type="info"
+                    color="orange dark-1"
+                    dark
+                    v-if="locked"
+                >
+                    तपाईको लक भएको छ
                 </v-alert>
             </v-col>
 
@@ -89,11 +98,11 @@
                     loading-text="Loading Data... Please wait"
                 >
                     <template v-slot:item.maasik_pragati.pariman="{ item }">
-                        <v-text-field :disabled="submitted && !editable" type="number" v-model="item.maasik_pragati.pariman" @input="addEditedMaasikPragatiTaalikaID(item.id)" class="my-text-field">
+                        <v-text-field :disabled="!editable || locked" type="number" v-model="item.maasik_pragati.pariman" @input="addEditedMaasikPragatiTaalikaID(item.id)" class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-slot:item.maasik_pragati.kharcha="{ item }">
-                        <v-text-field :disabled="submitted && !editable" type="number" v-model="item.maasik_pragati.kharcha" @input="addEditedMaasikPragatiTaalikaID(item.id)" class="my-text-field">
+                        <v-text-field :disabled="!editable || locked" type="number" v-model="item.maasik_pragati.kharcha" @input="addEditedMaasikPragatiTaalikaID(item.id)" class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-slot:item.milestone="{item}">
@@ -145,6 +154,7 @@ export default {
             aarthikBarsa: (state) => state.webservice.resources.aarthik_barsa,
             kaaryalaya: (state) =>state.webservice.resources.kaaryalaya,
             user: (state) => state.auth.user,
+            locked: (state) => state.webservice.resources.locked,
         }),
         aayojana: function () {
             const tempthis = this;
@@ -209,9 +219,14 @@ export default {
                 })
                 .then(function (response) {
                     tempthis.headers = response.headers;
-                    tempthis.submitted = response.submitted;
-                    tempthis.requested = response.requested;
-                    tempthis.editable = response.editable;
+                    if(!tempthis.locked){
+                        tempthis.submitted = response.submitted;
+                        tempthis.requested = response.requested;
+                        tempthis.editable = response.editable;
+                    }else{
+                        tempthis.editable = false;
+                    }
+
                     let tempMaasikPragatiTaalika = [];
                     response.maasikPragatiTaalika.forEach(function (item){
                         if(item.maasik_pragati==null){

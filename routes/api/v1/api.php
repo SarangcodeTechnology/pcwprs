@@ -7,6 +7,7 @@ use App\Http\Controllers\api\v1\DeleteController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KaaryalayaController;
 use App\Http\Controllers\KriyakalapLakshyaController;
+use App\Http\Controllers\LockController;
 use App\Http\Controllers\MaasikPragatiTaalikaController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RequestController;
@@ -80,3 +81,7 @@ Route::middleware('auth:api')->post('approve-request',[RequestController::class,
 
 //Delete Data from single controller
 Route::middleware('auth:api')->post('delete-data',[DeleteController::class,'delete']);
+
+
+Route::middleware('auth:api')->get('locks',[LockController::class,'index']);
+Route::middleware('auth:api')->post('change-lock',[LockController::class,'changeLock']);
