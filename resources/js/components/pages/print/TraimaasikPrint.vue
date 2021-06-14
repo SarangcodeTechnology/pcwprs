@@ -21,6 +21,9 @@
                         outlined
                         v-model="pramaditNaam"
                     ></v-text-field>
+                    <v-text-field>
+                        label=""
+                    </v-text-field>
                     <v-btn depressed color="primary" @click="print()"
                     >
                         <v-icon>mdi-printer</v-icon>
