@@ -967,18 +967,27 @@
                             >
                                 <div>
                                     <p><strong>तयार गर्ने</strong></p>
-                                    <p>नाम: {{ tayarGarneNaam }}</p>
-                                    <p>स.व.अ.</p>
+                                    <p>नाम: </p>
+                                    <p>पद:</p>
+                                    <p>मिति:</p>
                                 </div>
                                 <div>
                                     <p><strong>आ.प्र.शाखा</strong></p>
-                                    <p>नाम: {{ apraNaam }}</p>
-                                    <p>ले.अ.</p>
+                                    <p>नाम: </p>
+                                    <p>पद:</p>
+                                    <p>मिति:</p>
+                                </div>
+                                <div>
+                                    <p><strong>चेक गर्ने</strong></p>
+                                    <p>नाम: </p>
+                                    <p>पद:</p>
+                                    <p>मिति:</p>
                                 </div>
                                 <div>
                                     <p><strong>प्रमाणित गर्ने</strong></p>
-                                    <p>नाम: {{ pramaditNaam }}</p>
-                                    <p>सदस्य-सचिव</p>
+                                    <p>नाम: </p>
+                                    <p>पद:</p>
+                                    <p>मिति:</p>
                                 </div>
                             </div>
                         </div>
@@ -1914,17 +1923,26 @@
                 <div>
                     <p><strong>तयार गर्ने</strong></p>
                     <p>नाम: </p>
-                    <p>स.व.अ.</p>
+                    <p>पद:</p>
+                    <p>मिति:</p>
                 </div>
                 <div>
                     <p><strong>आ.प्र.शाखा</strong></p>
                     <p>नाम: </p>
-                    <p>ले.अ.</p>
+                    <p>पद:</p>
+                    <p>मिति:</p>
+                </div>
+                <div>
+                    <p><strong>चेक गर्ने</strong></p>
+                    <p>नाम: </p>
+                    <p>पद:</p>
+                    <p>मिति:</p>
                 </div>
                 <div>
                     <p><strong>प्रमाणित गर्ने</strong></p>
                     <p>नाम: </p>
-                    <p>सदस्य-सचिव</p>
+                    <p>पद:</p>
+                    <p>मिति:</p>
                 </div>
             </div>
         </div>
