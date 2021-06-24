@@ -147,7 +147,8 @@
                                     >
                                 </abbr>
                             </v-col>
-
+                            <v-col class="align-self-end"><v-btn href="/downloads/lakshya-template.csv">ढाचा डाउनलोड गर्नुहोस्</v-btn>
+                            </v-col>
                         </v-row>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.actions="{ item }">
@@ -181,87 +182,87 @@
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.name="{ item }">
-                        <v-text-field v-model="item.name" class="my-text-field">
+                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.name" class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.kharcha_sirsak="{ item }">
-                        <v-text-field v-model="item.kharcha_sirsak" class="my-text-field">
+                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.kharcha_sirsak" class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.ikai="{ item }">
-                        <v-text-field v-model="item.ikai" class="my-text-field">
+                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.ikai" class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.aayojana_kul_kriyakalap_pariman="{ item }">
-                        <v-text-field v-model="item.aayojana_kul_kriyakalap_pariman" type="number"
+                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.aayojana_kul_kriyakalap_pariman" type="number"
                                       class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.aayojana_kul_kriyakalap_laagat="{ item }">
-                        <v-text-field v-model="item.aayojana_kul_kriyakalap_laagat" type="number"
+                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.aayojana_kul_kriyakalap_laagat" type="number"
                                       class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.gata_aarthik_barsa_sammako_pariman="{ item }">
-                        <v-text-field v-model="item.gata_aarthik_barsa_sammako_pariman" type="number"
+                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.gata_aarthik_barsa_sammako_pariman" type="number"
                                       class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.gata_aarthik_barsa_sammako_laagat="{ item }">
-                        <v-text-field v-model="item.gata_aarthik_barsa_sammako_laagat" type="number"
+                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.gata_aarthik_barsa_sammako_laagat" type="number"
                                       class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.baarsik_lakshya_pariman="{ item }">
-                        <v-text-field v-model="item.baarsik_lakshya_pariman" type="number" class="my-text-field">
+                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.baarsik_lakshya_pariman" type="number" class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.baarsik_lakshya_budget="{ item }">
-                        <v-text-field v-model="item.baarsik_lakshya_budget" type="number" class="my-text-field">
+                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.baarsik_lakshya_budget" type="number" class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.pahilo_traimasik_lakshya_pariman="{ item }">
-                        <v-text-field v-model="item.pahilo_traimasik_lakshya_pariman" type="number"
+                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.pahilo_traimasik_lakshya_pariman" type="number"
                                       class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.pahilo_traimasik_lakshya_budget="{ item }">
-                        <v-text-field v-model="item.pahilo_traimasik_lakshya_budget" type="number"
+                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.pahilo_traimasik_lakshya_budget" type="number"
                                       class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.dosro_traimasik_lakshya_pariman="{ item }">
-                        <v-text-field v-model="item.dosro_traimasik_lakshya_pariman" type="number"
+                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.dosro_traimasik_lakshya_pariman" type="number"
                                       class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.dosro_traimasik_lakshya_budget="{ item }">
-                        <v-text-field v-model="item.dosro_traimasik_lakshya_budget" type="number"
+                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.dosro_traimasik_lakshya_budget" type="number"
                                       class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.tesro_traimasik_lakshya_pariman="{ item }">
-                        <v-text-field v-model="item.tesro_traimasik_lakshya_pariman" type="number"
+                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.tesro_traimasik_lakshya_pariman" type="number"
                                       class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.tesro_traimasik_lakshya_budget="{ item }">
-                        <v-text-field v-model="item.tesro_traimasik_lakshya_budget" type="number"
+                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.tesro_traimasik_lakshya_budget" type="number"
                                       class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.chautho_traimasik_lakshya_pariman="{ item }">
-                        <v-text-field v-model="item.chautho_traimasik_lakshya_pariman" type="number"
+                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.chautho_traimasik_lakshya_pariman" type="number"
                                       class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.chautho_traimasik_lakshya_budget="{ item }">
-                        <v-text-field v-model="item.chautho_traimasik_lakshya_budget" type="number"
+                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.chautho_traimasik_lakshya_budget" type="number"
                                       class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.kaifiyat="{ item }">
-                        <v-text-field v-model="item.kaifiyat" class="my-text-field">
+                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.kaifiyat" class="my-text-field">
                         </v-text-field>
                     </template>
                     <template v-slot:item.milestone="{item}">
@@ -391,6 +392,9 @@ export default {
                 kaaryalaya: 0,
                 user: 0,
             },
+            editedKriyakalapLakshyaID:[
+
+            ],
             editAllData: false,
             editDataButtonLoading: false,
             csvData: null,
@@ -426,6 +430,11 @@ export default {
 
     },
     methods: {
+        addEditedKriyakalapLakshyaId(id){
+            if(!this.editedKriyakalapLakshyaID.includes(id)){
+                this.editedKriyakalapLakshyaID.push(id)
+            }
+        },
         beforeUploadCsvData() {
             if (!this.csvData) {
                 alert('upload first');
@@ -493,10 +502,13 @@ export default {
                 });
         },
         saveKriyakalapLakshya() {
-            var tempthis = this;
+            let tempthis = this;
+            var items = this.kriyakalapLakshya.filter(function(item){
+                return tempthis.editedKriyakalapLakshyaID.includes(item.id);
+            });
             this.$store
                 .dispatch("saveKriyakalapLakshya", {
-                    items: this.kriyakalapLakshya,
+                    items: items,
                     deletedItems: this.deleteItems,
                 })
                 .then(function (response) {

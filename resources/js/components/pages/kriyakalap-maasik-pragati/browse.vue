@@ -17,7 +17,7 @@
                     item-text="name"
                     item-value="id"
                     placeholder="कार्यलय"
-                    @input="getDataFromApi"
+                    @input="filterData.mahina ? getDataFromApi() : '' "
                     class="mr-2"
                     :disabled="!$store.getters.CHECK_PERMISSION('maasik_pragati_form-select_kaaryalaya')"
                 >
@@ -58,18 +58,25 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col v-if="filterData.mahina && editable && !locked">
-                <v-btn color="primary" @click="saveMaasikPragatiTaalika(false)">Save</v-btn>
-                <v-btn color="primary" @click="saveMaasikPragatiTaalika(true)"><span v-if="submitted">Re-</span>Submit</v-btn>
+            <v-col v-if="showSaveButton || showSubmitButton">
+                <v-btn v-if="showSaveButton && !locked" color="primary" @click="saveMaasikPragatiTaalika(false)">Save</v-btn>
+                <v-btn v-if="showSubmitButton && !locked"  color="primary" @click="saveMaasikPragatiTaalika(true)"><span v-if="submitted">Re-</span>Submit</v-btn>
             </v-col>
-            <v-col v-if="filterData.mahina && !requested && !editable  && submitted && !locked">
+            <v-col v-if="showEditRequestButton && !locked">
                 <v-btn color="primary" @click="editRequest">सम्पादन अनुरोध</v-btn>
             </v-col>
             <v-col>
                 <v-alert
                     dense
                     type="info"
-                    v-if="filterData.mahina && submitted && requested && !locked"
+                    v-if="showDataNotSubmittedYet"
+                >
+                    फारम बुझाइएको छैन
+                </v-alert>
+                <v-alert
+                    dense
+                    type="info"
+                    v-if="showRequestedAlert && !locked"
                 >
                     तपाईले आफ्नो <strong>सम्पादन अनुरोध</strong> पठाउनु भईसकेको छ।कृपया धैर्य गर्नुहोस्! हामी यसमा काम गर्दैछौं।
                 </v-alert>
@@ -83,7 +90,7 @@
             </v-col>
 
         </v-row>
-        <v-row>
+        <v-row v-if="!showDataNotSubmittedYet">
             <v-col>
                 <v-data-table
                     :headers="headers"
@@ -139,7 +146,14 @@ export default {
             ],
             submitted:false,
             requested:false,
-            editable: true
+            editable: true,
+            showSaveButton:false,
+            showSubmitButton:false,
+            showSampadhanAnurodh:false,
+            showEditRequestButton:false,
+            showRequestedAlert:false,
+            showDataNotSubmittedYet:false,
+            showFillingData:false
         };
     },
     mounted() {
@@ -170,6 +184,80 @@ export default {
 
     },
     methods: {
+        isAdmin(){
+           return this.$store.getters.CHECK_PERMISSION('maasik_pragati_form-select_kaaryalaya');
+        },
+        checkStatus(){
+            var tempthis = this;
+            //if admin
+            if(this.$store.getters.CHECK_PERMISSION('maasik_pragati_form-select_kaaryalaya')){
+                if(tempthis.submitted){
+                    tempthis.showEditRequestButton = false;
+                    tempthis.showRequestedAlert = false;
+                    tempthis.showDataNotSubmittedYet = false;
+                    tempthis.showSampadhanAnurodh = false;
+                    tempthis.showRequestedAlert = false;
+                    tempthis.showSaveButton =true;
+                    tempthis.editable =true;
+                }
+                else{
+                    if(tempthis.filterData.kaaryalaya == tempthis.user.kaaryalaya_id){
+                        tempthis.showEditRequestButton = false;
+                        tempthis.showRequestedAlert = false;
+                        tempthis.showDataNotSubmittedYet = false;
+                        tempthis.showSampadhanAnurodh = false;
+                        tempthis.showRequestedAlert = false;
+                        tempthis.showSaveButton =true;
+                        tempthis.editable =true;
+                    }
+                    else{
+                        tempthis.showEditRequestButton = false;
+                        tempthis.showRequestedAlert = false;
+                        tempthis.showSampadhanAnurodh = false;
+                        tempthis.showRequestedAlert = false;
+                        tempthis.showSaveButton =false;
+                        tempthis.editable = false;
+                        tempthis.showDataNotSubmittedYet = true;
+
+                    }
+                }
+            }
+            //if not admin
+            else{
+                if(tempthis.submitted){
+                    if(tempthis.editable){
+                        tempthis.showEditRequestButton = false;
+                        tempthis.showRequestedAlert = false;
+                        tempthis.showDataNotSubmittedYet = false;
+                        tempthis.showSaveButton =true;
+                        tempthis.showSubmitButton = true;
+                    }
+                    else{
+                        if(tempthis.requested){
+                            tempthis.showEditRequestButton = false;
+                            tempthis.showRequestedAlert = true;
+                            tempthis.showDataNotSubmittedYet = false;
+                            tempthis.showSaveButton =false;
+                            tempthis.showSubmitButton = false;
+                        }
+                        else{
+                            tempthis.showEditRequestButton = true;
+                            tempthis.showRequestedAlert = false;
+                            tempthis.showDataNotSubmittedYet = false;
+                            tempthis.showSaveButton =false;
+                            tempthis.showSubmitButton = false;
+                        }
+                    }
+                }
+                else{
+                    tempthis.showEditRequestButton = false;
+                    tempthis.showRequestedAlert = false;
+                    tempthis.showDataNotSubmittedYet = false;
+                    tempthis.showSaveButton =true;
+                    tempthis.showSubmitButton = true;
+                }
+            }
+        },
         addEditedMaasikPragatiTaalikaID(id){
             if(!this.editedMaasikPragatiTaalikaID.includes(id)){
                 this.editedMaasikPragatiTaalikaID.push(id)
@@ -180,6 +268,7 @@ export default {
             this.$store.dispatch("editRequest",{filterData:this.filterData}).then(
                 function (response){
                     tempthis.requested = response.requested;
+                    tempthis.checkStatus();
                 }
             );
 
@@ -194,6 +283,7 @@ export default {
                 .dispatch("saveMaasikPragatiTaalika", {items:items,submitted:submitted,filterData:this.filterData })
                 .then(function (response) {
                     tempthis.getDataFromApi();
+                    tempthis.checkStatus();
                 });
         },
         changeInAayojana(){
@@ -224,6 +314,7 @@ export default {
                     }else{
                         tempthis.editable = false;
                     }
+                    tempthis.checkStatus();
 
                     let tempMaasikPragatiTaalika = [];
                     response.maasikPragatiTaalika.forEach(function (item){

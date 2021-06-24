@@ -40,7 +40,6 @@ class KriyakalapLakshyaController extends Controller
     public function saveKriyakalaplakshya(Request $request){
         try {
             KriyakalapLakshya::whereIn('id', $request->data['deletedItems'])->delete();
-
             foreach ($request->data['items'] as $item) {
                 if (isset($item['id'])) {
                     $myData = $item;
@@ -71,7 +70,7 @@ class KriyakalapLakshyaController extends Controller
     public function uploadKriyakalapLakshya(Request $request)
     {
         try {
-//            KriyakalapLakshya::whereIn('id', $request->data['deletedItems'])->delete();
+//          KriyakalapLakshya::whereIn('id', $request->data['deletedItems'])->delete();
             if($request->replace){
                 KriyakalapLakshya::where('aayojana_id',$request->aayojana)->where('kaaryalaya_id',$request->kaaryalaya)->delete();
             }
@@ -111,7 +110,7 @@ class KriyakalapLakshyaController extends Controller
             "kharcha_sirsak",
             "kharcha_prakar",
             "component",
-//            "component_id",
+            "component_id",
             "milestone",
             "ikai",
             "aayojana_kul_kriyakalap_pariman",
@@ -130,6 +129,23 @@ class KriyakalapLakshyaController extends Controller
             "chautho_traimasik_lakshya_budget",
             "kaifiyat"
         ];
+        $changeToEnglishArray = [
+            "milestone",
+            "aayojana_kul_kriyakalap_pariman",
+            "aayojana_kul_kriyakalap_laagat",
+            "gata_aarthik_barsa_sammako_pariman",
+            "gata_aarthik_barsa_sammako_laagat",
+            "baarsik_lakshya_pariman",
+            "baarsik_lakshya_budget",
+            "pahilo_traimasik_lakshya_pariman",
+            "pahilo_traimasik_lakshya_budget",
+            "dosro_traimasik_lakshya_pariman",
+            "dosro_traimasik_lakshya_budget",
+            "tesro_traimasik_lakshya_pariman",
+            "tesro_traimasik_lakshya_budget",
+            "chautho_traimasik_lakshya_pariman",
+            "chautho_traimasik_lakshya_budget"
+            ];
         $csv = file_get_contents($file);
         $array = array_map("str_getcsv", explode("\n", $csv));
         $key = $array[0];
@@ -142,6 +158,30 @@ class KriyakalapLakshyaController extends Controller
             $combinedArray = array_combine($key, $item);
             $data[] = $combinedArray;
         }
+        $data = collect($data)->map(function ($item) use ($changeToEnglishArray){
+            foreach ($changeToEnglishArray as $key){
+                    if(!$item[$key]) {
+                        $item[$key] = NULL;
+                    }
+                    else {
+                        $item[$key] = $this->nepaliToEnglish($item[$key]);
+                    }
+
+            }
+           return $item;
+        });
         return $data;
+    }
+    private function nepaliToEnglish($j){
+        $find = array("१","२","३","४","५","६","७","८","९","०");
+        $replace = array("1","2","3","4","5","6","7","8","9","0");
+
+        // number lai array ma lageko
+        $numarr = mb_str_split($j,1);
+        // numarr ko value lai nepali ma replace garna ko lagi, yesle array fyalxa
+        $num = str_replace($find,$replace,$numarr);
+
+        // yesle array linxa ani string return garxa
+        return implode($num);
     }
 }
