@@ -23,10 +23,10 @@
                             <v-img height="100%" src="/images/nepal_emblem.png"></v-img>
                         </v-list-item-avatar>
                         <v-list-item-content>
-                            <v-list-item-title class="pa-0 ma-0"><h5>व्यवस्थापन सूचना प्रणाली</h5>
+                            <v-list-item-title class="pa-0 ma-0"><h5>{{ kaaryalaya.name }}</h5>
                             </v-list-item-title>
                             <v-list-item-subtitle v-if="guest"><h6>{{ getUser.email }}</h6></v-list-item-subtitle>
-                            <v-list-item-subtitle v-if="!guest"><h6>साईन ईन गर्नुहाेस्</h6></v-list-item-subtitle>
+                            <v-list-item-subtitle v-if="!guest"><h6>{{ user.email }}</h6></v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
                     <v-divider class="pa-0 ma-0"></v-divider>
@@ -51,11 +51,16 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
+
 export default {
     data() {
         return {
             menu: false,
         }
+    },
+    mounted() {
+        console.log(this.user)
     },
     methods: {
         loadResources() {
@@ -89,6 +94,14 @@ export default {
         },
     },
     computed: {
+        ...mapState({
+            user: (state) => state.auth.user,
+            kaaryalayas: (state) => state.webservice.resources.kaaryalaya
+        }),
+        kaaryalaya(){
+            var tempthis = this;
+            return this.kaaryalayas.find(item => item.id == tempthis.user.kaaryalaya_id);
+        },
         guest: {
             get() {
                 return this.$store.state.user;

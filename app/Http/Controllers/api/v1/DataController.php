@@ -39,6 +39,7 @@ class DataController extends Controller
             $userPermissions = $this->permissions();
             $user  = Auth::user();
             $locked  = $user->kaaryalaya->locked;
+            $user = User::find($user->id)->with('kaaryalaya');
             $formattedPermissions = $this->formattedPermissions();
             $dashboard_items = [
                 1 => [

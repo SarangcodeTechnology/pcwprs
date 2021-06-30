@@ -17,7 +17,7 @@
                         </v-btn>
                     </v-list-item-avatar>
                     <v-list-item-title class="title">
-                        <span>PCWPRS</span>
+                        <span class="logo"><img src="/images/slogan1.png" alt=""><span><p>राष्ट्रपति चुरे-तराई </p><p>मधेश संरक्षण विकास</p><p>समिति</p></span></span>
                     </v-list-item-title>
 
                 </v-list-item>
@@ -105,6 +105,24 @@ export default {
 
 }
 </script>
+<style scoped lang="scss">
+    .logo{
+        display: flex;
+        align-items: center;
+        img{
+            width: 53px;
+            padding: 3px;
+            background: #fff;
+            border-radius: 28px;
+        }
+        p{
+            margin-bottom: 0px;
+            margin-left: 9px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+    }
+</style>
 
 <style lang="scss">
 ::-webkit-scrollbar {
