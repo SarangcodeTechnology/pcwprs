@@ -176,7 +176,7 @@ class MaasikPragatiTaalikaController extends Controller
 
 
                 //converting object to array of component
-                $items['chalu']['components'] = collect($items['chalu']['components'])->values();
+                $items['chalu']['components'] = count($items['chalu']['components'])>0 ? collect($items['chalu']['components'])->values() : [];
 
         // punjigat data
         $items['punjigat']['data'] = collect($myData)->where('kharcha_prakar','पूँजीगत');
@@ -211,7 +211,7 @@ class MaasikPragatiTaalikaController extends Controller
                 $items['punjigat']['components'][$component_id]['totals']['total_till_now_kharcha'] = round($items['punjigat']['components'][$component_id]['items']->sum('total_till_now.kharcha'),3);
             }
             //converting object to array of component
-            $items['punjigat']['components'] = collect($items['punjigat']['components'])->values();
+            $items['punjigat']['components'] = count($items['punjigat']['components'])>0 ? collect($items['punjigat']['components'])->values() : [];
 
 
             //totals of Data;
