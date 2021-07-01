@@ -157,11 +157,14 @@ class MaasikPragatiTaalikaController extends Controller
                 $component_id_in_chalu = collect($items['chalu']['data'])->pluck('component_id')->unique()->values();
                 foreach($component_id_in_chalu as $component_id){
                     $component =  $items['chalu']['data']->where('component_id',$component_id);
+                    if(!$component_id){
+                        $items['chalu']['data_without_component'] = $component->values();
+                        continue;
+                    }
                     $items['chalu']['components'][$component_id]['name'] = $component->first()['component'];
                     $items['chalu']['components'][$component_id]['id'] = $component->first()['component_id'];
                     // component items
                     $items['chalu']['components'][$component_id]['items'] = $component->values();
-
                     // component totals
                     $items['chalu']['components'][$component_id]['totals']['baarsik_lakshya_vaar'] = round($items['chalu']['components'][$component_id]['items']->sum('baarsik_lakshya_vaar'),3);
                     $items['chalu']['components'][$component_id]['totals']['baarsik_lakshya_budget'] = round($items['chalu']['components'][$component_id]['items']->sum('baarsik_lakshya_budget'),3);
@@ -170,6 +173,8 @@ class MaasikPragatiTaalikaController extends Controller
                     $items['chalu']['components'][$component_id]['totals']['total_till_now_vaarit'] = round($items['chalu']['components'][$component_id]['items']->sum('total_till_now.vaarit'),3);
                     $items['chalu']['components'][$component_id]['totals']['total_till_now_kharcha'] = round($items['chalu']['components'][$component_id]['items']->sum('total_till_now.kharcha'),3);
                 }
+
+
                 //converting object to array of component
                 $items['chalu']['components'] = collect($items['chalu']['components'])->values();
 
@@ -187,6 +192,11 @@ class MaasikPragatiTaalikaController extends Controller
             $component_id_in_punjigat = collect($items['punjigat']['data'])->pluck('component_id')->unique()->values();
             foreach($component_id_in_punjigat as $component_id){
                 $component =  $items['punjigat']['data']->where('component_id',$component_id);
+                if(!$component_id){
+                    $items['punjigat']['data_without_component'] = $component->values();
+                    continue;
+                }
+
                 $items['punjigat']['components'][$component_id]['name'] = $component->first()['component'];
                 $items['punjigat']['components'][$component_id]['id'] = $component->first()['component_id'];
                 // component items
