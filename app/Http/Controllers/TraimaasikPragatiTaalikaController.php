@@ -24,9 +24,9 @@ class TraimaasikPragatiTaalikaController extends Controller
             $karyalayaID = $filterData->kaaryalaya;
 
             $traiMaasikPragatiTaalika = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
-                ->where(function ($query) use ($initial) {
-                    return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->orWhere($initial . '_traimasik_lakshya_budget', '>', 0);
-                })
+//                ->where(function ($query) use ($initial) {
+//                    return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->orWhere($initial . '_traimasik_lakshya_budget', '>', 0);
+//                })
                 ->where('kaaryalaya_id', $karyalayaID)
                 ->select('id','ikai','component','component_id','milestone','kharcha_sirsak', 'name', 'kriyakalap_code', $initial . '_traimasik_lakshya_pariman', $initial . '_traimasik_lakshya_budget')
                 ->with(['traimaasikPragati' => function ($query) use ($traimaasikID, $karyalayaID) {
@@ -190,7 +190,7 @@ class TraimaasikPragatiTaalikaController extends Controller
 
 
         // punjigat data
-        $items['punjigat']['data'] = collect($myData)->where('kharcha_prakar', 'पूँजीगत')->values();
+        $items['punjigat']['data'] = collect($myData)->where('kharcha_prakar', 'पुँजीगत')->values();
         $items['punjigat']['totals']['baarsik_lakshya_vaar'] = round($items['punjigat']['data']->sum('baarsik_lakshya_vaar'), 3);
         $items['punjigat']['totals']['baarsik_lakshya_budget'] = round($items['punjigat']['data']->sum('baarsik_lakshya_budget'), 3);
         $items['punjigat']['totals'][$initial . '_traimasik_lakshya_vaar'] = round($items['punjigat']['data']->sum($initial . '_traimasik_lakshya_vaar'), 3);
@@ -271,16 +271,16 @@ class TraimaasikPragatiTaalikaController extends Controller
                     ->where('kaaryalaya_id', $karyalayaID)->first()) continue;
                 $traimaasikPragati = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
                     ->where('kaaryalaya_id', $karyalayaID)
-                    //ardabaarsik
-                    ->when($ardaBaarsik,function($query){
-                            return $query->where('pahilo_traimasik_lakshya_pariman','>',0)->orWhere('pahilo_traimasik_lakshya_budget','>',0)->orWhere('dosro_traimasik_lakshya_pariman','>',0)->orWhere('dosro_traimasik_lakshya_budget','>',0);
-                    })
-                    //baarsik or Arda Baarsik
-                    ->when((!$baarsik && !$ardaBaarsik),function($myQuery) use ($initial){
-                        return $myQuery->where(function ($query) use ($initial) {
-                            return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->orWhere($initial . '_traimasik_lakshya_budget', '>', 0);
-                        });
-                    })
+//                    //ardabaarsik
+//                    ->when($ardaBaarsik,function($query){
+//                            return $query->where('pahilo_traimasik_lakshya_pariman','>',0)->orWhere('pahilo_traimasik_lakshya_budget','>',0)->orWhere('dosro_traimasik_lakshya_pariman','>',0)->orWhere('dosro_traimasik_lakshya_budget','>',0);
+//                    })
+//                    //baarsik or Arda Baarsik
+//                    ->when((!$baarsik && !$ardaBaarsik),function($myQuery) use ($initial){
+//                        return $myQuery->where(function ($query) use ($initial) {
+//                            return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->orWhere($initial . '_traimasik_lakshya_budget', '>', 0);
+//                        });
+//                    })
                     ->with(['traimaasikPragati' => function ($query) use ($traimaasikID) {
                         return $query->where('traimaasik_id', $traimaasikID);
                     }])

@@ -49,7 +49,7 @@
                 </v-autocomplete>
                 <v-autocomplete
                     v-model="filterData.kharchaPrakar"
-                    :items="['चालु','पूँजीगत']"
+                    :items="['चालु','पुँजीगत']"
                     label="खर्च प्रकार"
                     placeholder="खर्च प्रकार"
                     class="mr-2"

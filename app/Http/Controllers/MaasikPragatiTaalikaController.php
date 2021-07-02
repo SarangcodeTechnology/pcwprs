@@ -25,9 +25,9 @@ class MaasikPragatiTaalikaController extends Controller
             $karyalayaID = $filterData->kaaryalaya;
 
             $maasikPragatiTaalika = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
-                ->where(function ($query) use ($initial) {
-                    return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->orWhere($initial . '_traimasik_lakshya_budget', '>', 0);
-                })
+//                ->where(function ($query) use ($initial) {
+//                    return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->orWhere($initial . '_traimasik_lakshya_budget', '>', 0);
+//                })
                 ->where('kaaryalaya_id',$karyalayaID)
                 ->select('id','ikai','component','component_id','milestone','kharcha_sirsak', 'name', 'kriyakalap_code', $initial . '_traimasik_lakshya_pariman', $initial . '_traimasik_lakshya_budget')
                 ->with(['maasikPragati' => function ($query) use ($mahinaID,$karyalayaID) {
@@ -179,7 +179,7 @@ class MaasikPragatiTaalikaController extends Controller
                 $items['chalu']['components'] = isset($items['chalu']['components']) ? collect($items['chalu']['components'])->values() : [];
 
         // punjigat data
-        $items['punjigat']['data'] = collect($myData)->where('kharcha_prakar','पूँजीगत');
+        $items['punjigat']['data'] = collect($myData)->where('kharcha_prakar','पुँजीगत');
         $items['punjigat']['totals']['baarsik_lakshya_vaar'] = round($items['punjigat']['data']->sum('baarsik_lakshya_vaar'),3);
         $items['punjigat']['totals']['baarsik_lakshya_budget'] = round($items['punjigat']['data']->sum('baarsik_lakshya_budget'),3);
         $items['punjigat']['totals']['maasik_pragati_vaarit'] = round($items['punjigat']['data']->sum('maasik_pragati.vaarit'),3);

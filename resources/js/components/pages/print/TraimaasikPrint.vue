@@ -206,7 +206,7 @@
                                             <tr>
                                                 <td></td>
                                                 <td>
-                                                    <strong>अ) पूँजीगत खर्च अन्तर्गतका कार्यक्रमहरु</strong>
+                                                    <strong>अ) पुँजीगत खर्च अन्तर्गतका कार्यक्रमहरु</strong>
                                                 </td>
                                                 <td v-for="i in 16"></td>
                                             </tr>
@@ -454,7 +454,7 @@
                                             <!-- punjigat total -->
                                             <tr>
                                                 <td></td>
-                                                <td><strong>क) पूँजीगत खर्च कार्यक्रमको जम्मा:</strong></td>
+                                                <td><strong>क) पुँजीगत खर्च कार्यक्रमको जम्मा:</strong></td>
                                                 <td v-for="i in 3"></td>
                                                 <td>
                                                     {{
@@ -984,7 +984,7 @@
                                             <tr>
                                                 <td></td>
                                                 <td>
-                                                    <strong>अ) पूँजीगत खर्च अन्तर्गतका कार्यक्रमहरु</strong>
+                                                    <strong>अ) पुँजीगत खर्च अन्तर्गतका कार्यक्रमहरु</strong>
                                                 </td>
                                                 <td v-for="i in 9"></td>
                                             </tr>
@@ -1101,7 +1101,7 @@
                                             <!-- punjigat total -->
                                             <tr>
                                                 <td></td>
-                                                <td><strong>क) पूँजीगत खर्च कार्यक्रमको जम्मा:</strong></td>
+                                                <td><strong>क) पुँजीगत खर्च कार्यक्रमको जम्मा:</strong></td>
                                                 <td v-for="i in 3"></td>
                                                 <td>
                                                     {{
@@ -1546,7 +1546,7 @@
                             <tr>
                                 <td></td>
                                 <td>
-                                    <strong>अ) पूँजीगत खर्च अन्तर्गतका कार्यक्रमहरु</strong>
+                                    <strong>अ) पुँजीगत खर्च अन्तर्गतका कार्यक्रमहरु</strong>
                                 </td>
                                 <td v-for="i in 16"></td>
                             </tr>
@@ -1794,7 +1794,7 @@
                             <!-- punjigat total -->
                             <tr>
                                 <td></td>
-                                <td><strong>क) पूँजीगत खर्च कार्यक्रमको जम्मा:</strong></td>
+                                <td><strong>क) पुँजीगत खर्च कार्यक्रमको जम्मा:</strong></td>
                                 <td v-for="i in 3"></td>
                                 <td>
                                     {{
@@ -2325,7 +2325,7 @@
                             <tr>
                                 <td></td>
                                 <td>
-                                    <strong>अ) पूँजीगत खर्च अन्तर्गतका कार्यक्रमहरु</strong>
+                                    <strong>अ) पुँजीगत खर्च अन्तर्गतका कार्यक्रमहरु</strong>
                                 </td>
                                 <td v-for="i in 9"></td>
                             </tr>
@@ -2441,7 +2441,7 @@
                             <!-- punjigat total -->
                             <tr>
                                 <td></td>
-                                <td><strong>क) पूँजीगत खर्च कार्यक्रमको जम्मा:</strong></td>
+                                <td><strong>क) पुँजीगत खर्च कार्यक्रमको जम्मा:</strong></td>
                                 <td v-for="i in 3"></td>
                                 <td>
                                     {{

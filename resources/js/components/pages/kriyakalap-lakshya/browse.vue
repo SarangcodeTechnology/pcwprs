@@ -8,6 +8,7 @@
                     :hide-default-footer="false"
                     :items="kriyakalapLakshya"
                     :items-per-page="10"
+                    :items-per-page-options="[20, 50, 100, 500]"
                     :loading="loading"
                     :options.sync="options"
                     :page="page"
@@ -81,6 +82,7 @@
                                 </div>
                             </v-col>
 
+
                         </v-row>
                         <v-row>
                             <v-col cols="5" class="d-flex justify-space-between align-items-center">
@@ -147,8 +149,8 @@
                                     >
                                 </abbr>
                             </v-col>
-                            <v-col class="align-self-end"><v-btn href="/downloads/lakshya-template.csv">ढाचा डाउनलोड गर्नुहोस्</v-btn>
-                            </v-col>
+                            <v-spacer></v-spacer>
+                           <v-btn class="custom-button mr-3" color="deep-orange" dark href="/downloads/lakshya-template.csv"><v-icon>mdi-file-excel</v-icon>ढाचा डाउनलोड</v-btn>
                         </v-row>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.actions="{ item }">
@@ -554,7 +556,9 @@ export default {
 .my-text-field {
     width: 150px;
 }
-
+.custom-button{
+    text-decoration: none;
+}
 v-select {
     width: 20px;
 }

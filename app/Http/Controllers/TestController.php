@@ -76,7 +76,7 @@ class TestController extends Controller
              //for component ids
 
 
-            $chalu =  collect(KriyakalapLakshya::where('kharcha_prakar', 'पूँजीगत')->get());
+            $chalu =  collect(KriyakalapLakshya::where('kharcha_prakar', 'पुँजीगत')->get());
             $component_id_in_chalu = $chalu->pluck('component_id')->unique()->values();
             foreach($component_id_in_chalu as $component_id){
                 $component =  $chalu->where('component_id',$component_id);
