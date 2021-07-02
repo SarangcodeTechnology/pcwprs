@@ -178,8 +178,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <template
-                                        v-if="!maasikPragatiReports[0].baarsik && !maasikPragatiReports[0].ardaBaarsik">
+                                    <template v-if="!maasikPragatiReports[0].baarsik && !maasikPragatiReports[0].ardaBaarsik">
                                         <template v-for="maasikPragatiReport in maasikPragatiReports">
 
                                             <tr>
@@ -202,8 +201,69 @@
                                                 </td>
                                                 <td v-for="i in 12"></td>
                                             </tr>
+                                            <tr v-for="item in maasikPragatiReport.items.punjigat.data_without_component" v-if="maasikPragatiReport.items.punjigat.data_without_component.length>0">
+                                                <td>{{ item.kriyakalap_code }}</td>
+                                                <td>{{ item.name }}</td>
+                                                <td>{{ item.kharcha_sirsak }}</td>
+                                                <td>{{ item.ikai }}</td>
+                                                <td>{{ item.baarsik_lakshya_pariman }}</td>
+                                                <td>{{ item.baarsik_lakshya_vaar }}</td>
+                                                <td>{{ item.baarsik_lakshya_budget }}</td>
+                                                <td>
+                                                    {{
+                                                        item.maasik_pragati.pariman
+                                                            ? item.maasik_pragati.pariman
+                                                            : ""
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        item.maasik_pragati.vaarit
+                                                            ? item.maasik_pragati.vaarit
+                                                            : ""
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        item.maasik_pragati.kharcha
+                                                            ? item.maasik_pragati.kharcha
+                                                            : ""
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        item.total_till_now.pariman
+                                                            ? item.total_till_now.pariman
+                                                            : ""
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        item.total_till_now.vaarit
+                                                            ? item.total_till_now.vaarit
+                                                            : ""
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        item.total_till_now.kharcha
+                                                            ? item.total_till_now.kharcha
+                                                            : ""
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        item.vautik_pragati < 100
+                                                            ? item.vautik_pragati
+                                                            ? item.vautik_pragati
+                                                            : ""
+                                                            : 100
+                                                    }}
+                                                </td>
+                                            </tr>
                                             <template
                                                 v-for="(componentItem) in maasikPragatiReport.items.punjigat.components"
+                                                v-if="maasikPragatiReport.items.punjigat.components.length>0"
                                             >
                                                 <tr>
                                                     <td style="background: #dddddd;">{{ componentItem.id }}</td>
@@ -372,8 +432,70 @@
                                                 <td v-for="i in 12"></td>
                                             </tr>
 
+                                            <!-- chalu -->
+                                            <tr v-for="item in maasikPragatiReport.items.chalu.data_without_component" v-if="maasikPragatiReport.items.chalu.data_without_component.length>0">
+                                                <td>{{ item.kriyakalap_code }}</td>
+                                                <td>{{ item.name }}</td>
+                                                <td>{{ item.kharcha_sirsak }}</td>
+                                                <td>{{ item.ikai }}</td>
+                                                <td>{{ item.baarsik_lakshya_pariman }}</td>
+                                                <td>{{ item.baarsik_lakshya_vaar }}</td>
+                                                <td>{{ item.baarsik_lakshya_budget }}</td>
+                                                <td>
+                                                    {{
+                                                        item.maasik_pragati.pariman
+                                                            ? item.maasik_pragati.pariman
+                                                            : ""
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        item.maasik_pragati.vaarit
+                                                            ? item.maasik_pragati.vaarit
+                                                            : ""
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        item.maasik_pragati.kharcha
+                                                            ? item.maasik_pragati.kharcha
+                                                            : ""
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        item.total_till_now.pariman
+                                                            ? item.total_till_now.pariman
+                                                            : ""
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        item.total_till_now.vaarit
+                                                            ? item.total_till_now.vaarit
+                                                            : ""
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        item.total_till_now.kharcha
+                                                            ? item.total_till_now.kharcha
+                                                            : ""
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        item.vautik_pragati < 100
+                                                            ? item.vautik_pragati
+                                                            ? item.vautik_pragati
+                                                            : ""
+                                                            : 100
+                                                    }}
+                                                </td>
+                                            </tr>
                                             <template
                                                 v-for="(componentItem) in maasikPragatiReport.items.chalu.components"
+                                                v-if="maasikPragatiReport.items.chalu.components.length>0"
                                             >
                                                 <tr>
                                                     <td style="background: #dddddd;">{{ componentItem.id }}</td>
@@ -663,8 +785,48 @@
                                                 </td>
                                                 <td v-for="i in 9"></td>
                                             </tr>
+                                            <tr v-for="item in maasikPragatiReport.items.punjigat.data_without_component" v-if="maasikPragatiReport.items.punjigat.data_without_component.length>0" >
+                                                <td>{{ item.kriyakalap_code }}</td>
+                                                <td>{{ item.name }}</td>
+                                                <td>{{ item.kharcha_sirsak }}</td>
+                                                <td>{{ item.ikai }}</td>
+                                                <td>{{ item.baarsik_lakshya_pariman }}</td>
+                                                <td>{{ item.baarsik_lakshya_vaar }}</td>
+                                                <td>{{ item.baarsik_lakshya_budget }}</td>
+                                                <td>
+                                                    {{
+                                                        item.maasik_pragati.pariman
+                                                            ? item.maasik_pragati.pariman
+                                                            : ""
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        item.maasik_pragati.vaarit
+                                                            ? item.maasik_pragati.vaarit
+                                                            : ""
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        item.maasik_pragati.kharcha
+                                                            ? item.maasik_pragati.kharcha
+                                                            : ""
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        item.vautik_pragati < 100
+                                                            ? item.vautik_pragati
+                                                            ? item.vautik_pragati
+                                                            : ""
+                                                            : 100
+                                                    }}
+                                                </td>
+                                            </tr>
                                             <template
                                                 v-for="(componentItem) in maasikPragatiReport.items.punjigat.components"
+                                                v-if="maasikPragatiReport.items.punjigat.components.length>0"
                                             >
                                                 <tr>
                                                     <td style="background: #dddddd;">{{ componentItem.id }}</td>
@@ -786,8 +948,49 @@
                                                 <td v-for="i in 9"></td>
                                             </tr>
 
+                                            <!-- chalu -->
+                                            <tr v-for="item in maasikPragatiReport.items.chalu.data_without_component" v-if="maasikPragatiReport.items.chalu.data_without_component.length>0" >
+                                                <td>{{ item.kriyakalap_code }}</td>
+                                                <td>{{ item.name }}</td>
+                                                <td>{{ item.kharcha_sirsak }}</td>
+                                                <td>{{ item.ikai }}</td>
+                                                <td>{{ item.baarsik_lakshya_pariman }}</td>
+                                                <td>{{ item.baarsik_lakshya_vaar }}</td>
+                                                <td>{{ item.baarsik_lakshya_budget }}</td>
+                                                <td>
+                                                    {{
+                                                        item.maasik_pragati.pariman
+                                                            ? item.maasik_pragati.pariman
+                                                            : ""
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        item.maasik_pragati.vaarit
+                                                            ? item.maasik_pragati.vaarit
+                                                            : ""
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        item.maasik_pragati.kharcha
+                                                            ? item.maasik_pragati.kharcha
+                                                            : ""
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        item.vautik_pragati < 100
+                                                            ? item.vautik_pragati
+                                                            ? item.vautik_pragati
+                                                            : ""
+                                                            : 100
+                                                    }}
+                                                </td>
+                                            </tr>
                                             <template
                                                 v-for="(componentItem) in maasikPragatiReport.items.chalu.components"
+                                                v-if="maasikPragatiReport.items.chalu.components.length>0"
                                             >
                                                 <tr>
                                                     <td style="background: #dddddd;">{{ componentItem.id }}</td>
@@ -1740,8 +1943,48 @@
                                 </td>
                                 <td v-for="i in 9"></td>
                             </tr>
+                            <tr v-for="item in maasikPragatiReport.items.punjigat.data_without_component" v-if="maasikPragatiReport.items.punjigat.data_without_component.length>0" >
+                                <td>{{ item.kriyakalap_code }}</td>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.kharcha_sirsak }}</td>
+                                <td>{{ item.ikai }}</td>
+                                <td>{{ item.baarsik_lakshya_pariman }}</td>
+                                <td>{{ item.baarsik_lakshya_vaar }}</td>
+                                <td>{{ item.baarsik_lakshya_budget }}</td>
+                                <td>
+                                    {{
+                                        item.maasik_pragati.pariman
+                                            ? item.maasik_pragati.pariman
+                                            : ""
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        item.maasik_pragati.vaarit
+                                            ? item.maasik_pragati.vaarit
+                                            : ""
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        item.maasik_pragati.kharcha
+                                            ? item.maasik_pragati.kharcha
+                                            : ""
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        item.vautik_pragati < 100
+                                            ? item.vautik_pragati
+                                            ? item.vautik_pragati
+                                            : ""
+                                            : 100
+                                    }}
+                                </td>
+                            </tr>
                             <template
                                 v-for="(componentItem) in maasikPragatiReport.items.punjigat.components"
+                                v-if="maasikPragatiReport.items.punjigat.components.length>0"
                             >
                                 <tr>
                                     <td style="background: #dddddd;">{{ componentItem.id }}</td>
@@ -1863,8 +2106,49 @@
                                 <td v-for="i in 9"></td>
                             </tr>
 
+                            <!-- chalu -->
+                            <tr v-for="item in maasikPragatiReport.items.chalu.data_without_component" v-if="maasikPragatiReport.items.chalu.data_without_component.length>0" >
+                                <td>{{ item.kriyakalap_code }}</td>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.kharcha_sirsak }}</td>
+                                <td>{{ item.ikai }}</td>
+                                <td>{{ item.baarsik_lakshya_pariman }}</td>
+                                <td>{{ item.baarsik_lakshya_vaar }}</td>
+                                <td>{{ item.baarsik_lakshya_budget }}</td>
+                                <td>
+                                    {{
+                                        item.maasik_pragati.pariman
+                                            ? item.maasik_pragati.pariman
+                                            : ""
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        item.maasik_pragati.vaarit
+                                            ? item.maasik_pragati.vaarit
+                                            : ""
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        item.maasik_pragati.kharcha
+                                            ? item.maasik_pragati.kharcha
+                                            : ""
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        item.vautik_pragati < 100
+                                            ? item.vautik_pragati
+                                            ? item.vautik_pragati
+                                            : ""
+                                            : 100
+                                    }}
+                                </td>
+                            </tr>
                             <template
                                 v-for="(componentItem) in maasikPragatiReport.items.chalu.components"
+                                v-if="maasikPragatiReport.items.chalu.components.length>0"
                             >
                                 <tr>
                                     <td style="background: #dddddd;">{{ componentItem.id }}</td>
