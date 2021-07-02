@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {Promise} from 'es6-promise';
+import router from '../../routes';
 
 const state = {
     user: "",
@@ -28,6 +29,7 @@ const actions = {
                         state.commit("SET_USER", response.data.data.user);
                         state.commit("SET_ACCESS_TOKEN", response.data.data.access_token);
                         state.dispatch("loadResources");
+                        router.push("/home");
                     } else {
                         window.sessionStorage.clear();
                     }

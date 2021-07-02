@@ -9,8 +9,12 @@
                 transition="slide-x-reverse-transition">
 
             <template v-slot:activator="{ on, attrs }">
-                <v-btn v-bind="attrs" v-on="on" fab small text>
+                <v-btn class="text-lowercase" v-bind="attrs" v-on="on" small text>
                     <v-icon>mdi-account-circle</v-icon>
+                    <span class="d-flex flex-column align-items-baseline">
+                        <span>{{ user.name }}</span>
+                    </span>
+
                 </v-btn>
             </template>
             <v-expand-transition>
@@ -25,7 +29,6 @@
                         <v-list-item-content>
                             <v-list-item-title class="pa-0 ma-0"><h5>{{ kaaryalaya.name }}</h5>
                             </v-list-item-title>
-                            <v-list-item-subtitle v-if="guest"><h6>{{ getUser.email }}</h6></v-list-item-subtitle>
                             <v-list-item-subtitle v-if="!guest"><h6>{{ user.email }}</h6></v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>

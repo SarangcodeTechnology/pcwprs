@@ -77,8 +77,6 @@ export default {
                 .dispatch("login", tempthis.user)
                 .then(function (response) {
                     if (response.data.status == 200) {
-                        tempthis.$router.push("/dashboard").catch(() => {
-                        });
                         tempthis.$store.dispatch("addNotification", {
                             type: response.data.type,
                             message: response.data.message,

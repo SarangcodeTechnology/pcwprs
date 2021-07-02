@@ -503,7 +503,7 @@ const opts = {
             name: 'Login',
             beforeEnter(to, from, next) {
                 if (store.getters.GET_USER) {
-                    next("/dashboard");
+                    next("/home");
                 } else {
                     next();
                 }
