@@ -138,5 +138,7 @@ export default {
 ::-webkit-scrollbar-thumb {
     background-color: #9E9E9E;
 }
-
+.theme--light.v-data-table .v-data-footer {
+    border-top: none !important;
+}
 </style>

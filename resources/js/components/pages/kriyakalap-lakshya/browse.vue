@@ -1,120 +1,127 @@
 <template>
     <v-container fluid>
         <v-row>
+            <v-col cols="auto">
+                <h4><strong>कृयाकलाप लक्ष</strong></h4>
+                <v-divider class="ml-5" inset vertical></v-divider>
+            </v-col>
+            <v-spacer></v-spacer>
+           <v-col cols="auto"> <v-btn class="custom-button mr-3" color="deep-orange" dark
+                          href="/downloads/lakshya-template.csv">
+               <v-icon>mdi-file-excel</v-icon>
+               ढाचा डाउनलोड
+           </v-btn></v-col>
+        </v-row>
+        <v-row>
+
+            <v-col cols="3">
+                <v-select
+                    v-model="filterData.kaaryalaya"
+                    :disabled="!$store.getters.CHECK_PERMISSION('kriyakalap_lakshya-select_kaaryalaya')"
+                    :items="kaaryalaya"
+                    item-text="name"
+                    item-value="id"
+                    label="कार्यलय"
+                    placeholder="कार्यलय"
+                    @input="getDataFromApi"
+                >
+                </v-select>
+            </v-col>
+            <v-col cols="3">
+                <v-select
+                    v-model="filterData.aarthikBarsa"
+                    :disabled="editAllData"
+                    :items="aarthikBarsa"
+                    class="mr-2"
+                    item-text="name"
+                    item-value="id"
+                    label="आर्थिक वर्ष"
+                    placeholder="आर्थिक वर्ष"
+                    @input="changeInArthikBarsa"
+                >
+                </v-select>
+            </v-col>
+            <v-col cols="3">
+                <v-select
+                    v-model="filterData.aayojana"
+                    :disabled="editAllData"
+                    :items="aayojana"
+                    class="mr-2"
+                    item-text="name"
+                    item-value="id"
+                    label="आयोजना"
+                    placeholder="आयोजना"
+                    @input="getDataFromApi"
+                >
+                </v-select>
+            </v-col>
+            <v-col cols="3">
+                <div class="d-flex align-items-center">
+                    <v-file-input v-model="csvData" :disabled="!filterData.aayojana"
+                                  label=".csv फाईल अपलोड गर्नुहोस्"></v-file-input>
+                    <abbr title="Upload">
+                        <v-btn
+                            :disabled="!filterData.aayojana"
+                            :loading="uploadCsvDataLoad"
+                            color="primary"
+                            fab
+                            small
+                            @click="beforeUploadCsvData"
+                        >
+                            <v-icon>mdi-upload</v-icon>
+                        </v-btn
+                        >
+                    </abbr>
+                </div>
+            </v-col>
+        </v-row>
+
+        <v-row>
             <v-col>
                 <v-data-table
                     :headers="headers"
-                    :search="search"
-                    :hide-default-footer="false"
+                    :hide-default-footer="true"
                     :items="kriyakalapLakshya"
-                    :items-per-page="10"
-                    :items-per-page-options="[20, 50, 100, 500]"
+                    :items-per-page="20"
                     :loading="loading"
                     :options.sync="options"
                     :page="page"
                     :pageCount="numberOfPages"
+                    :search="search"
                     fixed-header
                     loading-text="Loading Data... Please wait"
                 >
                     <template v-slot:top="{ pagination, options, updateOptions }">
-                        <v-row class="d-flex justify-content-between">
-
-                            <v-col cols="2" class="d-flex align-items-center">
-                                <h5>कृयाकलाप लक्ष</h5>
-                                <v-divider class="ml-5" inset vertical></v-divider>
-                            </v-col>
-
-                            <v-col cols="6" class="d-flex align-items-center">
-                                <v-select
-                                    v-model="filterData.kaaryalaya"
-                                    :items="kaaryalaya"
-                                    label="कार्यलय"
-                                    item-text="name"
-                                    item-value="id"
-                                    placeholder="कार्यलय"
-                                    @input="getDataFromApi"
-                                    :disabled="!$store.getters.CHECK_PERMISSION('kriyakalap_lakshya-select_kaaryalaya')"
-                                >
-                                </v-select>
-                                <v-select
-                                    v-model="filterData.aarthikBarsa"
-                                    :items="aarthikBarsa"
-                                    label="आर्थिक वर्ष"
-                                    item-text="name"
-                                    item-value="id"
-                                    placeholder="आर्थिक वर्ष"
-                                    :disabled="editAllData"
-                                    @input="changeInArthikBarsa"
-                                    class="mr-2"
-                                >
-                                </v-select>
-                                <v-select
-                                    v-model="filterData.aayojana"
-                                    :items="aayojana"
-                                    label="आयोजना"
-                                    item-text="name"
-                                    item-value="id"
-                                    placeholder="आयोजना"
-                                    @input="getDataFromApi"
-                                    :disabled="editAllData"
-                                    class="mr-2"
-                                >
-                                </v-select>
-
-                            </v-col>
-                            <v-col cols="4">
-                                <div class="d-flex align-items-center">
-                                    <v-file-input v-model="csvData" label=".csv फाईल अपलोड गर्नुहोस्"
-                                                  :disabled="!filterData.aayojana"></v-file-input>
-                                    <abbr title="Upload">
-                                        <v-btn
-                                            fab
-                                            small
-                                            color="primary"
-                                            @click="beforeUploadCsvData"
-                                            :loading="uploadCsvDataLoad"
-                                            :disabled="!filterData.aayojana"
-                                        >
-                                            <v-icon>mdi-upload</v-icon>
-                                        </v-btn
-                                        >
-                                    </abbr>
-                                </div>
-                            </v-col>
-
-
-                        </v-row>
                         <v-row>
-                            <v-col cols="5" class="d-flex justify-space-between align-items-center">
+                            <v-col  cols="5">
                                 <v-text-field
                                     v-model="search"
                                     append-icon="mdi-magnify"
                                     label="खोजी गर्नुहोस्"
-                                    single-line
-                                    hide-details
-                                    solo
+                                    outlined
+                                    depressed
                                 ></v-text-field>
                             </v-col>
-                            <v-col cols="2" class="d-flex justify-space-between align-items-center">
-                                <abbr title="Edit" v-if="editAllData == false && filterData.aayojana!=0">
+                            <v-col cols="auto">
+                                <abbr v-if="editAllData == false && filterData.aayojana!=0" title="Edit">
                                     <v-btn
+                                        :loading="editDataButtonLoading"
                                         color="primary"
+                                        dark
                                         fab
                                         small
-                                        dark
                                         @click="toggleEditData"
-                                        :loading="editDataButtonLoading"
                                     >
                                         <v-icon>mdi-pencil-outline</v-icon>
                                     </v-btn
                                     >
                                 </abbr>
-                                <abbr title="Add" v-if="editAllData == true">
+                                <abbr v-if="editAllData == true" title="Add">
                                     <v-btn
                                         class="d-flex align-self-center"
+                                        color="primary"
                                         fab
                                         small
-                                        color="primary"
                                         @click="addKriyakalapLakshya"
 
                                     >
@@ -122,26 +129,26 @@
                                     </v-btn
                                     >
                                 </abbr>
-                                <abbr title="Save" v-if="editAllData == true">
+                                <abbr v-if="editAllData == true" title="Save">
                                     <v-btn
                                         class="d-flex align-self-center"
+                                        color="success"
+                                        dark
                                         fab
                                         small
-                                        dark
-                                        color="success"
                                         @click="saveKriyakalapLakshya"
                                     >
                                         <v-icon>mdi-content-save</v-icon>
                                     </v-btn
                                     >
                                 </abbr>
-                                <abbr title="Cancel" v-if="editAllData == true">
+                                <abbr v-if="editAllData == true" title="Cancel">
                                     <v-btn
                                         class="d-flex align-self-center"
+                                        color="red"
+                                        dark
                                         fab
                                         small
-                                        dark
-                                        color="red"
                                         @click="cancelSavingData"
                                     >
                                         <v-icon>mdi-close</v-icon>
@@ -150,7 +157,15 @@
                                 </abbr>
                             </v-col>
                             <v-spacer></v-spacer>
-                           <v-btn class="custom-button mr-3" color="deep-orange" dark href="/downloads/lakshya-template.csv"><v-icon>mdi-file-excel</v-icon>ढाचा डाउनलोड</v-btn>
+                            <v-col cols="auto">
+                                <v-data-footer
+                                    :items-per-page-options="[20, 50, 100, 500]"
+                                    :options="options"
+                                    :pagination="pagination"
+                                    items-per-page-text="$vuetify.dataTable.itemsPerPageText"
+                                    @update:options="updateOptions"
+                                />
+                            </v-col>
                         </v-row>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.actions="{ item }">
@@ -168,11 +183,11 @@
                         <v-select
                             v-model="item.aayojana_id"
                             :items="aayojana"
-                            label="आयोजना"
+                            disabled
                             item-text="name"
                             item-value="id"
+                            label="आयोजना"
                             placeholder="आयोजना"
-                            disabled
                         >
                         </v-select>
                     </template>
@@ -184,87 +199,107 @@
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.name="{ item }">
-                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.name" class="my-text-field">
+                        <v-text-field v-model="item.name" class="my-text-field"
+                                      @input="addEditedKriyakalapLakshyaId(item.id)">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.kharcha_sirsak="{ item }">
-                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.kharcha_sirsak" class="my-text-field">
+                        <v-text-field v-model="item.kharcha_sirsak" class="my-text-field"
+                                      @input="addEditedKriyakalapLakshyaId(item.id)">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.ikai="{ item }">
-                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.ikai" class="my-text-field">
+                        <v-text-field v-model="item.ikai" class="my-text-field"
+                                      @input="addEditedKriyakalapLakshyaId(item.id)">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.aayojana_kul_kriyakalap_pariman="{ item }">
-                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.aayojana_kul_kriyakalap_pariman" type="number"
-                                      class="my-text-field">
+                        <v-text-field v-model="item.aayojana_kul_kriyakalap_pariman"
+                                      class="my-text-field" type="number"
+                                      @input="addEditedKriyakalapLakshyaId(item.id)">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.aayojana_kul_kriyakalap_laagat="{ item }">
-                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.aayojana_kul_kriyakalap_laagat" type="number"
-                                      class="my-text-field">
+                        <v-text-field v-model="item.aayojana_kul_kriyakalap_laagat"
+                                      class="my-text-field" type="number"
+                                      @input="addEditedKriyakalapLakshyaId(item.id)">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.gata_aarthik_barsa_sammako_pariman="{ item }">
-                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.gata_aarthik_barsa_sammako_pariman" type="number"
-                                      class="my-text-field">
+                        <v-text-field v-model="item.gata_aarthik_barsa_sammako_pariman"
+                                      class="my-text-field" type="number"
+                                      @input="addEditedKriyakalapLakshyaId(item.id)">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.gata_aarthik_barsa_sammako_laagat="{ item }">
-                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.gata_aarthik_barsa_sammako_laagat" type="number"
-                                      class="my-text-field">
+                        <v-text-field v-model="item.gata_aarthik_barsa_sammako_laagat"
+                                      class="my-text-field" type="number"
+                                      @input="addEditedKriyakalapLakshyaId(item.id)">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.baarsik_lakshya_pariman="{ item }">
-                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.baarsik_lakshya_pariman" type="number" class="my-text-field">
+                        <v-text-field v-model="item.baarsik_lakshya_pariman"
+                                      class="my-text-field" type="number"
+                                      @input="addEditedKriyakalapLakshyaId(item.id)">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.baarsik_lakshya_budget="{ item }">
-                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.baarsik_lakshya_budget" type="number" class="my-text-field">
+                        <v-text-field v-model="item.baarsik_lakshya_budget"
+                                      class="my-text-field" type="number"
+                                      @input="addEditedKriyakalapLakshyaId(item.id)">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.pahilo_traimasik_lakshya_pariman="{ item }">
-                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.pahilo_traimasik_lakshya_pariman" type="number"
-                                      class="my-text-field">
+                        <v-text-field v-model="item.pahilo_traimasik_lakshya_pariman"
+                                      class="my-text-field" type="number"
+                                      @input="addEditedKriyakalapLakshyaId(item.id)">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.pahilo_traimasik_lakshya_budget="{ item }">
-                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.pahilo_traimasik_lakshya_budget" type="number"
-                                      class="my-text-field">
+                        <v-text-field v-model="item.pahilo_traimasik_lakshya_budget"
+                                      class="my-text-field" type="number"
+                                      @input="addEditedKriyakalapLakshyaId(item.id)">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.dosro_traimasik_lakshya_pariman="{ item }">
-                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.dosro_traimasik_lakshya_pariman" type="number"
-                                      class="my-text-field">
+                        <v-text-field v-model="item.dosro_traimasik_lakshya_pariman"
+                                      class="my-text-field" type="number"
+                                      @input="addEditedKriyakalapLakshyaId(item.id)">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.dosro_traimasik_lakshya_budget="{ item }">
-                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.dosro_traimasik_lakshya_budget" type="number"
-                                      class="my-text-field">
+                        <v-text-field v-model="item.dosro_traimasik_lakshya_budget"
+                                      class="my-text-field" type="number"
+                                      @input="addEditedKriyakalapLakshyaId(item.id)">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.tesro_traimasik_lakshya_pariman="{ item }">
-                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.tesro_traimasik_lakshya_pariman" type="number"
-                                      class="my-text-field">
+                        <v-text-field v-model="item.tesro_traimasik_lakshya_pariman"
+                                      class="my-text-field" type="number"
+                                      @input="addEditedKriyakalapLakshyaId(item.id)">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.tesro_traimasik_lakshya_budget="{ item }">
-                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.tesro_traimasik_lakshya_budget" type="number"
-                                      class="my-text-field">
+                        <v-text-field v-model="item.tesro_traimasik_lakshya_budget"
+                                      class="my-text-field" type="number"
+                                      @input="addEditedKriyakalapLakshyaId(item.id)">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.chautho_traimasik_lakshya_pariman="{ item }">
-                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.chautho_traimasik_lakshya_pariman" type="number"
-                                      class="my-text-field">
+                        <v-text-field v-model="item.chautho_traimasik_lakshya_pariman"
+                                      class="my-text-field" type="number"
+                                      @input="addEditedKriyakalapLakshyaId(item.id)">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.chautho_traimasik_lakshya_budget="{ item }">
-                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.chautho_traimasik_lakshya_budget" type="number"
-                                      class="my-text-field">
+                        <v-text-field v-model="item.chautho_traimasik_lakshya_budget"
+                                      class="my-text-field" type="number"
+                                      @input="addEditedKriyakalapLakshyaId(item.id)">
                         </v-text-field>
                     </template>
                     <template v-if="editAllData == true" v-slot:item.kaifiyat="{ item }">
-                        <v-text-field @input="addEditedKriyakalapLakshyaId(item.id)" v-model="item.kaifiyat" class="my-text-field">
+                        <v-text-field v-model="item.kaifiyat" class="my-text-field"
+                                      @input="addEditedKriyakalapLakshyaId(item.id)">
                         </v-text-field>
                     </template>
                     <template v-slot:item.milestone="{item}">
@@ -394,9 +429,7 @@ export default {
                 kaaryalaya: 0,
                 user: 0,
             },
-            editedKriyakalapLakshyaID:[
-
-            ],
+            editedKriyakalapLakshyaID: [],
             editAllData: false,
             editDataButtonLoading: false,
             csvData: null,
@@ -432,8 +465,8 @@ export default {
 
     },
     methods: {
-        addEditedKriyakalapLakshyaId(id){
-            if(!this.editedKriyakalapLakshyaID.includes(id)){
+        addEditedKriyakalapLakshyaId(id) {
+            if (!this.editedKriyakalapLakshyaID.includes(id)) {
                 this.editedKriyakalapLakshyaID.push(id)
             }
         },
@@ -505,7 +538,7 @@ export default {
         },
         saveKriyakalapLakshya() {
             let tempthis = this;
-            var items = this.kriyakalapLakshya.filter(function(item){
+            var items = this.kriyakalapLakshya.filter(function (item) {
                 return tempthis.editedKriyakalapLakshyaID.includes(item.id);
             });
             this.$store
@@ -556,9 +589,11 @@ export default {
 .my-text-field {
     width: 150px;
 }
-.custom-button{
+
+.custom-button {
     text-decoration: none;
 }
+
 v-select {
     width: 20px;
 }
