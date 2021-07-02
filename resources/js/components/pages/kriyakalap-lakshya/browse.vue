@@ -93,7 +93,7 @@
                 >
                     <template v-slot:top="{ pagination, options, updateOptions }">
                         <v-row>
-                            <v-col  cols="5">
+                            <v-col  cols="4">
                                 <v-text-field
                                     v-model="search"
                                     append-icon="mdi-magnify"
@@ -116,6 +116,8 @@
                                     </v-btn
                                     >
                                 </abbr>
+                            </v-col>
+                            <v-col cols="auto">
                                 <abbr v-if="editAllData == true" title="Add">
                                     <v-btn
                                         class="d-flex align-self-center"
@@ -129,6 +131,9 @@
                                     </v-btn
                                     >
                                 </abbr>
+                            </v-col>
+                                <v-col cols="auto">
+
                                 <abbr v-if="editAllData == true" title="Save">
                                     <v-btn
                                         class="d-flex align-self-center"
@@ -142,7 +147,10 @@
                                     </v-btn
                                     >
                                 </abbr>
-                                <abbr v-if="editAllData == true" title="Cancel">
+                                </v-col>
+                                    <v-col cols="auto">
+
+                                    <abbr v-if="editAllData == true" title="Cancel">
                                     <v-btn
                                         class="d-flex align-self-center"
                                         color="red"
@@ -157,7 +165,7 @@
                                 </abbr>
                             </v-col>
                             <v-spacer></v-spacer>
-                            <v-col cols="auto">
+                            <v-col cols="4">
                                 <v-data-footer
                                     :items-per-page-options="[20, 50, 100, 500]"
                                     :options="options"
