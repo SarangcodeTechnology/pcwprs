@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Check;
 use App\Models\KriyakalapLakshya;
+use App\Models\KriyakalapMaasikPragati;
+use App\Models\KriyakalapTraimaasikPragati;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -72,7 +74,12 @@ class KriyakalapLakshyaController extends Controller
         try {
 //          KriyakalapLakshya::whereIn('id', $request->data['deletedItems'])->delete();
             if($request->replace){
-                KriyakalapLakshya::where('aayojana_id',$request->aayojana)->where('kaaryalaya_id',$request->kaaryalaya)->delete();
+               $kriyakalapLakshya = KriyakalapLakshya::where('aayojana_id',$request->aayojana)->where('kaaryalaya_id',$request->kaaryalaya);
+                foreach($kriyakalapLakshya->get() as $toBeDeletedPragati){
+                    KriyakalapMaasikPragati::where('kriyakalap_lakshya_id',$toBeDeletedPragati->id)->delete();
+                    KriyakalapTraimaasikPragati::where('kriyakalap_lakshya_id',$toBeDeletedPragati->id)->delete();
+                }
+                $kriyakalapLakshya->delete();
             }
             $items = $this->convertCSV($request->file('csvData'));
             $aayojana_id = $request->aayojana;
