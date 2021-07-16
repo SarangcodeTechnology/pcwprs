@@ -32,6 +32,9 @@ const AarthikBarsaEdit = () => import("./components/pages/aarthik-barsha/edit");
 const Aayojana = () => import("./components/pages/aayojana/browse");
 const AayojanaEdit = () => import("./components/pages/aayojana/edit");
 
+const MilestoneLakshya = () => import("./components/pages/milestone-lakshya/browse");
+
+
 const KriyakalapLakshya = () => import("./components/pages/kriyakalap-lakshya/browse");
 const KriyakalapMaasikPragati = () => import("./components/pages/kriyakalap-maasik-pragati/browse");
 const KriyakalapTraimaasikPragati = () => import("./components/pages/kriyakalap-traimaasik-pragati/browse");
@@ -362,6 +365,26 @@ const opts = {
                         }
                     },
                 },
+                // milestone-lakshya
+                {
+                    path: "/milestone-lakshya",
+                    component: MilestoneLakshya,
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('milestone_lakshya-browse')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
+                    name: 'milestone-lakshya',
+                    meta: {
+                        breadcrumb: {
+                            text: "कृयाकलाप लक्ष",
+                            link: "/milestone-lakshya"
+                        }
+                    },
+                },
+
                 // kriyakalap-lakshya
                 {
                     path: "/kriyakalap-lakshya",

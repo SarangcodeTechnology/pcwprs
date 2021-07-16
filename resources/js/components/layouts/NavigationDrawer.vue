@@ -79,6 +79,7 @@ export default {
                 {
                     title: "फारम", icon: "mdi-note", subItems: [
                         {title: 'कृयाकलाप लक्ष', icon: 'mdi-folder', route: '/kriyakalap-lakshya',can:"kriyakalap_lakshya-browse"},
+                        {title: 'माईलस्टोन लक्ष', icon: 'mdi-folder', route: '/milestone-lakshya',can:"milestone_lakshya-browse"},
                         {title: 'मासिक प्रगती', icon: 'mdi-folder', route: '/kriyakalap-maasik-pragati',can:"maasik_pragati_form-browse"},
                         {title: 'त्रैमासिक प्रगती', icon: 'mdi-folder', route: '/kriyakalap-traimaasik-pragati',can:"traimaasik_pragati_form-browse"},
                     ]

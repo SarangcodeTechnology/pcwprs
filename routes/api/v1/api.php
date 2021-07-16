@@ -9,6 +9,7 @@ use App\Http\Controllers\KaaryalayaController;
 use App\Http\Controllers\KriyakalapLakshyaController;
 use App\Http\Controllers\LockController;
 use App\Http\Controllers\MaasikPragatiTaalikaController;
+use App\Http\Controllers\MilestoneLakshyaController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\RoleController;
@@ -55,6 +56,11 @@ Route::middleware('auth:api')->post('save-aarthik-barsa',[AarthikBarsaController
 // aayojana
 Route::middleware('auth:api')->get('aayojana', [AayojanaController::class,'index']);
 Route::middleware('auth:api')->post('save-aayojana',[AayojanaController::class,'saveAayojana']);
+
+//milestone-lakshya
+Route::middleware('auth:api')->get('milestone-lakshya', [MilestoneLakshyaController::class,'index']);
+Route::middleware('auth:api')->post('save-milestone-lakshya',[MilestoneLakshyaController::class,'save']);
+Route::middleware('auth:api')->post('upload-milestone-lakshya',[MilestoneLakshyaController::class,'upload']);
 
 // kriyakalap-lakshya
 Route::middleware('auth:api')->get('kriyakalap-lakshya', [KriyakalapLakshyaController::class,'index']);

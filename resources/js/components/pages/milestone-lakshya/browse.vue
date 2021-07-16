@@ -1,0 +1,454 @@
+<template>
+    <v-container fluid>
+        <v-row>
+            <v-col cols="auto">
+                <h4><strong>माईलस्टोन लक्ष</strong></h4>
+                <v-divider class="ml-5" inset vertical></v-divider>
+            </v-col>
+            <v-spacer></v-spacer>
+           <v-col cols="auto"> <v-btn class="custom-button mr-3" color="deep-orange" dark
+                          href="/downloads/lakshya-template.csv">
+               <v-icon>mdi-file-excel</v-icon>
+               ढाचा डाउनलोड
+           </v-btn></v-col>
+        </v-row>
+        <v-row>
+
+            <v-col cols="3">
+                <v-select
+                    v-model="filterData.kaaryalaya"
+                    :disabled="!$store.getters.CHECK_PERMISSION('milestone_lakshya-select_kaaryalaya')"
+                    :items="kaaryalaya"
+                    item-text="name"
+                    item-value="id"
+                    label="कार्यलय"
+                    placeholder="कार्यलय"
+                    @input="getDataFromApi"
+                >
+                </v-select>
+            </v-col>
+            <v-col cols="3">
+                <v-select
+                    v-model="filterData.aarthikBarsa"
+                    :disabled="editAllData"
+                    :items="aarthikBarsa"
+                    class="mr-2"
+                    item-text="name"
+                    item-value="id"
+                    label="आर्थिक वर्ष"
+                    placeholder="आर्थिक वर्ष"
+                    @input="changeInArthikBarsa"
+                >
+                </v-select>
+            </v-col>
+            <v-col cols="3">
+                <v-select
+                    v-model="filterData.aayojana"
+                    :disabled="editAllData"
+                    :items="aayojana"
+                    class="mr-2"
+                    item-text="name"
+                    item-value="id"
+                    label="आयोजना"
+                    placeholder="आयोजना"
+                    @input="getDataFromApi"
+                >
+                </v-select>
+            </v-col>
+            <v-col cols="3">
+                <div class="d-flex align-items-center">
+                    <v-file-input v-model="csvData" :disabled="!filterData.aayojana"
+                                  label=".csv फाईल अपलोड गर्नुहोस्"></v-file-input>
+                    <abbr title="Upload">
+                        <v-btn
+                            :disabled="!filterData.aayojana"
+                            :loading="uploadCsvDataLoad"
+                            color="primary"
+                            fab
+                            small
+                            @click="beforeUploadCsvData"
+                        >
+                            <v-icon>mdi-upload</v-icon>
+                        </v-btn
+                        >
+                    </abbr>
+                </div>
+            </v-col>
+        </v-row>
+
+        <v-row>
+            <v-col>
+                <v-data-table
+                    :headers="headers"
+                    :hide-default-footer="true"
+                    :items="kriyakalapLakshya"
+                    :items-per-page="20"
+                    :loading="loading"
+                    :options.sync="options"
+                    :page="page"
+                    :pageCount="numberOfPages"
+                    :search="search"
+                    fixed-header
+                    loading-text="Loading Data... Please wait"
+                >
+                    <template v-slot:top="{ pagination, options, updateOptions }">
+                        <v-row>
+                            <v-col  cols="4">
+                                <v-text-field
+                                    v-model="search"
+                                    append-icon="mdi-magnify"
+                                    label="खोजी गर्नुहोस्"
+                                    outlined
+                                    depressed
+                                ></v-text-field>
+                            </v-col>
+                            <v-col cols="auto">
+                                <abbr v-if="editAllData == false && filterData.aayojana!=0" title="Edit">
+                                    <v-btn
+                                        :loading="editDataButtonLoading"
+                                        color="primary"
+                                        dark
+                                        fab
+                                        small
+                                        @click="toggleEditData"
+                                    >
+                                        <v-icon>mdi-pencil-outline</v-icon>
+                                    </v-btn
+                                    >
+                                </abbr>
+                            </v-col>
+                            <v-col cols="auto">
+                                <abbr v-if="editAllData == true" title="Add">
+                                    <v-btn
+                                        class="d-flex align-self-center"
+                                        color="primary"
+                                        fab
+                                        small
+                                        @click="addKriyakalapLakshya"
+
+                                    >
+                                        <v-icon>mdi-plus</v-icon>
+                                    </v-btn
+                                    >
+                                </abbr>
+                            </v-col>
+                                <v-col cols="auto">
+
+                                <abbr v-if="editAllData == true" title="Save">
+                                    <v-btn
+                                        class="d-flex align-self-center"
+                                        color="success"
+                                        dark
+                                        fab
+                                        small
+                                        @click="saveKriyakalapLakshya"
+                                    >
+                                        <v-icon>mdi-content-save</v-icon>
+                                    </v-btn
+                                    >
+                                </abbr>
+                                </v-col>
+                                    <v-col cols="auto">
+
+                                    <abbr v-if="editAllData == true" title="Cancel">
+                                    <v-btn
+                                        class="d-flex align-self-center"
+                                        color="red"
+                                        dark
+                                        fab
+                                        small
+                                        @click="cancelSavingData"
+                                    >
+                                        <v-icon>mdi-close</v-icon>
+                                    </v-btn
+                                    >
+                                </abbr>
+                            </v-col>
+                            <v-spacer></v-spacer>
+                            <v-col cols="4">
+                                <v-data-footer
+                                    :items-per-page-options="[20, 50, 100, 500]"
+                                    :options="options"
+                                    :pagination="pagination"
+                                    items-per-page-text="$vuetify.dataTable.itemsPerPageText"
+                                    @update:options="updateOptions"
+                                />
+                            </v-col>
+                        </v-row>
+                    </template>
+
+                    <template v-for="header in headers" v-if="editAllData==true"   v-slot:[`item.${header.value}`]="{ item }">
+                        <div v-if="header.value=='actions'" class="d-flex justify-content-center align-items-center">
+                            <v-btn color="red" icon x-small @click="deletePopup(item)">
+                                <v-icon>mdi-delete</v-icon>
+                            </v-btn>
+                        </div>
+                        <v-select
+                            v-else-if="header.value=='aayojana.name'"
+                            v-model="item.aayojana_id"
+                            :items="aayojana"
+                            disabled
+                            item-text="name"
+                            item-value="id"
+                            label="आयोजना"
+                            placeholder="आयोजना"
+                        >
+                        </v-select>
+                        <v-text-field v-else v-model="item[header.value]" class="my-text-field"
+                                      @input="addEditedKriyakalapLakshyaId(item.id)">
+                        </v-text-field>
+                    </template>
+
+
+                </v-data-table>
+            </v-col>
+        </v-row>
+        <v-dialog
+            v-model="csvDialog"
+            max-width="290"
+        >
+            <v-card>
+                <v-card-title class="headline">
+                    तपाँई के गर्न चाहनुहुन्छ?
+                </v-card-title>
+
+                <v-card-text>
+                    यस्तो देखिन्छ कि तपाईंसँग यस आयोजनामा पहिले नै अवस्थित डाटा हरु छन्।
+                </v-card-text>
+
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+
+                    <v-btn
+                        color="green darken-1"
+                        text
+                        @click="uploadCsvData(1)"
+                    >
+                        पुरै बदल्नुहोस्
+                    </v-btn>
+
+                    <v-btn
+                        color="green darken-1"
+                        text
+                        @click="uploadCsvData(0)"
+                    >
+                        मर्ज गर्नुहोस्
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+    </v-container>
+</template>
+
+<script>
+import {mapState} from "vuex";
+
+export default {
+    data() {
+        return {
+            deleteItems: [],
+            search: "",
+            page: 1,
+            totalCfData: 0,
+            numberOfPages: 0,
+            cfData: [],
+            loading: false,
+            options: {},
+            totalItems: 20,
+            headers: [
+                {text:'आयोजना',value:'aayojana.name'},
+                {text:'कृयाकलाप कोड',value:'kriyakalap_code'},
+                {text:'कार्यक्रम / क्रियाकलाप',value:'name'},
+                {text:'खर्च शिर्षक',value:'kharcha_sirsak'},
+                {text:'इकाई',value:'ikai'},
+                {text:'खर्च प्रकार',value:'kharcha_prakar'},
+                {text:'माईलस्टोन आइ.डी',value:'milestone_id'},
+                {text:'माईलस्टोन नाम',value:'milestone_name'},
+                {text:'परिमाण',value:'pariman'},
+                {text:'श्रावन परिमाण',value:'shrawan_lakshya_pariman'},
+                {text:'भाद्र परिमाण',value:'bhadra_lakshya_pariman'},
+                {text:'असोज परिमाण',value:'ashoj_lakshya_pariman'},
+                {text:'कार्तिक परिमाण',value:'kaartik_lakshya_pariman'},
+                {text:'मंसिर परिमाण',value:'mangsir_lakshya_pariman'},
+                {text:'पुष परिमाण',value:'paush_lakshya_pariman'},
+                {text:'माघ परिमाण',value:'magh_lakshya_pariman'},
+                {text:'फाल्गुन परिमाण',value:'falgun_lakshya_pariman'},
+                {text:'चैत्र परिमाण',value:'chaitra_lakshya_pariman'},
+                {text:'बैसाख परिमाण',value:'baisakh_lakshya_pariman'},
+                {text:'जेष्ठ परिमाण',value:'jestha_lakshya_pariman'},
+                {text:'असार परिमाण',value:'ashar_lakshya_pariman'},
+                {text:'कैफियत',value:'kaifiyat'}
+
+            ],
+            filterData: {
+                aarthikBarsa: "",
+                aayojana: 0,
+                kaaryalaya: 0,
+                user: 0,
+            },
+            editedKriyakalapLakshyaID: [],
+            editAllData: false,
+            editDataButtonLoading: false,
+            csvData: null,
+            uploadCsvDataLoad: false,
+            csvDialog: false,
+            kriyakalapLakshya: []
+        };
+    },
+    mounted() {
+        this.filterData.kaaryalaya = this.user.kaaryalaya_id;
+        this.filterData.user = this.user.id;
+        this.getDataFromApi();
+    },
+    computed: {
+        ...mapState({
+            aarthikBarsa: (state) => state.webservice.resources.aarthik_barsa,
+            kaaryalaya: (state) => state.webservice.resources.kaaryalaya,
+            user: (state) => state.auth.user
+        }),
+        aayojana: function () {
+            const tempthis = this;
+            var data = "";
+            if (this.filterData.aarthikBarsa) {
+                var aarthikBarsa = this.aarthikBarsa.filter(function (item) {
+                    return tempthis.filterData.aarthikBarsa == item.id;
+                })[0];
+                data = aarthikBarsa.aayojana ? aarthikBarsa.aayojana : "";
+            } else {
+                data = [];
+            }
+            return data;
+        }
+
+    },
+    methods: {
+        addEditedKriyakalapLakshyaId(id) {
+            if (!this.editedKriyakalapLakshyaID.includes(id)) {
+                this.editedKriyakalapLakshyaID.push(id)
+            }
+        },
+        beforeUploadCsvData() {
+            if (!this.csvData) {
+                alert('upload first');
+            } else {
+                if (this.kriyakalapLakshya.length > 0) {
+                    this.csvDialog = true;
+                } else {
+                    this.uploadCsvData(1);
+                }
+            }
+        },
+        uploadCsvData(replace) {
+            this.csvDialog = false;
+            this.uploadCsvDataLoad = true;
+            var tempthis = this;
+            let formData = new FormData();
+            formData.append('csvData', this.csvData);
+            formData.append('aarthikBarsa', this.filterData.aarthikBarsa);
+            formData.append('aayojana', this.filterData.aayojana);
+            formData.append('kaaryalaya', this.filterData.kaaryalaya);
+            formData.append('user', this.filterData.user);
+            formData.append('replace', replace);
+            this.$store.dispatch('makePostRequest',{route:'upload-milestone-lakshya',data:formData}).then(function (response) {
+                tempthis.uploadCsvDataLoad = false;
+                tempthis.csvData = null;
+                tempthis.getDataFromApi();
+            });
+        },
+        changeInArthikBarsa() {
+            this.filterData.aayojana = 0;
+            this.getDataFromApi();
+        },
+        toggleEditData() {
+            this.editDataButtonLoading = true;
+            this.editAllData = true;
+            this.headers.unshift({text: "कार्यहरु", value: "actions"});
+            this.editDataButtonLoading = false;
+        },
+        deletePopup(item) {
+            this.$root.confirm('मेट्ने पुष्टि गर्नुहोस्', 'के तपाईं ' + item.name + ' मेट्न निश्चित हुनुहुन्छ ?', {color: 'red'}).then((confirm) => {
+                this.deleteItems.push(item.id);
+                this.kriyakalapLakshya.splice(this.kriyakalapLakshya.indexOf(item), 1);
+            }).catch((error) => {
+                console.log(error);
+            });
+        },
+        cancelSavingData() {
+            this.getDataFromApi();
+            this.editAllData = false;
+            this.headers.shift();
+        },
+        getDataFromApi() {
+            const tempthis = this;
+            this.loading = true;
+            const {page, itemsPerPage} = tempthis.options;
+            let pageNumber = page - 1;
+            this.$store.dispatch('makeGetRequest',
+                {
+                            route:'milestone-lakshya',
+                            data: {filterData:this.filterData }
+                        }).then(function (response) {
+                            tempthis.loading = false;
+                            tempthis.kriyakalapLakshya = response.data.data.kriyakalapLakshya
+                        });
+        },
+        saveKriyakalapLakshya() {
+            let tempthis = this;
+            var items = this.kriyakalapLakshya.filter(function (item) {
+                return tempthis.editedKriyakalapLakshyaID.includes(item.id);
+            });
+            this.$store.dispatch("makePostRequest",{route:'save-milestone-lakshya',data:{items: items,deletedItems: this.deleteItems,}}).then(function (response) {
+                tempthis.editAllData = false;
+                tempthis.getDataFromApi();
+                tempthis.headers.shift();
+            });
+        },
+        addKriyakalapLakshya() {
+            this.kriyakalapLakshya.unshift({
+                aayojana_id: this.filterData.aayojana,
+                user_id: this.filterData.user,
+                kaaryalaya_id: this.filterData.kaaryalaya,
+                kriyakalap_code:'',
+                name:'',
+                kharcha_sirsak:'',
+                ikai:'',
+                kharcha_prakar:'',
+                milestone_id:'',
+                milestone_name:'',
+                pariman:'',
+                shrawan_lakshya_pariman:'',
+                bhadra_lakshya_pariman:'',
+                ashoj_lakshya_pariman:'',
+                kaartik_lakshya_pariman:'',
+                mangsir_lakshya_pariman:'',
+                paush_lakshya_pariman:'',
+                magh_lakshya_pariman:'',
+                falgun_lakshya_pariman:'',
+                chaitra_lakshya_pariman:'',
+                baisakh_lakshya_pariman:'',
+                jestha_lakshya_pariman:'',
+                ashar_lakshya_pariman:'',
+                kaifiyat:''
+            });
+        },
+
+    },
+};
+</script>
+<style scoped>
+.my-text-field {
+    width: 150px;
+}
+
+.custom-button {
+    text-decoration: none;
+}
+
+v-select {
+    width: 20px;
+}
+
+abbr {
+    text-decoration: none;
+}
+</style>
