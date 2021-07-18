@@ -82,12 +82,16 @@ export default {
                         {title: 'माईलस्टोन लक्ष', icon: 'mdi-folder', route: '/milestone-lakshya',can:"milestone_lakshya-browse"},
                         {title: 'मासिक प्रगती', icon: 'mdi-folder', route: '/kriyakalap-maasik-pragati',can:"maasik_pragati_form-browse"},
                         {title: 'त्रैमासिक प्रगती', icon: 'mdi-folder', route: '/kriyakalap-traimaasik-pragati',can:"traimaasik_pragati_form-browse"},
+                        //TODO replace can: "maasik_pragati_form-browse" with respective permission
+                        {title: 'माइलस्टोन प्रगती', icon: 'mdi-folder', route: '/kriyakalap-milestone-pragati', can:"maasik_pragati_form-browse"}
                     ]
                 },
                 {
                     title: "प्रतिवेदन", icon: "mdi-file-document", subItems: [
                         {title: 'मासिक प्रगती प्रतिवेदन', icon: 'mdi-calendar-month-outline', route: '/kriyakalap-maasik-pragati-report',can:"maasik_pragati_report-browse"},
                         {title: 'त्रैमासिक प्रगती प्रतिवेदन', icon: 'mdi-file-chart', route: '/kriyakalap-traimaasik-pragati-report', can: "traimaasik_pragati_report-browse"},
+                        //TODO replace can: "traimaasik_pragati_report-browse" with respective permission
+                        {title: 'माइलस्टोन प्रगती प्रतिवेदन', icon: 'mdi-file-chart', route: '/kriyakalap-milestone-pragati-report', can: "traimaasik_pragati_report-browse"},
                     ]
                 },
                 {

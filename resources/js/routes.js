@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+
 import store from "./store";
 
 
@@ -39,6 +40,8 @@ const KriyakalapLakshya = () => import("./components/pages/kriyakalap-lakshya/br
 const KriyakalapMaasikPragati = () => import("./components/pages/kriyakalap-maasik-pragati/browse");
 const KriyakalapTraimaasikPragati = () => import("./components/pages/kriyakalap-traimaasik-pragati/browse");
 const KriyakalapMaasikPragatiFilterable = () => import("./components/pages/kriyakalap-maasik-pragrati-filterable/browse");
+const KriyakalapMilestonePragati= () =>import("./components/pages/milestone-pragati/browse");
+const KriyakalapMilestonePragatiReport= () =>import("./components/pages/milestone-pragati-report/browse");
 const MaasikPrint = () => import("./components/pages/print/MaasikPrint");
 
 const KriyakalapMaasikPragatiReport = () => import("./components/pages/kriyakalap-maasik-pragati-report/browse");
@@ -423,6 +426,46 @@ const opts = {
                         }
                     },
                 },
+                //kriyakalap-milestone-pragati
+                {
+                    path: "/kriyakalap-milestone-pragati",
+                    component: KriyakalapMilestonePragati,
+                    //TODO remove comment after correction
+                    // beforeEnter(to, from, next) {
+                    //     if (store.getters.CHECK_PERMISSION('milestone_pragati_form-browse')){
+                    //         next();
+                    //     } else  {
+                    //         next({name:"not-authenticated"});
+                    //     }
+                    // },
+                    name: 'kriyakalap-milestone-pragati',
+                    meta: {
+                        breadcrumb: {
+                            text: "माइलस्टोन प्रगती",
+                            link: "/kriyakalap-milestone-pragati"
+                        }
+                    },
+                },
+                {
+                    path: "/kriyakalap-milestone-pragati-report",
+                    component: KriyakalapMilestonePragatiReport,
+                    //TODO: remove comment after correction
+                    // beforeEnter(to, from, next) {
+                    //     if (store.getters.CHECK_PERMISSION('milestone_pragati_report-browse')){
+                    //         next();
+                    //     } else  {
+                    //         next({name:"not-authenticated"});
+                    //     }
+                    // },
+                    name: 'kriyakalap-milestone-pragati-report',
+                    meta: {
+                        breadcrumb: {
+                            text: "मासिक प्रगती प्रतिवेदन",
+                            link: "/kriyakalap-milestone-pragati-report"
+                        }
+                    },
+                },
+
                 {
                     path: "/kriyakalap-maasik-pragati-report",
                     component: KriyakalapMaasikPragatiReport,
