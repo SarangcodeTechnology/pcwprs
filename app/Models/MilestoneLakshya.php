@@ -15,4 +15,8 @@ class MilestoneLakshya extends Model
         return $this->belongsTo(Aayojana::class,'aayojana_id');
     }
 
+    public function milestonePragati(){
+        return $this->hasOne(MilestonePragati::class,'milestone_lakshya_id')->with('mahina');
+    }
+
 }

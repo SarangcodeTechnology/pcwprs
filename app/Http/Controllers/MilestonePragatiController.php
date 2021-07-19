@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Mahina;
 use App\Models\MilestoneLakshya;
+use App\Models\Submission;
 use Illuminate\Http\Request;
 
 class MilestonePragatiController extends Controller
@@ -19,19 +20,11 @@ class MilestonePragatiController extends Controller
            $karyalayaID = $filterData->kaaryalaya;
 
 
-           $milestonePragatiTaalika=MilestoneLakshya::where('aayojana_id',$aayojanaID)->where('kaaryalaya_id',$karyalayaID)->select('id','ikai','milestone_id','milestone_name',$initial.'_lakshy')
+           $milestonePragatiTaalika=MilestoneLakshya::where('aayojana_id',$aayojanaID)->where('kaaryalaya_id',$karyalayaID)->select('id','ikai','milestone_id','milestone_name','kharcha_sirsak','name','kriyakalap_code',$initial.'_lakshya_pariman')
+           ->with(['milestonePragati' => function ($query) use ($mahinaID,$karyalayaID) {
+               $query->where('mahina_id', $mahinaID)->where('kaaryalaya_id',$karyalayaID);
+           }])->get();
 
-
-           $maasikPragatiTaalika = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
-//                ->where(function ($query) use ($initial) {
-//                    return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->orWhere($initial . '_traimasik_lakshya_budget', '>', 0);
-//                })
-               ->where('kaaryalaya_id',$karyalayaID)
-               ->select('id','ikai','component','component_id','milestone','kharcha_sirsak', 'name', 'kriyakalap_code', $initial . '_traimasik_lakshya_pariman', $initial . '_traimasik_lakshya_budget')
-               ->with(['maasikPragati' => function ($query) use ($mahinaID,$karyalayaID) {
-                   $query->where('mahina_id', $mahinaID)->where('kaaryalaya_id',$karyalayaID);
-               }])
-               ->get();
            $editable = true;
            $submitted = Submission::where('kaaryalaya_id',$karyalayaID)->where('aayojana_id',$aayojanaID)->where('mahina_id',$mahinaID)->where('submitted',1)->first() ? true : false;
            if($submitted){
@@ -53,32 +46,45 @@ class MilestonePragatiController extends Controller
                    'value' => 'ikai'
                ],
                [
-                   'text' => $mahina->traimaasik->name . ' परिमाण',
-                   'value' => $mahina->traimaasik->initial . '_traimasik_lakshya_pariman'
+                   'text' =>'परिमाण',
+                   'value' =>'pariman'
                ],
                [
-                   'text' => $mahina->traimaasik->name . ' बजेट',
-                   'value' => $mahina->traimaasik->initial . '_traimasik_lakshya_budget'
+                   'text' => $mahina->name . ' लक्ष परिमाण',
+                   'value' => $mahina->initial . '_lakshya_pariman'
                ],
                [
-                   'text' => 'मासिक प्रगती परिमाण',
-                   'value' => 'maasik_pragati.pariman'
+                   'text' => 'प्रारम्भिक कार्यको शुरु प्रगति',
+                   'value' => 'milestone_pragati.prarambhik_karya_suru_pragati'
                ],
                [
-                   'text' => 'मासिक प्रगती खर्च',
-                   'value' => 'maasik_pragati.kharcha'
+                   'text' => 'प्रारम्भिक कार्यको जारी प्रगति',
+                   'value' => 'milestone_pragati.prarambhik_karya_jari_pragati'
                ],
                [
-                   'text' => 'कम्पोनेन्ट',
-                   'value' => 'component'
+                   'text' => 'प्रारम्भिक कार्यको सम्पन्न प्रगति',
+                   'value' => 'milestone_pragati.prarambhik_karya_sampanna_pragati'
+               ],
+
+               [
+                   'text' => 'कार्यक्रम कार्यान्वयनको शुरु प्रगति',
+                   'value' => 'milestone_pragati.karyakram_karyanayan_suru_pragati'
                ],
                [
-                   'text' => 'कम्पोनेन्ट आईडी',
-                   'value' => 'component_id'
+                   'text' => 'कार्यक्रम कार्यान्वयनको जारी प्रगति',
+                   'value' => 'milestone_pragati.karyakram_karyanayan_jari_pragati'
+               ],
+               [
+                   'text' => 'कार्यक्रम कार्यान्वयनको सम्पन्न प्रगति',
+                   'value' => 'milestone_pragati.karyakram_karyanayan_sampanna_pragati'
+               ],
+               [
+                   'text'=> 'माईलस्टोन नं',
+                   'value'=> 'milestone_id'
                ],
                [
                    'text'=> 'माईलस्टोन',
-                   'value'=> 'milestone'
+                   'value'=> 'milestone_name'
                ]
            ];
            return response(
@@ -86,7 +92,7 @@ class MilestonePragatiController extends Controller
                    'status' => 200,
                    'type' => 'success',
                    'message' => 'Aayojana loaded successfully',
-                   'data' => compact('requested','maasikPragatiTaalika','headers','submitted','editable')
+                   'data' => compact('requested','milestonePragatiTaalika','headers','submitted','editable')
                ]
            );
        } catch (Exception $e) {
