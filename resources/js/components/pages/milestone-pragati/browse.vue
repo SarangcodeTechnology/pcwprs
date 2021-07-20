@@ -274,7 +274,6 @@ export default {
                     tempthis.checkStatus();
                 }
             );
-
         },
         saveMilestonePragatiTaalika(submitted){
             let tempthis = this;

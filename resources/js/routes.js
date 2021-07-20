@@ -430,14 +430,13 @@ const opts = {
                 {
                     path: "/kriyakalap-milestone-pragati",
                     component: KriyakalapMilestonePragati,
-                    //TODO remove comment after correction
-                    // beforeEnter(to, from, next) {
-                    //     if (store.getters.CHECK_PERMISSION('milestone_pragati_form-browse')){
-                    //         next();
-                    //     } else  {
-                    //         next({name:"not-authenticated"});
-                    //     }
-                    // },
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('milestone_pragati_form-browse')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
                     name: 'kriyakalap-milestone-pragati',
                     meta: {
                         breadcrumb: {
@@ -449,14 +448,13 @@ const opts = {
                 {
                     path: "/kriyakalap-milestone-pragati-report",
                     component: KriyakalapMilestonePragatiReport,
-                    //TODO: remove comment after correction
-                    // beforeEnter(to, from, next) {
-                    //     if (store.getters.CHECK_PERMISSION('milestone_pragati_report-browse')){
-                    //         next();
-                    //     } else  {
-                    //         next({name:"not-authenticated"});
-                    //     }
-                    // },
+                    beforeEnter(to, from, next) {
+                        if (store.getters.CHECK_PERMISSION('milestone_pragati_report-browse')){
+                            next();
+                        } else  {
+                            next({name:"not-authenticated"});
+                        }
+                    },
                     name: 'kriyakalap-milestone-pragati-report',
                     meta: {
                         breadcrumb: {

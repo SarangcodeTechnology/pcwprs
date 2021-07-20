@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MilestonePragati;
 use App\Models\Mahina;
 use App\Models\MilestoneLakshya;
 use App\Models\Submission;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class MilestonePragatiController extends Controller
@@ -16,7 +18,6 @@ class MilestonePragatiController extends Controller
            $mahinaID = $filterData->mahina;
            $mahina = Mahina::find($mahinaID);
            $initial = $mahina->initial;
-           $traimaasik = $mahina->traimaasik->name;
            $karyalayaID = $filterData->kaaryalaya;
 
 
@@ -103,4 +104,56 @@ class MilestonePragatiController extends Controller
            ]);
        }
    }
+    public function saveMilestonePragatiTaalika(Request $request){
+        try {
+            foreach ($request->items as $item) {
+                $milestonePragati = $item['milestone_pragati'];
+                if (isset($milestonePragati['id'])) {
+                    unset($milestonePragati['mahina']);
+                    MilestonePragati::find($milestonePragati['id'])->update($milestonePragati);
+                } else {
+                    MilestonePragati::create($milestonePragati);
+                }
+            }
+            $submitted = false;
+            $editable = true;
+            if($request->submitted){
+                // if row is already present of such data
+                $submission = Submission::where('mahina_id',$request->filterData['mahina'])->where('aayojana_id',$request->filterData['aayojana'])->where('kaaryalaya_id',$request->filterData['kaaryalaya'])->first();
+                if($submission){
+                    $submission->submitted = 1;
+                    $submission->editable = 0;
+                    $submission->update();
+                }
+                // if row is not present of such data, create one
+                else{
+                    $submission = new Submission();
+                    $submission->submitted_by = $request->filterData['user'];
+                    $submission->aayojana_id = $request->filterData['aayojana'];
+                    $submission->mahina_id = $request->filterData['mahina'];
+                    $submission->kaaryalaya_id = $request->filterData['kaaryalaya'];
+                    $submission->submitted = 1;
+                    $submission->editable = 0;
+                    $submission->save();
+                }
+                $editable = false;
+                $submitted = true;
+            }
+            return response(
+                [
+                    'status' => 200,
+                    'type' => 'success',
+                    'data' => compact('submitted','editable'),
+                    'message' => 'Milestone Pragati updated successfully',
+                ]
+            );
+
+        } catch (Exception $e) {
+            return response([
+                'status' => $e->getCode(),
+                'type' => 'error',
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
 }

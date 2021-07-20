@@ -716,6 +716,35 @@ const actions = {
             )
         });
     },
+    saveMilestonePragatiTaalika(state, payload) {
+        return new Promise((resolve, reject) => {
+            axios.post('/api/v1/save-milestone-pragati-taalika', payload, {
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + state.getters.GET_ACCESS_TOKEN
+                }
+            }).then(function (response) {
+                if (response.data.status === 200) {
+                    state.dispatch("addNotification", {
+                        type: response.data.type,
+                        message: response.data.message,
+                    });
+                    resolve(response);
+                } else {
+                    state.dispatch("addNotification", {
+                        type: response.data.type,
+                        message: response.data.message,
+                    });
+                }
+            }).catch(function (error) {
+                state.dispatch("addNotification", {
+                    type: "error",
+                    message: error,
+                });
+                reject(error)
+            });
+        });
+    },
 
     //maasik pragati taalika
     getMaasikPragatiTaalika(state, payload) {
