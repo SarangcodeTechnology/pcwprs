@@ -27,6 +27,17 @@
                             {{ item.traimaasik.name }}
                         </span>
                     </template>
+                     <template v-slot:item.type="{item}">
+                        <span v-if="item.milestone">
+                            माईलस्टोन
+                        </span>
+                        <span v-else-if="item.mahina">
+                            मासिक
+                        </span>
+                        <span v-else>
+                            {{ item.traimaasik.name }}
+                        </span>
+                    </template>
                 </v-data-table>
             </v-col>
         </v-row>
@@ -47,6 +58,7 @@ export default {
                 {text: "कार्यहरु", value: "actions"},
                 {text: "कार्यलयको नाम", value: "kaaryalaya.name"},
                 {text: "आर्थिक वर्ष", value: "aarthikBarsa"},
+                {text: "प्रकार", value: "type"},
                 {text: "अनुरोध गर्नेको नाम", value: "requested_by.name"},
                 {text: "महिना/त्रैमासिक", value: "mahinaOrTraimaasik"},
                 {text: "आयोजनाको नाम", value: "aayojana.name"},

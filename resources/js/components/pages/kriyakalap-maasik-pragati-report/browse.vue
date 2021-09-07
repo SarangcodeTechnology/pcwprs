@@ -73,7 +73,7 @@
                 </v-select>
             </v-col>
         </v-row>
-        <v-row v-if="filterData.mahina">
+        <v-row v-if="filterData.mahina && maasikPragatiReports">
             <v-col cols="12">
                 <v-btn target="_blank" href="/maasik-print">
                     Print
@@ -82,6 +82,9 @@
             <v-col>
                 <maasik-print :passedFillable=false></maasik-print>
             </v-col>
+        </v-row>
+        <v-row v-else-if="filterData.mahina">
+            <v-col> No Data Available </v-col>
         </v-row>
     </v-container>
 </template>

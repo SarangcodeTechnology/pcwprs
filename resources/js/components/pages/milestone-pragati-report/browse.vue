@@ -2,7 +2,7 @@
     <v-container fluid>
         <v-row class="d-flex justify-content-between">
             <v-col cols="3" class="d-flex align-items-center">
-                <h5>मासिक प्रगती</h5>
+                <h5>माईलस्टोन प्रगती प्रतिवेदन</h5>
                 <v-divider class="ml-5" inset vertical></v-divider>
             </v-col>
         </v-row>
@@ -73,15 +73,18 @@
                 </v-select>
             </v-col>
         </v-row>
-        <v-row v-if="filterData.mahina">
+        <v-row v-if="filterData.mahina && milestoneData">
             <v-col cols="12">
-                <v-btn target="_blank" href="/maasik-print">
+                <v-btn target="_blank" @click="storeData">
                     Print
                 </v-btn>
             </v-col>
             <v-col>
-                <maasik-print :passedFillable=false></maasik-print>
+                <milestone-print :passedFillable=false></milestone-print>
             </v-col>
+        </v-row>
+        <v-row v-else-if="filterData.mahina">
+            <v-col> No Data Available </v-col>
         </v-row>
     </v-container>
 </template>
@@ -130,7 +133,7 @@ export default {
             aarthikBarsa: (state) => state.webservice.resources.aarthik_barsa,
             kaaryalaya: (state) => state.webservice.resources.kaaryalaya,
             user: (state) => state.auth.user,
-            maasikPragatiReports: (state) => state.webservice.maasikPragatiReports,
+            milestoneData: (state) => state.webservice.milestonePragatiReports,
         }),
         aayojana: function () {
             const tempthis = this;
@@ -148,6 +151,10 @@ export default {
 
     },
     methods: {
+        storeData(){
+            this.$store.commit('SET_MILESTONE_PRAGATI_REPORT',this.milestoneData) ;
+            window.open('/milestone-print', '_blank').focus();
+        },
         toggle() {
             this.$nextTick(() => {
                 if (this.selectsAllKaryalaya) {
@@ -182,7 +189,7 @@ export default {
         getDataFromApi() {
             const tempthis = this;
             this.$store
-                .dispatch("getMaasikPragatiTaalikaReport", {
+                .dispatch("getMilestonePragatiReport", {
                     filterData: this.filterData,
                 })
                 .then(function (response) {

@@ -34,6 +34,7 @@ const Aayojana = () => import("./components/pages/aayojana/browse");
 const AayojanaEdit = () => import("./components/pages/aayojana/edit");
 
 const MilestoneLakshya = () => import("./components/pages/milestone-lakshya/browse");
+const MilestonePrint = () => import("./components/pages/print/MilestonePrint");
 
 
 const KriyakalapLakshya = () => import("./components/pages/kriyakalap-lakshya/browse");
@@ -577,6 +578,11 @@ const opts = {
             path: "/maasik-print",
             component: MaasikPrint,
             name: 'Maasik Print',
+        },
+        {
+            path: "/milestone-print",
+            component: MilestonePrint,
+            name: 'Milestone Print',
         },
         {
             path: "/traimaasik-print",

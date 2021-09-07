@@ -30,9 +30,13 @@ class RequestController extends Controller
         try {
             // if row is already present of such data
             $requested = false;
-            if(isset($request->filterData['mahina'])){
+            if(isset($request->filterData['mahina']) && isset($request->filterData['milestone'])){      
+                $formRequest = Submission::where('mahina_id',$request->filterData['mahina'])->where('aayojana_id',$request->filterData['aayojana'])->where('milestone',1)->where('kaaryalaya_id',$request->filterData['kaaryalaya'])->first();
+            }
+            else if(isset($request->filterData['mahina'])){
                 $formRequest = Submission::where('mahina_id',$request->filterData['mahina'])->where('aayojana_id',$request->filterData['aayojana'])->where('kaaryalaya_id',$request->filterData['kaaryalaya'])->first();
             }
+
             if(isset($request->filterData['traimaasik'])){
                 $formRequest = Submission::where('traimaasik_id',$request->filterData['traimaasik'])->where('aayojana_id',$request->filterData['aayojana'])->where('kaaryalaya_id',$request->filterData['kaaryalaya'])->first();
             }

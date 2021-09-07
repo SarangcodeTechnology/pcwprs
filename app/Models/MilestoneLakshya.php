@@ -19,4 +19,9 @@ class MilestoneLakshya extends Model
         return $this->hasOne(MilestonePragati::class,'milestone_lakshya_id')->with('mahina');
     }
 
+    public function milestonePragatis(){
+        return $this->hasMany(MilestonePragati::class,'milestone_lakshya_id');
+    }
+
+
 }

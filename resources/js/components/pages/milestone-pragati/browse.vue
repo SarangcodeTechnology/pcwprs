@@ -143,7 +143,8 @@ export default {
                 user:0,
                 aarthikBarsa: "",
                 aayojana: 0,
-                mahina: 0
+                mahina: 0,
+                milestone:1,
             },
             headers:[],
             milestonePragatiTaalika:[],

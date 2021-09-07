@@ -14,4 +14,12 @@ class Aayojana extends Model
     public function aarthikBarsa(){
         return $this->belongsTo(AarthikBarsa::class,'aarthik_barsa_id');
     }
+
+    public function milestoneLakshya(){
+        return $this->hasMany(MilestoneLakshya::class,'aayojana_id');
+    }
+
+    public function kriyakalapLakshya(){
+        return $this->hasMany(KriyakalapLakshya::class,'aayojana_id');
+    }
 }

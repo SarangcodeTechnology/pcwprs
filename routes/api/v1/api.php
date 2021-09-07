@@ -66,6 +66,7 @@ Route::middleware('auth:api')->post('upload-milestone-lakshya',[MilestoneLakshya
 //milestone pragati
 Route::middleware('auth:api')->get('milestone-pragati-taalika', [MilestonePragatiController::class,'index']);
 Route::middleware('auth:api')->post('save-milestone-pragati-taalika',[MilestonePragatiController::class,'saveMilestonePragatiTaalika']);
+Route::middleware('auth:api')->get('milestone-pragati-report', [MilestonePragatiController::class,'report']);
 
 
 // kriyakalap-lakshya

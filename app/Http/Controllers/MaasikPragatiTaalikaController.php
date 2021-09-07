@@ -10,6 +10,7 @@ use App\Models\Mahina;
 use App\Models\Submission;
 use Illuminate\Http\Request;
 use App\Models\Request as FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 
 class MaasikPragatiTaalikaController extends Controller
@@ -22,24 +23,24 @@ class MaasikPragatiTaalikaController extends Controller
             $mahina = Mahina::find($mahinaID);
             $initial = $mahina->traimaasik->initial;
             $traimaasik = $mahina->traimaasik->name;
-            $karyalayaID = $filterData->kaaryalaya;
+            $kaaryalayaID = $filterData->kaaryalaya;
 
             $maasikPragatiTaalika = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
-//                ->where(function ($query) use ($initial) {
-//                    return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->orWhere($initial . '_traimasik_lakshya_budget', '>', 0);
-//                })
-                ->where('kaaryalaya_id',$karyalayaID)
+               /**->where(function ($query) use ($initial) {
+                   return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->orWhere($initial . '_traimasik_lakshya_budget', '>', 0);
+               }) */
+                ->where('kaaryalaya_id',$kaaryalayaID)
                 ->select('id','ikai','component','component_id','milestone','kharcha_sirsak', 'name', 'kriyakalap_code', $initial . '_traimasik_lakshya_pariman', $initial . '_traimasik_lakshya_budget')
-                ->with(['maasikPragati' => function ($query) use ($mahinaID,$karyalayaID) {
-                    $query->where('mahina_id', $mahinaID)->where('kaaryalaya_id',$karyalayaID);
+                ->with(['maasikPragati' => function ($query) use ($mahinaID,$kaaryalayaID) {
+                    $query->where('mahina_id', $mahinaID)->where('kaaryalaya_id',$kaaryalayaID);
                 }])
                 ->get();
             $editable = true;
-            $submitted = Submission::where('kaaryalaya_id',$karyalayaID)->where('aayojana_id',$aayojanaID)->where('mahina_id',$mahinaID)->where('submitted',1)->first() ? true : false;
+            $submitted = Submission::where('kaaryalaya_id',$kaaryalayaID)->where('aayojana_id',$aayojanaID)->where('milestone','!=',1)->where('mahina_id',$mahinaID)->where('submitted',1)->first() ? true : false;
             if($submitted){
-                $editable = Submission::where('kaaryalaya_id',$karyalayaID)->where('aayojana_id',$aayojanaID)->where('mahina_id',$mahinaID)->where('submitted',1)->where('editable',1)->first() ? true : false;
+                $editable = Submission::where('kaaryalaya_id',$kaaryalayaID)->where('aayojana_id',$aayojanaID)->where('milestone','!=',1)->where('mahina_id',$mahinaID)->where('submitted',1)->where('editable',1)->first() ? true : false;
             }
-            $requested = Submission::where('kaaryalaya_id',$karyalayaID)->where('aayojana_id',$aayojanaID)->where('mahina_id',$mahinaID)->where('submitted',1)->where('requested',1)->first() ? true : false;
+            $requested = Submission::where('kaaryalaya_id',$kaaryalayaID)->where('aayojana_id',$aayojanaID)->where('milestone','!=',1)->where('mahina_id',$mahinaID)->where('submitted',1)->where('requested',1)->first() ? true : false;
 
             $headers = [
                 [
@@ -113,7 +114,7 @@ class MaasikPragatiTaalikaController extends Controller
             $item['baarsik_lakshya_vaar'] = round($this->calculateVaar($item['baarsik_lakshya_budget'] ,$totalBaarsikLakshyaBudget),3);
             // if maasik_pragati is not null then calculate vaar else set all to 0
             if ($item['maasik_pragati']) {
-                $item['maasik_pragati']['vaarit'] = $item['baarsik_lakshya_pariman']==0 ? 0 : round(($item['baarsik_lakshya_vaar']/$item['baarsik_lakshya_pariman'])*$item['maasik_pragati']['pariman'],3);
+                $item['maasik_pragati']['vaarit'] = $item['baarsik_lakshya_pariman'] ?  round(($item['baarsik_lakshya_vaar']/$item['baarsik_lakshya_pariman'])*$item['maasik_pragati']['pariman'],3) : 0;
             } else {
                 $item['maasik_pragati']['pariman'] = 0;
                 $item['maasik_pragati']['kharcha'] = 0;
@@ -130,8 +131,7 @@ class MaasikPragatiTaalikaController extends Controller
 
             $item['total_till_now']['pariman'] = round($item['total_till_now']['pariman'],3);
             $item['total_till_now']['kharcha'] = round($item['total_till_now']['kharcha'],3);
-            $item['total_till_now']['vaarit'] = $item['baarsik_lakshya_pariman']==0 ? 0 : round(($item['baarsik_lakshya_vaar']/$item['baarsik_lakshya_pariman'])*$item['total_till_now']['pariman'],3);
-
+            $item['total_till_now']['vaarit'] = $item['baarsik_lakshya_pariman'] ? round(($item['baarsik_lakshya_vaar']/$item['baarsik_lakshya_pariman'])*$item['total_till_now']['pariman'],3) : 0;
             //round off pariman kharcha and vaarit
 
             if($baarsik||$ardaBaarsik) {
@@ -140,7 +140,7 @@ class MaasikPragatiTaalikaController extends Controller
                 $item['maasik_pragati']['vaarit'] =  $item['total_till_now']['vaarit'] ;
             }
 
-            $item['vautik_pragati'] = round(($item['total_till_now']['pariman'] / $item['baarsik_lakshya_pariman'])*100,2);
+            $item['vautik_pragati'] = $item['baarsik_lakshya_pariman'] ? round(($item['total_till_now']['pariman'] / $item['baarsik_lakshya_pariman'])*100,2) : 0;
 
             $myData[] = $item;
         }
@@ -231,7 +231,7 @@ class MaasikPragatiTaalikaController extends Controller
         $items['pratibedan_awadi_ko_kharcha']['chalu'] = round($items['chalu']['totals']['maasik_pragati_vaarit'],3);
         $items['pratibedan_awadi_ko_kharcha']['total'] = round($items['pratibedan_awadi_ko_kharcha']['punjigat'] + $items['pratibedan_awadi_ko_kharcha']['chalu'],3);
 
-        $items['pratibedan_awadi_ko_kharcha']['total_percent'] = $items['totals']['maasik_pragati_vaarit']==0 ? 0 : round(($items['pratibedan_awadi_ko_kharcha']['total'] / $items['totals']['maasik_pragati_vaarit']) * 100, 3);
+        $items['pratibedan_awadi_ko_kharcha']['total_percent'] = $items['totals']['maasik_pragati_vaarit'] ? round(($items['pratibedan_awadi_ko_kharcha']['total'] / $items['totals']['maasik_pragati_vaarit']) * 100, 3) : 0;
 
         return $items;
     }
@@ -250,52 +250,64 @@ class MaasikPragatiTaalikaController extends Controller
             $mahina = Mahina::find($mahinaID);
             $initial = $mahina->traimaasik->initial;
             $traimaasik = $mahina->traimaasik->name;
-            $karyalayaIDs = $filterData->kaaryalaya;
+            $kaaryalayaIDs = $filterData->kaaryalaya;
+
+            $kriyakalapLakshyaIDs = Aayojana::find($aayojanaID)->kriyakalapLakshya->pluck('id')->toArray();
             //initializing
             $maasikPragatiReports = [];
-            foreach($karyalayaIDs as $karyalayaID) {
-                // if that kaaryalaya has no lakshya then don't go through this loop
-                if(!KriyakalapLakshya::where('aayojana_id', $aayojanaID)
-                    ->where('kaaryalaya_id', $karyalayaID)->first()) continue;
-                $maasikPragati = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
-                    ->where('kaaryalaya_id', $karyalayaID)
-                    //ardabaarsik
-                    ->when($ardaBaarsik,function($query){
-                        return $query->where('pahilo_traimasik_lakshya_pariman','>',0)->orWhere('pahilo_traimasik_lakshya_budget','>',0)->orWhere('dosro_traimasik_lakshya_pariman','>',0)->orWhere('dosro_traimasik_lakshya_budget','>',0);
-                    })
-                    //baarsik or Arda Baarsik
-                    ->when((!$baarsik && !$ardaBaarsik),function($myQuery) use ($initial){
-                        return $myQuery->where(function ($query) use ($initial) {
-                            return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->orWhere($initial . '_traimasik_lakshya_budget', '>', 0);
-                        });
-                    })
-                    ->with(['maasikPragati' => function ($query) use ($mahinaID) {
-                        return $query->where('mahina_id', $mahinaID);
-                    }])
-                    ->with(['maasikPragatis' => function ($query) use ($mahinaID) {
+            foreach($kaaryalayaIDs as $kaaryalayaID) {
+                /** checking if that kaaryalaya submitted or not and if not submitted no need to go further continue the loop 
+                 *  if user's kaaryalaya is same as kaaryalayaID then yes they can access it even without submitting data i.e, only saving data */ 
+                if(Auth::user()->kaaryalaya_id!=$kaaryalayaID){
+                    if(!Submission::where('mahina_id',$mahinaID)->where('kaaryalaya_id',$kaaryalayaID)->where('submitted',1)->first()) continue;
+                }
+                $maasikPragatis =  KriyakalapMaasikPragati::whereIn('kriyakalap_lakshya_id',$kriyakalapLakshyaIDs)->where('kaaryalaya_id',$kaaryalayaID)->where('mahina_id',$mahinaID)->get();
 
-                        return $query->where('mahina_id', '<=', $mahinaID);
-                    }])
-                    ->get();
-                //for total baarsiklakshya budget we shouldn't filter
-                $maasikPragatiUnfiltered = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
-                    ->where('kaaryalaya_id', $karyalayaID)
-                    ->get();
-                $totalBaarsikLakshyaBudget = $maasikPragatiUnfiltered->sum('baarsik_lakshya_budget');
+                /** if only data is found in maasik pragati table then run this 
+                 * also let in if ardaBaarsik and baarsik too*/
+                if(count($maasikPragatis)>0 || $ardaBaarsik || $baarsik){
+                          /** old code no changes here */
+                        $maasikPragati = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
+                            ->where('kaaryalaya_id', $kaaryalayaID)
+                            //ardabaarsik
+                            ->when($ardaBaarsik,function($query){
+                                return $query->where('pahilo_traimasik_lakshya_pariman','>',0)->orWhere('pahilo_traimasik_lakshya_budget','>',0)->orWhere('dosro_traimasik_lakshya_pariman','>',0)->orWhere('dosro_traimasik_lakshya_budget','>',0);
+                            })
+                            //baarsik or Arda Baarsik
+                            ->when((!$baarsik && !$ardaBaarsik),function($myQuery) use ($initial){
+                                return $myQuery->where(function ($query) use ($initial) {
+                                    return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->orWhere($initial . '_traimasik_lakshya_budget', '>', 0);
+                                });
+                            })
+                            ->with(['maasikPragati' => function ($query) use ($mahinaID) {
+                                return $query->where('mahina_id', $mahinaID);
+                            }])
+                            ->with(['maasikPragatis' => function ($query) use ($mahinaID) {
 
-                $maasikPragati = json_decode(json_encode($maasikPragati), true);
-                $maasikPragatiReports[] = [
-                    'baarsik' => $baarsik,
-                    'ardaBaarsik' => $ardaBaarsik,
-                    'kaaryalaya' => Kaaryalaya::find($karyalayaID),
-                    'aayojana' => Aayojana::find($aayojanaID)->name,
-                    'month' => $baarsik ? 'वार्षिक प्रगति' : ( $ardaBaarsik ? 'अर्द वार्षिक प्रगति' : Mahina::find($mahinaID)->name.' महिनाको प्रगति' ),
-                    'items' => $this->getSpecificData($maasikPragati, $mahinaID, $totalBaarsikLakshyaBudget,$baarsik,$ardaBaarsik)
-                ];
+                                return $query->where('mahina_id', '<=', $mahinaID);
+                            }])
+                            ->get();
+                        //for total baarsiklakshya budget we shouldn't filter
+                        $maasikPragatiUnfiltered = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
+                            ->where('kaaryalaya_id', $kaaryalayaID)
+                            ->get();
+                        $totalBaarsikLakshyaBudget = $maasikPragatiUnfiltered->sum('baarsik_lakshya_budget');
 
+                        $maasikPragati = json_decode(json_encode($maasikPragati), true);
+
+                        $maasikPragatiReports[] = [
+                            'baarsik' => $baarsik,
+                            'ardaBaarsik' => $ardaBaarsik,
+                            'kaaryalaya' => Kaaryalaya::find($kaaryalayaID),
+                            'aayojana' => Aayojana::find($aayojanaID)->name,
+                            'month' => $baarsik ? 'वार्षिक प्रगति' : ( $ardaBaarsik ? 'अर्द वार्षिक प्रगति' : Mahina::find($mahinaID)->name.' महिनाको प्रगति' ),
+                            'items' => $this->getSpecificData($maasikPragati, $mahinaID, $totalBaarsikLakshyaBudget,$baarsik,$ardaBaarsik)
+                        ];  
+                }
             }
 
-            return response(
+            if(count($maasikPragatiReports)>0){
+                return response(
                 [
                     'status' => 200,
                     'type' => 'success',
@@ -303,6 +315,16 @@ class MaasikPragatiTaalikaController extends Controller
                     'data' => compact('maasikPragatiReports')
                 ]
             );
+            }
+            return response(
+                [
+                    'status' => 200,
+                    'type' => 'success',
+                    'message' => 'No Data Available',
+                    'data' => ['maasikPragatiReports'=>null]
+                ]
+            );
+            
         } catch (Exception $e) {
             return response([
                 'status' => $e->getCode(),
@@ -320,7 +342,7 @@ class MaasikPragatiTaalikaController extends Controller
             $traimaasikID = $filterData->traimaasik;
             $traimaasik = Traimaasik::find($traimaasikID);
             $initial = $traimaasik->initial;
-            $karyalayaID = $filterData->kaaryalaya;
+            $kaaryalayaID = $filterData->kaaryalaya;
             $traimaasikPragati = KriyakalapLakshya::
             when(!empty($aayojanaID), function ($query) use ($aayojanaID) {
                 $query->whereIn('aayojana_id', $aayojanaID);
@@ -328,7 +350,7 @@ class MaasikPragatiTaalikaController extends Controller
                 ->when(!empty($filterData->kharchaPrakar),function($query) use ($filterData){
                     return $query->whereIn('kharcha_prakar',$filterData->kharchaPrakar);
                 })
-                ->where('kaaryalaya_id', $karyalayaID)
+                ->where('kaaryalaya_id', $kaaryalayaID)
                 ->where(function ($query) use ($initial) {
                     return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->where($initial . '_traimasik_lakshya_budget', '>', 0);
                 })
@@ -455,7 +477,7 @@ class MaasikPragatiTaalikaController extends Controller
             $editable = true;
             if($request->submitted){
                  // if row is already present of such data
-                $submission = Submission::where('mahina_id',$request->filterData['mahina'])->where('aayojana_id',$request->filterData['aayojana'])->where('kaaryalaya_id',$request->filterData['kaaryalaya'])->first();
+                $submission = Submission::where('mahina_id',$request->filterData['mahina'])->where('milestone','!=',1)->where('aayojana_id',$request->filterData['aayojana'])->where('kaaryalaya_id',$request->filterData['kaaryalaya'])->first();
                 if($submission){
                     $submission->submitted = 1;
                     $submission->editable = 0;

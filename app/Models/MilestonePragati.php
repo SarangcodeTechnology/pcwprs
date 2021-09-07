@@ -20,4 +20,8 @@ class MilestonePragati extends Model
     public function mahina(){
         return $this->belongsTo(Mahina::class,'mahina_id','id');
     }
+
+    public function kaaryalaya(){
+        return $this->belongsTo(Kaaryalaya::class,'kaaryalaya_id');
+    }
 }

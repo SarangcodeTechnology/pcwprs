@@ -43,6 +43,7 @@ const state = {
         baarsik_budget: ""
     },
     maasikPragatiTaalika: {},
+    milestonePragatiReports:[],
     maasikPragatiReports:[],
     traimaasikPragatiReports:[],
     traimaasikPragatiReportFilterable:[],
@@ -101,6 +102,10 @@ const mutations = {
         state.editAayojanaData = payload;
     },
 
+    SET_MILESTONE_PRAGATI_REPORT(state,payload){
+        state.milestonePragatiReports = payload;
+    },
+
     SET_MAASIK_PRAGATI_REPORT(state,payload){
         state.maasikPragatiReports = payload;
     },
@@ -119,7 +124,6 @@ const mutations = {
 };
 
 const actions = {
-
     loadResources(state, payload) {
         return new Promise((resolve, reject) => {
             axios
@@ -745,6 +749,39 @@ const actions = {
             });
         });
     },
+    getMilestonePragatiReport(state,payload){
+        axios.get('/api/v1/milestone-pragati-report', {
+                params: {
+                    filterData: payload.filterData
+                },
+                headers: {
+                    // Accept: "application/json",
+                    Authorization: "Bearer " + state.getters.GET_ACCESS_TOKEN
+                }
+            }
+        ).then(
+            function (response) {
+                if (response.data.status == 200) {
+                    state.commit("SET_MILESTONE_PRAGATI_REPORT", response.data.data);
+                    // resolve(response.data.data);
+
+                } else {
+                    state.dispatch("addNotification", {
+                        type: response.data.type,
+                        message: response.data.message
+                    })
+                }
+            }
+        ).catch(
+            function (error) {
+                state.dispatch("addNotification", {
+                    type: "error",
+                    message: error,
+                });
+                reject(error);
+            }
+        )
+    },
 
     //maasik pragati taalika
     getMaasikPragatiTaalika(state, payload) {
@@ -875,6 +912,7 @@ const actions = {
             }
         )
     },
+
 
     //traimaasik pragati taalika
     getTraimaasikPragatiTaalika(state, payload) {
@@ -1210,7 +1248,6 @@ const getters = {
     CHECK_PERMISSION:(state) => (can) => {
         return state.resources.userPermissions.includes(can);
     }
-
 };
 
 export default {

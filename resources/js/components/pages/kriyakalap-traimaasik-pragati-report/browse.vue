@@ -73,7 +73,7 @@
                 </v-select>
             </v-col>
         </v-row>
-        <v-row v-if="filterData.traimaasik">
+        <v-row v-if="filterData.traimaasik && traimaasikPragatiReports">
             <v-col cols="12">
                 <v-btn target="_blank" href="/traimaasik-print">
                     Print
@@ -82,6 +82,9 @@
             <v-col>
                 <traimaasik-print :passedFillable="false"></traimaasik-print>
             </v-col>
+        </v-row>
+        <v-row v-else-if="filterData.traimaasik">
+            <v-col>No Data Available</v-col>
         </v-row>
     </v-container>
 </template>

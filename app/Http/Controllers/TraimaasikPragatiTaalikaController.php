@@ -10,6 +10,7 @@ use App\Models\KriyakalapTraimaasikPragati;
 use App\Models\Submission;
 use App\Models\Traimaasik;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TraimaasikPragatiTaalikaController extends Controller
 {
@@ -21,24 +22,24 @@ class TraimaasikPragatiTaalikaController extends Controller
             $traimaasikID = $filterData->traimaasik;
             $traimaasik = Traimaasik::find($traimaasikID);
             $initial = $traimaasik->initial;
-            $karyalayaID = $filterData->kaaryalaya;
+            $kaaryalayaID = $filterData->kaaryalaya;
 
             $traiMaasikPragatiTaalika = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
-//                ->where(function ($query) use ($initial) {
-//                    return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->orWhere($initial . '_traimasik_lakshya_budget', '>', 0);
-//                })
-                ->where('kaaryalaya_id', $karyalayaID)
+               // ->where(function ($query) use ($initial) {
+               //     return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->orWhere($initial . '_traimasik_lakshya_budget', '>', 0);
+               // })
+                ->where('kaaryalaya_id', $kaaryalayaID)
                 ->select('id','ikai','component','component_id','milestone','kharcha_sirsak', 'name', 'kriyakalap_code', $initial . '_traimasik_lakshya_pariman', $initial . '_traimasik_lakshya_budget')
-                ->with(['traimaasikPragati' => function ($query) use ($traimaasikID, $karyalayaID) {
-                    $query->where('traimaasik_id', $traimaasikID)->where('kaaryalaya_id', $karyalayaID);
+                ->with(['traimaasikPragati' => function ($query) use ($traimaasikID, $kaaryalayaID) {
+                    $query->where('traimaasik_id', $traimaasikID)->where('kaaryalaya_id', $kaaryalayaID);
                 }])
                 ->get();
             $editable = true;
-            $submitted = Submission::where('kaaryalaya_id', $karyalayaID)->where('aayojana_id', $aayojanaID)->where('traimaasik_id', $traimaasikID)->where('submitted', 1)->first() ? true : false;
+            $submitted = Submission::where('kaaryalaya_id', $kaaryalayaID)->where('aayojana_id', $aayojanaID)->where('milestone','!=',1)->where('traimaasik_id', $traimaasikID)->where('submitted', 1)->first() ? true : false;
             if ($submitted) {
-                $editable = Submission::where('kaaryalaya_id', $karyalayaID)->where('aayojana_id', $aayojanaID)->where('traimaasik_id', $traimaasikID)->where('submitted', 1)->where('editable', 1)->first() ? true : false;
+                $editable = Submission::where('kaaryalaya_id', $kaaryalayaID)->where('aayojana_id', $aayojanaID)->where('milestone','!=',1)->where('traimaasik_id', $traimaasikID)->where('submitted', 1)->where('editable', 1)->first() ? true : false;
             }
-            $requested = Submission::where('kaaryalaya_id', $karyalayaID)->where('aayojana_id', $aayojanaID)->where('traimaasik_id', $traimaasikID)->where('submitted', 1)->where('requested', 1)->first() ? true : false;
+            $requested = Submission::where('kaaryalaya_id', $kaaryalayaID)->where('aayojana_id', $aayojanaID)->where('milestone','!=',1)->where('traimaasik_id', $traimaasikID)->where('submitted', 1)->where('requested', 1)->first() ? true : false;
 
             $headers = [
                 [
@@ -262,64 +263,82 @@ class TraimaasikPragatiTaalikaController extends Controller
             if($traimaasikID==6){ $ardaBaarsik=1; $traimaasikID=2; }
             $traimaasik = Traimaasik::find($traimaasikID);
             $initial = $traimaasik->initial;
-            $karyalayaIDs = $filterData->kaaryalaya;
+            $kaaryalayaIDs = $filterData->kaaryalaya;
+            
+            $kriyakalapLakshyaIDs = Aayojana::find($aayojanaID)->kriyakalapLakshya->pluck('id')->toArray();
 
             $traimaasikPragatiReports = [];
-            foreach($karyalayaIDs as $karyalayaID){
-                // if that kaaryalaya has no lakshya then don't go through this loop
-                if(!KriyakalapLakshya::where('aayojana_id', $aayojanaID)
-                    ->where('kaaryalaya_id', $karyalayaID)->first()) continue;
-                $traimaasikPragati = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
-                    ->where('kaaryalaya_id', $karyalayaID)
-//                    //ardabaarsik
-//                    ->when($ardaBaarsik,function($query){
-//                            return $query->where('pahilo_traimasik_lakshya_pariman','>',0)->orWhere('pahilo_traimasik_lakshya_budget','>',0)->orWhere('dosro_traimasik_lakshya_pariman','>',0)->orWhere('dosro_traimasik_lakshya_budget','>',0);
-//                    })
-//                    //baarsik or Arda Baarsik
-//                    ->when((!$baarsik && !$ardaBaarsik),function($myQuery) use ($initial){
-//                        return $myQuery->where(function ($query) use ($initial) {
-//                            return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->orWhere($initial . '_traimasik_lakshya_budget', '>', 0);
-//                        });
-//                    })
-                    ->with(['traimaasikPragati' => function ($query) use ($traimaasikID) {
-                        return $query->where('traimaasik_id', $traimaasikID);
-                    }])
-                    ->with(['traimaasikPragatis' => function ($query) use ($traimaasikID) {
+            foreach($kaaryalayaIDs as $kaaryalayaID){
+                /** checking if that kaaryalaya submitted or not and if not submitted no need to go further continue the loop 
+                 *  if user's kaaryalaya is same as kaaryalayaID then yes they can access it even without submitting data i.e, only saving data */ 
+                if(Auth::user()->kaaryalaya_id!=$kaaryalayaID){
+                    if(!Submission::where('mahina_id',$traimaasikID)->where('kaaryalaya_id',$kaaryalayaID)->where('submitted',1)->first()) continue;
+                }
+                $traimaasikPragatis =  KriyakalapTraimaasikPragati::whereIn('kriyakalap_lakshya_id',$kriyakalapLakshyaIDs)->where('kaaryalaya_id',$kaaryalayaID)->where('traimaasik_id',$traimaasikID)->get();
+                if(count($traimaasikPragatis)>0){
+                      $traimaasikPragati = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
+                        ->where('kaaryalaya_id', $kaaryalayaID)
+                       // //ardabaarsik
+                       // ->when($ardaBaarsik,function($query){
+                       //         return $query->where('pahilo_traimasik_lakshya_pariman','>',0)->orWhere('pahilo_traimasik_lakshya_budget','>',0)->orWhere('dosro_traimasik_lakshya_pariman','>',0)->orWhere('dosro_traimasik_lakshya_budget','>',0);
+                       // })
+                       // //baarsik or Arda Baarsik
+                       // ->when((!$baarsik && !$ardaBaarsik),function($myQuery) use ($initial){
+                       //     return $myQuery->where(function ($query) use ($initial) {
+                       //         return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->orWhere($initial . '_traimasik_lakshya_budget', '>', 0);
+                       //     });
+                       // })
+                        ->with(['traimaasikPragati' => function ($query) use ($traimaasikID) {
+                            return $query->where('traimaasik_id', $traimaasikID);
+                        }])
+                        ->with(['traimaasikPragatis' => function ($query) use ($traimaasikID) {
 
-                        return $query->where('traimaasik_id', '<=', $traimaasikID);
-                    }])
-                    ->get();
-                //for sum
-                $traimaasikPragatiUnfiltered = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
-                    ->where('kaaryalaya_id', $karyalayaID)
-                    ->get();
-                $totalBaarsikLakshyaBudget = $traimaasikPragatiUnfiltered->sum('baarsik_lakshya_budget');
+                            return $query->where('traimaasik_id', '<=', $traimaasikID);
+                        }])
+                        ->get();
+                    //for sum
+                    $traimaasikPragatiUnfiltered = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
+                        ->where('kaaryalaya_id', $kaaryalayaID)
+                        ->get();
+                    $totalBaarsikLakshyaBudget = $traimaasikPragatiUnfiltered->sum('baarsik_lakshya_budget');
 
-                $traimaasikPragati = json_decode(json_encode($traimaasikPragati), true);
+                    $traimaasikPragati = json_decode(json_encode($traimaasikPragati), true);
 
 
-                $traimaasikPragatiReports[] =
-                    [
-                        'ardaBaarsik' => $ardaBaarsik,
-                        'baarsik' => $baarsik,
-                        'kaaryalaya' => Kaaryalaya::find($karyalayaID),
-                        'aayojana' => Aayojana::find($aayojanaID)->name,
-                        'trimester' => $baarsik ? 'वार्षिक' :  ( $ardaBaarsik ? 'अर्द वार्षिक' : Traimaasik::find($traimaasikID)->name ),
-                        'initial' => $initial,
-                        'items' => $this->getSpecificData($traimaasikPragati, $totalBaarsikLakshyaBudget, $initial,$baarsik,$ardaBaarsik)
-                    ];
+                    $traimaasikPragatiReports[] =
+                        [
+                            'ardaBaarsik' => $ardaBaarsik,
+                            'baarsik' => $baarsik,
+                            'kaaryalaya' => Kaaryalaya::find($kaaryalayaID),
+                            'aayojana' => Aayojana::find($aayojanaID)->name,
+                            'trimester' => $baarsik ? 'वार्षिक' :  ( $ardaBaarsik ? 'अर्द वार्षिक' : Traimaasik::find($traimaasikID)->name ),
+                            'initial' => $initial,
+                            'items' => $this->getSpecificData($traimaasikPragati, $totalBaarsikLakshyaBudget, $initial,$baarsik,$ardaBaarsik)
+                        ];  
+                }
+                
             }
 
 
-
-            return response(
+            if (count($traimaasikPragatiReports)) {
+                return response(
                 [
                     'status' => 200,
                     'type' => 'success',
                     'message' => 'Aayojana loaded successfully',
                     'data' => compact('traimaasikPragatiReports')
                 ]
+                );
+            }
+            return response(
+                [
+                    'status' => 200,
+                    'type' => 'success',
+                    'message' => 'No Data Available',
+                    'data' => ['traimaasikPragatiReports'=>null]
+                ]
             );
+            
         } catch (Exception $e) {
             return response([
                 'status' => $e->getCode(),
@@ -344,7 +363,7 @@ class TraimaasikPragatiTaalikaController extends Controller
             $editable = true;
             if ($request->submitted) {
                 // if row is already present of such data
-                $submission = Submission::where('traimaasik_id', $request->filterData['traimaasik'])->where('aayojana_id', $request->filterData['aayojana'])->where('kaaryalaya_id', $request->filterData['kaaryalaya'])->first();
+                $submission = Submission::where('traimaasik_id', $request->filterData['traimaasik'])->where('milestone','!=',1)->where('aayojana_id', $request->filterData['aayojana'])->where('kaaryalaya_id', $request->filterData['kaaryalaya'])->first();
                 if ($submission) {
                     $submission->submitted = 1;
                     $submission->editable = 0;
@@ -411,11 +430,11 @@ class TraimaasikPragatiTaalikaController extends Controller
         $aayojanaID = $filterData->aayojana;
         $userID = $filterData->user;
         $traimaasikID = $filterData->traimaasik;
-        $karyalayaID = $filterData->kaaryalaya;
+        $kaaryalayaID = $filterData->kaaryalaya;
         $traimaasik = Traimaasik::find($traimaasikID);
         $mahina = $traimaasik->mahina->pluck('id');
 
-        $items = KriyakalapMaasikPragati::whereIn('mahina_id', $mahina)->where('kaaryalaya_id', $karyalayaID)->orderBy('kriyakalap_lakshya_id')->get();
+        $items = KriyakalapMaasikPragati::whereIn('mahina_id', $mahina)->where('kaaryalaya_id', $kaaryalayaID)->orderBy('kriyakalap_lakshya_id')->get();
 
         $data = [];
         $kriyakalap_lakshya_id = 0;
@@ -427,7 +446,7 @@ class TraimaasikPragatiTaalikaController extends Controller
                 $data[$nextCount]['id'] = $kriyakalap_lakshya_id;
                 $data[$nextCount]['traimaasik_pragati']['pariman'] = 0;
                 $data[$nextCount]['traimaasik_pragati']['kharcha'] = 0;
-                $data[$nextCount]['traimaasik_pragati']['kaaryalaya_id'] = $karyalayaID;
+                $data[$nextCount]['traimaasik_pragati']['kaaryalaya_id'] = $kaaryalayaID;
                 $data[$nextCount]['traimaasik_pragati']['kriyakalap_lakshya_id'] = $kriyakalap_lakshya_id;
                 $data[$nextCount]['traimaasik_pragati']['traimaasik_id'] = $traimaasikID;
                 $data[$nextCount]['traimaasik_pragati']['user_id'] = $userID;
@@ -506,7 +525,7 @@ class TraimaasikPragatiTaalikaController extends Controller
             $traimaasikID = $filterData->traimaasik;
             $traimaasik = Traimaasik::find($traimaasikID);
             $initial = $traimaasik->initial;
-            $karyalayaID = $filterData->kaaryalaya;
+            $kaaryalayaID = $filterData->kaaryalaya;
             $traimaasikPragati = KriyakalapLakshya::
                 when(!empty($aayojanaID), function ($query) use ($aayojanaID) {
                     $query->whereIn('aayojana_id', $aayojanaID);
@@ -514,7 +533,7 @@ class TraimaasikPragatiTaalikaController extends Controller
                 ->when(!empty($filterData->kharchaPrakar), function ($query) use ($filterData) {
                     return $query->whereIn('kharcha_prakar', $filterData->kharchaPrakar);
                 })
-                ->where('kaaryalaya_id', $karyalayaID)
+                ->where('kaaryalaya_id', $kaaryalayaID)
                 ->where(function ($query) use ($initial) {
                     return $query->where($initial . '_traimasik_lakshya_pariman', '>', 0)->where($initial . '_traimasik_lakshya_budget', '>', 0);
                 })
@@ -528,7 +547,7 @@ class TraimaasikPragatiTaalikaController extends Controller
                 }])
                 ->get();
             $traimaasikPragatiUnfiltered = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
-                ->where('kaaryalaya_id', $karyalayaID)
+                ->where('kaaryalaya_id', $kaaryalayaID)
                 ->get();
             $totalBaarsikLakshyaBudget = $traimaasikPragatiUnfiltered->sum('baarsik_lakshya_budget');
             $traimaasikPragati = json_decode(json_encode($traimaasikPragati), true);
