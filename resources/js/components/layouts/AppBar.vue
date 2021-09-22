@@ -9,7 +9,7 @@
                 transition="slide-x-reverse-transition">
 
             <template v-slot:activator="{ on, attrs }">
-                <v-btn class="text-lowercase" v-bind="attrs" v-on="on" small text>
+                <v-btn class="text-lowercase" small text v-bind="attrs" v-on="on">
                     <v-icon>mdi-account-circle</v-icon>
                     <span class="d-flex flex-column align-items-baseline">
                         <span>{{ user.name }}</span>
@@ -18,16 +18,16 @@
                 </v-btn>
             </template>
             <v-expand-transition>
-
             </v-expand-transition>
             <v-container class="pa-0 ma-0" flat>
                 <v-list class="pa-0 ma-0" dense>
                     <v-list-item>
                         <v-list-item-avatar tile>
-                            <v-img height="100%" src="/images/nepal_emblem.png"></v-img>
+                            <v-img contain src="/images/nepal_emblem.png"></v-img>
                         </v-list-item-avatar>
+
                         <v-list-item-content>
-                            <v-list-item-title class="pa-0 ma-0"><h5>{{ kaaryalaya.name }}</h5>
+                            <v-list-item-title><h5>{{ kaaryalaya.name }}</h5>
                             </v-list-item-title>
                             <v-list-item-subtitle v-if="!guest"><h6>{{ user.email }}</h6></v-list-item-subtitle>
                         </v-list-item-content>
@@ -101,7 +101,7 @@ export default {
             user: (state) => state.auth.user,
             kaaryalayas: (state) => state.webservice.resources.kaaryalaya
         }),
-        kaaryalaya(){
+        kaaryalaya() {
             var tempthis = this;
             return this.kaaryalayas.find(item => item.id == tempthis.user.kaaryalaya_id);
         },

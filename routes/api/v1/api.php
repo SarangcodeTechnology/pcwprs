@@ -11,6 +11,7 @@ use App\Http\Controllers\LockController;
 use App\Http\Controllers\MaasikPragatiTaalikaController;
 use App\Http\Controllers\MilestoneLakshyaController;
 use App\Http\Controllers\MilestonePragatiController;
+use App\Http\Controllers\MilestoneReportController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\RoleController;
@@ -66,7 +67,8 @@ Route::middleware('auth:api')->post('upload-milestone-lakshya',[MilestoneLakshya
 //milestone pragati
 Route::middleware('auth:api')->get('milestone-pragati-taalika', [MilestonePragatiController::class,'index']);
 Route::middleware('auth:api')->post('save-milestone-pragati-taalika',[MilestonePragatiController::class,'saveMilestonePragatiTaalika']);
-Route::middleware('auth:api')->get('milestone-pragati-report', [MilestonePragatiController::class,'report']);
+Route::middleware('auth:api')->get('milestone-pragati-report', [MilestoneReportController::class,'report']);
+Route::middleware('auth:api')->post('save-milestone-data', [MilestoneReportController::class,'saveMilestoneData']);
 
 
 // kriyakalap-lakshya

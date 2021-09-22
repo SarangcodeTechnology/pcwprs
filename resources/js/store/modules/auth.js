@@ -31,7 +31,7 @@ const actions = {
                         state.dispatch("loadResources");
                         router.push("/home");
                     } else {
-                        window.sessionStorage.clear();
+                        window.localStorage.removeItem('vuex');
                     }
                     resolve(response);
                 })
@@ -53,7 +53,7 @@ const actions = {
                         state.commit("SET_USER", response.data.data.user);
                         state.commit("SET_ACCESS_TOKEN", response.data.data.access_token);
                     } else {
-                        window.sessionStorage.clear();
+                        window.localStorage.removeItem('vuex');
                     }
                     resolve(response);
                 })
@@ -73,7 +73,7 @@ const actions = {
                 if (response.data.status === 200) {
                     state.commit("SET_USER", "");
                     state.commit("SET_ACCESS_TOKEN", "");
-                    window.sessionStorage.clear();
+                    window.localStorage.removeItem('vuex');
                 }
                 resolve(response);
             }).catch(function (error) {

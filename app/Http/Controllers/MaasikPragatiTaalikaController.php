@@ -36,11 +36,11 @@ class MaasikPragatiTaalikaController extends Controller
                 }])
                 ->get();
             $editable = true;
-            $submitted = Submission::where('kaaryalaya_id',$kaaryalayaID)->where('aayojana_id',$aayojanaID)->where('milestone','!=',1)->where('mahina_id',$mahinaID)->where('submitted',1)->first() ? true : false;
+            $submitted = Submission::where('kaaryalaya_id',$kaaryalayaID)->where('aayojana_id',$aayojanaID)->where('milestone',null)->where('mahina_id',$mahinaID)->where('submitted',1)->first() ? true : false;
             if($submitted){
-                $editable = Submission::where('kaaryalaya_id',$kaaryalayaID)->where('aayojana_id',$aayojanaID)->where('milestone','!=',1)->where('mahina_id',$mahinaID)->where('submitted',1)->where('editable',1)->first() ? true : false;
+                $editable = Submission::where('kaaryalaya_id',$kaaryalayaID)->where('aayojana_id',$aayojanaID)->where('milestone',null)->where('mahina_id',$mahinaID)->where('submitted',1)->where('editable',1)->first() ? true : false;
             }
-            $requested = Submission::where('kaaryalaya_id',$kaaryalayaID)->where('aayojana_id',$aayojanaID)->where('milestone','!=',1)->where('mahina_id',$mahinaID)->where('submitted',1)->where('requested',1)->first() ? true : false;
+            $requested = Submission::where('kaaryalaya_id',$kaaryalayaID)->where('aayojana_id',$aayojanaID)->where('milestone',null)->where('mahina_id',$mahinaID)->where('submitted',1)->where('requested',1)->first() ? true : false;
 
             $headers = [
                 [
@@ -256,14 +256,14 @@ class MaasikPragatiTaalikaController extends Controller
             //initializing
             $maasikPragatiReports = [];
             foreach($kaaryalayaIDs as $kaaryalayaID) {
-                /** checking if that kaaryalaya submitted or not and if not submitted no need to go further continue the loop 
-                 *  if user's kaaryalaya is same as kaaryalayaID then yes they can access it even without submitting data i.e, only saving data */ 
-                if(Auth::user()->kaaryalaya_id!=$kaaryalayaID){
-                    if(!Submission::where('mahina_id',$mahinaID)->where('kaaryalaya_id',$kaaryalayaID)->where('submitted',1)->first()) continue;
-                }
+                /** checking if that kaaryalaya submitted or not and if not submitted no need to go further continue the loop
+                 *  if user's kaaryalaya is same as kaaryalayaID then yes they can access it even without submitting data i.e, only saving data */
+//                if(Auth::user()->kaaryalaya_id!=$kaaryalayaID){
+//                    if(!Submission::where('mahina_id',$mahinaID)->where('kaaryalaya_id',$kaaryalayaID)->where('submitted',1)->first()) continue;
+//                }
                 $maasikPragatis =  KriyakalapMaasikPragati::whereIn('kriyakalap_lakshya_id',$kriyakalapLakshyaIDs)->where('kaaryalaya_id',$kaaryalayaID)->where('mahina_id',$mahinaID)->get();
 
-                /** if only data is found in maasik pragati table then run this 
+                /** if only data is found in maasik pragati table then run this
                  * also let in if ardaBaarsik and baarsik too*/
                 if(count($maasikPragatis)>0 || $ardaBaarsik || $baarsik){
                           /** old code no changes here */
@@ -302,11 +302,11 @@ class MaasikPragatiTaalikaController extends Controller
                             'aayojana' => Aayojana::find($aayojanaID)->name,
                             'month' => $baarsik ? 'वार्षिक प्रगति' : ( $ardaBaarsik ? 'अर्द वार्षिक प्रगति' : Mahina::find($mahinaID)->name.' महिनाको प्रगति' ),
                             'items' => $this->getSpecificData($maasikPragati, $mahinaID, $totalBaarsikLakshyaBudget,$baarsik,$ardaBaarsik)
-                        ];  
+                        ];
                 }
             }
 
-            if(count($maasikPragatiReports)>0){
+//            if(count($maasikPragatiReports)>0){
                 return response(
                 [
                     'status' => 200,
@@ -315,16 +315,16 @@ class MaasikPragatiTaalikaController extends Controller
                     'data' => compact('maasikPragatiReports')
                 ]
             );
-            }
-            return response(
-                [
-                    'status' => 200,
-                    'type' => 'success',
-                    'message' => 'No Data Available',
-                    'data' => ['maasikPragatiReports'=>null]
-                ]
-            );
-            
+//            }
+//            return response(
+//                [
+//                    'status' => 200,
+//                    'type' => 'success',
+//                    'message' => 'No Data Available',
+//                    'data' => ['maasikPragatiReports'=>null]
+//                ]
+//            );
+
         } catch (Exception $e) {
             return response([
                 'status' => $e->getCode(),
@@ -477,7 +477,7 @@ class MaasikPragatiTaalikaController extends Controller
             $editable = true;
             if($request->submitted){
                  // if row is already present of such data
-                $submission = Submission::where('mahina_id',$request->filterData['mahina'])->where('milestone','!=',1)->where('aayojana_id',$request->filterData['aayojana'])->where('kaaryalaya_id',$request->filterData['kaaryalaya'])->first();
+                $submission = Submission::where('mahina_id',$request->filterData['mahina'])->where('milestone',null)->where('aayojana_id',$request->filterData['aayojana'])->where('kaaryalaya_id',$request->filterData['kaaryalaya'])->first();
                 if($submission){
                     $submission->submitted = 1;
                     $submission->editable = 0;

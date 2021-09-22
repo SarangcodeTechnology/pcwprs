@@ -17,6 +17,7 @@
                     placeholder="कार्यलय"
                     class="mr-2"
                     multiple chips
+                    @input="changeInKaryalaya"
                     :disabled="!$store.getters.CHECK_PERMISSION('maasik_pragati_report-select_kaaryalaya')"
                 >
                     <template v-slot:prepend-item>
@@ -73,7 +74,7 @@
                 </v-select>
             </v-col>
         </v-row>
-        <v-row v-if="filterData.mahina && maasikPragatiReports">
+        <v-row v-if="filterData.mahina && maasikPragatiReports.length>0">
             <v-col cols="12">
                 <v-btn target="_blank" href="/maasik-print">
                     Print
@@ -84,7 +85,13 @@
             </v-col>
         </v-row>
         <v-row v-else-if="filterData.mahina">
-            <v-col> No Data Available </v-col>
+            <v-col cols="12"><v-alert
+                dense
+                border="left"
+                type="warning"
+            >
+                No Data Available
+            </v-alert></v-col>
         </v-row>
     </v-container>
 </template>
@@ -171,6 +178,11 @@ export default {
             window.print();
 
             document.body.innerHTML = originalContents;
+        },
+        changeInKaryalaya() {
+            this.filterData.aarthikBarsa = 0;
+            this.filterData.aayojana = 0;
+            this.filterData.mahina = 0;
         },
         changeInAayojana() {
             this.filterData.mahina = 0;

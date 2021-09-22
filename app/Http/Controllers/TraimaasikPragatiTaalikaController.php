@@ -35,11 +35,11 @@ class TraimaasikPragatiTaalikaController extends Controller
                 }])
                 ->get();
             $editable = true;
-            $submitted = Submission::where('kaaryalaya_id', $kaaryalayaID)->where('aayojana_id', $aayojanaID)->where('milestone','!=',1)->where('traimaasik_id', $traimaasikID)->where('submitted', 1)->first() ? true : false;
+            $submitted = Submission::where('kaaryalaya_id', $kaaryalayaID)->where('aayojana_id', $aayojanaID)->where('milestone',null)->where('traimaasik_id', $traimaasikID)->where('submitted', 1)->first() ? true : false;
             if ($submitted) {
-                $editable = Submission::where('kaaryalaya_id', $kaaryalayaID)->where('aayojana_id', $aayojanaID)->where('milestone','!=',1)->where('traimaasik_id', $traimaasikID)->where('submitted', 1)->where('editable', 1)->first() ? true : false;
+                $editable = Submission::where('kaaryalaya_id', $kaaryalayaID)->where('aayojana_id', $aayojanaID)->where('milestone',null)->where('traimaasik_id', $traimaasikID)->where('submitted', 1)->where('editable', 1)->first() ? true : false;
             }
-            $requested = Submission::where('kaaryalaya_id', $kaaryalayaID)->where('aayojana_id', $aayojanaID)->where('milestone','!=',1)->where('traimaasik_id', $traimaasikID)->where('submitted', 1)->where('requested', 1)->first() ? true : false;
+            $requested = Submission::where('kaaryalaya_id', $kaaryalayaID)->where('aayojana_id', $aayojanaID)->where('milestone',null)->where('traimaasik_id', $traimaasikID)->where('submitted', 1)->where('requested', 1)->first() ? true : false;
 
             $headers = [
                 [
@@ -146,8 +146,7 @@ class TraimaasikPragatiTaalikaController extends Controller
             }
 
             $item['vautik_pragati'][$initial . '_traimasik'] = $item[$initial . '_traimasik_lakshya_vaar']==0 ? 0 : ( round(($item['traimaasik_pragati']['vaarit'] / $item[$initial . '_traimasik_lakshya_vaar']) * 100, 2) < 100 ? round(($item['traimaasik_pragati']['vaarit'] / $item[$initial . '_traimasik_lakshya_vaar']) * 100, 2) : 100 );
-            $item['vautik_pragati']['total_till_now'] = round(($item['total_till_now']['pariman'] / $item['baarsik_lakshya_pariman']) * 100, 2) < 100 ? round(($item['total_till_now']['pariman'] / $item['baarsik_lakshya_pariman']) * 100, 2) : 100;
-
+            $item['vautik_pragati']['total_till_now'] = $item['baarsik_lakshya_pariman'] ?(round(($item['total_till_now']['pariman'] / $item['baarsik_lakshya_pariman']) * 100, 2) < 100 ? round(($item['total_till_now']['pariman'] / $item['baarsik_lakshya_pariman']) * 100, 2) : 100):0;
             $myData[] = $item;
         }
 
@@ -264,16 +263,16 @@ class TraimaasikPragatiTaalikaController extends Controller
             $traimaasik = Traimaasik::find($traimaasikID);
             $initial = $traimaasik->initial;
             $kaaryalayaIDs = $filterData->kaaryalaya;
-            
+
             $kriyakalapLakshyaIDs = Aayojana::find($aayojanaID)->kriyakalapLakshya->pluck('id')->toArray();
 
             $traimaasikPragatiReports = [];
             foreach($kaaryalayaIDs as $kaaryalayaID){
-                /** checking if that kaaryalaya submitted or not and if not submitted no need to go further continue the loop 
-                 *  if user's kaaryalaya is same as kaaryalayaID then yes they can access it even without submitting data i.e, only saving data */ 
-                if(Auth::user()->kaaryalaya_id!=$kaaryalayaID){
-                    if(!Submission::where('mahina_id',$traimaasikID)->where('kaaryalaya_id',$kaaryalayaID)->where('submitted',1)->first()) continue;
-                }
+                /** checking if that kaaryalaya submitted or not and if not submitted no need to go further continue the loop
+                 *  if user's kaaryalaya is same as kaaryalayaID then yes they can access it even without submitting data i.e, only saving data */
+//                if(Auth::user()->kaaryalaya_id!=$kaaryalayaID){
+//                    if(!Submission::where('mahina_id',$traimaasikID)->where('kaaryalaya_id',$kaaryalayaID)->where('submitted',1)->first()) continue;
+//                }
                 $traimaasikPragatis =  KriyakalapTraimaasikPragati::whereIn('kriyakalap_lakshya_id',$kriyakalapLakshyaIDs)->where('kaaryalaya_id',$kaaryalayaID)->where('traimaasik_id',$traimaasikID)->get();
                 if(count($traimaasikPragatis)>0){
                       $traimaasikPragati = KriyakalapLakshya::where('aayojana_id', $aayojanaID)
@@ -314,13 +313,13 @@ class TraimaasikPragatiTaalikaController extends Controller
                             'trimester' => $baarsik ? 'वार्षिक' :  ( $ardaBaarsik ? 'अर्द वार्षिक' : Traimaasik::find($traimaasikID)->name ),
                             'initial' => $initial,
                             'items' => $this->getSpecificData($traimaasikPragati, $totalBaarsikLakshyaBudget, $initial,$baarsik,$ardaBaarsik)
-                        ];  
+                        ];
                 }
-                
+
             }
 
 
-            if (count($traimaasikPragatiReports)) {
+//            if (count($traimaasikPragatiReports)) {
                 return response(
                 [
                     'status' => 200,
@@ -329,16 +328,16 @@ class TraimaasikPragatiTaalikaController extends Controller
                     'data' => compact('traimaasikPragatiReports')
                 ]
                 );
-            }
-            return response(
-                [
-                    'status' => 200,
-                    'type' => 'success',
-                    'message' => 'No Data Available',
-                    'data' => ['traimaasikPragatiReports'=>null]
-                ]
-            );
-            
+//            }
+//            return response(
+//                [
+//                    'status' => 200,
+//                    'type' => 'success',
+//                    'message' => 'No Data Available',
+//                    'data' => ['traimaasikPragatiReports'=>null]
+//                ]
+//            );
+
         } catch (Exception $e) {
             return response([
                 'status' => $e->getCode(),
@@ -363,7 +362,7 @@ class TraimaasikPragatiTaalikaController extends Controller
             $editable = true;
             if ($request->submitted) {
                 // if row is already present of such data
-                $submission = Submission::where('traimaasik_id', $request->filterData['traimaasik'])->where('milestone','!=',1)->where('aayojana_id', $request->filterData['aayojana'])->where('kaaryalaya_id', $request->filterData['kaaryalaya'])->first();
+                $submission = Submission::where('traimaasik_id', $request->filterData['traimaasik'])->where('milestone',null)->where('aayojana_id', $request->filterData['aayojana'])->where('kaaryalaya_id', $request->filterData['kaaryalaya'])->first();
                 if ($submission) {
                     $submission->submitted = 1;
                     $submission->editable = 0;

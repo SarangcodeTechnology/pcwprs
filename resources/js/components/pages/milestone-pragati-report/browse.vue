@@ -1,23 +1,24 @@
 <template>
     <v-container fluid>
         <v-row class="d-flex justify-content-between">
-            <v-col cols="3" class="d-flex align-items-center">
+            <v-col class="d-flex align-items-center" cols="3">
                 <h5>माईलस्टोन प्रगती प्रतिवेदन</h5>
                 <v-divider class="ml-5" inset vertical></v-divider>
             </v-col>
         </v-row>
         <v-row>
-            <v-col cols="9" class="d-flex align-items-center">
+            <v-col class="d-flex align-items-center" cols="9">
                 <v-select
                     v-model="filterData.kaaryalaya"
+                    :disabled="!$store.getters.CHECK_PERMISSION('maasik_pragati_report-select_kaaryalaya')"
                     :items="kaaryalaya"
-                    label="कार्यलय"
+                    chips
+                    class="mr-2"
                     item-text="name"
                     item-value="id"
+                    label="कार्यलय" multiple
                     placeholder="कार्यलय"
-                    class="mr-2"
-                    multiple chips
-                    :disabled="!$store.getters.CHECK_PERMISSION('maasik_pragati_report-select_kaaryalaya')"
+                    @input="changeInKaryalaya"
                 >
                     <template v-slot:prepend-item>
                         <v-list-item
@@ -41,50 +42,68 @@
                 <v-select
                     v-model="filterData.aarthikBarsa"
                     :items="aarthikBarsa"
-                    label="आर्थिक वर्ष"
+                    class="mr-2"
                     item-text="name"
                     item-value="id"
+                    label="आर्थिक वर्ष"
                     placeholder="आर्थिक वर्ष"
                     @input="changeInArthikBarsa"
-                    class="mr-2"
                 >
                 </v-select>
                 <v-select
                     v-model="filterData.aayojana"
                     :items="aayojana"
-                    label="आयोजना"
+                    class="mr-2"
                     item-text="name"
                     item-value="id"
+                    label="आयोजना"
                     placeholder="आयोजना"
                     @input="changeInAayojana"
-                    class="mr-2"
                 >
                 </v-select>
                 <v-select
                     v-if="filterData.aayojana"
                     v-model="filterData.mahina"
                     :items="mahina"
-                    label="महिना"
                     item-text="name"
                     item-value="id"
+                    label="महिना"
                     placeholder="महिना"
                     @input="changeInMahina"
                 >
                 </v-select>
             </v-col>
         </v-row>
-        <v-row v-if="filterData.mahina && milestoneData">
-            <v-col cols="12">
+        <v-row v-if="filterData.mahina && milestoneData.length>0">
+            <v-col cols="auto">
                 <v-btn target="_blank" @click="storeData">
                     Print
                 </v-btn>
+
             </v-col>
+            <v-spacer></v-spacer>
+            <v-col cols="auto">
+                <v-btn color="success" target="_blank" @click="saveData">
+                    Save
+                </v-btn>
+            </v-col>
+        </v-row>
+        <v-row v-if="filterData.mahina && milestoneData">
+
             <v-col>
                 <milestone-print :passedFillable=false></milestone-print>
             </v-col>
         </v-row>
         <v-row v-else-if="filterData.mahina">
-            <v-col> No Data Available </v-col>
+            <v-col cols="12">
+                <v-alert
+                    dense
+                    border="left"
+                    type="warning"
+                >
+                    No Data Available
+                </v-alert>
+            </v-col>
         </v-row>
     </v-container>
 </template>
@@ -102,7 +121,7 @@ export default {
                 aayojana: 0,
                 mahina: 0
             },
-            mahina:[],
+            mahina: [],
             maasikPragatiTaalika: [],
 
         };
@@ -113,8 +132,8 @@ export default {
     },
     created() {
         this.mahina = JSON.parse(JSON.stringify(this.stateMahina));
-        this.mahina.push({id:13,name:"वार्षिक"});
-        this.mahina.push({id:14,name:"अर्द वार्षिक"});
+        this.mahina.push({id: 13, name: "वार्षिक"});
+        this.mahina.push({id: 14, name: "अर्द वार्षिक"});
     },
     computed: {
         icon() {
@@ -151,8 +170,19 @@ export default {
 
     },
     methods: {
-        storeData(){
-            this.$store.commit('SET_MILESTONE_PRAGATI_REPORT',this.milestoneData) ;
+        saveData() {
+            const temp = this;
+            this.$store.commit('SET_MILESTONE_PRAGATI_REPORT', this.milestoneData);
+            this.$store.dispatch('makePostRequest', {
+                data: {items: temp.milestoneData},
+                route: 'save-milestone-data'
+            }).then(function (response) {
+                temp.getDataFromApi();
+            });
+        },
+        storeData() {
+            this.saveData();
+            this.$store.commit('SET_MILESTONE_PRAGATI_REPORT', this.milestoneData);
             window.open('/milestone-print', '_blank').focus();
         },
         toggle() {
@@ -175,6 +205,11 @@ export default {
             window.print();
 
             document.body.innerHTML = originalContents;
+        },
+        changeInKaryalaya() {
+            this.filterData.aarthikBarsa = 0;
+            this.filterData.aayojana = 0;
+            this.filterData.mahina = 0;
         },
         changeInAayojana() {
             this.filterData.mahina = 0;
@@ -201,7 +236,7 @@ export default {
 };
 </script>
 <style scoped>
-table td{
+table td {
     padding: 0px 10px 0px 10px;
 }
 

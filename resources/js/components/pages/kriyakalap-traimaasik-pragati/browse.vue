@@ -72,13 +72,6 @@
                 <v-alert
                     dense
                     type="info"
-                    v-if="showDataNotSubmittedYet"
-                >
-                    फारम बुझाइएको छैन
-                </v-alert>
-                <v-alert
-                    dense
-                    type="info"
                     v-if="showRequestedAlert && !locked"
                 >
                     तपाईले आफ्नो <strong>सम्पादन अनुरोध</strong> पठाउनु भईसकेको छ।कृपया धैर्य गर्नुहोस्! हामी यसमा काम गर्दैछौं।
@@ -93,7 +86,7 @@
                 </v-alert>
             </v-col>
         </v-row>
-        <v-row v-if="!showDataNotSubmittedYet">
+        <v-row>
             <v-col>
                 <v-data-table
                     :headers="headers"
@@ -155,7 +148,6 @@ export default {
             showSampadhanAnurodh:false,
             showEditRequestButton:false,
             showRequestedAlert:false,
-            showDataNotSubmittedYet:false,
             showFillingData:false,
             showImportFromMaasikPragatiButton: false,
         };
@@ -195,7 +187,6 @@ export default {
                 if(tempthis.submitted){
                     tempthis.showEditRequestButton = false;
                     tempthis.showRequestedAlert = false;
-                    tempthis.showDataNotSubmittedYet = false;
                     tempthis.showSampadhanAnurodh = false;
                     tempthis.showRequestedAlert = false;
                     tempthis.showImportFromMaasikPragatiButton=false;
@@ -206,7 +197,6 @@ export default {
                     if(tempthis.filterData.kaaryalaya == tempthis.user.kaaryalaya_id){
                         tempthis.showEditRequestButton = false;
                         tempthis.showRequestedAlert = false;
-                        tempthis.showDataNotSubmittedYet = false;
                         tempthis.showSampadhanAnurodh = false;
                         tempthis.showRequestedAlert = false;
                         tempthis.showImportFromMaasikPragatiButton=true;
@@ -221,7 +211,6 @@ export default {
                         tempthis.showSaveButton =false;
                         tempthis.showImportFromMaasikPragatiButton=false;
                         tempthis.editable = false;
-                        tempthis.showDataNotSubmittedYet = true;
 
                     }
                 }
@@ -232,7 +221,6 @@ export default {
                     if(tempthis.editable){
                         tempthis.showEditRequestButton = false;
                         tempthis.showRequestedAlert = false;
-                        tempthis.showDataNotSubmittedYet = false;
                         tempthis.showSaveButton =true;
                         tempthis.showImportFromMaasikPragatiButton=true;
                         tempthis.showSubmitButton = true;
@@ -241,7 +229,6 @@ export default {
                         if(tempthis.requested){
                             tempthis.showEditRequestButton = false;
                             tempthis.showRequestedAlert = true;
-                            tempthis.showDataNotSubmittedYet = false;
                             tempthis.showSaveButton =false;
                             tempthis.showImportFromMaasikPragatiButton=false;
                             tempthis.showSubmitButton = false;
@@ -249,7 +236,6 @@ export default {
                         else{
                             tempthis.showEditRequestButton = true;
                             tempthis.showRequestedAlert = false;
-                            tempthis.showDataNotSubmittedYet = false;
                             tempthis.showImportFromMaasikPragatiButton=false;
                             tempthis.showSaveButton =false;
                             tempthis.showSubmitButton = false;
@@ -259,7 +245,6 @@ export default {
                 else{
                     tempthis.showEditRequestButton = false;
                     tempthis.showRequestedAlert = false;
-                    tempthis.showDataNotSubmittedYet = false;
                     tempthis.showImportFromMaasikPragatiButton=true;
                     tempthis.showSaveButton =true;
                     tempthis.showSubmitButton = true;

@@ -8,20 +8,33 @@ use Illuminate\Database\Eloquent\Model;
 class MilestonePragati extends Model
 {
     use HasFactory;
+
     protected $connection = 'pcwprs_data';
     protected $table = 'milestone_pragati';
     protected $guarded = [];
-    public function milestoneLakshya(){
-        return $this->belongsTo(MilestoneLakshya::class,'milestone_lakshya_id');
-    }
-    public function user(){
-        return $this->belongsTo(User::class,'user_id','id');
-    }
-    public function mahina(){
-        return $this->belongsTo(Mahina::class,'mahina_id','id');
+
+    public function milestoneLakshya()
+    {
+        return $this->belongsTo(MilestoneLakshya::class, 'milestone_lakshya_id');
     }
 
-    public function kaaryalaya(){
-        return $this->belongsTo(Kaaryalaya::class,'kaaryalaya_id');
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function mahina()
+    {
+        return $this->belongsTo(Mahina::class, 'mahina_id', 'id');
+    }
+
+    public function kaaryalaya()
+    {
+        return $this->belongsTo(Kaaryalaya::class, 'kaaryalaya_id');
+    }
+
+    public function milestoneReportInitial()
+    {
+        return $this->hasOne(MilestoneReport::class, 'milestone_pragati_id');
     }
 }

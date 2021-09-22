@@ -10,6 +10,7 @@ use App\Models\KriyakalapLakshya;
 use App\Models\KriyakalapMaasikPragati;
 use App\Models\LocalLevel;
 use App\Models\Mahina;
+use App\Models\MilestonePragati;
 use App\Models\Permission;
 use App\Models\Province;
 use App\Models\Role;
@@ -59,6 +60,25 @@ class TestController extends Controller
 
     public function trial(Request $request)
     {
+         return $traimaasik = Traimaasik::with('mahina')->get()->reduce(function($total,$item){
+                return ($total = array_push($total,$item['id']) ) ?? [];
+//             return $item->mahina->pluck('id');
+                $item['prarambhik_karya_suru_pragati'] =MilestonePragati::where('milestone_lakshya_id',3)->whereIn('mahina_id',$item->mahina->pluck('id'))->sum('prarambhik_karya_suru_pragati');
+                $item['prarambhik_karya_jari_pragati'] =MilestonePragati::where('milestone_lakshya_id',3)->whereIn('mahina_id',$item->mahina->pluck('id'))->sum('prarambhik_karya_jari_pragati');
+                $item['prarambhik_karya_sampanna_pragati'] =MilestonePragati::where('milestone_lakshya_id',3)->whereIn('mahina_id',$item->mahina->pluck('id'))->sum('prarambhik_karya_sampanna_pragati');
+                $item['karyakram_karyanayan_suru_pragati'] =MilestonePragati::where('milestone_lakshya_id',3)->whereIn('mahina_id',$item->mahina->pluck('id'))->sum('karyakram_karyanayan_suru_pragati');
+                $item['karyakram_karyanayan_jari_pragati'] =MilestonePragati::where('milestone_lakshya_id',3)->whereIn('mahina_id',$item->mahina->pluck('id'))->sum('karyakram_karyanayan_jari_pragati');
+                $item['karyakram_karyanayan_sampanna_pragati'] =MilestonePragati::where('milestone_lakshya_id',3)->whereIn('mahina_id',$item->mahina->pluck('id'))->sum('karyakram_karyanayan_sampanna_pragati');
+                return $item;
+//             return MilestonePragati::where('milestone_lakshya_id',3)->whereIn('mahina_id',$item->mahina->pluck('id'));
+         });
+        foreach ($traimaasik as $item){
+//            return MilestonePragati::where('milestone_lakshya_id',3)->whereIn('mahina_id',$item->mahina->pluck('id'))->get();
+            return MilestonePragati::where('milestone_lakshya_id',3)->whereIn('mahina_id',$item->mahina->pluck('id'))->get()->map(function($item){
+                $mainArray[0]['prarambhik_karya_suru_pragati'] = $item->sum('prarambhik_karya_suru_pragati');
+                return $mainArray;
+            });
+        }
         //basic tasks
             // return Kaaryalaya::with('locked')->get();
             $components =  KriyakalapLakshya::all()->pluck('component')->unique()->values();
